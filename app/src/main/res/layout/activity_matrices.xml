@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="5"
+    android:columnWidth="@dimen/shape_size"
+    android:orientation="vertical"
+    android:rowCount="4"
+    android:stretchMode="columnWidth" >
+
+    <!-- FILA 1 -->
+    <LinearLayout
+        android:id="@+id/topleft1"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/topleft"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:orientation="horizontal"
+        android:background="@drawable/cubos" />
+
+    <!-- FILA 2 -->
+    <LinearLayout
+        android:id="@+id/topright"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="0"
+        android:layout_column="3"
+        android:orientation="horizontal"
+        android:background="@drawable/frutilla" />
+
+    <LinearLayout
+        android:id="@+id/toprigth1"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/midleft1"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomleft"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="1"
+        android:layout_column="2"
+        android:orientation="horizontal"
+        android:background="@drawable/cubos" />
+
+    <LinearLayout
+        android:id="@+id/target"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="1"
+        android:layout_column="3"
+        android:background="@drawable/shape"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/opcion1"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/imgOpcion1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/skate" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/opcion2"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="3"
+        android:layout_column="2"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/imgOpcion2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/frutilla" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/opcion3"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="3"
+        android:layout_column="3"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/imgOpcion3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cubos" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/opcion4"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:layout_row="3"
+        android:layout_column="4"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/imgOpcion4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/redoblante" />
+    </LinearLayout>
+</GridLayout>
