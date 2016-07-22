@@ -20,18 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            />
+        <activity android:name=".MainActivity" />
         <activity android:name=".InformacionActivity" />
         <activity android:name=".MatricesActivity" />
-
         <activity
             android:name=".SelecPacienteActivity"
             android:label="@string/title_activity_selec_paciente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ExamenActivity" />
-        <activity android:name=".FiguraIncompletaActivity"></activity>
+        <activity android:name=".FiguraIncompletaActivity" />
+        <activity android:name=".AdivinanzasActivity"></activity>
     </application>
 
 </manifest>

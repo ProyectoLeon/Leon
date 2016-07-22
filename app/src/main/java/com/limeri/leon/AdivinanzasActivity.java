@@ -1,6 +1,7 @@
 package com.limeri.leon;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +17,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-public class InformacionActivity extends AppCompatActivity {
-
+public class AdivinanzasActivity extends AppCompatActivity {
 
     private Button siguiente;
     private TextView palabra;
@@ -107,9 +109,9 @@ public class InformacionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
+            AdivinanzasActivity.this.startActivity(mainIntent);
+            AdivinanzasActivity.this.finish();
         }
 
     }
@@ -123,14 +125,13 @@ public class InformacionActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
                 } else { cantIncorrectas = 0;
                     puntaje++;
-                }
             }
-        };
+        }
+    };
     }
 
     private void seleccionar(TextView view) {
@@ -156,9 +157,9 @@ public class InformacionActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
+            AdivinanzasActivity.this.startActivity(mainIntent);
+            AdivinanzasActivity.this.finish();
         } else
         if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
             nivel = 4;
@@ -166,12 +167,13 @@ public class InformacionActivity extends AppCompatActivity {
             nivel = 5;
         }else {
 
-            nivel++;}
-            try {
-                leerJson();
-            } catch (Exception ex) {
-                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                InformacionActivity.this.startActivity(mainIntent);
-                InformacionActivity.this.finish();
-            }}
+        nivel++;
+        try {
+            leerJson();
+        } catch (Exception ex) {
+            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
+            AdivinanzasActivity.this.startActivity(mainIntent);
+            AdivinanzasActivity.this.finish();
+        }}
     }
+}
