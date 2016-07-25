@@ -28,4 +28,15 @@ tools:context="com.limeri.leon.MainActivity">
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
     android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/paciente"
+        android:id="@+id/txtPaciente"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textIsSelectable="false"
+        android:textSize="26dp" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.limeri.leon;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -49,14 +50,17 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 
         adapter = new ArrayAdapter<String>(this, R.layout.paciente_item);
+        adapter.clear();
 
         for (int i = 0; i < Cuenta.getCuentas().size(); i++) {
 
-            adapter.add(Cuenta.getCuentas().get(i).getUsuario() + " " + Cuenta.getCuentas().get(i).getContraseña());
+            String nombreApellidoCuenta = Cuenta.getCuentas().get(i).getUsuario() + " " + Cuenta.getCuentas().get(i).getContraseña();
 
-        }
+               adapter.add(nombreApellidoCuenta);
+            }
 
-        pacientes.setAdapter(adapter);
+
+         pacientes.setAdapter(adapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +122,11 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
 
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
-                Cuenta.setSelectedCUenta(Cuenta.getCuentaByName(paciente.toString()));
+                Cuenta.setSelectedCUenta(Cuenta.getCuentaByName(paciente.getText().toString()));
+
+                Intent mainIntent = new Intent(SelecPacienteActivity.this, MainActivity.class);
+                SelecPacienteActivity.this.startActivity(mainIntent);
+                SelecPacienteActivity.this.finish();
 
             }
         });
@@ -237,6 +245,22 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if(adapter != null) {
+            adapter.clear();
+            ((ArrayAdapter<String>)pacientes.getAdapter()).clear();
+            pacientes.invalidateViews();
+            pacientes = new ListView(this);
+        }
+
+        Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
+        SelecPacienteActivity.this.startActivity(mainIntent);
+        SelecPacienteActivity.this.finish();
     }
 }
 

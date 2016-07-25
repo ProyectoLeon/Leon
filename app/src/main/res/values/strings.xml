@@ -239,5 +239,6 @@
     <string name="pacientes_list">Lista de Pacientes</string>
     <string name="mostrar_todos">Mostrar Todos</string>
     <string name="ingrese_busqueda">Ingrese busqueda</string>
+    <string name="paciente">Paciente:</string>
 
 </resources>

@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Cuenta;
+import com.limeri.leon.Models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        if(User.getUserEmail(getBaseContext()) != null) {
+
+            mEmailView.setText(User.getUserEmail(getBaseContext()));
+
+        }
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -336,7 +343,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                login();
+                login(mEmail);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -351,12 +358,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public  void login() {
+    public  void login(String eMail) {
         try {
             Cuenta.loadCuentas(this);
+
+            User.saveUserEmail(getBaseContext(), eMail);
         } catch(Exception ex) {
 
         }
+
+
         Intent mainIntent = new Intent(LoginActivity.this, SelecPacienteActivity.class);
         LoginActivity.this.startActivity(mainIntent);
         LoginActivity.this.finish();

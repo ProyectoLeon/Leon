@@ -50,7 +50,11 @@ public class Cuenta {
 
         boolean exists = false;
         for (int i = 0; i < mCuentas.size(); i++) {
-            if (mCuentas.get(i).equals(cuenta)) {
+
+            String nombreapellido = mCuentas.get(i).getUsuario() + " " + mCuentas.get(i).getContraseña();
+
+            String nombreapellidoCuentaNueva = cuenta.getUsuario() + " " + cuenta.getContraseña();
+            if(nombreapellido.equals(nombreapellidoCuentaNueva)) {
                 exists = true;
                 break;
             }
@@ -133,7 +137,9 @@ public class Cuenta {
         if (mCuentas != null) {
             for (int i = 0; i < mCuentas.size(); i++) {
 
-                if (mCuentas.get(i).getUsuario().contains(cuentaNombre)) {
+                String nombreapellido = new String(mCuentas.get(i).getUsuario() + " " + mCuentas.get(i).getContraseña());
+
+                if (nombreapellido.contains(cuentaNombre)) {
                     return mCuentas.get(i);
                 }
 
