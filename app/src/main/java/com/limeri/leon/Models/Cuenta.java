@@ -19,6 +19,7 @@ public class Cuenta {
     private String mUsuario;
     private String mProvider;
     private String mContraseña;
+    private static Cuenta mSelectedCuenta;
 
     public String getUsuario() {
         return mUsuario;
@@ -57,6 +58,16 @@ public class Cuenta {
         if (!exists) {
             mCuentas.add(cuenta);
         }
+    }
+
+    public static Cuenta getSelectedCuenta(){
+
+        return mSelectedCuenta;
+
+    }
+
+    public static void setSelectedCUenta(Cuenta cuenta) {
+        mSelectedCuenta = cuenta;
     }
 
     public static void saveCuentas(Activity activity) {

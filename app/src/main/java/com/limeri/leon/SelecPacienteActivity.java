@@ -111,6 +111,18 @@ public class SelecPacienteActivity extends AppCompatActivity {
             }
         });
 
+        pacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
+
+                //Guardar el paciente seleccionado para usarlo an toda la aplicacion
+                Cuenta.setSelectedCUenta(Cuenta.getCuentaByName(paciente.toString()));
+
+            }
+        });
+
 
     }
 
