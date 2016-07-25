@@ -2,6 +2,17 @@
     <string name="app_name">Leon</string>
     <string name="title_activity_login">Sign in</string>
 
+        <string name="prompt_user">Usuario</string>
+
+        <string name="btn_login">Login</string>
+        <string name="err_login">Error en login</string>
+        <string name="err_field_required">Campo requerido</string>
+        <string name="title_activity_books">BooksActivity</string>
+        <string name="ttl_login_err">Error en login</string>
+        <string name="tplt_login_err">%1$d - %2$s</string>
+        <string name="btn_ok">OK</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -105,4 +116,128 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+
+        <string name="Apellido">Apellido</string>
+        <string name="usuario">Nombre de usuario</string>
+        <string name="login">Ingresar</string>
+        <string name="apiKey">7bad73859f8af6797af2357f8b9ab2c055ae72f015b6dcfff00a875c09e8e2be</string>
+
+
+        <!--Global constants-->
+        <string name="facebook_app_id">308226659301741</string>
+        <string name="any">Indistinto</string>
+        <string name="is_fav">favorite</string>
+
+
+        <string-array name="providers">
+            <item>BajaLibros</item>
+            <item>AdobeID</item>
+        </string-array>
+
+        <!--Tag IDs-->
+        <string name="ivPicture">1</string>
+        <string name="tvTitle">2</string>
+        <string name="tvCategory">3</string>
+        <string name="tvPrice">4</string>
+
+        <!--Main menu options-->
+
+        <string-array name="options_array">
+            <item>Libros</item>
+            <item>Notas</item>
+            <item>Leyendo</item>
+            <item>Comprar</item>
+            <item>Ajustes</item>
+        </string-array>
+
+        <!--UI constants-->
+
+        <string name="actionbar_search">Buscar</string>
+        <string name="actionbar_show_list">Lista</string>
+        <string name="actionbar_show_grid">Grilla</string>
+
+        <string name="lbl_loading">Cargando...</string>
+        <string name="search_progress">Buscando desde la página %1$d (%2$d%%).\n%3$d encontrados.</string>
+
+        <string name="tv_bookmark_name">Nombre del Bookmark</string>
+        <string name="tv_bookmark_insert">Por favor ingrese un nombre para el marcador. Este aparecerá en la lista de marcadores. Podrá borrarlo con la cruz</string>
+        <string name="tv_highlight_name">Nombre del Highlight</string>
+        <string name="tv_highlight_insert">Por favor ingrese un nombre para el highlight. Este aparecerá en la lista de highlights. Podrá borrarlo con la cruz</string>
+        <string name="tv_yes">Si</string>
+        <string name="tv_no">No</string>
+        <string name="tv_search">buscar...</string>
+        <string name="tv_page">Página</string>
+        <string name="tv_configuration_title">Ajustes</string>
+
+        <string name="tv_placeholder_username">Nombre</string>
+        <string name="tv_placeholder_apellido">Apellido</string>
+        <string name="tv_placeholder_title">Titulooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</string>
+        <string name="tv_placeholder_content">Contenido</string>
+        <string name="tv_placeholder_author">Autor</string>
+        <string name="tv_placeholder_date">01/01/16</string>
+        <string name="tv_placeholder_page">0%</string>
+
+        <string name="btn_fb">Ingresar con Facebook</string>
+        <string name="btn_filter">Buscar</string>
+        <string name="btn_send">Enviar</string>
+        <string name="btn_cancel">Cancelar</string>
+        <string name="btn_activate">Activar</string>
+        <string name="btn_deactivate">Desactivar</string>
+        <string name="btn_delete">Dar de baja</string>
+        <string name="btn_paypal">Pagar con tarjeta de crédito</string>
+        <string name="btn_back">Volver</string>
+        <string name="btn_highlight_save">Guardar</string>
+        <string name="btn_highlight_copy">Copiar</string>
+        <string name="btn_highlight_email">Email</string>
+        <string name="btn_highlight_cancel">Cancelar</string>
+        <string name="btn_bookmark">Ver marcador</string>
+        <string name="btn_highlight">Ver destacado</string>
+        <string name="btn_delete_books">Eliminar libros descargados</string>
+        <string name="btn_log_out">Cerrar sesión</string>
+
+        <string name="hint_username">Nombre de usuario</string>
+        <string name="hint_email">E-mail</string>
+
+        <!--Error codes-->
+
+        <string name="error_connect">Error de conexión. Intente nuevamente.</string>
+        <string name="error_username_too_short">El nombre de usuario es demasiado corto</string>
+        <string name="error_no_auth">Usuario o contraseña incorrectos, verifique sus datos</string>
+        <string name="error_facebook_login">Error al iniciar sesión con Facebook</string>
+        <string name="cancel_facebook_login">Inicio de sesión con Facebook cancelado</string>
+        <string name="error_no_register">Error registrando el usuario, verifique sus datos e intente nuevamente</string>
+        <string name="error_enter_old_password">Ingrese su contraseña anterior</string>
+        <string name="error_password_too_short">La contraseña ingresada es demasiado corta</string>
+        <string name="error_password_no_match">Las contraseñas ingresadas no coinciden</string>
+        <string name="error_opening_file">Error abriendo libro</string>
+        <string name="error_book">Usted no posee libros asociados. Agregue libros a su cuenta para continuar</string>
+        <string name="stringMensaje">No hay ningún favorito. Cree un marcador o resalte un texto mientras lee un libro para guardar.</string>
+        <string name="tv_configuration_libro">Libro</string>
+        <string name="btn_conf_eliminar_historial">Eliminar historiales de lectura</string>
+        <string name="btn_conf_eliminar_favoritos">Eliminar Favoritos</string>
+        <string name="tv_configuration_sesion">Sesión</string>
+        <string name="tv_usuario_conf">test@test.com</string>
+        <string name="stringMensajeLibro">No hay ningún libro descargado en su dispositivo. Ingrese a la sección principal para comenzar a leer.</string>
+        <string name="action_atoz">Titulo</string>
+        <string name="action_autor">Autor</string>
+        <string name="action_descargado">Reciente</string>
+        <string name="ordenar">Ordenar</string>
+        <string name="modo">Modo</string>
+        <string name="terminos_y_condiciones">Terminos y Condiciones</string>
+        <string name="tyc">Esta aplicacion se ofrece “cuando es posible” y “tal cual está” y, por tanto, el Grupo Vi-Da no da garantías de ningún tipo, ya sean explícitas, implícitas, legales o de otro tipo (incluso las garantías implícitas de comerciabilidad o satisfacción del nivel de calidad y de adecuación a un propósito particular), incluyendo garantías o compromisos en relación a que el material de esta aplicación será completo, exacto, fiable, puesto al día, respetuoso con los derechos de terceros, que el acceso a esta aplicacion no sufrirá interrupciones, no presentará errores y estará exento de virus, que esta aplicacion será segura y que cualquier opinión o consejo del Grupo Vi-Da obtenido a través de esta aplicacion será exacto o fiable, por todo lo cual se indica expresamente que no se asumirá ningún compromiso o garantía sobre los aspectos enumerados. Por favor, ten en cuenta que, en algunas jurisdicciones, es posible que no se permita la exclusión de garantías implícitas, por lo que algunas de estas exclusiones pueden no ser de aplicación para ti. Por ello, te rogamos que consultes la legislación local. Nos reservamos el derecho de restringir, suspender o cancelar, sin previo aviso y en cualquier momento, tu acceso a esta aplicacion o a una parte de la misma y a cualquier funcionalidad incorporada en la aplicación.</string>
+        <string name="placeholder_hora">10:10:10</string>
+        <string name="provider">Bajalibros</string>
+
+        <string name="userDialogTitle" type="id">Ingrese nuevo paciente</string>
+        <string name="dialog_confirm">¿Desea desloguearse de la aplicacion?</string>
+        <string name="texto_login">La aplicacion está autorizada para las siguientes cuentas:</string>
+        <string name="texto_login_adobe">Este item fue descargado originalmente con una cuenta diferente. Para continuar, por favor agregue esa cuenta o seleccione una de la lista superior.</string>
+        <string name="dias">días</string>
+        <string name="caducado">CADUCADO</string>
+        <string name="mostrar_caducados">Mostrar libros expirados</string>
+    <string name="selec_paciente">Seleccione paciente o agregue uno a la lista</string>
+    <string name="pacientes_list">Lista de Pacientes</string>
+    <string name="mostrar_todos">Mostrar Todos</string>
+    <string name="ingrese_busqueda">Ingrese busqueda</string>
+
 </resources>

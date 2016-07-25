@@ -30,6 +30,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Cuenta;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -350,7 +352,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public  void login() {
-        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+        try {
+            Cuenta.loadCuentas(this);
+        } catch(Exception ex) {
+
+        }
+        Intent mainIntent = new Intent(LoginActivity.this, SelecPacienteActivity.class);
         LoginActivity.this.startActivity(mainIntent);
         LoginActivity.this.finish();
     }
