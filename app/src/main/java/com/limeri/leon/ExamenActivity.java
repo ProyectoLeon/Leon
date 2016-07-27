@@ -58,4 +58,12 @@ public class ExamenActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent mainIntent = new Intent(ExamenActivity.this, MainActivity.class);
+        ExamenActivity.this.startActivity(mainIntent);
+        ExamenActivity.this.finish();
+    }
 }

@@ -37,6 +37,7 @@ public class InformacionActivity extends AppCompatActivity {
     private int cantConsec = 0;
     private String jsonString;
     private int puntaje;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,4 +175,13 @@ public class InformacionActivity extends AppCompatActivity {
                 InformacionActivity.this.startActivity(mainIntent);
                 InformacionActivity.this.finish();
             }}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
+        InformacionActivity.this.startActivity(mainIntent);
+        InformacionActivity.this.finish();
+    }
     }

@@ -29,7 +29,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ExamenActivity" />
         <activity android:name=".FiguraIncompletaActivity" />
-        <activity android:name=".AdivinanzasActivity"></activity>
+        <activity android:name=".AdivinanzasActivity" />
+        <activity android:name=".BqSimbolosActivity"></activity>
     </application>
 
 </manifest>
