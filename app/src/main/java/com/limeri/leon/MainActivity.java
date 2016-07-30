@@ -1,6 +1,7 @@
 package com.limeri.leon;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +24,11 @@ public class MainActivity extends AppCompatActivity {
         TextView txtPaciente = (TextView) findViewById(R.id.txtPaciente);
 
         if(Cuenta.getSelectedCuenta() != null) {
-            txtPaciente.setText(txtPaciente.getText().toString() + " " + Cuenta.getSelectedCuenta().getUsuario() + " " + Cuenta.getSelectedCuenta().getContraseña());
+            txtPaciente.setText(txtPaciente.getText().toString() + Cuenta.getSelectedCuenta().getNombreCompleto());
         }
+
+        ActionBar AB = getSupportActionBar();
+        AB.setTitle(txtPaciente.getText());
 
         buttonTest = (Button) findViewById(R.id.buttonTest);
         buttonJuegos = (Button) findViewById(R.id.buttonJuegos);

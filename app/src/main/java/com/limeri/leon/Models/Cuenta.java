@@ -21,12 +21,12 @@ public class Cuenta {
     private String mContraseña;
     private static Cuenta mSelectedCuenta;
 
-    public String getUsuario() {
+    public String getNombre() {
         return mUsuario;
     }
 
 
-    public void setUsuario(String mUsuario) {
+    public void setNombre(String mUsuario) {
         this.mUsuario = mUsuario;
     }
 
@@ -38,22 +38,26 @@ public class Cuenta {
         this.mProvider = mProvider;
     }
 
-    public String getContraseña() {
+    public String getApellido() {
         return mContraseña;
     }
 
-    public void setContraseña(String mContraseña) {
+    public void setApellido(String mContraseña) {
         this.mContraseña = mContraseña;
     }
 
-    public static void add(Cuenta cuenta) {
+    public String  getNombreCompleto( ){
+        return mUsuario + " " + mContraseña;
+    }
+
+    public static void add(Cuenta cuenta){
 
         boolean exists = false;
         for (int i = 0; i < mCuentas.size(); i++) {
 
-            String nombreapellido = mCuentas.get(i).getUsuario() + " " + mCuentas.get(i).getContraseña();
+            String nombreapellido = mCuentas.get(i).getNombre() + " " + mCuentas.get(i).getApellido();
 
-            String nombreapellidoCuentaNueva = cuenta.getUsuario() + " " + cuenta.getContraseña();
+            String nombreapellidoCuentaNueva = cuenta.getNombre() + " " + cuenta.getApellido();
             if(nombreapellido.equals(nombreapellidoCuentaNueva)) {
                 exists = true;
                 break;
@@ -137,7 +141,7 @@ public class Cuenta {
         if (mCuentas != null) {
             for (int i = 0; i < mCuentas.size(); i++) {
 
-                String nombreapellido = new String(mCuentas.get(i).getUsuario() + " " + mCuentas.get(i).getContraseña());
+                String nombreapellido = new String(mCuentas.get(i).getNombre() + " " + mCuentas.get(i).getApellido());
 
                 if (nombreapellido.contains(cuentaNombre)) {
                     return mCuentas.get(i);
@@ -155,7 +159,7 @@ public class Cuenta {
         if (mCuentas != null) {
             for (int i = 0; i < mCuentas.size(); i++) {
 
-                if (mCuentas.get(i).getUsuario().contains(cuentaNombre) || mCuentas.get(i).getContraseña().contains(cuentaNombre) ) {
+                if (mCuentas.get(i).getNombre().contains(cuentaNombre) || mCuentas.get(i).getApellido().contains(cuentaNombre) ) {
                     returnCuentas.add(mCuentas.get(i));
                 }
 
@@ -197,7 +201,7 @@ public class Cuenta {
         if (mCuentas != null) {
             for (int i = 0; i < mCuentas.size(); i++) {
 
-                if (cuenta.getUsuario().equals(mCuentas.get(i).getUsuario())) {
+                if (cuenta.getNombre().equals(mCuentas.get(i).getNombre())) {
                     mCuentas.remove(i);
 
                 }

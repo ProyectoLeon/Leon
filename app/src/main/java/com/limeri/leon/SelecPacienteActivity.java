@@ -3,11 +3,8 @@ package com.limeri.leon;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,8 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Cuenta;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -54,7 +49,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         for (int i = 0; i < Cuenta.getCuentas().size(); i++) {
 
-            String nombreApellidoCuenta = Cuenta.getCuentas().get(i).getUsuario() + " " + Cuenta.getCuentas().get(i).getContraseña();
+            String nombreApellidoCuenta = Cuenta.getCuentas().get(i).getNombre() + " " + Cuenta.getCuentas().get(i).getApellido();
 
                adapter.add(nombreApellidoCuenta);
             }
@@ -77,8 +72,8 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
                 for (int i = 0; i < Cuenta.getCuentasByName(searchString.getText().toString()).size(); i++) {
 
-                    String nombre = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getUsuario();
-                    String apellido = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getContraseña();
+                    String nombre = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getNombre();
+                    String apellido = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getApellido();
 
                     if (nombre != "" || apellido != "") {
                         adapter.add(nombre + " " + apellido);
@@ -102,7 +97,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
 
                 for (int i = 0; i < Cuenta.getCuentas().size(); i++) {
-                adapter.add(Cuenta.getCuentas().get(i).getUsuario() + " " + Cuenta.getCuentas().get(i).getContraseña());
+                adapter.add(Cuenta.getCuentas().get(i).getNombre() + " " + Cuenta.getCuentas().get(i).getApellido());
 
                 }
 
@@ -159,7 +154,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 //        for (int i = 0; i < mCuentas.size(); i++) {
 
-        //    adapter.add(mCuentas.get(i).getUsuario().toString());
+        //    adapter.add(mCuentas.get(i).getNombre().toString());
 
         // }
 
@@ -185,13 +180,13 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
                 Cuenta cuenta = new Cuenta();
 
-                cuenta.setContraseña(mContr);
-                cuenta.setUsuario(mUser);
+                cuenta.setApellido(mContr);
+                cuenta.setNombre(mUser);
                 cuenta.setProvider(mProv);
 
                 Cuenta.add(cuenta);
 
-                adapter.add(cuenta.getUsuario() + " " + cuenta.getContraseña());
+                adapter.add(cuenta.getNombre() + " " + cuenta.getApellido());
                 pacientes.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pacientes.invalidateViews();

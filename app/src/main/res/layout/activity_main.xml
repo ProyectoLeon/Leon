@@ -35,8 +35,8 @@ tools:context="com.limeri.leon.MainActivity">
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/paciente"
         android:id="@+id/txtPaciente"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textIsSelectable="false"
-        android:textSize="26dp" />
+        android:textSize="26dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
