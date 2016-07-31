@@ -283,11 +283,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
             case R.id.action_settings: {
                 return true;
             }
-            case R.id.action_paciente: {
-                Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
-                SelecPacienteActivity.this.startActivity(mainIntent);
-                SelecPacienteActivity.this.finish();
-            }
             case R.id.action_signout:{
                 Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
                 SelecPacienteActivity.this.startActivity(mainIntent);

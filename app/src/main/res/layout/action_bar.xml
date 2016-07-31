@@ -16,10 +16,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/boton_actionbar"
-        android:layout_alignParentEnd="true"
         android:background="@drawable/canc3"
         android:scaleX="0.5"
         android:scaleY="0.8"
-        android:layout_alignParentStart="false"
-        android:elegantTextHeight="false" />
+        android:elegantTextHeight="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="-20dp" />
 </RelativeLayout>
