@@ -11,6 +11,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonClaves;
     Button buttonInformacion;
     Button buttonMatrices;
+    Button buttonSimbolos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,16 @@ public class ExamenActivity extends AppCompatActivity {
 
             }
         });
+        buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
+        buttonSimbolos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ExamenActivity.this, BqSimbolosActivity.class);
+                ExamenActivity.this.startActivity(mainIntent);
+                ExamenActivity.this.finish();
 
+            }
+        });
 
     }
     @Override

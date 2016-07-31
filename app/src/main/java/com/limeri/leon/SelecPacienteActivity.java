@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,6 +44,15 @@ public class SelecPacienteActivity extends AppCompatActivity {
         ImageButton btnSearch = (ImageButton) findViewById(R.id.btn_search);
         final EditText searchString = (EditText) findViewById(R.id.et_search);
         Button btnMostrarTodo = (Button) findViewById(R.id.btn_mostrarTodos);
+
+
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.action_bar_main,
+                null);
+
+
+        getSupportActionBar().setCustomView(actionBarLayout);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 
         adapter = new ArrayAdapter<String>(this, R.layout.paciente_item);
@@ -256,6 +267,35 @@ public class SelecPacienteActivity extends AppCompatActivity {
         Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
         SelecPacienteActivity.this.startActivity(mainIntent);
         SelecPacienteActivity.this.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_selec_paciente, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch (id){
+            case R.id.action_settings: {
+                return true;
+            }
+            case R.id.action_paciente: {
+                Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
+                SelecPacienteActivity.this.startActivity(mainIntent);
+                SelecPacienteActivity.this.finish();
+            }
+            case R.id.action_signout:{
+                Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
+                SelecPacienteActivity.this.startActivity(mainIntent);
+                SelecPacienteActivity.this.finish();
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

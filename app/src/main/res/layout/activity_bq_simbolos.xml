@@ -9,4 +9,62 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limeri.leon.BqSimbolosActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageVSimbolos"
+        android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Se encuentra el símbolo?"
+        android:id="@+id/textView3"
+        android:textSize="20dp"
+        android:layout_below="@+id/imageVSimbolos"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/linearLayout2"
+        android:weightSum="2"
+        android:layout_marginTop="20dp">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SI"
+            android:id="@+id/buttonYes"
+            android:layout_marginBottom="92dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/buttonNo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20dp"
+            android:layout_weight="1" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO"
+            android:id="@+id/buttonNo"
+            android:textSize="20dp"
+            android:layout_alignTop="@+id/linearLayout2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 </RelativeLayout>

@@ -45,4 +45,15 @@
             android:layout_below="@+id/buttonFiguraInc"
             android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BUSQUEDA DE SIMBOLOS"
+        android:id="@+id/buttonSimbolos"
+        android:layout_below="@+id/buttonClaves"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonClaves"
+        android:layout_alignEnd="@+id/buttonClaves"
+        android:textSize="20dp" />
+
 </RelativeLayout>

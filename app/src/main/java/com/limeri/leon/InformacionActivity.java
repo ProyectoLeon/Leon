@@ -1,10 +1,13 @@
 package com.limeri.leon;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +50,43 @@ public class InformacionActivity extends AppCompatActivity {
         siguiente.setOnClickListener(clickSiguiente());
 
         palabra = (TextView) findViewById(R.id.palabra);
+
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.action_bar,
+                null);
+
+
+        getSupportActionBar().setCustomView(actionBarLayout);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        Button boton =(Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(InformacionActivity.this)
+                        .setTitle("Popup")
+                        .setMessage("Por favor seleccione opción")
+                        .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
+                                InformacionActivity.this.startActivity(mainIntent);
+                            }
+                        })
+                        .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
@@ -176,12 +216,5 @@ public class InformacionActivity extends AppCompatActivity {
                 InformacionActivity.this.finish();
             }}
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-        Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-        InformacionActivity.this.startActivity(mainIntent);
-        InformacionActivity.this.finish();
-    }
     }

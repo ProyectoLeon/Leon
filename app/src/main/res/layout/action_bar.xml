@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent" android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+
+
+    >
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/boton_actionbar"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/canc3"
+        android:scaleX="0.5"
+        android:scaleY="0.8"
+        android:layout_alignParentStart="false"
+        android:elegantTextHeight="false" />
+</RelativeLayout>
