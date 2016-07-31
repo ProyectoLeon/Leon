@@ -31,7 +31,8 @@
         <activity android:name=".FiguraIncompletaActivity" />
         <activity android:name=".AdivinanzasActivity" />
         <activity android:name=".BqSimbolosActivity" />
-        <activity android:name=".InicioJuegoActivity"></activity>
+        <activity android:name=".InicioJuegoActivity" />
+        <activity android:name=".VocabularioActivity"></activity>
     </application>
 
 </manifest>
