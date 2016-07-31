@@ -1,10 +1,13 @@
 package com.limeri.leon;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.limeri.leon.Models.Cuenta;
 
 public class ExamenActivity extends AppCompatActivity {
     Button buttonFiguraInc;
@@ -12,6 +15,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonInformacion;
     Button buttonMatrices;
     Button buttonSimbolos;
+    Button buttonVocabulario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,9 @@ public class ExamenActivity extends AppCompatActivity {
 
         buttonInformacion = (Button) findViewById(R.id.buttonInformacion);
         buttonMatrices = (Button) findViewById(R.id.buttonMatrices);
+
+        ActionBar AB = getSupportActionBar();
+        AB.setTitle(Cuenta.getSelectedCuenta().getNombreCompleto());
 
         buttonInformacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +74,17 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
+        buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
+        buttonVocabulario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ExamenActivity.this, VocabularioActivity.class);
+                ExamenActivity.this.startActivity(mainIntent);
+                ExamenActivity.this.finish();
+
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {
@@ -76,4 +94,6 @@ public class ExamenActivity extends AppCompatActivity {
         ExamenActivity.this.startActivity(mainIntent);
         ExamenActivity.this.finish();
     }
+
+
 }

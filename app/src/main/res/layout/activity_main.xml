@@ -25,9 +25,10 @@ tools:context="com.limeri.leon.MainActivity">
     android:layout_height="wrap_content"
     android:text="Juegos Libres"
     android:id="@+id/buttonJuegos"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:textSize="20dp" />
+    android:textSize="20dp"
+    android:layout_below="@+id/buttonEstadisticas"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,4 +40,28 @@ tools:context="com.limeri.leon.MainActivity">
         android:textSize="26dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visualizar estadísticas"
+        android:id="@+id/buttonEstadisticas"
+        android:layout_below="@+id/buttonTest"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonTest"
+        android:layout_alignEnd="@+id/buttonTest"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar datos paciente"
+        android:id="@+id/buttonEditarPaciente"
+        android:layout_below="@+id/buttonJuegos"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonJuegos"
+        android:layout_alignEnd="@+id/buttonJuegos"
+        android:textSize="20dp" />
 </RelativeLayout>
