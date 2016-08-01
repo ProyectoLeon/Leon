@@ -1,0 +1,31 @@
+{
+	"matrices": [
+		{
+			"matriz":{
+				"fila1":["skate","frutilla"],
+				"fila2":["skate",""],
+				"fila3":[]
+				},
+			"opciones":["skate","cubos","frutilla","redoblante","micro"],
+			"respuesta":"frutilla"
+	 	},
+	 	{
+            "matriz":{
+                "fila1":["payaso","cubos"],
+                "fila2":["","cubos"],
+                "fila3":[]
+                },
+            "opciones":["skate","cubos","frutilla","redoblante","payaso"],
+            "respuesta":"frutilla"
+        },
+        {
+            "matriz":{
+                "fila1":["","frutilla"],
+                "fila2":["redoblante","frutilla"],
+                "fila3":[]
+                },
+            "opciones":["skate","cubos","frutilla","redoblante","micro"],
+            "respuesta":"frutilla"
+        }
+	 ]
+}

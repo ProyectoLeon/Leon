@@ -13,30 +13,47 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class MatricesActivity extends Activity {
 
+    private static final int ULTIMO_NIVEL = 3;
     private int cantIncorrectas = 0;
-    private int nivel = 5;
+    private int nivel = 0;
     private LinearLayout target;
     private Map<String,Integer> mapOpciones = new HashMap<String,Integer>();
-    private String[][] matriz = {{"skate","frutilla"},{"skate",""}};
-    private List<String> opciones = Arrays.asList("skate","cubos","frutilla","redoblante","micro");
-    private String imagenResultado = "frutilla";
+//    private String[][] matriz = {{"skate","frutilla"},{"skate",""}};
+    private List<List<String>> mapMatriz = new ArrayList<List<String>>();
+    private List<String> opciones;// = Arrays.asList("skate","cubos","frutilla","redoblante","micro");
+//    private String imagenResultado = "frutilla";
     private final LinearLayout.LayoutParams lpv = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private GridLayout layout;
-    private int row = 0;
-    private int col = 0;
+    private int row;
+    private int col;
     private int width;
+    private String jsonString;
+    private String respuesta;
 
     /**
      * Called when the activity is first created.
@@ -46,22 +63,34 @@ public class MatricesActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrices);
-        layout = (GridLayout) findViewById(R.id.grid);
-        layout.removeAllViews();
 
-        //Determinar el ancho de los dibujos
+        //Busco el Grid Layout
+        layout = (GridLayout) findViewById(R.id.grid);
+
+        //Determino el ancho de los dibujos (revisar)
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = (size.x-100)/opciones.size();
+        width = (size.x-100)/5;
 
-        //Falta setear cantidad de columnas y filas dinamicamente
+        inicializarJuego();
+    }
 
-        loadMatriz();
-        row += 1;
-        loadOpciones();
+    private void inicializarJuego() {
+        layout.removeAllViews();
+        row = 0;
+        col = 0;
+        respuesta = null;
+        opciones = null;
+        mapMatriz.clear();
+        target = null;
 
-        row += 1;
+        leerJson();
+
+        cargarMatriz();
+        cargarOpciones();
+
+        row++;
         col = 1;
         Button siguiente = new Button(this);
         siguiente.setText("Siguiente");
@@ -101,29 +130,33 @@ public class MatricesActivity extends Activity {
                 nivel = 4;
             }
         }
+        if (isUltimoNivel()){
+            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
+            MatricesActivity.this.startActivity(mainIntent);
+            MatricesActivity.this.finish();
+        } else {
+            cargarSiguiente();
+        }
+    }
 
-        cargarSiguiente();
+    private boolean isUltimoNivel() {
+        return nivel == ULTIMO_NIVEL;
     }
 
     private void cargarSiguiente() {
-        reset();
-    }
-
-    private void reset() {
-        //this.recreate();
+        inicializarJuego();
     }
 
     private boolean isCorrecta() {
         if(target.getChildCount() != 0) {
             ImageView seleccion = (ImageView) target.getChildAt(0);
-            if (seleccion.getId() == mapOpciones.get(imagenResultado))
+            if (seleccion.getId() == mapOpciones.get(respuesta))
                 return true;
         }
         return false;
     }
 
-
-    private void loadOpciones() {
+    private void cargarOpciones() {
         col = 0;
         for (String opcion : opciones) {
             ImageView v = new ImageView(this);
@@ -156,12 +189,11 @@ public class MatricesActivity extends Activity {
 //        findViewById(R.id.imgOpcion4).setOnTouchListener(new DragAndDropSource());
     }
 
-    private void loadMatriz() {
-        for (int i=0; i<matriz.length; i++){
-            row += i;
-            col = 1;
-            for (int j=0; j<matriz[i].length; j++){
-                col += j;
+    private void cargarMatriz() {
+        for (List<String> fila : mapMatriz) {
+//        for (int i=0; i<matriz.length; i++){
+            for (String celda : fila) {
+//            for (int j=0; j<matriz[i].length; j++){
                 LinearLayout l = new LinearLayout(this);
                 GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
                 lpg.height = width;
@@ -170,15 +202,19 @@ public class MatricesActivity extends Activity {
                 lpg.rowSpec = GridLayout.spec(row);
                 lpg.columnSpec = GridLayout.spec(col);
                 l.setLayoutParams(lpg);
-                if (matriz[i][j] != "") {
-                    l.setBackground(getResources().getDrawable(getResources().getIdentifier(matriz[i][j], "drawable", this.getPackageName())));
+                if (celda != "") {
+                    l.setBackground(getResources().getDrawable(getResources().getIdentifier(celda, "drawable", this.getPackageName())));
                 } else {
                     l.setBackground(getResources().getDrawable(R.drawable.shape));
                     l.setOnDragListener(new DragAndDropTarget(this));
+                    target = l;
                 }
 
                 layout.addView(l);
+                col++;
             }
+            row++;
+            col = 0;
         }
 //        target = (LinearLayout) findViewById(R.id.target);
 //        target.setOnDragListener(new DragAndDropTarget(this));
@@ -191,5 +227,74 @@ public class MatricesActivity extends Activity {
         Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
         MatricesActivity.this.startActivity(mainIntent);
         MatricesActivity.this.finish();
+    }
+
+    private void leerJson() {
+
+        Writer writer = new StringWriter();
+
+        if (nivel == 0) {
+            InputStream is = getResources().openRawResource(R.raw.matrices);
+
+            char[] buffer = new char[1024];
+
+            try {
+                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            jsonString = writer.toString();
+        }
+
+
+        String data = "";
+        try {
+            JSONObject jsonRootObject = new JSONObject(jsonString);
+
+            //Get the instance of JSONArray that contains JSONObjects
+            JSONArray jsonArray = jsonRootObject.getJSONArray("matrices");
+
+            //Iterate the jsonArray and print the info of JSONObjects
+            JSONObject jsonObject = jsonArray.getJSONObject(nivel);
+
+            //Matriz
+            JSONObject jsonMatriz = jsonObject.getJSONObject("matriz");
+            JSONArray jsonFila1 = jsonMatriz.getJSONArray("fila1");
+            JSONArray jsonFila2 = jsonMatriz.getJSONArray("fila2");
+            JSONArray jsonFila3 = jsonMatriz.getJSONArray("fila3");
+            Type listType = new TypeToken<List<String>>() {}.getType();
+            mapMatriz.add((List<String>) new Gson().fromJson(jsonFila1.toString(), listType));
+            if (jsonFila2.length() > 0) mapMatriz.add((List<String>) new Gson().fromJson(jsonFila2.toString(), listType));
+            if (jsonFila3.length() > 0) mapMatriz.add((List<String>) new Gson().fromJson(jsonFila3.toString(), listType));
+
+            //Opciones
+            JSONArray jsonOpciones = jsonObject.getJSONArray("opciones");
+            opciones = (List<String>) new Gson().fromJson(jsonOpciones.toString(), listType);
+
+            //Respuesta
+            respuesta = jsonObject.getString("respuesta");
+
+        } catch (JSONException e) {
+            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
+            MatricesActivity.this.startActivity(mainIntent);
+            MatricesActivity.this.finish();
+        }
+
     }
 }
