@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.limeri.leon.Models.Cuenta;
+import com.limeri.leon.Models.Paciente;
 
 public class ExamenActivity extends AppCompatActivity {
     Button buttonFiguraInc;
@@ -26,7 +26,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonMatrices = (Button) findViewById(R.id.buttonMatrices);
 
         ActionBar AB = getSupportActionBar();
-        AB.setTitle(Cuenta.getSelectedCuenta().getNombreCompleto());
+        AB.setTitle(Paciente.getSelectedCuenta().getNombreCompleto());
 
         buttonInformacion.setOnClickListener(new View.OnClickListener() {
             @Override

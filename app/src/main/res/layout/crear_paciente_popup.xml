@@ -30,7 +30,7 @@
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/tv_placeholder_username"
+            android:hint="Nombre"
             android:imeOptions="actionDone" />
 
 
@@ -49,7 +49,7 @@
 
 
         <AutoCompleteTextView
-            android:id="@+id/inputPassword"
+            android:id="@+id/inputApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Apellido"
@@ -60,6 +60,51 @@
             android:layout_alignParentStart="true" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view3"
+        android:background="@color/menu_separador_item"
+        android:layout_below="@+id/view2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/inputDNI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DNI"
+            android:imeOptions="actionDone"
+            android:layout_below="@+id/view2"
+            android:layout_alignParentStart="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view4"
+        android:background="@color/menu_separador_item"
+        android:layout_below="@+id/view3"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+
+        <AutoCompleteTextView
+            android:id="@+id/inputFechaNac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de Nacimiento"
+            android:imeOptions="actionDone"
+            android:layout_alignParentStart="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
 
 </RelativeLayout>

@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.limeri.leon.Models.Cuenta;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.User;
 
 import java.util.ArrayList;
@@ -360,7 +360,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public  void login(String eMail) {
         try {
-            Cuenta.loadCuentas(this);
+            Paciente.loadCuentas(this);
 
             User.saveUserEmail(getBaseContext(), eMail);
         } catch(Exception ex) {

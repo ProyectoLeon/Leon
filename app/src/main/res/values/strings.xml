@@ -210,7 +210,7 @@
     <string name="error_password_too_short">La contraseña ingresada es demasiado corta</string>
     <string name="error_password_no_match">Las contraseñas ingresadas no coinciden</string>
     <string name="error_opening_file">Error abriendo libro</string>
-    <string name="error_book">Usted no posee libros asociados. Agregue libros a su cuenta para continuar</string>
+    <string name="error_book">Usted no posee libros asociados. Agregue libros a su paciente para continuar</string>
     <string name="stringMensaje">No hay ningún favorito. Cree un marcador o resalte un texto mientras lee un libro para guardar.</string>
     <string name="tv_configuration_libro">Libro</string>
     <string name="btn_conf_eliminar_historial">Eliminar historiales de lectura</string>
@@ -224,14 +224,14 @@
     <string name="ordenar">Ordenar</string>
     <string name="modo">Modo</string>
     <string name="terminos_y_condiciones">Terminos y Condiciones</string>
-    <string name="tyc">Esta aplicacion se ofrece “cuando es posible” y “tal cual está” y, por tanto, el Grupo Vi-Da no da garantías de ningún tipo, ya sean explícitas, implícitas, legales o de otro tipo (incluso las garantías implícitas de comerciabilidad o satisfacción del nivel de calidad y de adecuación a un propósito particular), incluyendo garantías o compromisos en relación a que el material de esta aplicación será completo, exacto, fiable, puesto al día, respetuoso con los derechos de terceros, que el acceso a esta aplicacion no sufrirá interrupciones, no presentará errores y estará exento de virus, que esta aplicacion será segura y que cualquier opinión o consejo del Grupo Vi-Da obtenido a través de esta aplicacion será exacto o fiable, por todo lo cual se indica expresamente que no se asumirá ningún compromiso o garantía sobre los aspectos enumerados. Por favor, ten en cuenta que, en algunas jurisdicciones, es posible que no se permita la exclusión de garantías implícitas, por lo que algunas de estas exclusiones pueden no ser de aplicación para ti. Por ello, te rogamos que consultes la legislación local. Nos reservamos el derecho de restringir, suspender o cancelar, sin previo aviso y en cualquier momento, tu acceso a esta aplicacion o a una parte de la misma y a cualquier funcionalidad incorporada en la aplicación.</string>
+    <string name="tyc">Esta aplicacion se ofrece “cuando es posible” y “tal cual está” y, por tanto, el Grupo Vi-Da no da garantías de ningún tipo, ya sean explícitas, implícitas, legales o de otro tipo (incluso las garantías implícitas de comerciabilidad o satisfacción del nivel de calidad y de adecuación a un propósito particular), incluyendo garantías o compromisos en relación a que el material de esta aplicación será completo, exacto, fiable, puesto al día, respetuoso con los derechos de terceros, que el acceso a esta aplicacion no sufrirá interrupciones, no presentará errores y estará exento de virus, que esta aplicacion será segura y que cualquier opinión o consejo del Grupo Vi-Da obtenido a través de esta aplicacion será exacto o fiable, por todo lo cual se indica expresamente que no se asumirá ningún compromiso o garantía sobre los aspectos enumerados. Por favor, ten en paciente que, en algunas jurisdicciones, es posible que no se permita la exclusión de garantías implícitas, por lo que algunas de estas exclusiones pueden no ser de aplicación para ti. Por ello, te rogamos que consultes la legislación local. Nos reservamos el derecho de restringir, suspender o cancelar, sin previo aviso y en cualquier momento, tu acceso a esta aplicacion o a una parte de la misma y a cualquier funcionalidad incorporada en la aplicación.</string>
     <string name="placeholder_hora">10:10:10</string>
     <string name="provider">Bajalibros</string>
 
     <string name="userDialogTitle" type="id">Ingrese nuevo paciente</string>
     <string name="dialog_confirm">¿Desea desloguearse de la aplicacion?</string>
     <string name="texto_login">La aplicacion está autorizada para las siguientes cuentas:</string>
-    <string name="texto_login_adobe">Este item fue descargado originalmente con una cuenta diferente. Para continuar, por favor agregue esa cuenta o seleccione una de la lista superior.</string>
+    <string name="texto_login_adobe">Este item fue descargado originalmente con una paciente diferente. Para continuar, por favor agregue esa paciente o seleccione una de la lista superior.</string>
     <string name="dias">días</string>
     <string name="caducado">CADUCADO</string>
     <string name="mostrar_caducados">Mostrar libros expirados</string>

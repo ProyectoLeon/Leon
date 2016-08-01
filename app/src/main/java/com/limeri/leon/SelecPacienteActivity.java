@@ -20,14 +20,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.limeri.leon.Models.Cuenta;
+import com.limeri.leon.Models.Paciente;
 
 import java.util.List;
 
 public class SelecPacienteActivity extends AppCompatActivity {
 
 
-    String mUser, mContr, mProv;
+    String mNombre, mApellido, mDNI, mFechaNac;
     AlertDialog dialog;
     ListView pacientes;
     ArrayAdapter<String> adapter;
@@ -58,9 +58,9 @@ public class SelecPacienteActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, R.layout.paciente_item);
         adapter.clear();
 
-        for (int i = 0; i < Cuenta.getCuentas().size(); i++) {
+        for (int i = 0; i < Paciente.getCuentas().size(); i++) {
 
-            String nombreApellidoCuenta = Cuenta.getCuentas().get(i).getNombre() + " " + Cuenta.getCuentas().get(i).getApellido();
+            String nombreApellidoCuenta = Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido();
 
                adapter.add(nombreApellidoCuenta);
             }
@@ -81,10 +81,10 @@ public class SelecPacienteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
 
-                for (int i = 0; i < Cuenta.getCuentasByName(searchString.getText().toString()).size(); i++) {
+                for (int i = 0; i < Paciente.getCuentasByName(searchString.getText().toString()).size(); i++) {
 
-                    String nombre = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getNombre();
-                    String apellido = Cuenta.getCuentasByName(searchString.getText().toString()).get(i).getApellido();
+                    String nombre = Paciente.getCuentasByName(searchString.getText().toString()).get(i).getNombre();
+                    String apellido = Paciente.getCuentasByName(searchString.getText().toString()).get(i).getApellido();
 
                     if (nombre != "" || apellido != "") {
                         adapter.add(nombre + " " + apellido);
@@ -107,8 +107,8 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
 
-                for (int i = 0; i < Cuenta.getCuentas().size(); i++) {
-                adapter.add(Cuenta.getCuentas().get(i).getNombre() + " " + Cuenta.getCuentas().get(i).getApellido());
+                for (int i = 0; i < Paciente.getCuentas().size(); i++) {
+                adapter.add(Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido());
 
                 }
 
@@ -128,7 +128,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
 
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
-                Cuenta.setSelectedCUenta(Cuenta.getCuentaByName(paciente.getText().toString()));
+                Paciente.setSelectedCUenta(Paciente.getCuentaByName(paciente.getText().toString()));
 
                 Intent mainIntent = new Intent(SelecPacienteActivity.this, MainActivity.class);
                 SelecPacienteActivity.this.startActivity(mainIntent);
@@ -152,7 +152,9 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 .findViewById(android.R.id.content), false);
         // Set up the input
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);
-        final EditText input2 = (EditText) viewInflated.findViewById(R.id.inputPassword);
+        final EditText input2 = (EditText) viewInflated.findViewById(R.id.inputApellido);
+        final EditText input3 = (EditText) viewInflated.findViewById(R.id.inputDNI);
+        final EditText input4 = (EditText) viewInflated.findViewById(R.id.inputFechaNac);
         //   final Spinner spin1 = (Spinner) viewInflated.findViewById(R.id.inputProvider);
 
 
@@ -161,11 +163,11 @@ public class SelecPacienteActivity extends AppCompatActivity {
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.cuenta_item);
 
 
-        List<Cuenta> mCuentas = Cuenta.getCuentas();
+        final List<Paciente> mPacientes = Paciente.getCuentas();
 
-//        for (int i = 0; i < mCuentas.size(); i++) {
+//        for (int i = 0; i < mPacientes.size(); i++) {
 
-        //    adapter.add(mCuentas.get(i).getNombre().toString());
+        //    adapter.add(mPacientes.get(i).getNombre().toString());
 
         // }
 
@@ -185,24 +187,28 @@ public class SelecPacienteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-                mUser = input.getText().toString();
-                mContr = input2.getText().toString();
+                mNombre = input.getText().toString();
+                mApellido = input2.getText().toString();
+                mDNI = input3.getText().toString();
+                mFechaNac = input4.getText().toString();
                 //         mProv = spin1.getSelectedItem().toString();
 
-                Cuenta cuenta = new Cuenta();
+                Paciente paciente = new Paciente();
 
-                cuenta.setApellido(mContr);
-                cuenta.setNombre(mUser);
-                cuenta.setProvider(mProv);
+                paciente.setApellido(mApellido);
+                paciente.setNombre(mNombre);
+                paciente.setmDNI(mDNI);
+                paciente.setmFechaNac(mFechaNac);
+               //paciente.setProvider(mProv);
 
-                Cuenta.add(cuenta);
+                Paciente.add(paciente);
 
-                adapter.add(cuenta.getNombre() + " " + cuenta.getApellido());
+                adapter.add(paciente.getNombre() + " " + paciente.getApellido());
                 pacientes.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pacientes.invalidateViews();
 
-                Cuenta.saveCuenta(SelecPacienteActivity.this, cuenta);
+                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
 
                 try {
 
