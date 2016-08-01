@@ -32,21 +32,26 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MatricesActivity extends Activity {
 
-    private static final int ULTIMO_NIVEL = 3;
-    private int cantIncorrectas = 0;
-    private int nivel = 0;
+    private static final int ULTIMO_NIVEL = 10;
+    public static final int NIVEL_INVERSION = 2;
+    public static final int MAXIMO_ERRORES = 4;
+    public static final int FIN_INVERSION = 2;
+    public static final List<Integer> NIVELES_INICIALES = Arrays.asList(3, 4);
+    public static final int PRIMER_NIVEL = 3;
+    private int nivel = PRIMER_NIVEL;
+    private int cantCorrectasSeguidas = 0;
+    private int cantIncorrectasSeguidas = 0;
     private LinearLayout target;
     private Map<String,Integer> mapOpciones = new HashMap<String,Integer>();
-//    private String[][] matriz = {{"skate","frutilla"},{"skate",""}};
     private List<List<String>> mapMatriz = new ArrayList<List<String>>();
-    private List<String> opciones;// = Arrays.asList("skate","cubos","frutilla","redoblante","micro");
-//    private String imagenResultado = "frutilla";
+    private List<String> opciones;
     private final LinearLayout.LayoutParams lpv = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private GridLayout layout;
     private int row;
@@ -54,6 +59,8 @@ public class MatricesActivity extends Activity {
     private int width;
     private String jsonString;
     private String respuesta;
+    private boolean invertido;
+    private int nivelErrado;
 
     /**
      * Called when the activity is first created.
@@ -83,6 +90,7 @@ public class MatricesActivity extends Activity {
         respuesta = null;
         opciones = null;
         mapMatriz.clear();
+        mapOpciones.clear();
         target = null;
 
         leerJson();
@@ -120,14 +128,32 @@ public class MatricesActivity extends Activity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         if (isCorrecta()) {
-            nivel++;
+            cantIncorrectasSeguidas = 0;
+            cantCorrectasSeguidas++;
+            if (!invertido) {
+                nivel++;
+            } else {
+                nivel--;
+                if (isFinInversion()) {
+                    revertir();
+                }
+            }
         }else {
-            if (cantIncorrectas++ == 4) {
+            cantCorrectasSeguidas = 0;
+            cantIncorrectasSeguidas++;
+            if (isMaximoErrores()) {
                 Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
                 MatricesActivity.this.startActivity(mainIntent);
                 MatricesActivity.this.finish();
-            }else if (cantIncorrectas == 1 & (nivel == 5 | nivel == 6)) {
-                nivel = 4;
+            } else if (isNivelesIniciales()) {
+                nivelErrado = nivel;
+                invertir();
+            } else {
+                if (!invertido) {
+                    nivel++;
+                } else {
+                    nivel--;
+                }
             }
         }
         if (isUltimoNivel()){
@@ -135,15 +161,41 @@ public class MatricesActivity extends Activity {
             MatricesActivity.this.startActivity(mainIntent);
             MatricesActivity.this.finish();
         } else {
-            cargarSiguiente();
+            cargarSiguienteNivel();
         }
+    }
+
+    private void revertir() {
+        nivel = nivelErrado + 1;
+        invertido = false;
+    }
+
+    private boolean isFinInversion() {
+        return cantCorrectasSeguidas == FIN_INVERSION;
+    }
+
+    private void invertir() {
+        nivel = NIVEL_INVERSION;
+        invertido = true;
+    }
+
+    private boolean isMaximoErrores() {
+        return cantIncorrectasSeguidas == MAXIMO_ERRORES;
+    }
+
+    private boolean isNivelesIniciales() {
+        return NIVELES_INICIALES.contains(nivel);
+    }
+
+    private boolean isPrimerError() {
+        return cantIncorrectasSeguidas == 1;
     }
 
     private boolean isUltimoNivel() {
         return nivel == ULTIMO_NIVEL;
     }
 
-    private void cargarSiguiente() {
+    private void cargarSiguienteNivel() {
         inicializarJuego();
     }
 
@@ -164,6 +216,7 @@ public class MatricesActivity extends Activity {
             v.setLayoutParams(lpv);
             v.setImageResource(res);
             v.setOnTouchListener(new DragAndDropSource());
+            v.setId(res);
             LinearLayout l = new LinearLayout(this);
             GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
             lpg.height = width;
@@ -173,27 +226,17 @@ public class MatricesActivity extends Activity {
             lpg.columnSpec = GridLayout.spec(col);
             lpg.topMargin = 100;
             l.setLayoutParams(lpg);
-            //l.setOrientation(LinearLayout.HORIZONTAL);
             l.addView(v);
             l.setBackground(getResources().getDrawable(R.drawable.shape));
             layout.addView(l);
-            mapOpciones.put(opcion, v.getId());
+            mapOpciones.put(opcion, res);
             col++;
         }
-//        findViewById(R.id.imgOpcion1).setOnTouchListener(new DragAndDropSource());
-//        mapOpciones.put("Frutilla", R.id.imgOpcion2);
-//        findViewById(R.id.imgOpcion2).setOnTouchListener(new DragAndDropSource());
-//        mapOpciones.put("Cubos", R.id.imgOpcion3);
-//        findViewById(R.id.imgOpcion3).setOnTouchListener(new DragAndDropSource());
-//        mapOpciones.put("Redoblante", R.id.imgOpcion4);
-//        findViewById(R.id.imgOpcion4).setOnTouchListener(new DragAndDropSource());
     }
 
     private void cargarMatriz() {
         for (List<String> fila : mapMatriz) {
-//        for (int i=0; i<matriz.length; i++){
             for (String celda : fila) {
-//            for (int j=0; j<matriz[i].length; j++){
                 LinearLayout l = new LinearLayout(this);
                 GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
                 lpg.height = width;
@@ -216,8 +259,6 @@ public class MatricesActivity extends Activity {
             row++;
             col = 0;
         }
-//        target = (LinearLayout) findViewById(R.id.target);
-//        target.setOnDragListener(new DragAndDropTarget(this));
     }
 
     @Override
@@ -233,7 +274,7 @@ public class MatricesActivity extends Activity {
 
         Writer writer = new StringWriter();
 
-        if (nivel == 0) {
+        if (nivel == PRIMER_NIVEL) {
             InputStream is = getResources().openRawResource(R.raw.matrices);
 
             char[] buffer = new char[1024];
