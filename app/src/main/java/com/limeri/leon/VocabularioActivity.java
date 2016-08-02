@@ -34,7 +34,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private ListView respuestas;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
-    private int nivel = 5;
+    private int nivel = 0; // Provisoriamente no consideramos los niveles 1 a 4 (gráficos)
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
@@ -43,7 +43,7 @@ public class VocabularioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adivinanzas);
+        setContentView(R.layout.activity_vocabulario);
 
         siguiente = (Button) findViewById(R.id.siguiente);
         siguiente.setOnClickListener(clickSiguiente());
@@ -96,8 +96,8 @@ public class VocabularioActivity extends AppCompatActivity {
 
         Writer writer = new StringWriter();
 
-        if (nivel == 5) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasinformacion);
+        if (nivel == 0) {
+            InputStream is = getResources().openRawResource(R.raw.preguntasvocabulario);
 
             char[] buffer = new char[1024];
 
@@ -131,14 +131,15 @@ public class VocabularioActivity extends AppCompatActivity {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("informacion");
+            JSONArray jsonArray = jsonRootObject.getJSONArray("vocabulario");
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
-            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
+                    (jsonObject.optString("respuesta2").toString())};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, listRespuestas);
 
@@ -164,7 +165,7 @@ public class VocabularioActivity extends AppCompatActivity {
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
                 //Corregir para identificar cuando hacer retroceso o no
-                if (position == 1){
+                if (position == 2){
                     cantIncorrectas++;
                 } else { cantIncorrectas = 0;
                     puntaje++;
@@ -199,14 +200,13 @@ public class VocabularioActivity extends AppCompatActivity {
             Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
             VocabularioActivity.this.startActivity(mainIntent);
             VocabularioActivity.this.finish();
-        } else
-        if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-            nivel = 4;
-        } else if (cantConsec == 2) {
-            nivel = 5;
-        }else {
-
-            nivel++;}
+            // }  else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
+          //  nivel = 4;
+        // } else if (cantConsec == 2) {
+          //  nivel = 5;
+        } else {
+            nivel++;
+        }
         try {
             leerJson();
         } catch (Exception ex) {
