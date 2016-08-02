@@ -9,13 +9,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limeri.leon.MatricesActivity">
 
-    <GridLayout
-        android:id="@+id/grid"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="false"
-        android:columnCount="5"
-        android:rowCount="4">
-    </GridLayout>
+        android:orientation="vertical">
+        <GridLayout
+            android:id="@+id/matriz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top">
+        </GridLayout>
 
+        <GridLayout
+            android:id="@+id/opciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top">
+        </GridLayout>
+
+        <Button
+            android:id="@+id/siguiente"
+            android:text="Siguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top">
+        </Button>
+    </LinearLayout>
 </RelativeLayout>

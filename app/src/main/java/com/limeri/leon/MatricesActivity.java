@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,19 +17,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +43,13 @@ public class MatricesActivity extends Activity {
     private int cantIncorrectasSeguidas = 0;
     private LinearLayout target;
     private Map<String,Integer> mapOpciones = new HashMap<String,Integer>();
-    private List<List<String>> mapMatriz = new ArrayList<List<String>>();
+    private List<List<String>> matriz = new ArrayList<List<String>>();
     private List<String> opciones;
-    private final LinearLayout.LayoutParams lpv = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    private GridLayout layout;
-    private int row;
-    private int col;
-    private int width;
+    private Map<Integer, Integer> puntos = new HashMap<Integer, Integer>();
+    private int puntosJuego = 0;
+    private GridLayout gridMatriz;
+    private GridLayout gridOpciones;
+    private int size;
     private String jsonString;
     private String respuesta;
     private boolean invertido;
@@ -71,25 +64,25 @@ public class MatricesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrices);
 
-        //Busco el Grid Layout
-        layout = (GridLayout) findViewById(R.id.grid);
+        //Busco los GridLayout
+        gridMatriz = (GridLayout) findViewById(R.id.matriz);
+        gridOpciones = (GridLayout) findViewById(R.id.opciones);
 
         //Determino el ancho de los dibujos (revisar)
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = (size.x-100)/5;
+        this.size = (size.x-100)/5;
 
         inicializarJuego();
     }
 
     private void inicializarJuego() {
-        layout.removeAllViews();
-        row = 0;
-        col = 0;
+        gridMatriz.removeAllViews();
+        gridOpciones.removeAllViews();
         respuesta = null;
         opciones = null;
-        mapMatriz.clear();
+        matriz.clear();
         mapOpciones.clear();
         target = null;
 
@@ -98,20 +91,8 @@ public class MatricesActivity extends Activity {
         cargarMatriz();
         cargarOpciones();
 
-        row++;
-        col = 1;
-        Button siguiente = new Button(this);
-        siguiente.setText("Siguiente");
-        siguiente.setOnClickListener(clickSiguiente());
-        GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
-        lpg.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        lpg.width = width*2;
-        lpg.setGravity(Gravity.CENTER);
-        lpg.rowSpec = GridLayout.spec(row);
-        lpg.columnSpec = GridLayout.spec(col,2);
-        lpg.topMargin = 200;
-        siguiente.setLayoutParams(lpg);
-        layout.addView(siguiente);
+        //Seteo el metodo Siguiente
+        findViewById(R.id.siguiente).setOnClickListener(clickSiguiente());
     }
 
     private View.OnClickListener clickSiguiente() {
@@ -127,6 +108,7 @@ public class MatricesActivity extends Activity {
 
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
+        int puntosNivel = 0;
         if (isCorrecta()) {
             cantIncorrectasSeguidas = 0;
             cantCorrectasSeguidas++;
@@ -138,7 +120,9 @@ public class MatricesActivity extends Activity {
                     revertir();
                 }
             }
-        }else {
+            puntosNivel++;
+            puntosJuego++;
+        } else {
             cantCorrectasSeguidas = 0;
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
@@ -156,6 +140,7 @@ public class MatricesActivity extends Activity {
                 }
             }
         }
+        puntos.put(nivel,puntosNivel);
         if (isUltimoNivel()){
             Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
             MatricesActivity.this.startActivity(mainIntent);
@@ -209,55 +194,78 @@ public class MatricesActivity extends Activity {
     }
 
     private void cargarOpciones() {
-        col = 0;
-        for (String opcion : opciones) {
-            ImageView v = new ImageView(this);
-            int res = getResources().getIdentifier(opcion, "drawable", this.getPackageName());
-            v.setLayoutParams(lpv);
-            v.setImageResource(res);
-            v.setOnTouchListener(new DragAndDropSource());
-            v.setId(res);
-            LinearLayout l = new LinearLayout(this);
-            GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
-            lpg.height = width;
-            lpg.width = width;
-            lpg.setGravity(Gravity.CENTER);
-            lpg.rowSpec = GridLayout.spec(row);
-            lpg.columnSpec = GridLayout.spec(col);
-            lpg.topMargin = 100;
-            l.setLayoutParams(lpg);
-            l.addView(v);
-            l.setBackground(getResources().getDrawable(R.drawable.shape));
-            layout.addView(l);
-            mapOpciones.put(opcion, res);
-            col++;
+        int row = 0;
+        int col = 0;
+        if (!opciones.isEmpty()) {
+            //Seteo la cantidad de opciones
+            gridOpciones.setColumnCount(opciones.size());
+            //Recorro la lista de opciones
+            for (String opcion : opciones) {
+                //Creo view que contiene la imagen
+                ImageView v = new ImageView(this);
+                int res = getResources().getIdentifier(opcion, "drawable", this.getPackageName());
+                v.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                v.setImageResource(res);
+                v.setOnTouchListener(new DragAndDropSource());
+                v.setId(res);
+                //Creo el linearLayout que contiene el view
+                LinearLayout l = new LinearLayout(this);
+                l.setLayoutParams(getLayoutParams(row, col, size));
+                l.setBackground(getResources().getDrawable(R.drawable.shape));
+                //Agrego el view al linearLayout
+                l.addView(v);
+                //Agrego el linearLayout al gridLayout
+                gridOpciones.addView(l);
+                mapOpciones.put(opcion, res);
+                col++;
+            }
         }
     }
 
-    private void cargarMatriz() {
-        for (List<String> fila : mapMatriz) {
-            for (String celda : fila) {
-                LinearLayout l = new LinearLayout(this);
-                GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
-                lpg.height = width;
-                lpg.width = width;
-                lpg.setGravity(Gravity.CENTER);
-                lpg.rowSpec = GridLayout.spec(row);
-                lpg.columnSpec = GridLayout.spec(col);
-                l.setLayoutParams(lpg);
-                if (celda != "") {
-                    l.setBackground(getResources().getDrawable(getResources().getIdentifier(celda, "drawable", this.getPackageName())));
-                } else {
-                    l.setBackground(getResources().getDrawable(R.drawable.shape));
-                    l.setOnDragListener(new DragAndDropTarget(this));
-                    target = l;
-                }
+    @NonNull
+    private GridLayout.LayoutParams getLayoutParams(int row, int col, int size) {
+        GridLayout.LayoutParams lpg = new GridLayout.LayoutParams();
+        lpg.height = size;
+        lpg.width = size;
+        lpg.setGravity(Gravity.CENTER);
+        lpg.rowSpec = GridLayout.spec(row);
+        lpg.columnSpec = GridLayout.spec(col);
+        return lpg;
+    }
 
-                layout.addView(l);
-                col++;
+    private void cargarMatriz() {
+        int row = 0;
+        int col = 0;
+        if (!matriz.isEmpty()) {
+            //Seteo la cantidad de filas
+            gridMatriz.setRowCount(matriz.size());
+            //Recorro cada fila de la matriz
+            for (List<String> fila : matriz) {
+                if (!fila.isEmpty()) {
+                    //Seteo la cantidad de columnas
+                    gridMatriz.setColumnCount(fila.size());
+                    //Recorro cada columna de la fila
+                    for (String celda : fila) {
+                        //Creo el linearLayout que va a contener la imagen o la celda Target
+                        LinearLayout l = new LinearLayout(this);
+                        l.setLayoutParams(getLayoutParams(row, col, (int) getResources().getDimension(R.dimen.shape_size)));
+                        if (celda != "") {
+                            //Imagen
+                            l.setBackground(getResources().getDrawable(getResources().getIdentifier(celda, "drawable", this.getPackageName())));
+                        } else {
+                            //Target
+                            l.setBackground(getResources().getDrawable(R.drawable.shape));
+                            l.setOnDragListener(new DragAndDropTarget(this));
+                            target = l;
+                        }
+                        //Agrego el linearLayout al gridLayout
+                        gridMatriz.addView(l);
+                        col++;
+                    }
+                    row++;
+                    col = 0;
+                }
             }
-            row++;
-            col = 0;
         }
     }
 
@@ -272,37 +280,9 @@ public class MatricesActivity extends Activity {
 
     private void leerJson() {
 
-        Writer writer = new StringWriter();
-
         if (nivel == PRIMER_NIVEL) {
-            InputStream is = getResources().openRawResource(R.raw.matrices);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.matrices));
         }
-
 
         String data = "";
         try {
@@ -320,9 +300,9 @@ public class MatricesActivity extends Activity {
             JSONArray jsonFila2 = jsonMatriz.getJSONArray("fila2");
             JSONArray jsonFila3 = jsonMatriz.getJSONArray("fila3");
             Type listType = new TypeToken<List<String>>() {}.getType();
-            mapMatriz.add((List<String>) new Gson().fromJson(jsonFila1.toString(), listType));
-            if (jsonFila2.length() > 0) mapMatriz.add((List<String>) new Gson().fromJson(jsonFila2.toString(), listType));
-            if (jsonFila3.length() > 0) mapMatriz.add((List<String>) new Gson().fromJson(jsonFila3.toString(), listType));
+            matriz.add((List<String>) new Gson().fromJson(jsonFila1.toString(), listType));
+            if (jsonFila2.length() > 0) matriz.add((List<String>) new Gson().fromJson(jsonFila2.toString(), listType));
+            if (jsonFila3.length() > 0) matriz.add((List<String>) new Gson().fromJson(jsonFila3.toString(), listType));
 
             //Opciones
             JSONArray jsonOpciones = jsonObject.getJSONArray("opciones");
@@ -338,4 +318,5 @@ public class MatricesActivity extends Activity {
         }
 
     }
+
 }
