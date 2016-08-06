@@ -16,6 +16,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonMatrices;
     Button buttonSimbolos;
     Button buttonVocabulario;
+    Button buttonAdivinanzas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,11 @@ public class ExamenActivity extends AppCompatActivity {
 
         buttonInformacion = (Button) findViewById(R.id.buttonInformacion);
         buttonMatrices = (Button) findViewById(R.id.buttonMatrices);
+        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
+        buttonClaves = (Button) findViewById(R.id.buttonClaves);
+        buttonAdivinanzas = (Button) findViewById(R.id.buttonAdivinanzas);
+        buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
+        buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
 
         ActionBar AB = getSupportActionBar();
         AB.setTitle(Paciente.getSelectedCuenta().getNombreCompleto());
@@ -46,7 +52,7 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
-        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
+
         buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,14 +62,13 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
-        buttonClaves = (Button) findViewById(R.id.buttonClaves);
         buttonClaves.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
+
         buttonSimbolos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +79,6 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
-        buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
         buttonVocabulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +89,15 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
+        buttonAdivinanzas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ExamenActivity.this, AdivinanzasActivity.class);
+                ExamenActivity.this.startActivity(mainIntent);
+                ExamenActivity.this.finish();
+
+            }
+        });
     }
     @Override
     public void onBackPressed() {
