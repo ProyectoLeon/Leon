@@ -32,6 +32,11 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.User;
+import com.limeri.leon.common.JSONLoader;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,22 +66,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String jsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
+        jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.usuariosmatriculados));
+
         populateAutoComplete();
 
         if(User.getUserEmail(getBaseContext()) != null) {
 
-            mEmailView.setText(User.getUserEmail(getBaseContext()));
+            mMatriculaView.setText(User.getUserEmail(getBaseContext()));
 
         }
 
@@ -92,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mMatriculaView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -149,9 +157,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Lógica de LOGIN.
+     * Si hay errores (matricula inválida, falta de valores, etc.)
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -159,11 +166,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mMatriculaView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String matricula = mMatriculaView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -176,14 +183,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        //Check for a valid MATRICULA
+        String data = "";
+        boolean existeUser = false;
+
+        try {
+            JSONObject jsonRootObject = new JSONObject(jsonString);
+
+            //Get the instance of JSONArray that contains JSONObjects
+            JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
+
+            //Iterate the jsonArray and print the info of JSONObjects
+            for(int i=0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String matriculaJson = jsonObject.getString("matricula").toString();
+                if (matriculaJson.equals(matricula))
+                {
+                    existeUser= true;
+
+                    if (!jsonObject.getString("contrasena").toString().equals(password)){
+                        mPasswordView.setError(getString(R.string.error_invalid_password));
+                        focusView = mPasswordView;
+                        cancel = true;
+                }else
+                    {
+                        showProgress(true);
+                        mAuthTask = new UserLoginTask(matricula, password);
+                        mAuthTask.execute((Void) null);
+                    }
+                }else {
+                    existeUser= false;
+                }
+
+            }
+
+        } catch (JSONException e) {
+          return;
+        }
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(matricula)) {
+            mMatriculaView.setError(getString(R.string.error_field_required));
+            focusView = mMatriculaView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        }
+
+        if (!existeUser){
+            mMatriculaView.setError("Número de matricula inexistente");
+            focusView = mMatriculaView;
             cancel = true;
         }
 
@@ -195,19 +241,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(matricula, password);
             mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
@@ -286,7 +327,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mMatriculaView.setAdapter(adapter);
     }
 
 
@@ -306,11 +347,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mMatricula;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String matric, String password) {
+            mMatricula = matric;
             mPassword = password;
         }
 
@@ -327,7 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mMatricula)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
@@ -343,7 +384,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                login(mEmail);
+                login(mMatricula);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

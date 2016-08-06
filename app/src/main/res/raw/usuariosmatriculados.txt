@@ -1,0 +1,22 @@
+﻿
+{
+	"usuarios": [
+	  {
+	  "matricula": "1234",
+		"contrasena": "1234",
+		"nombre": "Antonella",
+		"apellido": "Cirulli",
+		"mail": "cirulliantonella@gmail.com",
+		"producto": "123444"
+	}, 
+ {
+	  "matricula": "1235",
+		"contrasena": "1235",
+		"nombre": "Nicolas",
+		"apellido": "Benega",
+		"mail": "cirulliantonella@gmail.com",
+		"producto": "123445"
+	} 
+
+	 ]
+}
