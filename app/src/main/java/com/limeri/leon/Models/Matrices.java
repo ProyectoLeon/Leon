@@ -33,8 +33,4 @@ public class Matrices implements Juego{
     public void finalizar() {
         finalizado = true;
     }
-
-    public void setFinalizado(Boolean finalizado) {
-        this.finalizado = finalizado;
-    }
 }

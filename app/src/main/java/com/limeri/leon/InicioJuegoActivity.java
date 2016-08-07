@@ -2,8 +2,8 @@ package com.limeri.leon;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +16,7 @@ import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Paciente;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +24,6 @@ import java.util.Map;
 public class InicioJuegoActivity extends AppCompatActivity {
 
     private Evaluacion evaluacion;
-    private Juego juego;
-    private List<Juego> juegosAlternativos = new ArrayList<>();
     private TextView seleccion;
     private Map<String,Juego> mapJuegos = new HashMap<>();
 
@@ -35,6 +33,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_juego);
 
         Paciente paciente = Paciente.getSelectedCuenta();
+        Juego juego;
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacion();
             Juego ultimoJuego = evaluacion.getUltimoJuego();
@@ -45,15 +44,15 @@ public class InicioJuegoActivity extends AppCompatActivity {
             juego = AdministradorJuegos.getJuegoInicial();
         }
 
-        mapJuegos.put(juego.getNombre(),juego);
-        juegosAlternativos = AdministradorJuegos.getJuegosAlternativos(juego);
+        mapJuegos.put(juego.getNombre(), juego);
+        List<Juego> juegosAlternativos = AdministradorJuegos.getJuegosAlternativos(juego);
         List<String> nombreJuegosAlt = new ArrayList<>();
         for (Juego juegoAlt : juegosAlternativos) {
             nombreJuegosAlt.add(juegoAlt.getNombre());
             mapJuegos.put(juegoAlt.getNombre(),juegoAlt);
         }
 
-        agregarJuegos(Arrays.asList(juego.getNombre()), (ListView) findViewById(R.id.juegos));
+        agregarJuegos(Collections.singletonList(juego.getNombre()), (ListView) findViewById(R.id.juegos));
         agregarJuegos(nombreJuegosAlt, (ListView) findViewById(R.id.juegosAlternativos));
 
         findViewById(R.id.buttonStart).setOnClickListener(new View.OnClickListener() {
@@ -72,7 +71,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
 
     private void agregarJuegos(List<String> juegos, ListView listView) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, juegos);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, juegos);
         listView.setOnItemClickListener(opcionSeleccionada());
         listView.setAdapter(adapter);
     }

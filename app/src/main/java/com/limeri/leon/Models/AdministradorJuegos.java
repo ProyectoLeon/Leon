@@ -8,13 +8,11 @@ import com.limeri.leon.VocabularioActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by MIPc on 7/31/2016.
- */
 public class AdministradorJuegos {
 
     private static Map<String,Class> juegos;
@@ -30,11 +28,11 @@ public class AdministradorJuegos {
     private static Map<Class,List<Class>> juegosAlternativos;
     static {
         juegosAlternativos = new HashMap<>();
-        juegosAlternativos.put(Matrices.class, Arrays.asList((Class) Matrices.class));
-        juegosAlternativos.put(Informacion.class,Arrays.asList((Class) Informacion.class));
-        juegosAlternativos.put(BusquedaSimbolos.class,Arrays.asList((Class) BusquedaSimbolos.class));
-        juegosAlternativos.put(FigurasIncompleta.class,Arrays.asList((Class) FigurasIncompleta.class));
-        juegosAlternativos.put(Vocabulario.class,Arrays.asList((Class) Vocabulario.class));
+        juegosAlternativos.put(Matrices.class, Collections.singletonList((Class) Matrices.class));
+        juegosAlternativos.put(Informacion.class, Collections.singletonList((Class) Informacion.class));
+        juegosAlternativos.put(BusquedaSimbolos.class, Collections.singletonList((Class) BusquedaSimbolos.class));
+        juegosAlternativos.put(FigurasIncompleta.class, Collections.singletonList((Class) FigurasIncompleta.class));
+        juegosAlternativos.put(Vocabulario.class, Collections.singletonList((Class) Vocabulario.class));
     }
 
     private static List<Class> juegosWisc = Arrays.asList((Class) Matrices.class,(Class) Informacion.class,(Class) BusquedaSimbolos.class,(Class) FigurasIncompleta.class,(Class) Vocabulario.class);

@@ -5,9 +5,6 @@ import com.limeri.leon.common.EstadosEvaluacion;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Nico on 06/08/2016.
- */
 public class Evaluacion {
 
     private Paciente paciente;
@@ -24,22 +21,6 @@ public class Evaluacion {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
-    }
-
-    public EstadosEvaluacion getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadosEvaluacion estado) {
-        this.estado = estado;
-    }
-
-    public List<Juego> getJuegos() {
-        return juegos;
-    }
-
-    public void setJuegos(List<Juego> juegos) {
-        this.juegos = juegos;
     }
 
     public Boolean isFinalizada() {

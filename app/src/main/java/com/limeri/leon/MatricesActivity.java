@@ -44,10 +44,10 @@ public class MatricesActivity extends Activity {
     private int cantCorrectasSeguidas = 0;
     private int cantIncorrectasSeguidas = 0;
     private LinearLayout target;
-    private Map<String,Integer> mapOpciones = new HashMap<String,Integer>();
-    private List<List<String>> matriz = new ArrayList<List<String>>();
+    private Map<String,Integer> mapOpciones = new HashMap<>();
+    private List<List<String>> matriz = new ArrayList<>();
     private List<String> opciones;
-    private Map<Integer, Integer> puntos = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> puntos = new HashMap<>();
     private int puntosJuego = 0;
     private GridLayout gridMatriz;
     private GridLayout gridOpciones;
@@ -179,10 +179,6 @@ public class MatricesActivity extends Activity {
         return NIVELES_INICIALES.contains(nivel);
     }
 
-    private boolean isPrimerError() {
-        return cantIncorrectasSeguidas == 1;
-    }
-
     private boolean isUltimoNivel() {
         return nivel == ULTIMO_NIVEL;
     }
@@ -256,7 +252,7 @@ public class MatricesActivity extends Activity {
                         //Creo el linearLayout que va a contener la imagen o la celda Target
                         LinearLayout l = new LinearLayout(this);
                         l.setLayoutParams(getLayoutParams(row, col, (int) getResources().getDimension(R.dimen.shape_size)));
-                        if (celda != "") {
+                        if (!celda.equals("")) {
                             //Imagen
                             l.setBackground(getResources().getDrawable(getResources().getIdentifier(celda, "drawable", this.getPackageName())));
                         } else {
@@ -289,7 +285,6 @@ public class MatricesActivity extends Activity {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.matrices));
         }
 
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -314,7 +309,7 @@ public class MatricesActivity extends Activity {
             opciones = (List<String>) new Gson().fromJson(jsonOpciones.toString(), listType);
 
             //Respuesta
-            respuesta = jsonObject.getString("respuesta");
+            respuesta = jsonObject.getString("respuesta");0
 
         } catch (JSONException e) {
             guardar();
