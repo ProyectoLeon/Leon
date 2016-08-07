@@ -26,6 +26,44 @@
         android:layout_below="@+id/switchSonido"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Siguiente Juego"
+        android:id="@+id/siguienteJuego"
+        android:textIsSelectable="false"
+        android:textSize="26dp"
+        android:layout_below="@+id/switchVibrar"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/juegos"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/siguienteJuego"
+        android:paddingLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Juegos Alternativos"
+        android:id="@+id/juegosAlt"
+        android:textIsSelectable="false"
+        android:textSize="26dp"
+        android:layout_below="@+id/juegos"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/juegosAlternativos"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/juegosAlt"
+        android:paddingLeft="20dp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

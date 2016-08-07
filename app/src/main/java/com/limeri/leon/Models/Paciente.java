@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +21,7 @@ public class Paciente {
     private String mNombre;
     private String mDNI;
     private String mApellido;
+    private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
 
     public String getmFechaNac() {
         return mFechaNac;
@@ -262,5 +264,33 @@ public class Paciente {
 
         mSelectedPaciente = null;
 
+    }
+
+    public List<Evaluacion> getEvaluaciones() {
+        return evaluaciones;
+    }
+
+    public void setEvaluaciones(List<Evaluacion> evaluaciones) {
+        this.evaluaciones = evaluaciones;
+    }
+
+    public Evaluacion getEvaluacion() {
+        for (Evaluacion eval : evaluaciones) {
+            if (!eval.isFinalizada())
+                return eval;
+        }
+        return null;
+    }
+
+    public void agregarEvaluacion(Evaluacion evaluacion) {
+        evaluaciones.add(evaluacion);
+    }
+
+    public Boolean tieneEvaluacionIniciada() {
+        for (Evaluacion eval : evaluaciones) {
+            if (!eval.isFinalizada())
+                return true;
+        }
+        return false;
     }
 }

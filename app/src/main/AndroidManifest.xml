@@ -32,7 +32,7 @@
         <activity android:name=".AdivinanzasActivity" />
         <activity android:name=".BqSimbolosActivity" />
         <activity android:name=".InicioJuegoActivity" />
-        <activity android:name=".VocabularioActivity"></activity>
+        <activity android:name=".VocabularioActivity" />
     </application>
 
 </manifest>

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.Models.Juego;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -126,9 +128,7 @@ public class MatricesActivity extends Activity {
             cantCorrectasSeguidas = 0;
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
-                Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-                MatricesActivity.this.startActivity(mainIntent);
-                MatricesActivity.this.finish();
+                guardar();
             } else if (isNivelesIniciales()) {
                 nivelErrado = nivel;
                 invertir();
@@ -142,12 +142,19 @@ public class MatricesActivity extends Activity {
         }
         puntos.put(nivel,puntosNivel);
         if (isUltimoNivel()){
-            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-            MatricesActivity.this.startActivity(mainIntent);
-            MatricesActivity.this.finish();
+            guardar();
         } else {
             cargarSiguienteNivel();
         }
+    }
+
+    private void guardar() {
+        Juego juego = Paciente.getSelectedCuenta().getEvaluacion().getJuegoActual();
+        juego.setPuntos(puntosJuego);
+        juego.finalizar();
+        Intent mainIntent = new Intent(MatricesActivity.this, InicioJuegoActivity.class);
+        MatricesActivity.this.startActivity(mainIntent);
+        MatricesActivity.this.finish();
     }
 
     private void revertir() {
@@ -273,9 +280,7 @@ public class MatricesActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-        MatricesActivity.this.startActivity(mainIntent);
-        MatricesActivity.this.finish();
+        guardar();
     }
 
     private void leerJson() {
@@ -312,9 +317,7 @@ public class MatricesActivity extends Activity {
             respuesta = jsonObject.getString("respuesta");
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-            MatricesActivity.this.startActivity(mainIntent);
-            MatricesActivity.this.finish();
+            guardar();
         }
 
     }

@@ -24,8 +24,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonTest;
-    Button buttonJuegos;
     Button buttonEditarPaciente;
     String mNombre, mApellido, mDNI, mFechaNac;
     AlertDialog dialog;
@@ -44,9 +42,15 @@ public class MainActivity extends AppCompatActivity {
         ActionBar AB = getSupportActionBar();
         AB.setTitle(txtPaciente.getText());
 
-        buttonTest = (Button) findViewById(R.id.buttonTest);
-        buttonJuegos = (Button) findViewById(R.id.buttonJuegos);
-        buttonTest.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(MainActivity.this, InicioJuegoActivity.class);
+                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.finish();
+            }
+        });
+        findViewById(R.id.buttonJuegos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent mainIntent = new Intent(MainActivity.this, ExamenActivity.class);
