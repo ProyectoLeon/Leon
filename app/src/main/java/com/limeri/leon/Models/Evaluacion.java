@@ -49,4 +49,8 @@ public class Evaluacion {
     public void agregarJuego(Juego juego) {
         juegos.add(juego);
     }
+
+    public Boolean realizoAlgunJuego() {
+        return !juegos.isEmpty();
+    }
 }

@@ -31,21 +31,24 @@ public class InicioJuegoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_juego);
+        AdministradorJuegos.setContext(getApplicationContext());
 
         Paciente paciente = Paciente.getSelectedCuenta();
         Juego juego;
-        if (paciente.tieneEvaluacionIniciada()) {
+/*        if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacion();
-            Juego ultimoJuego = evaluacion.getUltimoJuego();
-            juego = AdministradorJuegos.getJuegoSiguiente(ultimoJuego);
         } else {
             evaluacion = new Evaluacion(paciente);
             paciente.agregarEvaluacion(evaluacion);
-            juego = AdministradorJuegos.getJuegoInicial();
         }
+        if (evaluacion.realizoAlgunJuego()) {
+            juego = AdministradorJuegos.getInstance().getJuegoSiguiente(evaluacion.getUltimoJuego());
+        } else {*/
+            juego = AdministradorJuegos.getInstance().getJuegoInicial();
+//        }
 
         mapJuegos.put(juego.getNombre(), juego);
-        List<Juego> juegosAlternativos = AdministradorJuegos.getJuegosAlternativos(juego);
+        List<Juego> juegosAlternativos = AdministradorJuegos.getInstance().getJuegosAlternativos(juego);
         List<String> nombreJuegosAlt = new ArrayList<>();
         for (Juego juegoAlt : juegosAlternativos) {
             nombreJuegosAlt.add(juegoAlt.getNombre());
@@ -60,15 +63,15 @@ public class InicioJuegoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (seleccion != null) {
                     String strJuego = (String) seleccion.getText();
-                    evaluacion.agregarJuego(mapJuegos.get(strJuego));
-                    Intent mainIntent = new Intent(InicioJuegoActivity.this, AdministradorJuegos.getJuegoActivity(strJuego));
+                    Juego juego = mapJuegos.get(strJuego);
+//                    evaluacion.agregarJuego(juego);
+                    Intent mainIntent = new Intent(InicioJuegoActivity.this, juego.getActivityClass());
                     InicioJuegoActivity.this.startActivity(mainIntent);
                     InicioJuegoActivity.this.finish();
                 }
             }
         });
     }
-
 
     private void agregarJuegos(List<String> juegos, ListView listView) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, juegos);

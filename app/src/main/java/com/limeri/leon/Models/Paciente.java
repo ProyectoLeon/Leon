@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +23,7 @@ public class Paciente {
     private String mNombre;
     private String mDNI;
     private String mApellido;
-    private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
+    //private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
 
     public String getmFechaNac() {
         return mFechaNac;
@@ -265,7 +267,7 @@ public class Paciente {
         mSelectedPaciente = null;
 
     }
-
+/*
     public List<Evaluacion> getEvaluaciones() {
         return evaluaciones;
     }
@@ -292,5 +294,5 @@ public class Paciente {
                 return true;
         }
         return false;
-    }
+    }*/
 }

@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.limeri.leon.Models.Juego;
-import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -149,9 +147,10 @@ public class MatricesActivity extends Activity {
     }
 
     private void guardar() {
-        Juego juego = Paciente.getSelectedCuenta().getEvaluacion().getJuegoActual();
-        juego.setPuntos(puntosJuego);
+        /*Juego juego = Paciente.getSelectedCuenta().getEvaluacion().getJuegoActual();
+        juego.setPuntosJuego(puntosJuego);
         juego.finalizar();
+        Paciente.saveCuenta(MatricesActivity.this,Paciente.getSelectedCuenta());*/
         Intent mainIntent = new Intent(MatricesActivity.this, InicioJuegoActivity.class);
         MatricesActivity.this.startActivity(mainIntent);
         MatricesActivity.this.finish();
@@ -309,7 +308,7 @@ public class MatricesActivity extends Activity {
             opciones = (List<String>) new Gson().fromJson(jsonOpciones.toString(), listType);
 
             //Respuesta
-            respuesta = jsonObject.getString("respuesta");0
+            respuesta = jsonObject.getString("respuesta");
 
         } catch (JSONException e) {
             guardar();
