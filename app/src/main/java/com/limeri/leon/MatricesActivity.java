@@ -15,6 +15,10 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.Models.Evaluacion;
+import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Juegos.Matrices;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -42,10 +46,10 @@ public class MatricesActivity extends Activity {
     private int cantCorrectasSeguidas = 0;
     private int cantIncorrectasSeguidas = 0;
     private LinearLayout target;
-    private Map<String,Integer> mapOpciones = new HashMap<String,Integer>();
-    private List<List<String>> matriz = new ArrayList<List<String>>();
+    private Map<String,Integer> mapOpciones = new HashMap<>();
+    private List<List<String>> matriz = new ArrayList<>();
     private List<String> opciones;
-    private Map<Integer, Integer> puntos = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> puntos = new HashMap<>();
     private int puntosJuego = 0;
     private GridLayout gridMatriz;
     private GridLayout gridOpciones;
@@ -126,9 +130,7 @@ public class MatricesActivity extends Activity {
             cantCorrectasSeguidas = 0;
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
-                Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-                MatricesActivity.this.startActivity(mainIntent);
-                MatricesActivity.this.finish();
+                guardar();
             } else if (isNivelesIniciales()) {
                 nivelErrado = nivel;
                 invertir();
@@ -142,12 +144,26 @@ public class MatricesActivity extends Activity {
         }
         puntos.put(nivel,puntosNivel);
         if (isUltimoNivel()){
-            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-            MatricesActivity.this.startActivity(mainIntent);
-            MatricesActivity.this.finish();
+            guardar();
         } else {
             cargarSiguienteNivel();
         }
+    }
+
+    private void guardar() {
+        Paciente paciente = Paciente.getSelectedCuenta();
+        Juego juego = paciente.getEvaluacion().getJuegoActual();
+        juego.setPuntosJuego(puntosJuego);
+        juego.setPuntosNiveles(puntos);
+        juego.finalizar();
+        Paciente.saveCuenta(MatricesActivity.this, paciente);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(MatricesActivity.this, InicioJuegoActivity.class);
+        MatricesActivity.this.startActivity(mainIntent);
+        MatricesActivity.this.finish();
     }
 
     private void revertir() {
@@ -170,10 +186,6 @@ public class MatricesActivity extends Activity {
 
     private boolean isNivelesIniciales() {
         return NIVELES_INICIALES.contains(nivel);
-    }
-
-    private boolean isPrimerError() {
-        return cantIncorrectasSeguidas == 1;
     }
 
     private boolean isUltimoNivel() {
@@ -249,7 +261,7 @@ public class MatricesActivity extends Activity {
                         //Creo el linearLayout que va a contener la imagen o la celda Target
                         LinearLayout l = new LinearLayout(this);
                         l.setLayoutParams(getLayoutParams(row, col, (int) getResources().getDimension(R.dimen.shape_size)));
-                        if (celda != "") {
+                        if (!celda.equals("")) {
                             //Imagen
                             l.setBackground(getResources().getDrawable(getResources().getIdentifier(celda, "drawable", this.getPackageName())));
                         } else {
@@ -273,9 +285,7 @@ public class MatricesActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-        MatricesActivity.this.startActivity(mainIntent);
-        MatricesActivity.this.finish();
+        guardar();
     }
 
     private void leerJson() {
@@ -284,7 +294,6 @@ public class MatricesActivity extends Activity {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.matrices));
         }
 
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -312,9 +321,7 @@ public class MatricesActivity extends Activity {
             respuesta = jsonObject.getString("respuesta");
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-            MatricesActivity.this.startActivity(mainIntent);
-            MatricesActivity.this.finish();
+            guardar();
         }
 
     }

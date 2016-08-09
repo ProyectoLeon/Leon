@@ -15,22 +15,59 @@
         android:text="Sonido"
         android:id="@+id/switchSonido"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp" />
+        android:layout_centerHorizontal="true" />
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vibración"
         android:id="@+id/switchVibrar"
-        android:layout_below="@+id/switchSonido"
+        android:layout_toRightOf="@+id/switchSonido"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Siguiente Juego"
+        android:id="@+id/siguienteJuego"
+        android:textSize="26dp"
+        android:layout_below="@+id/switchVibrar"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="15dp"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/juegos"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/siguienteJuego"
+        android:paddingLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Juegos Alternativos"
+        android:id="@+id/juegosAlt"
+        android:textSize="26dp"
+        android:layout_below="@+id/juegos"
+        android:layout_centerHorizontal="false" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/juegosAlternativos"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/juegosAlt"
+        android:paddingLeft="20dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comenzar Subtest"
         android:id="@+id/buttonStart"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

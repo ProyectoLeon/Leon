@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,14 +27,14 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-public class VocabularioActivity extends AppCompatActivity {
+public class ComprensionActivity extends AppCompatActivity {
 
     private Button siguiente;
     private TextView palabra;
     private ListView respuestas;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
-    private int nivel = 0; // Provisoriamente no consideramos los niveles 1 a 4 (gráficos)
+    private int nivel = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
@@ -43,7 +43,7 @@ public class VocabularioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vocabulario);
+        setContentView(R.layout.activity_comprension);
 
         siguiente = (Button) findViewById(R.id.siguiente);
         siguiente.setOnClickListener(clickSiguiente());
@@ -62,13 +62,13 @@ public class VocabularioActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(VocabularioActivity.this)
+                new AlertDialog.Builder(ComprensionActivity.this)
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
-                                VocabularioActivity.this.startActivity(mainIntent);
+                                Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
+                                ComprensionActivity.this.startActivity(mainIntent);
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -97,7 +97,7 @@ public class VocabularioActivity extends AppCompatActivity {
         Writer writer = new StringWriter();
 
         if (nivel == 0) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasvocabulario);
+            InputStream is = getResources().openRawResource(R.raw.preguntascomprension);
 
             char[] buffer = new char[1024];
 
@@ -131,7 +131,7 @@ public class VocabularioActivity extends AppCompatActivity {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("vocabulario");
+            JSONArray jsonArray = jsonRootObject.getJSONArray("comprension");
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -148,9 +148,9 @@ public class VocabularioActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
-            VocabularioActivity.this.startActivity(mainIntent);
-            VocabularioActivity.this.finish();
+            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
+            ComprensionActivity.this.startActivity(mainIntent);
+            ComprensionActivity.this.finish();
         }
 
     }
@@ -197,9 +197,9 @@ public class VocabularioActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
-            VocabularioActivity.this.startActivity(mainIntent);
-            VocabularioActivity.this.finish();
+            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
+            ComprensionActivity.this.startActivity(mainIntent);
+            ComprensionActivity.this.finish();
             // }  else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
           //  nivel = 4;
         // } else if (cantConsec == 2) {
@@ -210,9 +210,9 @@ public class VocabularioActivity extends AppCompatActivity {
         try {
             leerJson();
         } catch (Exception ex) {
-            Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
-            VocabularioActivity.this.startActivity(mainIntent);
-            VocabularioActivity.this.finish();
+            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
+            ComprensionActivity.this.startActivity(mainIntent);
+            ComprensionActivity.this.finish();
         }}
 
     @Override
@@ -223,9 +223,9 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        Intent mainIntent = new Intent(VocabularioActivity.this, InicioJuegoActivity.class);
-        VocabularioActivity.this.startActivity(mainIntent);
-        VocabularioActivity.this.finish();
+        Intent mainIntent = new Intent(ComprensionActivity.this, InicioJuegoActivity.class);
+        ComprensionActivity.this.startActivity(mainIntent);
+        ComprensionActivity.this.finish();
     }
 
 }

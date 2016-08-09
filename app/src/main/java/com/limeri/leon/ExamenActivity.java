@@ -17,6 +17,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonSimbolos;
     Button buttonVocabulario;
     Button buttonAdivinanzas;
+    Button buttonComprension;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonAdivinanzas = (Button) findViewById(R.id.buttonAdivinanzas);
         buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
         buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
+        buttonComprension = (Button) findViewById(R.id.buttonComprension);
 
         ActionBar AB = getSupportActionBar();
         AB.setTitle(Paciente.getmSelectedPaciente().getNombreCompleto());
@@ -83,6 +85,16 @@ public class ExamenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mainIntent = new Intent(ExamenActivity.this, VocabularioActivity.class);
+                ExamenActivity.this.startActivity(mainIntent);
+                ExamenActivity.this.finish();
+
+            }
+        });
+
+        buttonComprension.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ExamenActivity.this, ComprensionActivity.class);
                 ExamenActivity.this.startActivity(mainIntent);
                 ExamenActivity.this.finish();
 

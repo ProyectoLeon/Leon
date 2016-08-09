@@ -1,0 +1,22 @@
+package com.limeri.leon.Models.Juegos;
+
+import com.limeri.leon.AdivinanzasActivity;
+
+public class Adivinanzas extends Juego {
+
+    private static String nombre = "Adivinanzas";
+
+    @Override
+    public String getNombre() {
+        return nombre;
+    }
+
+    @Override
+    public Class getActivityClass() {
+        return AdivinanzasActivity.class;
+    }
+
+    public static String getClassName() {
+        return nombre;
+    }
+}
