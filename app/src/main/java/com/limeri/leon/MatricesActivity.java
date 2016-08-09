@@ -151,7 +151,7 @@ public class MatricesActivity extends Activity {
     }
 
     private void guardar() {
-        Paciente paciente = Paciente.getSelectedCuenta();
+        Paciente paciente = Paciente.getmSelectedPaciente();
         Juego juego = paciente.getEvaluacion().getJuegoActual();
         juego.setPuntosJuego(puntosJuego);
         juego.setPuntosNiveles(puntos);

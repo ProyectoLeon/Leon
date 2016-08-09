@@ -33,7 +33,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_juego);
         AdministradorJuegos.setContext(getApplicationContext());
 
-        Paciente paciente = Paciente.getSelectedCuenta();
+        Paciente paciente = Paciente.getmSelectedPaciente();
         Juego juego;
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacion();
