@@ -1,0 +1,40 @@
+{
+	"vocabulario": [
+	  {
+	  "pregunta": "¿Por qué las personas se cepillan los dientes?",
+		"respuesta0": "Higiene / Eliminar gérmenes / Limpieza / Prevenir caries / Buen aliento",
+		"respuesta1": "Para no ir al dentista / Porque es bueno / Para que no se caigan",
+		"respuesta2": "Cuando comés caramelos o tomás gaseosa / Antes de ir al dentista"
+	}, {
+		"pregunta": "¿Qué deberías hacer si encuentras la billetera de alguien en un negocio?",
+		"respuesta0": "Ver de quién es y devolverla / Llevarla a la policía",
+		"respuesta1": "Ver de quién es / Devolverla / Buscar al dueño / Dársela a mi madre",
+		"respuesta2": "Levantarla del suelo / Dejarla ahí / Tirarla / Ver cuánto dinero tiene"
+	}, {
+		"pregunta": "¿Por qué los autos tienen cinturones de seguridad?",
+		"respuesta0": "Para que las personas no se lastimen en un accidente de auto",
+		"respuesta1": "Para salvar la vida de las personas / Para accidentes / Por la policía",
+		"respuesta2": "Para no tener un accidente / Me obligan mis padres / Va cruzado en el pecho"
+	}, {
+     	"pregunta": "¿Por qué es bueno comer frutas y verduras?",
+     	"respuesta0": "Para dieta balanceada / Es saludable / Para energía, fuerza",
+     	"respuesta1": "Ayudan al cuerpo / Para perder peso",
+     	"respuesta2": "Para no morirse / Para no tener hambre / Para tener postre"
+    }, 	{
+        "pregunta": "¿Qué deberías hacer si de la casa de tu vecino sale mucho humo por la ventana?",
+        "respuesta0": "Avisar a los bomberos o a la policía y Ayudar antes de que lleguen",
+        "respuesta1": "Avisar a los bomberos o a la policía / Ayudar a los vecinos",
+        "respuesta2": "Apagar el fuego / Tirarse al piso"
+    }, 	{
+       	"pregunta": "¿Cuáles son las ventajas de hacer gimnasia o deporte?",
+       	"respuesta0": "Te mantiene sano / Es bueno para el corazón, pulmones, circulación",
+       	"respuesta1": "Para estar en forma / Para perder peso / Para sentise mejor",
+       	"respuesta2": "Para ser más feliz / Para crecer / Es divertido"
+    }, 	{
+       	"pregunta": "¿Por qué es importante que los médicos y enfermeros de un hospital usen guardapolvo?",
+       	"respuesta0": "Para reconocerlos fácil / Para protegerlos de bacterias",
+       	"respuesta1": "Para sentirse seguros",
+       	"respuesta2": "Para ayudar a la gente / Para estar prolijos"
+    }
+  ]
+}

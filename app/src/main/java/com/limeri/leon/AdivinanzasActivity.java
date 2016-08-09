@@ -37,11 +37,12 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private ListView respuestas;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
-    private int nivel = 5;
+    private int nivel = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
     private int puntaje;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         siguiente.setOnClickListener(clickSiguiente());
 
         palabra = (TextView) findViewById(R.id.palabra);
+
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar,
                 null);
@@ -88,7 +90,6 @@ public class AdivinanzasActivity extends AppCompatActivity {
             }
         });
 
-
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
 
@@ -98,8 +99,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
         Writer writer = new StringWriter();
 
-        if (nivel == 5) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasinformacion);
+        if (nivel == 0) {
+            InputStream is = getResources().openRawResource(R.raw.preguntasadivinanzas);
 
             char[] buffer = new char[1024];
 
@@ -133,7 +134,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("informacion");
+            JSONArray jsonArray = jsonRootObject.getJSONArray("adivinanzas");
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -165,13 +166,14 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
+                //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
                 } else { cantIncorrectas = 0;
                     puntaje++;
+                }
             }
-        }
-    };
+        };
     }
 
     private void seleccionar(TextView view) {
@@ -200,14 +202,13 @@ public class AdivinanzasActivity extends AppCompatActivity {
             Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
             AdivinanzasActivity.this.startActivity(mainIntent);
             AdivinanzasActivity.this.finish();
-        } else
-        if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-            nivel = 4;
-        } else if (cantConsec == 2) {
-            nivel = 5;
-        }else {
-
-        nivel++;
+        // } else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
+        //    nivel = 4;
+        //} else if (cantConsec == 2) {
+        //    nivel = 5;
+        } else {
+            nivel++;
+        }
         try {
             leerJson();
         } catch (Exception ex) {
@@ -215,5 +216,19 @@ public class AdivinanzasActivity extends AppCompatActivity {
             AdivinanzasActivity.this.startActivity(mainIntent);
             AdivinanzasActivity.this.finish();
         }}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        guardar();
     }
+
+    private void guardar() {
+        Intent mainIntent = new Intent(AdivinanzasActivity.this, InicioJuegoActivity.class);
+        AdivinanzasActivity.this.startActivity(mainIntent);
+        AdivinanzasActivity.this.finish();
+    }
+
+
 }

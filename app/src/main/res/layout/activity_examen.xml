@@ -71,9 +71,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Comprensión"
+        android:id="@+id/buttonComprension"
+        android:layout_below="@+id/buttonVocabulario"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/buttonVocabulario"
+        android:layout_alignEnd="@+id/buttonVocabulario"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="ADIVINANZAS"
         android:id="@+id/buttonAdivinanzas"
-        android:layout_below="@+id/buttonVocabulario"
+        android:layout_below="@+id/buttonComprension"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
