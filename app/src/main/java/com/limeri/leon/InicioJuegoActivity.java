@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
-import com.limeri.leon.Models.Juego;
+import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.Models.Paciente;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
         Paciente paciente = Paciente.getSelectedCuenta();
         Juego juego;
-/*        if (paciente.tieneEvaluacionIniciada()) {
+        if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacion();
         } else {
             evaluacion = new Evaluacion(paciente);
@@ -43,9 +43,9 @@ public class InicioJuegoActivity extends AppCompatActivity {
         }
         if (evaluacion.realizoAlgunJuego()) {
             juego = AdministradorJuegos.getInstance().getJuegoSiguiente(evaluacion.getUltimoJuego());
-        } else {*/
+        } else {
             juego = AdministradorJuegos.getInstance().getJuegoInicial();
-//        }
+        }
 
         mapJuegos.put(juego.getNombre(), juego);
         List<Juego> juegosAlternativos = AdministradorJuegos.getInstance().getJuegosAlternativos(juego);
@@ -64,7 +64,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
                 if (seleccion != null) {
                     String strJuego = (String) seleccion.getText();
                     Juego juego = mapJuegos.get(strJuego);
-//                    evaluacion.agregarJuego(juego);
+                    evaluacion.agregarJuego(juego);
                     Intent mainIntent = new Intent(InicioJuegoActivity.this, juego.getActivityClass());
                     InicioJuegoActivity.this.startActivity(mainIntent);
                     InicioJuegoActivity.this.finish();

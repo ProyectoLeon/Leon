@@ -1,9 +1,6 @@
 package com.limeri.leon.Models.Juegos;
 
-import com.limeri.leon.Models.Juego;
 import com.limeri.leon.VocabularioActivity;
-
-import java.util.Map;
 
 public class Vocabulario extends Juego {
 

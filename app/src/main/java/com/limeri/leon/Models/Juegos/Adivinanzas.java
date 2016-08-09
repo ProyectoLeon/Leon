@@ -1,7 +1,6 @@
 package com.limeri.leon.Models.Juegos;
 
 import com.limeri.leon.AdivinanzasActivity;
-import com.limeri.leon.Models.Juego;
 
 public class Adivinanzas extends Juego {
 

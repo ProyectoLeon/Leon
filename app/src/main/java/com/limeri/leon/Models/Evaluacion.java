@@ -1,5 +1,6 @@
 package com.limeri.leon.Models;
 
+import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.common.EstadosEvaluacion;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Evaluacion {
     private List<Juego> juegos = new ArrayList<>();
 
     public Evaluacion(Paciente paciente) {
-        this.paciente = paciente;
+        this.paciente = null;
     }
 
     public Paciente getPaciente() {

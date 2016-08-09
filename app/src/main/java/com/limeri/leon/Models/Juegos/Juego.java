@@ -1,10 +1,7 @@
-package com.limeri.leon.Models;
+package com.limeri.leon.Models.Juegos;
 
 import java.util.Map;
 
-/**
- * Created by Nico on 06/08/2016.
- */
 public abstract class Juego {
 
     private Integer puntos = 0;

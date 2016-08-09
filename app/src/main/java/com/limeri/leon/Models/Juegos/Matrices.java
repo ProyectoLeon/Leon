@@ -1,9 +1,6 @@
 package com.limeri.leon.Models.Juegos;
 
 import com.limeri.leon.MatricesActivity;
-import com.limeri.leon.Models.Juego;
-
-import java.util.Map;
 
 public class Matrices extends Juego {
 

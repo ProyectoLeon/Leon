@@ -1,7 +1,6 @@
 package com.limeri.leon.Models.Juegos;
 
 import com.limeri.leon.BqSimbolosActivity;
-import com.limeri.leon.Models.Juego;
 
 public class BusquedaSimbolos extends Juego {
 

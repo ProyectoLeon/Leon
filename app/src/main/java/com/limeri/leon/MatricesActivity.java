@@ -15,6 +15,10 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.Models.Evaluacion;
+import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Juegos.Matrices;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -147,10 +151,16 @@ public class MatricesActivity extends Activity {
     }
 
     private void guardar() {
-        /*Juego juego = Paciente.getSelectedCuenta().getEvaluacion().getJuegoActual();
+        Paciente paciente = Paciente.getSelectedCuenta();
+        Juego juego = paciente.getEvaluacion().getJuegoActual();
         juego.setPuntosJuego(puntosJuego);
+        juego.setPuntosNiveles(puntos);
         juego.finalizar();
-        Paciente.saveCuenta(MatricesActivity.this,Paciente.getSelectedCuenta());*/
+        Paciente.saveCuenta(MatricesActivity.this, paciente);
+        volver();
+    }
+
+    private void volver() {
         Intent mainIntent = new Intent(MatricesActivity.this, InicioJuegoActivity.class);
         MatricesActivity.this.startActivity(mainIntent);
         MatricesActivity.this.finish();

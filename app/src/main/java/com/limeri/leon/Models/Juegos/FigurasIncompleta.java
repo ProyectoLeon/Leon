@@ -1,7 +1,6 @@
 package com.limeri.leon.Models.Juegos;
 
 import com.limeri.leon.FiguraIncompletaActivity;
-import com.limeri.leon.Models.Juego;
 
 
 public class FigurasIncompleta extends Juego {

@@ -2,6 +2,7 @@ package com.limeri.leon.Models;
 
 import android.content.Context;
 
+import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.Models.Juegos.Matrices;
 import com.limeri.leon.R;
 import com.limeri.leon.common.JSONLoader;

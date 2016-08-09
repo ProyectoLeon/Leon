@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.Models.Juegos.Matrices;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Paciente {
     private String mNombre;
     private String mDNI;
     private String mApellido;
-    //private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
+    private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
 
     public String getmFechaNac() {
         return mFechaNac;
@@ -107,7 +108,8 @@ public class Paciente {
     public static void saveCuenta(Activity activity, Paciente paciente) {
 
         Gson gson = new Gson();
-        String cuentas = gson.toJson(paciente);
+        Type listType = new TypeToken<Paciente>() {}.getType();
+        String cuentas = gson.toJson(paciente, listType);
 
         SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
 
@@ -121,6 +123,23 @@ public class Paciente {
         edit.putStringSet("User", s);
         edit.apply();
         edit.commit();
+    }
+
+    private static void prueba() {
+        Evaluacion eval = new Evaluacion(null);
+        Matrices juego = new Matrices();
+        juego.setPuntosJuego(0);
+        juego.finalizar();
+        eval.agregarJuego(juego);
+        Paciente paciente2 = new Paciente();
+        paciente2.setApellido("Herrera");
+        paciente2.setNombre("Lidia");
+        paciente2.setmDNI("1");
+        paciente2.agregarEvaluacion(eval);
+        Gson gson = new Gson();
+        Type listType = new TypeToken<Paciente>() {}.getType();
+        String cuentas = gson.toJson(paciente2, listType);
+
     }
 
 
@@ -267,7 +286,7 @@ public class Paciente {
         mSelectedPaciente = null;
 
     }
-/*
+
     public List<Evaluacion> getEvaluaciones() {
         return evaluaciones;
     }
@@ -294,5 +313,5 @@ public class Paciente {
                 return true;
         }
         return false;
-    }*/
+    }
 }
