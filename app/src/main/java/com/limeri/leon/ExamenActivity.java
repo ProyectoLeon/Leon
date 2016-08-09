@@ -32,7 +32,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
 
         ActionBar AB = getSupportActionBar();
-        AB.setTitle(Paciente.getSelectedCuenta().getNombreCompleto());
+        AB.setTitle(Paciente.getmSelectedPaciente().getNombreCompleto());
 
         buttonInformacion.setOnClickListener(new View.OnClickListener() {
             @Override

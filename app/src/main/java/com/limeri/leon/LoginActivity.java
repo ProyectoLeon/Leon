@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
 import com.limeri.leon.common.JSONLoader;
 
@@ -196,12 +197,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //Iterate the jsonArray and print the info of JSONObjects
             for(int i=0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String matriculaJson = jsonObject.getString("matricula").toString();
+
+                String nombreJson = jsonObject.getString("nombre");
+                String matriculaJson = jsonObject.getString("matricula");
+                String passwordJson = jsonObject.getString("contrasena");
+                String correoJson = jsonObject.getString("mail");
+
                 if (matriculaJson.equals(matricula))
                 {
                     existeUser= true;
-
-                    if (!jsonObject.getString("contrasena").toString().equals(password)){
+                    if (!passwordJson.equals(password)){
                         mPasswordView.setError(getString(R.string.error_invalid_password));
                         focusView = mPasswordView;
                         cancel = true;
@@ -210,6 +215,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         showProgress(true);
                         mAuthTask = new UserLoginTask(matricula, password);
                         mAuthTask.execute((Void) null);
+                        Profesional profesional = new Profesional();
+                        profesional.setNombre(nombreJson);
+                        profesional.setmCorreo(correoJson);
+                        profesional.setmMatricula(matriculaJson);
+                        profesional.setmPassword(passwordJson);
+                        Profesional.setProfesional(profesional);
+                        profesional.saveProfesional(LoginActivity.this,profesional);
+                        break;
                     }
                 }else {
                     existeUser= false;

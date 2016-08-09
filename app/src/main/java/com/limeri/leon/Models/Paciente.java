@@ -79,15 +79,7 @@ public class Paciente {
         }
     }
 
-    public static Paciente getSelectedCuenta() {
 
-        return mSelectedPaciente;
-
-    }
-
-    public static void setSelectedCUenta(Paciente paciente) {
-        mSelectedPaciente = paciente;
-    }
 
     public static void saveCuentas(Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -170,6 +162,14 @@ public class Paciente {
             }
         }
         return returnPacientes;
+    }
+
+    public static Paciente getmSelectedPaciente() {
+        return mSelectedPaciente;
+    }
+
+    public static void setmSelectedPaciente (Paciente paciente) {
+        mSelectedPaciente = paciente;
     }
 
     public static void loadCuentas(Activity activity) {

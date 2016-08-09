@@ -21,13 +21,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Profesional;
 
 import java.util.List;
 
 public class SelecPacienteActivity extends AppCompatActivity {
 
 
-    String mNombre, mApellido, mDNI, mFechaNac;
+    String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula;
     AlertDialog dialog;
     ListView pacientes;
     ArrayAdapter<String> adapter;
@@ -128,7 +129,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
 
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
-                Paciente.setSelectedCUenta(Paciente.getCuentaByName(paciente.getText().toString()));
+                Paciente.setmSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
 
                 Intent mainIntent = new Intent(SelecPacienteActivity.this, MainActivity.class);
                 SelecPacienteActivity.this.startActivity(mainIntent);
@@ -287,16 +288,103 @@ public class SelecPacienteActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.action_settings: {
-                return true;
+                showDialog_Prof();
+                break;
             }
             case R.id.action_signout:{
                 Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
                 SelecPacienteActivity.this.startActivity(mainIntent);
                 SelecPacienteActivity.this.finish();
+                break;
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
-}
 
+    //POPUP PARA EDITAR DATOS PROFESIONAL
+
+    private void showDialog_Prof() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        // I'm using fragment here so I'm using getView() to provide ViewGroup
+        // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.datos_profesional_popup, (ViewGroup) this
+                .findViewById(android.R.id.content), false);
+        // Set up the input
+        final EditText nombre = (EditText) viewInflated.findViewById(R.id.inputNombre);
+        final EditText matricula = (EditText) viewInflated.findViewById(R.id.inputMatricula);
+        final EditText password = (EditText) viewInflated.findViewById(R.id.inputPassword);
+        final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
+        final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
+
+        nombre.setText(Profesional.getProfesional().getNombre());
+        nombre.setEnabled(false);
+        matricula.setText(Profesional.getProfesional().getmMatricula());
+        matricula.setEnabled(false);
+        password.setText(Profesional.getProfesional().getmPassword());
+        correo.setText(Profesional.getProfesional().getmCorreo());
+
+
+        builder.setView(viewInflated);
+
+
+        // Set up the buttons
+
+        builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                mProfPassword = password.getText().toString();
+                mProfCorreo = correo.getText().toString();
+                mProfNombre = nombre.getText().toString();
+                mProfMatricula = matricula.getText().toString();
+
+                if (confPassword.getText().toString().isEmpty()) {
+                    confPassword.setError("Repita contraseña");
+                } else if (!password.getText().toString().equals(confPassword.getText().toString()))
+                {
+                    password.setError("Contraseñas no coinciden");
+                    confPassword.setError("Contraseñas no coinciden");
+                }else {
+
+                    Profesional profesional = Profesional.getProfesional();
+                    Profesional.borrarCuentaBase(SelecPacienteActivity.this, profesional);
+
+                    // Profesional profesional = new Profesional();
+                    profesional.setNombre(mProfNombre);
+                    profesional.setmCorreo(mProfCorreo);
+                    profesional.setmPassword(mProfPassword);
+                    profesional.setmMatricula(mProfMatricula);
+
+                    Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
+                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
+
+//                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
+
+                    try {
+
+
+                    } catch (Exception ex) {
+                        Log.d("Fullfill", "Fullfill error" + ex.toString());
+                    }
+                }
+                // callAdapter();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                return;
+
+            }
+
+
+});
+    }
+
+    }
