@@ -1,5 +1,5 @@
 {
-	"vocabulario": [
+	"comprension": [
 	  {
 	  "pregunta": "¿Por qué las personas se cepillan los dientes?",
 		"respuesta0": "Higiene / Eliminar gérmenes / Limpieza / Prevenir caries / Buen aliento",
