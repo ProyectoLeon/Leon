@@ -15,9 +15,7 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Juegos.Matrices;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;

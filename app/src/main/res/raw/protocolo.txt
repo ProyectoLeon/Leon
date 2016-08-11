@@ -1,0 +1,109 @@
+{
+	"juegos": [
+        {
+            "nombre":"Semejanzas",
+            "clase":"Semejanzas",
+            "categoria":"Comprensión verbal",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Vocabulario",
+            "clase":"Vocabulario",
+            "categoria":"Comprensión verbal",
+            "activity":"VocabularioActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Comprensión",
+            "clase":"Comprension",
+            "categoria":"Comprensión verbal",
+            "activity":"CompresionActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Información",
+            "clase":"Informacion",
+            "categoria":"Comprensión verbal",
+            "activity":"InformacionActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Adivinanzas",
+            "clase":"Adivinanzas",
+            "categoria":"Comprensión verbal",
+            "activity":"AdivinanzasActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Cubos",
+            "clase":"Cubos",
+            "categoria":"Razonamiento Perceptivo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Conceptos",
+            "clase":"Conceptos",
+            "categoria":"Razonamiento Perceptivo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Matrices",
+            "clase":"Matrices",
+            "categoria":"Razonamiento Perceptivo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Figuras incompletas",
+            "clase":"FigurasIncompleta",
+            "categoria":"Razonamiento Perceptivo",
+            "activity":"FiguraIncompletaActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Dígitos",
+            "clase":"Digitos",
+            "categoria":"Memoria de Trabajo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Letras y Números",
+            "clase":"LetrasNumeros",
+            "categoria":"Memoria de Trabajo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Aritmética",
+            "clase":"Aritmetica",
+            "categoria":"Memoria de Trabajo",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Claves",
+            "clase":"Claves",
+            "categoria":"Velocidad de Procesamiento",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Búsqueda de Símbolos",
+            "clase":"BúsquedaSimbolos",
+            "categoria":"Velocidad de Procesamiento",
+            "activity":"BqSimbolosActivity",
+            "alternativo":false
+        },
+        {
+            "nombre":"Animales",
+            "clase":"Animales",
+            "categoria":"Velocidad de Procesamiento",
+            "activity":"MatricesActivity",
+            "alternativo":false
+        }
+    ]
+}

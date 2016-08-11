@@ -2,19 +2,28 @@ package com.limeri.leon.Models.Juegos;
 
 import java.util.Map;
 
-public abstract class Juego {
+public class Juego {
 
+    private String nombre;
+    private String categoria;
     private Integer puntos = 0;
     private Boolean finalizado = false;
     private Map<Integer, Integer> puntosNiveles;
+    private String nombreActividad;
 
-    public static String getClassName() {
-        return "Juego";
+    public Juego(String nombre, String categoria, String activity) {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.nombreActividad = activity;
     }
 
-    public abstract Class getActivityClass();
+    public String getNombreActividad(){
+        return nombreActividad;
+    }
 
-    public abstract String getNombre();
+    public String getNombre() {
+        return nombre;
+    }
 
     public Integer getPuntosJuego() {
         return puntos;
@@ -36,4 +45,11 @@ public abstract class Juego {
         finalizado = true;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }

@@ -3,15 +3,17 @@ package com.limeri.leon.Models;
 import android.content.Context;
 
 import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Juegos.Matrices;
 import com.limeri.leon.R;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AdministradorJuegos {
 
@@ -25,15 +27,16 @@ public class AdministradorJuegos {
         return instance;
     }
 
-    private List<JuegoWisc> juegosWisc;
+    private Map<String, List<JuegoWisc>> juegosWisc;
+    private List<String> categorias;
 
     private AdministradorJuegos() {
 
-        juegosWisc = new ArrayList<>();
+        juegosWisc = new TreeMap<>();
+        categorias = new ArrayList<>();
 
-        String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.juegos));
+        String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo));
         try {
-            String packageName = Matrices.class.getPackage().getName() + ".";
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
@@ -44,62 +47,52 @@ public class AdministradorJuegos {
                 JSONObject jsonJuego = jsonArray.getJSONObject(i);
                 JuegoWisc juego = new JuegoWisc();
                 juego.nombre = jsonJuego.getString("nombre");
-                juego.clase = Class.forName(packageName + jsonJuego.getString("clase"));
-                juego.alternativos = new ArrayList<>();
-                JSONArray jsonAlternativos = jsonJuego.getJSONArray("alternativos");
-                for (int j = 0; j < jsonAlternativos.length(); j++) {
-                    JSONObject jsonAlter = jsonAlternativos.getJSONObject(j);
-                    JuegoWisc alter = new JuegoWisc();
-                    alter.nombre = jsonAlter.getString("nombre");
-                    alter.clase = Class.forName(packageName + jsonAlter.getString("clase"));
-                    juego.alternativos.add(alter);
+                juego.clase = jsonJuego.getString("clase");
+                juego.categoria = jsonJuego.getString("categoria");
+                juego.activity = jsonJuego.getString("activity");
+                juego.alternativo = jsonJuego.getBoolean("alternativo");
+                if (!juegosWisc.containsKey(juego.categoria)){
+                    juegosWisc.put(juego.categoria, new ArrayList<JuegoWisc>());
                 }
-                juegosWisc.add(juego);
+                juegosWisc.get(juego.categoria).add(juego);
+                if (!categorias.contains(juego.categoria)) {
+                    categorias.add(juego.categoria);
+                }
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public Juego getJuegoSiguiente(Juego juego) {
         Juego siguiente = null;
-        try {
-            Boolean anterior = false;
-            for (JuegoWisc juegoWisc : juegosWisc) {
-                if (anterior) {
-                    siguiente = (Juego) juegoWisc.clase.newInstance();
-                } else if (juegoWisc.nombre.equals(juego.getNombre())) {
-                    anterior = true;
-                }
+        Boolean anterior = false;
+        for (String categoria : categorias) {
+            if (anterior) {
+                JuegoWisc juegoWisc = juegosWisc.get(categoria).get(0);
+                siguiente = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                break;
+            } else if (categoria.equals(juego.getCategoria())) {
+                anterior = true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return siguiente;
     }
 
     public Juego getJuegoInicial() {
-        Juego juego = null;
-        try {
-            juego = (Juego) juegosWisc.get(0).clase.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return juego;
+        JuegoWisc juegoWisc = juegosWisc.get(categorias.get(0)).get(0);
+        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
     }
 
-    public List<Juego> getJuegosAlternativos(Juego juego) {
-        List<Juego> juegosAlt = null;
-        try {
-            juegosAlt = new ArrayList<>();
-            for (JuegoWisc juegoWisc : juegosWisc) {
-                if (juegoWisc.nombre.equals(juego.getNombre())) {
-                    for (JuegoWisc juegoAlt : juegoWisc.alternativos)
-                        juegosAlt.add((Juego) juegoAlt.clase.newInstance());
-                }
+    public Juego getJuegoAlternativo(Juego juego) {
+        Juego juegosAlt = null;
+        Boolean anterior = false;
+        for (JuegoWisc juegoWisc : juegosWisc.get(juego.getCategoria())) {
+            if (anterior) {
+                juegosAlt = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+            } else if (juegoWisc.nombre.equals(juego.getNombre())) {
+                anterior = true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return juegosAlt;
     }
@@ -110,7 +103,9 @@ public class AdministradorJuegos {
 
     class JuegoWisc {
         public String nombre;
-        public Class clase;
-        public List<JuegoWisc> alternativos;
+        public String clase;
+        public String categoria;
+        public String activity;
+        public Boolean alternativo;
     }
 }

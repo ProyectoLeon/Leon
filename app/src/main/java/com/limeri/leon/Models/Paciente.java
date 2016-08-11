@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.limeri.leon.Models.Juegos.Matrices;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -116,24 +115,6 @@ public class Paciente {
         edit.apply();
         edit.commit();
     }
-
-    private static void prueba() {
-        Evaluacion eval = new Evaluacion(null);
-        Matrices juego = new Matrices();
-        juego.setPuntosJuego(0);
-        juego.finalizar();
-        eval.agregarJuego(juego);
-        Paciente paciente2 = new Paciente();
-        paciente2.setApellido("Herrera");
-        paciente2.setNombre("Lidia");
-        paciente2.setmDNI("1");
-        paciente2.agregarEvaluacion(eval);
-        Gson gson = new Gson();
-        Type listType = new TypeToken<Paciente>() {}.getType();
-        String cuentas = gson.toJson(paciente2, listType);
-
-    }
-
 
     public static void borrarCuentas(Activity activity) {
 
