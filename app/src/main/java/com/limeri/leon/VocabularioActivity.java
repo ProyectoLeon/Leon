@@ -197,11 +197,11 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        Paciente paciente = Paciente.getmSelectedPaciente();
-        Juego juego = paciente.getEvaluacion().getJuegoActual();
-        juego.setPuntosJuego(puntaje);
-        juego.finalizar();
-        Paciente.saveCuenta(VocabularioActivity.this, paciente);
+        //Paciente paciente = Paciente.getmSelectedPaciente();
+        //Juego juego = paciente.getEvaluacion().getJuegoActual();
+        //juego.setPuntosJuego(puntaje);
+        //juego.finalizar();
+        //Paciente.saveCuenta(VocabularioActivity.this, paciente);
         volver();
     }
 

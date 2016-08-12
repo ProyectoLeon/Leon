@@ -221,11 +221,11 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        Paciente paciente = Paciente.getmSelectedPaciente();
-        Juego juego = paciente.getEvaluacion().getJuegoActual();
-        juego.setPuntosJuego(puntaje);
-        juego.finalizar();
-        Paciente.saveCuenta(InformacionActivity.this, paciente);
+        //Paciente paciente = Paciente.getmSelectedPaciente();
+        //Juego juego = paciente.getEvaluacion().getJuegoActual();
+        //juego.setPuntosJuego(puntaje);
+        //juego.finalizar();
+        //Paciente.saveCuenta(InformacionActivity.this, paciente);
         volver();
     }
 
