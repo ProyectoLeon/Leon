@@ -18,6 +18,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonVocabulario;
     Button buttonAdivinanzas;
     Button buttonComprension;
+    Button buttonSemejanzas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,16 @@ public class ExamenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mainIntent = new Intent(ExamenActivity.this, AdivinanzasActivity.class);
+                ExamenActivity.this.startActivity(mainIntent);
+                ExamenActivity.this.finish();
+
+            }
+        });
+
+        buttonSemejanzas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(ExamenActivity.this, SemejanzasActivity.class);
                 ExamenActivity.this.startActivity(mainIntent);
                 ExamenActivity.this.finish();
 

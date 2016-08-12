@@ -90,4 +90,14 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Semejanzas"
+        android:id="@+id/buttonSemejanzas"
+        android:layout_below="@+id/buttonAdivinanzas"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
 </RelativeLayout>

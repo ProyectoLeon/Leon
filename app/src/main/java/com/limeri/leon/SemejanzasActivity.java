@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,7 +27,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-public class InformacionActivity extends AppCompatActivity {
+public class SemejanzasActivity extends AppCompatActivity {
 
 
     private Button siguiente;
@@ -44,7 +44,7 @@ public class InformacionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_informacion);
+        setContentView(R.layout.activity_semejanzas);
 
         siguiente = (Button) findViewById(R.id.siguiente);
         siguiente.setOnClickListener(clickSiguiente());
@@ -63,13 +63,13 @@ public class InformacionActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(InformacionActivity.this)
+                new AlertDialog.Builder(SemejanzasActivity.this)
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                                InformacionActivity.this.startActivity(mainIntent);
+                                Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
+                                SemejanzasActivity.this.startActivity(mainIntent);
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -98,7 +98,7 @@ public class InformacionActivity extends AppCompatActivity {
         Writer writer = new StringWriter();
 
         if (nivel == 5) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasinformacion);
+            InputStream is = getResources().openRawResource(R.raw.preguntassemejanzas);
 
             char[] buffer = new char[1024];
 
@@ -132,14 +132,15 @@ public class InformacionActivity extends AppCompatActivity {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("informacion");
+            JSONArray jsonArray = jsonRootObject.getJSONArray("semejanzas");
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
-            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
+                    (jsonObject.optString("respuesta2").toString())};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, listRespuestas);
 
@@ -148,9 +149,9 @@ public class InformacionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
+            SemejanzasActivity.this.startActivity(mainIntent);
+            SemejanzasActivity.this.finish();
         }
 
     }
@@ -197,9 +198,9 @@ public class InformacionActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
+            SemejanzasActivity.this.startActivity(mainIntent);
+            SemejanzasActivity.this.finish();
         } else
         if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
             nivel = 4;
@@ -211,9 +212,9 @@ public class InformacionActivity extends AppCompatActivity {
             try {
                 leerJson();
             } catch (Exception ex) {
-                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                InformacionActivity.this.startActivity(mainIntent);
-                InformacionActivity.this.finish();
+                Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
+                SemejanzasActivity.this.startActivity(mainIntent);
+                SemejanzasActivity.this.finish();
             }}
 
 
