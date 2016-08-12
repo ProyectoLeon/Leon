@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Paciente;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -150,9 +153,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
-            AdivinanzasActivity.this.startActivity(mainIntent);
-            AdivinanzasActivity.this.finish();
+            guardar();
         }
 
     }
@@ -169,7 +170,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
-                } else { cantIncorrectas = 0;
+                } else {
+                    cantIncorrectas = 0;
                     puntaje++;
                 }
             }
@@ -199,9 +201,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
-            AdivinanzasActivity.this.startActivity(mainIntent);
-            AdivinanzasActivity.this.finish();
+            guardar();
         // } else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
         //    nivel = 4;
         //} else if (cantConsec == 2) {
@@ -212,9 +212,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         try {
             leerJson();
         } catch (Exception ex) {
-            Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
-            AdivinanzasActivity.this.startActivity(mainIntent);
-            AdivinanzasActivity.this.finish();
+            guardar();
         }}
 
     @Override
@@ -225,10 +223,17 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        Intent mainIntent = new Intent(AdivinanzasActivity.this, InicioJuegoActivity.class);
+        Paciente paciente = Paciente.getmSelectedPaciente();
+        Juego juego = paciente.getEvaluacion().getJuegoActual();
+        juego.setPuntosJuego(puntaje);
+        juego.finalizar();
+        Paciente.saveCuenta(AdivinanzasActivity.this, paciente);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
         AdivinanzasActivity.this.startActivity(mainIntent);
         AdivinanzasActivity.this.finish();
     }
-
-
 }

@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Paciente;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,9 +151,7 @@ public class ComprensionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
-            ComprensionActivity.this.startActivity(mainIntent);
-            ComprensionActivity.this.finish();
+            guardar();
         }
 
     }
@@ -167,8 +168,12 @@ public class ComprensionActivity extends AppCompatActivity {
                 //Corregir para identificar cuando hacer retroceso o no
                 if (position == 2){
                     cantIncorrectas++;
-                } else { cantIncorrectas = 0;
+                } else if (position == 1) {
+                    cantIncorrectas = 0;
                     puntaje++;
+                } else {
+                    cantIncorrectas = 0;
+                    puntaje = puntaje + 2;
                 }
             }
         };
@@ -197,9 +202,7 @@ public class ComprensionActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
-            ComprensionActivity.this.startActivity(mainIntent);
-            ComprensionActivity.this.finish();
+            guardar();
             // }  else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
           //  nivel = 4;
         // } else if (cantConsec == 2) {
@@ -210,9 +213,7 @@ public class ComprensionActivity extends AppCompatActivity {
         try {
             leerJson();
         } catch (Exception ex) {
-            Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
-            ComprensionActivity.this.startActivity(mainIntent);
-            ComprensionActivity.this.finish();
+            guardar();
         }}
 
     @Override
@@ -223,9 +224,17 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        Intent mainIntent = new Intent(ComprensionActivity.this, InicioJuegoActivity.class);
+        Paciente paciente = Paciente.getmSelectedPaciente();
+        Juego juego = paciente.getEvaluacion().getJuegoActual();
+        juego.setPuntosJuego(puntaje);
+        juego.finalizar();
+        Paciente.saveCuenta(ComprensionActivity.this, paciente);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
         ComprensionActivity.this.startActivity(mainIntent);
         ComprensionActivity.this.finish();
     }
-
 }

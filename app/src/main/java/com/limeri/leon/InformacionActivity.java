@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Paciente;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,9 +151,7 @@ public class InformacionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            guardar();
         }
 
     }
@@ -197,9 +198,7 @@ public class InformacionActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            guardar();
         } else
         if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
             nivel = 4;
@@ -211,10 +210,29 @@ public class InformacionActivity extends AppCompatActivity {
             try {
                 leerJson();
             } catch (Exception ex) {
-                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                InformacionActivity.this.startActivity(mainIntent);
-                InformacionActivity.this.finish();
+                guardar();
             }}
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        guardar();
     }
+
+    private void guardar() {
+        Paciente paciente = Paciente.getmSelectedPaciente();
+        Juego juego = paciente.getEvaluacion().getJuegoActual();
+        juego.setPuntosJuego(puntaje);
+        juego.finalizar();
+        Paciente.saveCuenta(InformacionActivity.this, paciente);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
+        InformacionActivity.this.startActivity(mainIntent);
+        InformacionActivity.this.finish();
+    }
+
+}

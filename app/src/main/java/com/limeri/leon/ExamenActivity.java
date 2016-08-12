@@ -33,6 +33,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
         buttonVocabulario = (Button) findViewById(R.id.buttonVocabulario);
         buttonComprension = (Button) findViewById(R.id.buttonComprension);
+        buttonSemejanzas = (Button) findViewById(R.id.buttonSemejanzas);
 
         ActionBar AB = getSupportActionBar();
         AB.setTitle(Paciente.getmSelectedPaciente().getNombreCompleto());
