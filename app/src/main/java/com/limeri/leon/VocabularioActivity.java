@@ -4,37 +4,28 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-
 public class VocabularioActivity extends AppCompatActivity {
 
-    private Button siguiente;
     private TextView palabra;
-    private ListView respuestas;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
     private int nivel = 0; // Provisoriamente no consideramos los niveles 1 a 4 (gráficos)
@@ -42,21 +33,22 @@ public class VocabularioActivity extends AppCompatActivity {
     private int cantConsec = 0;
     private String jsonString;
     private int puntaje;
+    private ImageView imagen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulario);
 
-        siguiente = (Button) findViewById(R.id.siguiente);
+        Button siguiente = (Button) findViewById(R.id.siguiente);
         siguiente.setOnClickListener(clickSiguiente());
 
         palabra = (TextView) findViewById(R.id.palabra);
+        imagen = (ImageView) findViewById(R.id.imagen);
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar,
                 null);
-
 
         getSupportActionBar().setCustomView(actionBarLayout);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -76,13 +68,13 @@ public class VocabularioActivity extends AppCompatActivity {
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+
                             }
                         })
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -97,37 +89,9 @@ public class VocabularioActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        Writer writer = new StringWriter();
-
         if (nivel == 0) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasvocabulario);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
         }
-
 
         String data = "";
         try {
@@ -140,13 +104,22 @@ public class VocabularioActivity extends AppCompatActivity {
             //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
-            palabra.setText(jsonObject.getString("pregunta").toString());
+            String pregunta = jsonObject.getString("pregunta").toString();
+            if (nivel == 0) {
+                palabra.setVisibility(View.GONE);
+                imagen.setVisibility(View.VISIBLE);
+                imagen.setImageResource(getResources().getIdentifier(pregunta, "drawable", this.getPackageName()));
+            } else {
+                imagen.setVisibility(View.GONE);
+                palabra.setVisibility(View.VISIBLE);
+                palabra.setText(pregunta);
+            }
             String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
                     (jsonObject.optString("respuesta2").toString())};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, listRespuestas);
 
-            respuestas = (ListView) findViewById(R.id.respuestas);
+            ListView respuestas = (ListView) findViewById(R.id.respuestas);
             respuestas.setOnItemClickListener(opcionSeleccionada());
             respuestas.setAdapter(adapter);
 

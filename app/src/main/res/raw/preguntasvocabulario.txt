@@ -1,7 +1,7 @@
 {
 	"vocabulario": [
 	  {
-	  "pregunta": "¿Qué es una VACA?",
+	  "pregunta": "leon",
 		"respuesta0": "Animal / Mamífero / Da leche y carne / Animal de granja",
 		"respuesta1": "Da leche / Da carne / Hace muuuu",
 		"respuesta2": "Cualquier otra cosa"
