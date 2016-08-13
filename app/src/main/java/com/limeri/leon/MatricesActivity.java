@@ -1,14 +1,18 @@
 package com.limeri.leon;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MatricesActivity extends Activity {
+public class MatricesActivity extends AppCompatActivity {
 
     private static final int ULTIMO_NIVEL = 10;
     public static final int NIVEL_INVERSION = 2;
@@ -74,6 +78,43 @@ public class MatricesActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
         this.size = (size.x-100)/5;
+
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.action_bar,
+                null);
+
+
+        getSupportActionBar().setCustomView(actionBarLayout);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        Button boton =(Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MatricesActivity.this)
+                        .setTitle("Popup")
+                        .setMessage("Por favor seleccione opción")
+                        .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
+                                MatricesActivity.this.startActivity(mainIntent);
+                            }
+                        })
+                        .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
 
         inicializarJuego();
     }

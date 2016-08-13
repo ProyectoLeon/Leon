@@ -37,6 +37,7 @@ public class InformacionActivity extends AppCompatActivity {
     private TextView palabra;
     private ListView respuestas;
     private TextView seleccion;
+    private int longArray;
     private String respuestaSeleccionada = "";
     private int nivel = 5;
     private int cantIncorrectas = 0;
@@ -139,6 +140,7 @@ public class InformacionActivity extends AppCompatActivity {
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
+            longArray = jsonArray.length();
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
@@ -151,7 +153,9 @@ public class InformacionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            guardar();
+            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
+            InformacionActivity.this.startActivity(mainIntent);
+            InformacionActivity.this.finish();
         }
 
     }
@@ -168,6 +172,7 @@ public class InformacionActivity extends AppCompatActivity {
                 //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
+                cantConsec = 0;
                 } else { cantIncorrectas = 0;
                     puntaje++;
                 }
@@ -197,42 +202,52 @@ public class InformacionActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
+        if (nivel == longArray){
+            guardar();
+        }
         if (cantIncorrectas== 5) {
             guardar();
+            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
+            InformacionActivity.this.startActivity(mainIntent);
+            InformacionActivity.this.finish();
         } else
         if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
             nivel = 4;
-        } else if (cantConsec == 2) {
+        } else if (cantIncorrectas == 0 & cantConsec == 2) {
             nivel = 5;
-        }else {
+        }else if (cantIncorrectas > 0 & nivel < 5) {
+        nivel --;
+        }
+        else if (cantIncorrectas ==0 & nivel < 5) {
+            nivel --;
+            cantConsec++;
+        }
+        else if (nivel > 4){
 
             nivel++;}
-            try {
+
+             try {
                 leerJson();
             } catch (Exception ex) {
-                guardar();
+                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
+                InformacionActivity.this.startActivity(mainIntent);
+                InformacionActivity.this.finish();
             }}
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
-    }
-
     private void guardar() {
-        //Paciente paciente = Paciente.getmSelectedPaciente();
-        //Juego juego = paciente.getEvaluacion().getJuegoActual();
-        //juego.setPuntosJuego(puntaje);
-        //juego.finalizar();
-        //Paciente.saveCuenta(InformacionActivity.this, paciente);
-        volver();
+       // Paciente paciente = Paciente.getmSelectedPaciente();
+//        Juego juego = paciente.getEvaluacion().getJuegoActual();
+ //       juego.setPuntosJuego(puntaje);
+//        juego.setPuntosNiveles(puntos);
+   //     juego.finalizar();
+     //   Paciente.saveCuenta(InformacionActivity.this, paciente);
+   //     volver();
     }
 
     private void volver() {
-        Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
+        Intent mainIntent = new Intent(InformacionActivity.this, InicioJuegoActivity.class);
         InformacionActivity.this.startActivity(mainIntent);
         InformacionActivity.this.finish();
     }
 
-}
+    }

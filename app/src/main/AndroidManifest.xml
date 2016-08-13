@@ -30,7 +30,6 @@
         <activity android:name=".ExamenActivity" />
         <activity android:name=".FiguraIncompletaActivity" />
         <activity android:name=".AdivinanzasActivity" />
-
         <activity android:name=".BqSimbolosActivity" />
         <activity android:name=".InicioJuegoActivity" />
         <activity android:name=".VocabularioActivity" />
