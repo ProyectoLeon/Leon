@@ -34,6 +34,7 @@
         <activity android:name=".InicioJuegoActivity" />
         <activity android:name=".VocabularioActivity" />
         <activity android:name=".ComprensionActivity" />
+        <activity android:name=".SemejanzasActivity"></activity>
         <activity android:name=".ValorExamenActivity"></activity>
     </application>
 

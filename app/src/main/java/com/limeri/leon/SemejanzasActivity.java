@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.common.JSONLoader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,16 +33,18 @@ import java.io.Writer;
 public class SemejanzasActivity extends AppCompatActivity {
 
 
+    private static final int ULTIMO_NIVEL = 8;
+    public static final int PRIMER_NIVEL = 0;
     private Button siguiente;
     private TextView palabra;
     private ListView respuestas;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
-    private int nivel = 5;
+    private int nivel = PRIMER_NIVEL;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
-    private int puntaje;
+    private int puntosJuego;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,35 +102,9 @@ public class SemejanzasActivity extends AppCompatActivity {
 
         Writer writer = new StringWriter();
 
-        if (nivel == 5) {
-            InputStream is = getResources().openRawResource(R.raw.preguntassemejanzas);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+        if (nivel == PRIMER_NIVEL) {
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntassemejanzas));
         }
-
 
         String data = "";
         try {
@@ -149,9 +128,7 @@ public class SemejanzasActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
-            SemejanzasActivity.this.startActivity(mainIntent);
-            SemejanzasActivity.this.finish();
+            guardar();
         }
 
     }
@@ -165,11 +142,27 @@ public class SemejanzasActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
-                if (position == 1){
+                if (position == 2){
                     cantIncorrectas++;
-                } else { cantIncorrectas = 0;
-                    puntaje++;
+                } else if (position == 1){
+
+                    // Para los dos primeros niveles, no hay tercera opción.
+                    // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
+                    if (!(nivel == 0 || nivel == 1)){
+                        puntosJuego++;
+                    }
+                    cantIncorrectas = 0;
+                }
+                 else if (position == 0) {
+                    cantIncorrectas = 0;
+
+                    // Para los dos primeros niveles, no hay tercera opción.
+                    // La primera opción suma 1 punto.
+                    if (nivel == 0 || nivel == 1) {
+                        puntosJuego++;
+                    } else {
+                        puntosJuego = puntosJuego + 2;
+                    }
                 }
             }
         };
@@ -189,7 +182,12 @@ public class SemejanzasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                guardarRespuesta();
+                try {
+                    guardarRespuesta();
+                } catch (Exception ex) {
+                    if (seleccion != null) blanquear(seleccion);
+                    return;
+                }
             }
         };
     }
@@ -197,25 +195,32 @@ public class SemejanzasActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
-        if (cantIncorrectas== 5) {
-            Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
-            SemejanzasActivity.this.startActivity(mainIntent);
-            SemejanzasActivity.this.finish();
-        } else
-        if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-            nivel = 4;
-        } else if (cantConsec == 2) {
-            nivel = 5;
-        }else {
-
+        if (cantIncorrectas == 5) {
+            volver();
+        } else {
             nivel++;}
+
+        if (nivel == ULTIMO_NIVEL){
+            guardar();
+        } else {
+
             try {
                 leerJson();
             } catch (Exception ex) {
-                Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
-                SemejanzasActivity.this.startActivity(mainIntent);
-                SemejanzasActivity.this.finish();
-            }}
-
-
+                guardar();
+            }
+        }
     }
+
+
+    private void guardar() {
+        //AdministradorJuegos.getInstance().guardarJuego(puntosJuego,null,this);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
+        SemejanzasActivity.this.startActivity(mainIntent);
+        SemejanzasActivity.this.finish();
+    }
+}

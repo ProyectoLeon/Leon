@@ -4,598 +4,66 @@
 	  {
 	  	"pregunta": "¿En qué se parecen la LECHE y el AGUA? ¿Los dos son..?",
 
-		"respuesta0": "Ambos/ Los dos:
-		Son los dos (fluidos, líquidos)
-		Ambos son (nutritivos, saludables, buenos para uno)
-		Son bebidas; Refrescos; Cosas que se beben",
+		"respuesta0": "Ambos/ Los dos: Son (fluidos, líquidos) / Son (nutritivos, saludables, buenos para uno) / Son bebidas; Refrescos; Cosas que se beben",
 
-		"respuesta1": "[Demuestra que se beben]
-		Son húmedas; Tienen agua
-		Puedes derramarlas, volcarlas
-		Se ponen en una jarra
-		Tienen vitaminas
-		Las dos son (blancas, frías)"
+		"respuesta1": "[Demuestra que se beben] / Son húmedas; Tienen agua / Puedes derramarlas, volcarlas / Se ponen en una jarra / Tienen vitaminas / Las dos son (blancas, frías)"
 	}, {
 		"pregunta": "¿En qué se parecen un LÁPIZ y una LAPICERA? ¿Los dos son..?",
 
-		"respuesta0": "Ambos/ Los dos:
-		Son para (escribir, dibujar, colorear)
-		Son para poder escribir
-		Son herramientas para dibujar
-		Son elementos para (la escuela, la oficina, el arte)",
+		"respuesta0": "Ambos/ Los dos: Son para (escribir, dibujar, colorear) / Son para poder escribir / Son herramientas para dibujar / Son elementos para (la escuela, la oficina, el arte)",
 
-		"respuesta1": "[Demuestra que escriben]
-		Tienen un (extremo putiagudo, gomas de borrar)
-		Tienen (tinta, mina) dentro de ellos
-		Tienen la misma (forma, tamaño); Son derechos; Largos; Redondeados
-		Tienen colores"
+		"respuesta1": "[Demuestra que escriben] / Tienen un (extremo putiagudo, gomas de borrar) / Tienen (tinta, mina) dentro de ellos / Tienen la misma (forma, tamaño); Son derechos; Largos; Redondeados / Tienen colores"
 	}, {
 		"pregunta": "¿En qué se parecen una MANZANA y una BANANA?",
 
 		"respuesta0": "Ambas/ Las dos son (frutas, frutos)",
 
-		"respuesta1": "Ambas/ Las dos:
-		Son comida; Cosas que comes; Comestibles
-		(Crecen, vienen) de un árbol
-		Son vegetales
-		Son sabrosas; Dulces
-		Son buenas para la salud; Saludables; Nutritivas; Contienen (minerales, vitaminas)
-		Tienen (piel, semillas y cáscara)
-		Cosas que (pelas, cortas)",
+		"respuesta1": "Ambas/ Las dos: / Son comida; Cosas que comes; Comestibles / (Crecen, vienen) de un árbol / Son vegetales / Son sabrosas; Dulces / Son buenas para la salud; Saludables; Nutritivas; Contienen (minerales, vitaminas) / Tienen (piel, semillas y cáscara) / Cosas que (pelas, cortas)",
 
-		"respuesta2": "Son buenas
-		Mismo colos; Amarillo
-		Son jugosas
-		Son redondeadas; Pequeñas; Suaves"
+		"respuesta2": "Son buenas / Mismo color; Amarillo / Son jugosas / Son redondeadas; Pequeñas; Suaves"
 	}, {
      		"pregunta": "¿En qué se parecen una CAMISA y un ZAPATO?",
 
-     		"respuesta0": "Una respuesta que indique que ambos son prendas de vestir
-	     	Ambos/ Los dos:
-	     	Son ropa; Vestimenta
-	     	Prendas de vestir
-	     	Parte de la indumentaria
-	     	Parte de un uniforme",
+     		"respuesta0": "Una respuesta que indique que ambos son prendas de vestir. Ambos/ Los dos: Son ropa; Vestimenta / Prendas de vestir / Parte de la indumentaria / Parte de un uniforme",
 
-	     	"respuesta1": "Ambos/ Los dos:
-     		Visten
-	     	(Se ponen sobre, van encima de, cubren, tapa) el cuerpo
-	     	Te protegen (el cuerpo); Mantienen el calor
-	     	Se ajustan a tu cuerpo",
+	     	"respuesta1": "Ambos/ Los dos: Visten / (Se ponen sobre, van encima de, cubren, tapa) el cuerpo / Te protegen (el cuerpo); Mantienen el calor / Se ajustan a tu cuerpo",
 
-	     	"respuesta2": "Tiene (botones, cierre, cordones)
-	     	Pueden ser de (cuero, tela); Hechos de fábrica. Cosidas a máquina
-	     	Cuestan dinero; Los compras
-	     	Son suaves; Pueden ser del mismo color
-     		Se usan para salir
-	     	[Señala los zapatos o la camisa]"
+	     	"respuesta2": "Tiene (botones, cierre, cordones) / Pueden ser de (cuero, tela); Hechos de fábrica. Cosidas a máquina / Cuestan dinero; Los compras / Son suaves; Pueden ser del mismo color / Se usan para salir / [Señala los zapatos o la camisa]"
      	}, {
 
 	        "pregunta": "¿En qué se parecen un GATO y un RATÓN?",
 
-        	"respuesta0": "Una respuesta que indique que ambos son animales, mamíferos, seres vivos. Ambos/ Los dos:
-	        Son mamíferos. Animales de sangre caliente; Vertebrados; Vivíparos
-	        Son animales; Son cuadrúpedos; Animales de cuatro patas
-	        Son seres vivos; Viven
-	        Ambos nacen, crecen, se reprooducen y mueren",
+        	"respuesta0": "Una respuesta que indique que ambos son animales, mamíferos, seres vivos. Ambos/ Los dos: / Son mamíferos. Animales de sangre caliente; Vertebrados; Vivíparos / Son animales; Son cuadrúpedos; Animales de cuatro patas / Son seres vivos; Viven / Ambos nacen, crecen, se reprooducen y mueren",
 
-	        "respuesta1": "Ambos/ Los dos:
-	        Son mascotas; Se domestican
-	        Tienen (colas, bigotes, pelaje, cuatro patas, uñas, ojos) [Nombra característica/s física/s compartida/s]
-	        Corren; Escarban; Caminan [Nombre el mismo comportamiento en ambos]
-	        Tienen comportamiento nocturno; Pueden ver en la oscuridad; Son activos en la noche",
+	        "respuesta1": "Ambos/ Los dos: / Son mascotas; Se domestican / Tienen (colas, bigotes, pelaje, cuatro patas, uñas, ojos) [Nombra característica/s física/s compartida/s] / Corren; Escarban; Caminan [Nombre el mismo comportamiento en ambos] / Tienen comportamiento nocturno; Pueden ver en la oscuridad; Son activos en la noche",
 
-	        "respuesta2": "Son doméstivos; Viven en la casa
-	        Comen queso; Roban comida
-	        Tienen el mismo color de piel [Nombra cualquier color]
-	        Juegan; Juegas con ellos
-	        Son enemigos; Se persiguen; Se odian"
+	        "respuesta2": "Son doméstivos; Viven en la casa / Comen queso; Roban comida / Tienen el mismo color de piel [Nombra cualquier color] / Juegan; Juegas con ellos / Son enemigos; Se persiguen; Se odian"
         }, {
 	        "pregunta": "¿En qué se parecen una MARIPOSA y una ABEJA?",
 
-	        "respuesta0": "Una respuesta que indique que ambos son insectos. Ambas/ Las dos:
-	        Son insectos
-	        Son insectos voladores",
+	        "respuesta0": "Una respuesta que indique que ambos son insectos. Ambas/ Las dos: Son insectos / Son insectos voladores",
 
-	        "respuesta1": "Ambas/ Las dos:
-	        Son animales invertebrados
-	        Son animales
-	        Son bichos
-	        Tienen alas; Vuelan
-	        Tienen (seis patas, cuerpos segmentados)
-	        Provieen de (larvas, capullos)
-	        Viven en (larvas, capullos)
-	        Juntan (néctar, polen); Polinizan las flores
-	        Tienen antenas",
+	        "respuesta1": "Ambas/ Las dos: / Son animales invertebrados / Son animales / Son bichos / Tienen alas; Vuelan / Tienen (seis patas, cuerpos segmentados) / Provienen de (larvas, capullos) / Viven en (larvas, capullos) / Juntan (néctar, polen); Polinizan las flores / Tienen antenas",
 
-	        "respuesta2": "(Se paran encima de, se posan en, comen de, les gustan) las flores
-	        (Producen, recogen) miel
-	        Pican
-	        Están afuera"
+	        "respuesta2": "(Se paran encima de, se posan en, comen de, les gustan) las flores / (Producen, recogen) miel / Pican / Están afuera"
       	}, {
     		"pregunta": "¿En qué se parecen el INVIERNO y el VERANO?",
-      		"respuesta0": "Una respuesta que indique que ambos son estaciones del año. Ambos/ Los dos:
-		Son estaciones
-		Son estaciones del año
-		Son dos de las cuatro estaciones
-		Tienen solsticios",
+      		"respuesta0": "Una respuesta que indique que ambos son estaciones del año. Ambos/ Los dos: Son estaciones / Son estaciones del año / Son dos de las cuatro estaciones / Tienen solsticios",
 
-       		"respuesta1": "Ambos/ Los dos:
-		Son (épocas, partes, tiempos) del año
-		Cambios en el (clima, tiempo)
-		Clima",
+       		"respuesta1": "Ambos/ Los dos: Son (épocas, partes, tiempos) del año / Cambios en el (clima, tiempo) / Clima",
 
-		"respuesta2": "Son parte de la primavera, verano, invierno, otoño [Nombra las estaciones]
-		Son parte de la naturaleza
-		Meses del año
-		Vacaciones
-		Días; Semanas; Años
-		Es divertido; Puedes salir y jugar afuera
-		Tienen (nubes, sol, lluvia)
-		Es (ventoso, frío)"
+		"respuesta2": "Son parte de la primavera, verano, invierno, otoño [Nombra las estaciones] / Son parte de la naturaleza / Meses del año / Vacaciones / Días; Semanas; Años / Es divertido; Puedes salir y jugar afuera / Tienen (nubes, sol, lluvia) / Es (ventoso, frío)"
 
        	}, {
 
        	"pregunta": "¿En qué se parecen el CEMENTO y los LADRILLOS?",
 
-       	"respuesta0": "Una respuesta que indique que ambos materiales son utilizados en la construcción. Ambos/ Los dos:
-       	Son (materiales, productos, recursos) para la construcción
-       	(Materiales, productos, elementos) usados para construir una (casa, edificio, estructura, paredes, cercos)
-       	Materiales que utilizas para hacer un (edificio, estructura, paredes, cercos)
-       	Son elementos de construcción",
+       	"respuesta0": "Una respuesta que indique que ambos materiales son utilizados en la construcción. Ambos/ Los dos: Son (materiales, productos, recursos) para la construcción / (Materiales, productos, elementos) usados para construir una (casa, edificio, estructura, paredes, cercos) / Materiales que utilizas para hacer un (edificio, estructura, paredes, cercos) / Son elementos de construcción",
 
-       	"respuesta1": "Ambos/ Los dos:
-       	Son (materiales, recursos, elementos, productos)
-       	(Hacen, construyen) cosas con ellos
-       	(Para, usados en, parte de) los edificios; casas
-       	Cosas usadas para hacer una (casa, un edificio)
-       	Se utilizan en la construcción
-       	Forman parte de los (cimientos, paredes, cercas)",
+       	"respuesta1": "Ambos/ Los dos: Son (materiales, recursos, elementos, productos) / (Hacen, construyen) cosas con ellos / (Para, usados en, parte de) los edificios; casas / Cosas usadas para hacer una (casa, un edificio) / Se utilizan en la construcción / Forman parte de los (cimientos, paredes, cercas)",
 
-       	"respuesta2": "Construcción
-       	Productos naturales; Elementos de la tierra
-       	Cosas que se pueden usar
-       	Son (duras, pesadas, sólidas, fuertes, apilables); Hechas por el hombre; Ásperas"
-
-       	}, {
-
-       	"pregunta": "¿En qué se parecen un CODO y una RODILLA?",
-
-       	"respuesta0": "Una respuesta que indique que ambos son articulaciones; son como bisagras; que están en el medio del brazo o de la pierna. Ambos/ Los dos:
-       	Son (articulaciones donde los huesos se unen, junturas)
-       	Son articulaciones del cuerpo
-       	Los dos son como una bisagra; Trabajan como una bisagra
-       	Partes de los miembros superiores e inferiores que se (flexionan, doblan)
-       	Partes donde se doblan las extremidades del cuerpo
-       	Lugares donde se unen los huesos de los brazos y las piernas
-       	Sostienen ambas partes de tus brazos y tus piernas juntos
-       	Están en la parte media de las extremidades superiores e inferiores
-       	Trabajan como (bisagras, rótulas) en tus extremidades",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Te ayudan a doblarte; Se (doblan, pivotan, giran)
-       	Partes del cuerpo que conectan los huesos
-       	Partes del cuerpo que se (mueven, son flexibles)
-       	Partes de los miembros
-       	Son parte del cuerpo
-       	Tienen (ligamentos, rótulas, músculos, cartílagos)
-       	Son huesos que (conectan, doblan, mueven, se sostienen juntos con otros huesos)
-       	Ayudan a moverte
-       	Puedes moverte con elllos
-       	Se necesitan para moverse",
-
-       	"respuesta2": "Mueven
-       	Conectan
-       	Huesos
-       	Redondeados; Curvos; Puntiagudos; Duros; Recubiertos de piel
-       	Se quiebran; Se lastiman
-       	Puedes (caerte, golpearte) encima de ambos
-       	Los usas"
-
-       	}, {
-
-       	"pregunta": "¿En qué se parecen una MONTAÑA y un LAGO?",
-
-       	"respuesta0": "Una respuesta que indique que ambos son accidentes topográficos, geográficos o naturales de la tierra o el medio ambiente. Ambos/ Los dos:
-       	Son accidentes (geográficos, topográficos)
-       	Son características físicas de la (tierra, mundo, superficie terrestre, del ecosistema)
-       	Son (paisajes, formaciones, características) del suelo
-       	(Fenómenos, lugares) geográficos
-       	Son partes de la superficie terrestre
-       	Se forman por (la naturaleza, los glaciares, el movimiento de las placas)
-       	Son factores abióticos de la superficie de la Tierra",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Son lugares en la Tierra
-       	Son parte de (la naturaleza, el medio ambiente, el mundo)
-       	Son (naturales, rescursos naturales)
-       	No son seres vivos
-       	Son factores abióticos
-       	Pueden ser lugares para (acampar, recreativos, turísticos, vacacionales)
-       	Referencias geográficas: Puntos de referencia, Están en un mapa
-       	El clima los modifica",
-
-       	"respuesta2": "La Tierra
-       	La naturaleza
-       	Características físicas
-       	Geografía
-       	Lugares para (ir, divertirse, escalar)
-       	Lugares al aire libre; En el (bosque, campo, valle)
-       	Tienen (rocas, piedras, nieve, agua, picos, animales)
-       	Son grandes; Extensos; Altos"
-       	},{
-
-       	"pregunta": "¿En qué se parecen el ENOJO y la ALEGRÍA?",
-
-       	"respuesta0": "Una respuesta que indique que ambos son sentimientos, emociones, reacciones emocionales o estados de ánimo. Ambos/ Los dos:
-       	Son sentimimentos (reacciones, expresiones, respuestas emocionales, emociones)
-       	Expresan (sentimientos, emociones, estados de ánimo)
-       	Tipos de (sentimientos, emociones, estados de ánimo)
-       	Son estados mentales que demuestran cómo te sientes
-       	Son estados de ánimos; Estados mentales; Son un signo de cómo se siente la persona",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Son expresiones; Se pueden expresar ambas
-       	Cómo se siente uno; Formas de cómo te puedes sentir
-       	Respuestas; Reacciones; Actitudes
-       	Expresiones faciales que (se expresan, aparecen, se aprecian) en tu cara; Gestos; Miradas, cosas que se demuestran con el rostro
-       	Ocurren dentro de ti; Pensamientos",
-
-       	"respuesta2": "Son algo que tu mente controla
-       	Son acciones; Comportamientos; Conductas; Cosas que haces
-       	Formas de ser; Cosas que uno puede ser
-       	Puedes estar furioso y a veces contento; Te puede suceder; Puedes tener las dos.
-       	Cuando te pegan o te dan algo
-       	Signos; Miradas
-       	Caras que pones [Vaga referencia al rostro]
-       	Parte de tu (imagen, personalidad, temperamento)
-       	Partes de la vida"
-
-       	},{
-
-       	"pregunta": "¿En qué se parecen un POETA y un PINTOR?",
-
-       	"respuesta0": "Una respuesta que indique que ambos producen obras de arte, son artistas. Ambos/ Los dos:
-       	Se expresan a través del arte
-       	Son artistas; Maestros del arte
-       	Crean (arte, obras de arte); Hacen cosas creativas; Son creadores
-       	Hacen cosas que (la gente aprecia, le gustan a la gente)
-       	Son profesionales creativos",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Son profesiones
-       	Tienen talento
-       	Son (imaginativos, expresivos)
-       	Transmiten (su visión de la vida, sus puntos de vista)
-       	(Expresan, ilustran, transmiten) cosas
-       	Expresan (ideas, emociones, sentimientos)
-       	(Construyen, hacen, diseñan) cosas
-       	Tienen que ver con el arte
-       	Ganan dinero con el arte; Venden arte",
-
-       	"respuesta2": "Muestran (sentimientos, emociones)
-       	Son emotivos
-       	Trabajan con (sus manos, su mente)
-       	Ponen cosas sobre el papel
-       	Estimulan a la gente
-       	Pintura; Escritura
-       	Utilizan (lápices, pinceles)
-       	Son gente famosa; Ganan mucho dinero"
-
-       	},{
-
-       	"pregunta": "¿En qué se parecen el HIELO y el VAPOR?",
-
-       	"respuesta0": "Una respuesta que indique que ambos son formas o estados del agua. Ambos/ Los dos:
-       	Son (estados, fases) del agua
-       	El agua en diferentes (estados, formas)
-       	Agua a temperaturas extremas
-       	Cambios físicos del agua",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Son de agua; Agua; Hecho de agua; Creados por el agua
-       	Temperaturas extremas
-       	Partes del ciclo del agua
-       	(Formas, fases, estados) de la materia
-       	Puede transformarse en líquido
-       	Contienen (sustancias, elementos químicas/os",
-
-       	"respuesta2": "Líquidos
-       	Tienen temperatura; Temperaturas
-       	Uno puede transformarse en el otro
-       	Producen (vapor, bruma, vaho)
-       	Emiten (humo, niebla)
-       	Son húmedos; Mojado"
-
-       	},{
-
-       	"pregunta": "¿En qué se parecen la SONRISA y el LLANTO?",
-
-       	"respuesta0": "Una respuesta que indique que ambas expresan sentimientos, emociones, reacciones emocionales o estados de ánimo.
-       	Ambos/ Los dos:
-       	Son formas de demostrar los sentimientos con (el rostro, la cara)
-       	Demuestran (emociones, estados de ánimo, sentimientos)
-       	Son signos de (emociones, sentimientos, estados de ánimo)
-       	Expresiones que describen (sentimientos, emociones, estados de ánimo)
-       	Son emociones que se (expresan, muestran, revelan) físicamente",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Se ven en tu cara
-       	Son (expresiones, reacciones, emociones, sentimientos, estados de ánimo, humor)
-       	Son un lenguaje corporal
-       	Se hacen cuando uno está (triste o contento, enojado o feliz)
-       	Pueden decir cuando alguien está (triste o contento, enojado o feliz)
-       	Son maneras de mostrar tu cara
-       	Son (movimientos, reacciones, acciones) de tu cara",
-
-       	"respuesta2": "Movimientos; Acciones; Actos
-       	Algo que hacer; Los haces
-       	[Demuestra gestualmente el llanto y la sonrisa]"
-
-       	},{
-
-       	"pregunta": "¿En qué se parecen el PRIMERO y el ÚLTIMO?",
-
-       	"respuesta0": "Una respuesta que indique que ambos son extremos, extremos de posición o posiciones en una serie. Ambos/ Los dos:
-       	Son extremos; (Posiciones, ubicaciones) extremas
-       	Son puntos (extremos, límites); Puntos límites en una secuencia de números
-       	Extremos de (un orden, una serie, unalínea, una fila, escala)
-       	(Posiciones, ubicaciones) en una (series, secuencia)
-       	(Posiciones, ubicaciones) exactamente opuestas; Lugares opuestos en una serie
-       	Forman parte de una secuencia cronológica",
-
-       	"respuesta1": "Ambos/ Los dos:
-       	Finales en cada extremo
-       	Son rangos; Posiciones; Ubicaciones; Clasificaciones; Lugares
-       	Órdenes; Poner las cosas en orden; Representan orden
-       	En una secuencia; Tienen que ver con una secuencia
-       	Posiciones; Posiciones en (una carrera, un juego, un concurso)
-       	Lugares en (una competencia, un deporte, una maratón, una línea)
-       	Puntos en (el tiempo, una línea, una carrera); Puntos designados
-       	En una escala; Parte de una escala numérica",
-
-       	"respuesta2": "Puntos
-       	En una línea
-       	En orden numérico
-       	Tiene que ver con (un nombre, el tiempo)
-       	Números
-       	Competencia; Carrera
-       	Muestran donde (estás, está algo que permanece)
-       	Es tu turno
-       	Son el principio y la finalización de algo"
-
-       	},{
-
-       	"pregunta": "¿En qué se parecen una PINTURA y una ESTATUA?",
-
-       	"respuesta0": "Una respuesta que indique que ambas son obras, tipos, piezas, formas, clases o representaciones de arte.
-       	Ambas/ Las dos:
-       	Son formas de arte; (Pieza, tipos, trabajos, expresiones, figuras) de arte
-       	(Expresiones, creaciones) artísticas
-       	(Hechas, creadas) por artistas
-       	Arte creado por el hoombre
-       	(Obras, trabajos) creativos",
-
-       	"respuesta1": "Ambas/ Las dos:
-       	Son artísticas, creativas
-       	Son obras
-       	Son creaciones; Hechas por el hombre; Las haces
-       	(Formas, tipos, maneras) de expresión
-       	Expresan (ideas, emociones, sentimientos)
-       	Son símbolos; Simbólicas
-       	(Representan, conmemoran) algo
-       	Pueden estar en un museo; Pueden ser obras maestras",
-
-       	"respuesta2": "Expresiones; Sentimientos; Imágenes
-       	Las (pintas, dibujas, haces)
-       	Muestran (personas, historias, figuras, dibujos, decorados)
-       	Se coleccionan; Se compran
-       	Antigüedades; Tesoros
-       	Son adornos; Sirven para decorar
-       	Pinturas; Dibujos; Esculturas; Retratos
-       	Cosas que ves; Puedes mirarlas"
-
-       	},{
-
-        "pregunta": "¿En qué se parecen la SAL y el AGUA?",
-
-        "respuesta0": "Una respuesta que indique que ambas son necesarias para la vida o que son compuestos químicos.
-        Ambas/ Las dos:
-        Se necesitan para vivir
-        Son compuestos químicos
-        Son necesarias para el cuerpo; Son esenciales para el cuuerpo
-        Son buenas para el cuerpo",
-
-        "respuesta1": "Ambas/ Las dos:
-        Son compuestos; Compuestos físicos
-        Tienen (elementos, moléculas)
-        La gente las consume; Son comestibles; Se usan para comer
-        El mar tiene a las dos juntas
-        Tienen (minerales, nutrientes)
-        Son sustancias (naturales); Creadas por la naturaleza
-        Se encuentran en el océano; Forman parte del mar
-        Materiales para cocinar; Se usan como ingredientes
-        El cuerrpo transpira el agua y la sal
-        Son factores abióticos",
-
-        "respuesta2": "Son (recursos, sustancias, naturales)
-        Se usan para la (hidratación, cristalización)
-        (Compuestos, sustancias) orgánicos/as, científicos/as
-        Se disuelven; Pueden disolver cosas
-        Están sobre la mesa"
-
-        },{
-
-        "pregunta": "¿En qué se parecen una INUNDACIÓN y una SEQUÍA?",
-
-        "respuesta0": "Una respuesta que indique que ambas son fenómenos meteorológicos extremos relacionados con el agua.
-        Ambas/ Las dos:
-        Son desastres naturales relacionados con el agua
-        Clima severo; Tragedias climáticas
-        Son causados por (el clima, la naturaleza, el agua)
-        Formas extremas (del clima, la naturaleza, el tiempo) relacionados con el agua
-        (Actos, Fuerzas) de la naturaleza relacionados con el agua
-        Situaciones extremas (del clima, del agua)",
-
-        "respuesta1": "Ambas/ Las dos:
-        Son desastres naturales
-        Tienen que ver con (la lluvia, las precipitaciones)
-        Son (accidentes, problemas) relacionados con (el agua, la lluvia)
-        Son (condiciones, patrones) climáticos
-        Están relacionados con (el clima, el tiempo)
-        Causan (devastación, destrucción, desastres, tragedias)
-        Arruinan (las cosechas, los cultivos)
-        Afectan a (la gente, la tierra, la naturaleza)
-        (Condiciones, estados) de la tierra",
-
-        "respuesta2": "Situaciones extremas
-        Causadas por mucha cantidad de algo
-        Relacionadas con el agua
-        Producen (tragedias, prooblemas, difiicultades)
-        Son dañinas; Peligrosas
-        Son estacionales
-        Vienen con las estacones del año
-        Las estaciones del año"
-
-        },{
-
-        "pregunta": "¿En qué se parecen el PERMISO y la PROHIBICIÓN?",
-
-        "respuesta0": "Una respuesta que indique que ambas son normas que pautan los grados de libertad del comportamiento hummano.
-        Ambas/ Las dos:
-        Son métodos de control; Formas de controlar el comportamiento
-        Establecen límites sobre (lo que se puede hacer, cómo tienes que comportarte)
-        Son (pautas, parámetros, estándares) que guían el comportamiento
-        Normas a seguir
-        Son (reglas, regulaciones); Pautan grados de libertad
-        Son (estados, situaciones, condiciones) de (aprobación, autorización, posibilidad) de la conducta",
-
-        "respuesta1": "Ambas/ Las dos:
-        Son medidas de disciplina
-        Tienen que ver con la (autoridad, el control)
-        Leyes
-        Órdenes; Instrucciones; Mandatos
-        Expectativas de lo que uno debe hacer; Establecen expectativas
-        Estándares
-        Relacionado con (el comportamiento, la conducta, los actos)
-        Consecuencias del comportamiento
-        Te permiten que hagas cosas; Puedes hacer tus cosas (se enfatiza el permiso)
-        Restricciones. Limitan las actividades; Impide hacer tus cosas; Ponen límites (se enfatiza la restricción)",
-
-        "respuesta2": "Son dadas por los (padres, maestros, adultos)
-        Algo que está aprobado; Cosas que te mandan o dan
-        Necesario para la sociedad
-        No se puede tener una sin la otra
-        Cosas que (te ganas, pides)
-        Cosas que (puedes y no puedes) hacer"
-
-        },{
-
-        "pregunta": "¿En qué se parecen la TEMPERATURA y la LONGITUD?",
-
-        "respuesta0": "Una respuesta que indique que ambas son clases de medida o de medición.
-        Ambas/ Las dos:
-        Tienen unidades de medida; Tienen que ver con la medición; Se miden en número, Diferentes tipos de medida
-        Clases de (sistemas, tipos) de (medición, medida); Son maneras de medir algo",
-
-        "respuesta1": "Ambas/ Las dos:
-        Dan una cantidad exacta
-        Miden algo; Tienen cantidad
-        Tienen números para decir la cantidad
-        Son escalas. Pueden representarse en una escala
-        Cantidades
-        Tienen algo que ver con el tamaño",
-
-        "respuesta2": "Toda referencia a (fiebre, enfermedad)
-        Toda referencia a otro tipo de medida (por ejemplo, velocidad)
-        Dicen cuanto es algo
-        Medida en grados
-        Las dos (se elevan, se estiran, se extienden, se expanden)
-        Ambas (dan el largo, dan la distancia)
-        Ambas dan números"
-
-        },{
-
-        "pregunta": "¿En qué se arecen la VENGANZA y el PERDÓN?",
-
-        "respuesta0": "Una respuesta que indique que ambas son formas de reaccionar ante un agravio, ofensa o daño infligido por otro.
-        Ambos/ Los dos:
-        (Son elecciones que haces, cosas que puedes hacer) cuando alguien te hace algo malo
-        Formas de (afrontar, manejar, enfrentar, reaccionar frente a) los problemas
-        Soluciones que le puedes dar a los problemas que te causa alguien
-        Reacciones frente (al enojo, el sentirse herido, a la pelea, a las cosas que ofenden)",
-
-        "respuesta1": "Ambos/ Los dos:
-        Son decisiones, Elecciones, Opciones
-        Tipos de soluciones
-        Formas de reaccionar; Reacciones
-        Actos; Acciones
-        Cosas que puedes (dar, hacer) con alguien
-        Cuando te sientes herido",
-
-        "respuesta2": "Sentimientos; Emociones
-        Pensamientos; Actitudes; Expresiones
-        Tienen que ver contigo y otra persona
-        Elecciones humanas"
-
-        },{
-
-        "pregunta": "¿En qué se parecen el ESPACIO y el TIEMPO?",
-
-        "respuesta0": "Una respuesta que indique que ambas son dimensiones interdependientes, continuas y relativas que permiten el estudio de la posición y el movimiento de los cuerpos.
-        Ambos/ Los dos:
-        Son dimensiones relativas; Partes de un continuo
-        Son variables relativas que permiten el estudio de posición y movimiento de los cuerpos
-        Determinan la posición y movimiento de los objetos
-        Dimensiones; Dimensiones abstractas",
-
-        "respuesta1": "Ambos/ Los dos:
-        Se miden; Son medidos
-        Señalan (el transcurso, los períodos) de la vida humana
-        Componen nuestra existencia
-        Se ven afectados por la (relatividad, gravedad, masa)
-        Son infinitos; Ninguno es absoluto
-        Cosas que se acaban
-        Cosas por las que estamos limitados
-        Son abstractos; No son físicos; No pueden verse o tocarse
-        Nos (movemos, viajamos) a través de ambas",
-
-        "respuesta2": "Son (inevitables, constantes)
-        Son incontrolables; Inevitable; Algo que no podemos cambiar
-        Se mueven; Están involucrados con el movimiento
-        Ambos (se usan, llenan, aumentan)
-        Fuerza, Materia
-        Son parte de (la ciencia la física)
-        Están en el universo; Maravillas naturales
-        Desconocidos
-        Vuelas a través de ambos
-        Grande; Chico; Rápidos; Largo"
-
-        },{
-
-        "pregunta": "¿En qué se parecen el SUEÑO y la VIGILIA?",
-
-        "respuesta0": "Una respuesta que indique que ambos son estados de la conciencia, del funcioamiento del Sistema Nervioso Central.
-        Ambos/ Los dos:
-        Son estados de conciencia; Estados cíclicos del organismo
-        (Ciclos, períodos) de la actividad del sistema nervioso
-        Estados funcionales periódicos del organismo
-        Estados cíclicos de la actividad motora y la reactividad sensorial
-        Diferentes estados de la actividad neurológica",
-
-        "respuesta1": "Ambos/ Los dos:
-        Son funciones del (cuerpo, organismo, sistema nervioso)
-        Son estados mentales
-        Son posiciones de la mente
-        Son diferentes estados mentales",
-
-        "respuesta2": "Son neurológicos
-        Estar dormido o despierto
-        Somnolencia; Modorra; Insomnio"
-        }
-
+       	"respuesta2": "Construcción / Productos naturales; Elementos de la tierra / Cosas que se pueden usar / Son (duras, pesadas, sólidas, fuertes, apilables); Hechas por el hombre; Ásperas"
 
        	}
-
 	 ]
 }
