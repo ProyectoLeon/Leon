@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.AdministradorJuegos;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -193,6 +195,8 @@ public class BqSimbolosActivity extends AppCompatActivity {
             //respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
+            //Este metodo se tiene que llamar antes de salir del juego
+            AdministradorJuegos.getInstance().guardarJuego(cantCorrectas,null,this);
             Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
             BqSimbolosActivity.this.startActivity(mainIntent);
             BqSimbolosActivity.this.finish();

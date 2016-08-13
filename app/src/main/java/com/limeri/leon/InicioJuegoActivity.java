@@ -30,13 +30,10 @@ public class InicioJuegoActivity extends AppCompatActivity {
             evaluacion = new Evaluacion(paciente);
             paciente.agregarEvaluacion(evaluacion);
         }
-        if (evaluacion.realizoAlgunJuego()) {
-            juego = AdministradorJuegos.getInstance().getJuegoSiguiente(evaluacion.getUltimoJuego());
-        } else {
-            juego = AdministradorJuegos.getInstance().getJuegoInicial();
-        }
 
-        ((TextView) findViewById(R.id.siguienteJuego)).setText("Siguiente Juego: " + juego.getNombre());
+        juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
+
+        ((TextView) findViewById(R.id.juego)).setText(juego.getNombre());
 
         findViewById(R.id.buttonStart).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,8 +15,7 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -149,12 +148,7 @@ public class MatricesActivity extends Activity {
     }
 
     private void guardar() {
-        Paciente paciente = Paciente.getmSelectedPaciente();
-        Juego juego = paciente.getEvaluacion().getJuegoActual();
-        juego.setPuntosJuego(puntosJuego);
-        juego.setPuntosNiveles(puntos);
-        juego.finalizar();
-        Paciente.saveCuenta(MatricesActivity.this, paciente);
+        AdministradorJuegos.getInstance().guardarJuego(puntosJuego,puntos,this);
         volver();
     }
 

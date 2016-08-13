@@ -20,6 +20,17 @@
         android:layout_centerHorizontal="false"
         android:layout_marginTop="30dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Siguiente Juego"
+        android:id="@+id/juego"
+        android:textSize="26dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="false"
+        android:layout_below="@+id/siguienteJuego"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

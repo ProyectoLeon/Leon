@@ -1,5 +1,7 @@
 package com.limeri.leon.Models.Juegos;
 
+import com.limeri.leon.common.Estados;
+
 import java.util.Map;
 
 public class Juego {
@@ -7,7 +9,7 @@ public class Juego {
     private String nombre;
     private String categoria;
     private Integer puntos = 0;
-    private Boolean finalizado = false;
+    private Estados estado = Estados.CREADO;
     private Map<Integer, Integer> puntosNiveles;
     private String nombreActividad;
 
@@ -38,18 +40,18 @@ public class Juego {
     }
 
     public Boolean isFinalizado() {
-        return finalizado;
+        return estado == Estados.FINALIZADO;
     }
 
     public void finalizar() {
-        finalizado = true;
+        estado = Estados.FINALIZADO;
     }
 
     public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public Boolean isCancelado() {
+        return estado == Estados.CANCELADO;
     }
 }

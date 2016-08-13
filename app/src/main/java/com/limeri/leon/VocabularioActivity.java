@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.JSONLoader;
@@ -197,11 +198,8 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        //Paciente paciente = Paciente.getmSelectedPaciente();
-        //Juego juego = paciente.getEvaluacion().getJuegoActual();
-        //juego.setPuntosJuego(puntaje);
-        //juego.finalizar();
-        //Paciente.saveCuenta(VocabularioActivity.this, paciente);
+        //Este metodo se tiene que llamar antes de salir del juego
+        AdministradorJuegos.getInstance().guardarJuego(puntaje,null,this);
         volver();
     }
 

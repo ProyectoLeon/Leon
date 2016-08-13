@@ -1,5 +1,6 @@
 package com.limeri.leon.Models;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.limeri.leon.Models.Juegos.Juego;
@@ -47,7 +48,6 @@ public class AdministradorJuegos {
                 JSONObject jsonJuego = jsonArray.getJSONObject(i);
                 JuegoWisc juego = new JuegoWisc();
                 juego.nombre = jsonJuego.getString("nombre");
-                juego.clase = jsonJuego.getString("clase");
                 juego.categoria = jsonJuego.getString("categoria");
                 juego.activity = jsonJuego.getString("activity");
                 juego.alternativo = jsonJuego.getBoolean("alternativo");
@@ -64,27 +64,30 @@ public class AdministradorJuegos {
         }
     }
 
-    public Juego getJuegoSiguiente(Juego juego) {
+    public Juego getSiguienteJuego(Juego juego) {
         Juego siguiente = null;
-        Boolean anterior = false;
-        for (String categoria : categorias) {
-            if (anterior) {
-                JuegoWisc juegoWisc = juegosWisc.get(categoria).get(0);
-                siguiente = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
-                break;
-            } else if (categoria.equals(juego.getCategoria())) {
-                anterior = true;
+        if (!isUltimaCategoria(juego.getCategoria())) {
+            String categoria = categorias.get(categorias.indexOf(juego.getCategoria()) + 1);
+            for (JuegoWisc juegoWisc : juegosWisc.get(categoria)) {
+                if (!juegoWisc.alternativo) {
+                    siguiente = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                    break;
+                }
             }
         }
         return siguiente;
     }
 
-    public Juego getJuegoInicial() {
+    private Boolean isUltimaCategoria(String categoria) {
+        return categorias.indexOf(categoria) == categorias.size() - 1;
+    }
+
+    private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(categorias.get(0)).get(0);
         return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
     }
 
-    public Juego getJuegoAlternativo(Juego juego) {
+    private Juego getJuegoAlternativo(Juego juego) {
         Juego juegosAlt = null;
         Boolean anterior = false;
         for (JuegoWisc juegoWisc : juegosWisc.get(juego.getCategoria())) {
@@ -97,13 +100,48 @@ public class AdministradorJuegos {
         return juegosAlt;
     }
 
+    public void guardarJuego(Integer puntosJuego, Map<Integer, Integer> puntosNiveles, Activity activity) {
+        Paciente paciente = Paciente.getmSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacion();
+        Juego juego = evaluacion.getJuegoActual();
+        juego.setPuntosJuego(puntosJuego);
+        juego.setPuntosNiveles(puntosNiveles);
+        juego.finalizar();
+        if (isUltimoJuego(juego)) {
+            evaluacion.finalizar();
+        }
+        Paciente.saveCuenta(activity, paciente);
+    }
+
+    private Boolean isUltimoJuego(Juego juego) {
+        return juego.getCategoria().equals(getUltimaCategoria());
+    }
+
+    private String getUltimaCategoria() {
+        return categorias.get(categorias.size() - 1);
+    }
+
     public static void setContext(Context context) {
         applicationContext = context;
     }
 
+    public Juego getSiguienteJuego(Evaluacion evaluacion) {
+        Juego juego = null;
+        if (evaluacion.tieneJuegos()) {
+            Juego ultimoJuego = evaluacion.getUltimoJuego();
+            if (!ultimoJuego.isCancelado()) {
+                juego = getSiguienteJuego(ultimoJuego);
+            } else {
+                juego = getJuegoAlternativo(ultimoJuego);
+            }
+        } else {
+            juego = getJuegoInicial();
+        }
+        return juego;
+    }
+
     class JuegoWisc {
         public String nombre;
-        public String clase;
         public String categoria;
         public String activity;
         public Boolean alternativo;

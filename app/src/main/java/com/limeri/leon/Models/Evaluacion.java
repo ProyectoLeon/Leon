@@ -1,7 +1,7 @@
 package com.limeri.leon.Models;
 
 import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.common.EstadosEvaluacion;
+import com.limeri.leon.common.Estados;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class Evaluacion {
 
     private Paciente paciente;
-    private EstadosEvaluacion estado = EstadosEvaluacion.CREADA;
+    private Estados estado = Estados.CREADO;
     private List<Juego> juegos = new ArrayList<>();
 
     public Evaluacion(Paciente paciente) {
@@ -25,7 +25,7 @@ public class Evaluacion {
     }
 
     public Boolean isFinalizada() {
-        return estado == EstadosEvaluacion.FINALIZADA;
+        return estado == Estados.FINALIZADO;
     }
 
     public Juego getUltimoJuego() {
@@ -51,7 +51,11 @@ public class Evaluacion {
         juegos.add(juego);
     }
 
-    public Boolean realizoAlgunJuego() {
+    public Boolean tieneJuegos() {
         return !juegos.isEmpty();
+    }
+
+    public void finalizar() {
+        estado = Estados.FINALIZADO;
     }
 }
