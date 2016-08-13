@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,11 +42,12 @@ public class BqSimbolosActivity extends AppCompatActivity {
     private String respuesta;
     private ImageView imagesimbolo;
     private String respuestaSeleccionada = "";
-    private int nivel = 1;
+    private int nivel = 0;
     private int cantIncorrectas = 0;
     private int cantCorrectas = 0;
     private String jsonString;
     private int puntaje;
+    private Chronometer crono;
 
 
     @Override
@@ -93,6 +96,10 @@ public class BqSimbolosActivity extends AppCompatActivity {
         //Cancelar juego - Finaliza aqui
 
         //Llamo una funcion que se encarga de leer el archivo JSON
+        crono = (Chronometer) findViewById(R.id.cronometro);
+        crono.setBase(SystemClock.elapsedRealtime());
+        crono.start();
+
         leerJson();
 
     }
@@ -101,7 +108,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
         Writer writer = new StringWriter();
 
-        if (nivel == 1) {
+        if (nivel == 0) {
             InputStream is = getResources().openRawResource(R.raw.busquedasimbolos);
 
             char[] buffer = new char[1024];
@@ -137,7 +144,8 @@ public class BqSimbolosActivity extends AppCompatActivity {
             //Get the instance of JSONArray that contains JSONObjects
             JSONArray jsonArray = jsonRootObject.getJSONArray("simbolos");
 
-            if (nivel > jsonArray.length()+1){
+            if (nivel > jsonArray.length()){
+                guardar();
                 Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
                 BqSimbolosActivity.this.startActivity(mainIntent);
                 BqSimbolosActivity.this.finish();
@@ -158,38 +166,53 @@ public class BqSimbolosActivity extends AppCompatActivity {
             respuestaSi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (respuesta == "true"){
+                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
+                    if (elapsedMillis/1000 < 120) {
+                        if (respuesta.equals("true")){
                         cantCorrectas ++;
                     } else {
                         cantIncorrectas ++;
                     };
                     nivel++;
-                    try {
-                        leerJson();
-                    } catch (Exception ex) {
-                        Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-                        BqSimbolosActivity.this.startActivity(mainIntent);
-                        BqSimbolosActivity.this.finish();
-                    }
-                }});
+                        try {
+                            leerJson();
+                        } catch (Exception ex) {
+                            Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
+                            BqSimbolosActivity.this.startActivity(mainIntent);
+                            BqSimbolosActivity.this.finish();
+                        }
+                    }else{
+                    guardar(); }
+
+                    }});
             respuestaNo = (Button) findViewById(R.id.buttonNo);
             respuestaNo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (respuesta == "true"){
-                        cantCorrectas ++;
+                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
+                    if (elapsedMillis/1000 < 120) {
+                        if (respuesta.equals("false")) {
+                        cantCorrectas++;
                     } else {
-                        cantIncorrectas ++;
-                    };
+                        cantIncorrectas++;
+                    }
+                    ;
                     nivel++;
-                    try {
-                        leerJson();
-                    } catch (Exception ex) {
-                        Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-                        BqSimbolosActivity.this.startActivity(mainIntent);
-                        BqSimbolosActivity.this.finish();
-                    }}
-            });
+                        try {
+                            leerJson();
+                        } catch (Exception ex) {
+                            Intent mainIntent = new Intent(BqSimbolosActivity.this, InicioJuegoActivity.class);
+                            BqSimbolosActivity.this.startActivity(mainIntent);
+                            BqSimbolosActivity.this.finish();
+                        }
+                    }else {
+                        guardar();
+                    }
+
+                }});
+
+
+
             //respuestas = (ListView) findViewById(R.id.respuestas);
             //respuestas.setOnItemClickListener(opcionSeleccionada());
             //respuestas.setAdapter(adapter);
@@ -204,6 +227,17 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
     }
 
+    private void guardar() {
+        int puntosJuego = cantCorrectas - cantIncorrectas;
+       // AdministradorJuegos.getInstance().guardarJuego(puntosJuego,null,this);
+        volver();
+    }
+
+    private void volver() {
+        Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
+        BqSimbolosActivity.this.startActivity(mainIntent);
+        BqSimbolosActivity.this.finish();
+    }
 
 
     }

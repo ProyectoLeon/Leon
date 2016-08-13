@@ -3,7 +3,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="fill_parent" android:layout_height="50dp"
+    android:layout_width="fill_parent" android:layout_height="55dp"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
@@ -13,15 +13,15 @@
 
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:id="@+id/boton_actionbar"
         android:background="@drawable/canc3"
         android:scaleX="0.5"
         android:scaleY="0.8"
         android:elegantTextHeight="false"
-        android:layout_marginRight="5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp" />
 </RelativeLayout>

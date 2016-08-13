@@ -2,9 +2,13 @@
 {
 	"simbolos": [
 	  {
-	  "pregunta": "1",
+	  "pregunta": "0",
 		"respuesta0": "true"
-	}, {
+	},
+	  {
+    	  "pregunta": "1",
+    		"respuesta0": "true"
+    	}, {
 		"pregunta": "2",
 		"respuesta0": "false"
 	}, {

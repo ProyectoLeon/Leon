@@ -204,7 +204,7 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void volver() {
-        Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
+        Intent mainIntent = new Intent(VocabularioActivity.this, InicioJuegoActivity.class);
         VocabularioActivity.this.startActivity(mainIntent);
         VocabularioActivity.this.finish();
     }

@@ -10,6 +10,11 @@ public class Evaluacion {
 
     private Paciente paciente;
     private Estados estado = Estados.CREADO;
+
+    public List<Juego> getJuegos() {
+        return juegos;
+    }
+
     private List<Juego> juegos = new ArrayList<>();
 
     public Evaluacion(Paciente paciente) {

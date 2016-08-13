@@ -232,7 +232,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void volver() {
-        Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
+        Intent mainIntent = new Intent(AdivinanzasActivity.this,InicioJuegoActivity.class);
         AdivinanzasActivity.this.startActivity(mainIntent);
         AdivinanzasActivity.this.finish();
     }
