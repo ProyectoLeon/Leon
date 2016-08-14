@@ -69,7 +69,7 @@ public class AdministradorJuegos {
         juego.finalizar();
         if (isUltimoJuego(juego)) {
             evaluacion.finalizar();
-            Navegacion.volver(activity, ValorExamenActivity.class);
+            Navegacion.irA(activity, ValorExamenActivity.class);
         }
         Paciente.saveCuenta(activity, paciente);
     }

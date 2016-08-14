@@ -23,7 +23,7 @@ public AdministradorJuegos administradorJuegos;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valor_examen);
 
-        Paciente paciente = Paciente.getmSelectedPaciente();
+        Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
         listaJuegos = evaluacion.getJuegos();
         List<String> llistadoPuntos = new ArrayList<>();
