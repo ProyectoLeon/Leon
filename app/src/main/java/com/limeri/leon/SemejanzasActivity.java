@@ -177,8 +177,8 @@ public class SemejanzasActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     guardarRespuesta();
+                    seleccion = null;
                 } catch (Exception ex) {
-                    if (seleccion != null) blanquear(seleccion);
                     return;
                 }
             }

@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         populateAutoComplete();
 
-        if(User.getUserEmail(getBaseContext()) != null) {
+        if (User.getUserEmail(getBaseContext()) != null) {
 
             mMatriculaView.setText(User.getUserEmail(getBaseContext()));
 
@@ -177,73 +177,73 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        // Check if the user entered a password
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_empty_password));
             focusView = mPasswordView;
             cancel = true;
-        }
+        } else {
 
-        //Check for a valid MATRICULA
-        String data = "";
-        boolean existeUser = false;
+            //Check for a valid MATRICULA
+            String data = "";
+            boolean existeUser = false;
 
-        try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+            try {
+                JSONObject jsonRootObject = new JSONObject(jsonString);
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
+                //Get the instance of JSONArray that contains JSONObjects
+                JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
 
-            //Iterate the jsonArray and print the info of JSONObjects
-            for(int i=0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                //Iterate the jsonArray and print the info of JSONObjects
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String nombreJson = jsonObject.getString("nombre");
-                String matriculaJson = jsonObject.getString("matricula");
-                String passwordJson = jsonObject.getString("contrasena");
-                String correoJson = jsonObject.getString("mail");
+                    String nombreJson = jsonObject.getString("nombre");
+                    String matriculaJson = jsonObject.getString("matricula");
+                    String passwordJson = jsonObject.getString("contrasena");
+                    String correoJson = jsonObject.getString("mail");
 
-                if (matriculaJson.equals(matricula))
-                {
-                    existeUser= true;
-                    if (!passwordJson.equals(password)){
-                        mPasswordView.setError(getString(R.string.error_invalid_password));
-                        focusView = mPasswordView;
-                        cancel = true;
-                }else
-                    {
-                        showProgress(true);
-                        mAuthTask = new UserLoginTask(matricula, password);
-                        mAuthTask.execute((Void) null);
-                        Profesional profesional = new Profesional();
-                        profesional.setNombre(nombreJson);
-                        profesional.setmCorreo(correoJson);
-                        profesional.setmMatricula(matriculaJson);
-                        profesional.setmPassword(passwordJson);
-                        Profesional.setProfesional(profesional);
-                        profesional.saveProfesional(LoginActivity.this,profesional);
-                        break;
+                    if (matriculaJson.equals(matricula)) {
+                        existeUser = true;
+                        if (!passwordJson.equals(password)) {
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            focusView = mPasswordView;
+                            cancel = true;
+                            break;
+                        } else {
+                            showProgress(true);
+                            mAuthTask = new UserLoginTask(matricula, password);
+                            mAuthTask.execute((Void) null);
+                            Profesional profesional = new Profesional();
+                            profesional.setNombre(nombreJson);
+                            profesional.setmCorreo(correoJson);
+                            profesional.setmMatricula(matriculaJson);
+                            profesional.setmPassword(passwordJson);
+                            Profesional.setProfesional(profesional);
+                            profesional.saveProfesional(LoginActivity.this, profesional);
+                            break;
+                        }
+                    } else {
+                        existeUser = false;
                     }
-                }else {
-                    existeUser= false;
+
                 }
 
+            } catch (JSONException e) {
+                return;
+            }
+            // Check for a valid email address.
+            if (TextUtils.isEmpty(matricula)) {
+                mMatriculaView.setError(getString(R.string.error_field_required));
+                focusView = mMatriculaView;
+                cancel = true;
             }
 
-        } catch (JSONException e) {
-          return;
-        }
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(matricula)) {
-            mMatriculaView.setError(getString(R.string.error_field_required));
-            focusView = mMatriculaView;
-            cancel = true;
-        }
-
-        if (!existeUser){
-            mMatriculaView.setError("Número de matricula inexistente");
-            focusView = mMatriculaView;
-            cancel = true;
+            if (!existeUser) {
+                mMatriculaView.setError("Número de matricula inexistente");
+                focusView = mMatriculaView;
+                cancel = true;
+            }
         }
 
         if (cancel) {
@@ -257,11 +257,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(matricula, password);
             mAuthTask.execute((Void) null);
         }
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
     }
 
     /**
@@ -412,12 +407,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public  void login(String eMail) {
+    public void login(String eMail) {
         try {
             Paciente.loadCuentas(this);
 
             User.saveUserEmail(getBaseContext(), eMail);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
 
         }
 
