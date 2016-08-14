@@ -69,6 +69,9 @@ public class InformacionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(InformacionActivity.this)
+                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
@@ -98,7 +101,7 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-
+//TODO: Que lo haga solo una vez, no cuando solo es nivel 5.
         if (nivel == 5) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
         }
@@ -138,7 +141,6 @@ public class InformacionActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
                     cantConsec = 0;
@@ -169,7 +171,6 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (nivel == longArray){
             guardar();

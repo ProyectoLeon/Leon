@@ -43,6 +43,9 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(FiguraIncompletaActivity.this)
+                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                        // TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione alguna opción")
                         .setPositiveButton("Guardar y finalizar", new DialogInterface.OnClickListener() {
@@ -68,6 +71,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
 
     }
 
+    //TODO: Lógica del JUEGO - Iteración 3
     private void guardar() {
         try {
             AdministradorJuegos.getInstance().guardarJuego(puntaje, this);

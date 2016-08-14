@@ -65,6 +65,9 @@ public class BqSimbolosActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                 new AlertDialog.Builder(BqSimbolosActivity.this)
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
@@ -114,10 +117,9 @@ public class BqSimbolosActivity extends AppCompatActivity {
             if (nivel > jsonArray.length()){
                 guardar();
             }
-            //Iterate the jsonArray and print the info of JSONObjects
-            //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
-
+//TODO: Corregir la lectura del JSON que arranca de FILA 0 y nivelarlo con los niveles del protocolo que empiezan en 1.
+            //Por eso en el primer nivel no se muestra imagen.
             pregunta = (jsonObject.getString("pregunta").toString());
             respuesta = (jsonObject.optString("respuesta0").toString());
 
@@ -173,10 +175,6 @@ public class BqSimbolosActivity extends AppCompatActivity {
                 }});
 
 
-
-            //respuestas = (ListView) findViewById(R.id.respuestas);
-            //respuestas.setOnItemClickListener(opcionSeleccionada());
-            //respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
             //Este metodo se tiene que llamar antes de salir del juego

@@ -67,6 +67,9 @@ public class ComprensionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(ComprensionActivity.this)
+                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
@@ -109,8 +112,6 @@ public class ComprensionActivity extends AppCompatActivity {
             //Get the instance of JSONArray that contains JSONObjects
             JSONArray jsonArray = jsonRootObject.getJSONArray("comprension");
 
-            //Iterate the jsonArray and print the info of JSONObjects
-            //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
@@ -138,7 +139,6 @@ public class ComprensionActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
                 if (position == 2){
                     cantIncorrectas++;
                 } else if (position == 1) {
@@ -172,14 +172,10 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
+        //ESTE JUEGO NO TIENE RETROGRESIÓN
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
             guardar();
-            // }  else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-          //  nivel = 4;
-        // } else if (cantConsec == 2) {
-          //  nivel = 5;
         } else {
             nivel++;
         }

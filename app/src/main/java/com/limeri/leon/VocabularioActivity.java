@@ -57,6 +57,9 @@ public class VocabularioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(VocabularioActivity.this)
+                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
@@ -86,7 +89,6 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-
         if (nivel == 0) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
         }
@@ -103,6 +105,7 @@ public class VocabularioActivity extends AppCompatActivity {
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             String pregunta = jsonObject.getString("pregunta").toString();
+//TODO: Corregir para cuando debe ser dibujo o pregunta según el nivel.
             if (nivel == 0) {
                 palabra.setVisibility(View.GONE);
                 imagen.setVisibility(View.VISIBLE);
@@ -136,7 +139,8 @@ public class VocabularioActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
+                //TODO: Corregir para identificar cuando hacer retrogresion.
+                // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
                 if (position == 2){
                     cantIncorrectas++;
                 } else if (position == 1) {

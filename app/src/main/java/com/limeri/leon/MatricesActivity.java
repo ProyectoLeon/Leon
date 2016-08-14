@@ -59,9 +59,6 @@ public class MatricesActivity extends AppCompatActivity {
     private boolean invertido;
     private int nivelErrado;
 
-    /**
-     * Called when the activity is first created.
-     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +87,9 @@ public class MatricesActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                 new AlertDialog.Builder(MatricesActivity.this)
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
@@ -147,7 +147,6 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
         int puntosNivel = 0;
         if (isCorrecta()) {
             cantIncorrectasSeguidas = 0;

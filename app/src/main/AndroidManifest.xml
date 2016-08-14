@@ -6,36 +6,37 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- TODO Aplicar para todos los activity para que no se vuelva a ejecutar el oncreate.
+    Depende del activity va android:screenOrientation="portrait"(or "landscape") to <activity> -->
+     <application
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+         <activity android:name=".LoginActivity">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+         <activity android:name=".MainActivity" />
+         <activity android:name=".InformacionActivity" />
+         <activity android:name=".MatricesActivity" />
+         <activity
+             android:name=".SelecPacienteActivity"
+             android:label="@string/title_activity_selec_paciente"
+             android:theme="@style/AppTheme" />
+         <activity android:name=".ExamenActivity" />
+         <activity android:name=".FiguraIncompletaActivity" />
+         <activity android:name=".AdivinanzasActivity" />
+         <activity android:name=".BqSimbolosActivity" />
+         <activity android:name=".InicioJuegoActivity" />
+         <activity android:name=".VocabularioActivity" />
+         <activity android:name=".ComprensionActivity" />
+         <activity android:name=".SemejanzasActivity"></activity>
+         <activity android:name=".ValorExamenActivity"></activity>
+     </application>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".InformacionActivity" />
-        <activity android:name=".MatricesActivity" />
-        <activity
-            android:name=".SelecPacienteActivity"
-            android:label="@string/title_activity_selec_paciente"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".ExamenActivity" />
-        <activity android:name=".FiguraIncompletaActivity" />
-        <activity android:name=".AdivinanzasActivity" />
-        <activity android:name=".BqSimbolosActivity" />
-        <activity android:name=".InicioJuegoActivity" />
-        <activity android:name=".VocabularioActivity" />
-        <activity android:name=".ComprensionActivity" />
-        <activity android:name=".SemejanzasActivity"></activity>
-        <activity android:name=".ValorExamenActivity"></activity>
-    </application>
-
-</manifest>
+ </manifest>

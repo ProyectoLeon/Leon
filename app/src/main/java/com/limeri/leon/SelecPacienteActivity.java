@@ -35,10 +35,9 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//TODO: Validar porque ONCREATE se carga dos veces
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec_paciente);
-        //   Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
 
         pacientes = (ListView) findViewById(R.id.listPacientes);
         Button btnAdd = (Button) findViewById(R.id.buttonAddPaciente);
@@ -208,7 +207,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 pacientes.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pacientes.invalidateViews();
-
+//TODO: Validar el guardado del paciente
                 Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
 
                 try {
@@ -302,8 +301,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //POPUP PARA EDITAR DATOS PROFESIONAL
-
+    //TODO: Cambiar los tipos de datos. Que sea DNI solo numérico y fecha de nacimiento campo fecha.
     private void showDialog_Prof() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -361,9 +359,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     profesional.setmMatricula(mProfMatricula);
 
                     Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
-                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
-
-//                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
+                    //TODO: Validar la actualización de guardar profesional;
 
                     try {
 

@@ -63,6 +63,9 @@ public class SemejanzasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(SemejanzasActivity.this)
+                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+                        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+
                         .setTitle("Popup")
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {

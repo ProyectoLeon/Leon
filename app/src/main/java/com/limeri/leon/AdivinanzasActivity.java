@@ -63,6 +63,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         Button boton =(Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
+   //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
+        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,11 +106,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
-            //Get the instance of JSONArray that contains JSONObjects
             JSONArray jsonArray = jsonRootObject.getJSONArray("adivinanzas");
 
-            //Iterate the jsonArray and print the info of JSONObjects
-            //for(int i=0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
@@ -135,7 +134,6 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
                 respuestaSeleccionada = seleccion.getText().toString();
-                //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
                 } else {
@@ -166,14 +164,10 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
             guardar();
-        // } else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-        //    nivel = 4;
-        //} else if (cantConsec == 2) {
-        //    nivel = 5;
+        // RETROGRESION NO TIENE ESTE JUEGO
         } else {
             nivel++;
         }
