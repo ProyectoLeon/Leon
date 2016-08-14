@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView txtPaciente = (TextView) findViewById(R.id.txtPaciente);
 
-        if(Paciente.getmSelectedPaciente() != null) {
-            txtPaciente.setText(txtPaciente.getText().toString() + Paciente.getmSelectedPaciente().getNombreCompleto());
+        if(Paciente.getSelectedPaciente() != null) {
+            txtPaciente.setText(txtPaciente.getText().toString() + Paciente.getSelectedPaciente().getNombreCompleto());
         }
 
         ActionBar AB = getSupportActionBar();
@@ -46,17 +47,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonTest).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIntent = new Intent(MainActivity.this, InicioJuegoActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
+                Navegacion.irA(MainActivity.this, InicioJuegoActivity.class);
             }
         });
         findViewById(R.id.buttonJuegos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIntent = new Intent(MainActivity.this, ExamenActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
+                Navegacion.irA(MainActivity.this, ExamenActivity.class);
             }
         });
         buttonEditarPaciente = (Button) findViewById(R.id.buttonEditarPaciente);
@@ -78,10 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        Intent mainIntent = new Intent(MainActivity.this, SelecPacienteActivity.class);
-        MainActivity.this.startActivity(mainIntent);
-        MainActivity.this.finish();
+        Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
     }
 
 
@@ -95,15 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_paciente: {
-                Intent mainIntent = new Intent(MainActivity.this, SelecPacienteActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
+                Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
                 break;
             }
             case R.id.action_signout:{
-                Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
+                Navegacion.irA(MainActivity.this, LoginActivity.class);
                 break;
             }
         }
@@ -126,18 +116,14 @@ public class MainActivity extends AppCompatActivity {
         final EditText input3 = (EditText) viewInflated.findViewById(R.id.inputDNI);
         final EditText input4 = (EditText) viewInflated.findViewById(R.id.inputFechaNac);
 
-        input.setText(Paciente.getmSelectedPaciente().getNombre());
-        input2.setText(Paciente.getmSelectedPaciente().getApellido());
-        input3.setText(Paciente.getmSelectedPaciente().getmDNI());
-        input4.setText(Paciente.getmSelectedPaciente().getmFechaNac());
-
-        final List<Paciente> mPacientes = Paciente.getCuentas();
+        input.setText(Paciente.getSelectedPaciente().getNombre());
+        input2.setText(Paciente.getSelectedPaciente().getApellido());
+        input3.setText(Paciente.getSelectedPaciente().getDni());
+        input4.setText(Paciente.getSelectedPaciente().getFechaNac());
 
         builder.setView(viewInflated);
 
-
         // Set up the buttons
-
         builder.setPositiveButton("Actualizar datos paciente", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -148,36 +134,22 @@ public class MainActivity extends AppCompatActivity {
                 mDNI = input3.getText().toString();
                 mFechaNac = input4.getText().toString();
 
-                Paciente paciente = Paciente.getmSelectedPaciente();
-                Paciente.borrarCuentaBase(MainActivity.this,paciente);
-
+                Paciente paciente = Paciente.getSelectedPaciente();
 
                 paciente.setApellido(mApellido);
                 paciente.setNombre(mNombre);
-                paciente.setmDNI(mDNI);
-                paciente.setmFechaNac(mFechaNac);
+                paciente.setDni(mDNI);
+                paciente.setFechaNac(mFechaNac);
 
                 Paciente.saveCuenta(MainActivity.this, paciente);
-                //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
-
-//                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
-
-                try {
-
-
-                } catch (Exception ex) {
-                    Log.d("Fullfill", "Fullfill error" + ex.toString());
-                }
-
-                // callAdapter();
             }
         });
+
         builder.setNegativeButton("Eliminar paciente", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Paciente paciente = Paciente.getmSelectedPaciente();
-                Paciente.borrarCuentaBase(MainActivity.this,paciente);
-                Paciente.borrarCuenta(paciente);
+                Paciente paciente = Paciente.getSelectedPaciente();
+                Paciente.borrarCuenta(MainActivity.this, paciente);
                 Paciente.borrarSelectedPaciente();
                 dialog.cancel();
                 Intent mainIntent = new Intent(MainActivity.this, SelecPacienteActivity.class);
@@ -186,8 +158,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         dialog = builder.create();
 
@@ -200,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.RIGHT);
+            button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
         }
@@ -210,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         if (button2 != null) {
             button2.setBackgroundColor(getResources().getColor(R.color.black));
             button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.LEFT);
+            button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
         }
@@ -220,12 +190,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
- //POPUP PARA EDITAR DATOS PROFESIONAL
+    //POPUP PARA EDITAR DATOS PROFESIONAL
 
     private void showDialog_Prof() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
 
         // I'm using fragment here so I'm using getView() to provide ViewGroup
         // but you can provide here any other instance of ViewGroup from your Fragment / Activity
@@ -245,59 +214,45 @@ public class MainActivity extends AppCompatActivity {
         password.setText(Profesional.getProfesional().getmPassword());
         correo.setText(Profesional.getProfesional().getmCorreo());
 
-
         builder.setView(viewInflated);
 
-
         // Set up the buttons
-
         builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            dialog.dismiss();
 
-                mProfPassword = password.getText().toString();
-                mProfCorreo = correo.getText().toString();
-                mProfNombre = nombre.getText().toString();
-                mProfMatricula = matricula.getText().toString();
+            mProfPassword = password.getText().toString();
+            mProfCorreo = correo.getText().toString();
+            mProfNombre = nombre.getText().toString();
+            mProfMatricula = matricula.getText().toString();
 
-                if (confPassword.getText().toString().isEmpty()) {
-                    confPassword.setError("Repita contraseña");
-                } else if (!password.getText().toString().equals(confPassword.getText().toString()))
-                {
-                    password.setError("Contraseñas no coinciden");
-                    confPassword.setError("Contraseñas no coinciden");
-                }else {
+            if (confPassword.getText().toString().isEmpty()) {
+                confPassword.setError("Repita contraseña");
+            } else if (!password.getText().toString().equals(confPassword.getText().toString()))
+            {
+                password.setError("Contraseñas no coinciden");
+                confPassword.setError("Contraseñas no coinciden");
+            }else {
 
-                    Profesional profesional = Profesional.getProfesional();
-                    Profesional.borrarCuentaBase(MainActivity.this, profesional);
+                Profesional profesional = Profesional.getProfesional();
+                Profesional.borrarCuentaBase(MainActivity.this, profesional);
 
-                    // Profesional profesional = new Profesional();
-                    profesional.setNombre(mProfNombre);
-                    profesional.setmCorreo(mProfCorreo);
-                    profesional.setmPassword(mProfPassword);
-                    profesional.setmMatricula(mProfMatricula);
+                // Profesional profesional = new Profesional();
+                profesional.setNombre(mProfNombre);
+                profesional.setmCorreo(mProfCorreo);
+                profesional.setmPassword(mProfPassword);
+                profesional.setmMatricula(mProfMatricula);
 
-                    Profesional.saveProfesional(MainActivity.this, profesional);
-                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
-
-//                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
-
-                    try {
-
-
-                    } catch (Exception ex) {
-                        Log.d("Fullfill", "Fullfill error" + ex.toString());
-                    }
-                }
-                // callAdapter();
+                Profesional.saveProfesional(MainActivity.this, profesional);
+            }
+            // callAdapter();
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                return;
+            dialog.cancel();
 
             }
         });
@@ -314,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.RIGHT);
+            button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
         }
@@ -324,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         if (button2 != null) {
             button2.setBackgroundColor(getResources().getColor(R.color.black));
             button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.LEFT);
+            button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
         }

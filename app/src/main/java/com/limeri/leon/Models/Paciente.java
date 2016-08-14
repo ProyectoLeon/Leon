@@ -10,270 +10,168 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by MIPc on 5/27/2016.
- */
 public class Paciente {
 
-    private static ArrayList<Paciente> mPacientes = new ArrayList<Paciente>();
-    private String mNombre;
-    private String mDNI;
-    private String mApellido;
-    private List<Evaluacion> evaluaciones = new ArrayList<Evaluacion>();
+    private static List<Paciente> pacientes = new ArrayList<>();
+    private String nombre;
+    private String dni;
+    private String apellido;
+    private String fechaNac;
+    private List<Evaluacion> evaluaciones = new ArrayList<>();
 
-    public String getmFechaNac() {
-        return mFechaNac;
+    public String getFechaNac() {
+        return fechaNac;
     }
 
-    public void setmFechaNac(String mFechaNac) {
-        this.mFechaNac = mFechaNac;
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
     }
 
-    private String mFechaNac;
-
-    private static Paciente mSelectedPaciente;
+    private static Paciente selectedPaciente;
 
     public String getNombre() {
-        return mNombre;
+        return nombre;
     }
 
-    public void setNombre(String mUsuario) {
-        this.mNombre = mUsuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getmDNI() {
-        return mDNI;
+    public String getDni() {
+        return dni;
     }
 
-    public void setmDNI(String mDNI) {
-        this.mDNI = mDNI;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getApellido() {
-        return mApellido;
+        return apellido;
     }
 
-    public void setApellido(String mContraseña) {
-        this.mApellido = mContraseña;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getNombreCompleto() {
-        return mNombre + " " + mApellido;
+        return nombre + " " + apellido;
     }
 
-    public static void add(Paciente paciente) {
+    private static void agregarPaciente(Paciente paciente) {
+        if (!existePaciente(paciente)) {
+            pacientes.add(paciente);
+        }
+    }
 
+    private static boolean existePaciente(Paciente pacienteNuevo) {
         boolean exists = false;
-        for (int i = 0; i < mPacientes.size(); i++) {
-
-            String nombreapellido = mPacientes.get(i).getNombre() + " " + mPacientes.get(i).getApellido();
-
-            String nombreapellidoCuentaNueva = paciente.getNombre() + " " + paciente.getApellido();
-            if (nombreapellido.equals(nombreapellidoCuentaNueva)) {
+        for (Paciente paciente : pacientes) {
+            if (paciente.getNombreCompleto().equals(pacienteNuevo.getNombreCompleto())) {
                 exists = true;
                 break;
             }
         }
-        if (!exists) {
-            mPacientes.add(paciente);
-        }
+        return exists;
     }
 
-
-
-    public static void saveCuentas(Activity activity) {
-        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = prefs.edit();
+    private static void saveCuentas(Activity activity) {
         Gson gson = new Gson();
-        String cuentas = gson.toJson(mPacientes);
-        edit.putString("User", cuentas);
-        edit.commit();
-        edit.apply();
+        Type listType = new TypeToken<Paciente>() {}.getType();
 
+        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>();
+        for (Paciente p : pacientes) {
+            s.add(gson.toJson(p,listType));
+        }
+
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putStringSet("User", s);
+        edit.apply();
     }
 
     public static void saveCuenta(Activity activity, Paciente paciente) {
-
-        Gson gson = new Gson();
-        Type listType = new TypeToken<Paciente>() {}.getType();
-        String cuentas = gson.toJson(paciente, listType);
-
-        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
-
-        Set<String> s = new HashSet<String>(prefs.getStringSet("User", new HashSet<String>()));
-
-        s.add(cuentas);
-
-        SharedPreferences.Editor edit = prefs.edit();
-
-
-        edit.putStringSet("User", s);
-        edit.apply();
-        edit.commit();
+        if (!pacientes.contains(paciente))
+            pacientes.add(paciente);
+        saveCuentas(activity);
     }
 
+/*
     public static void borrarCuentas(Activity activity) {
 
         Gson gson = new Gson();
-        // String cuentas = gson.toJson(cuenta);
-
         SharedPreferences prefs = activity.getSharedPreferences("Usuer", Context.MODE_PRIVATE);
-
-        Set<String> s = new HashSet<String>(prefs.getStringSet("User", new HashSet<String>()));
-
+        Set<String> s = new HashSet<>(prefs.getStringSet("User", new HashSet<String>()));
         s.clear();
 
         SharedPreferences.Editor edit = prefs.edit();
-
-
         edit.putStringSet("User", s);
         edit.apply();
-        edit.commit();
     }
-
+*/
 
     public static Paciente getCuentaByName(String cuentaNombre) {
-
-        if (mPacientes != null) {
-            for (int i = 0; i < mPacientes.size(); i++) {
-
-                String nombreapellido = new String(mPacientes.get(i).getNombre() + " " + mPacientes.get(i).getApellido());
-
-                if (nombreapellido.contains(cuentaNombre)) {
-                    return mPacientes.get(i);
+        if (!pacientes.isEmpty()) {
+            for (Paciente paciente : pacientes) {
+                if (paciente.getNombreCompleto().contains(cuentaNombre)) {
+                    return paciente;
                 }
-
             }
         }
         return null;
     }
 
-    public static ArrayList<Paciente> getCuentasByName(String cuentaNombre) {
-
-        ArrayList<Paciente> returnPacientes = new ArrayList<Paciente>();
-
-        if (mPacientes != null) {
-            for (int i = 0; i < mPacientes.size(); i++) {
-
-                if (mPacientes.get(i).getNombre().contains(cuentaNombre) || mPacientes.get(i).getApellido().contains(cuentaNombre)) {
-                    returnPacientes.add(mPacientes.get(i));
+    public static List<Paciente> getCuentasByName(String cuentaNombre) {
+        List<Paciente> returnPacientes = new ArrayList<>();
+        if (!pacientes.isEmpty()) {
+            for (Paciente paciente : pacientes) {
+                if (paciente.getNombre().contains(cuentaNombre) || paciente.getApellido().contains(cuentaNombre)) {
+                    returnPacientes.add(paciente);
                 }
-
             }
         }
         return returnPacientes;
     }
 
-    public static Paciente getmSelectedPaciente() {
-        return mSelectedPaciente;
+    public static Paciente getSelectedPaciente() {
+        return selectedPaciente;
     }
 
-    public static void setmSelectedPaciente (Paciente paciente) {
-        mSelectedPaciente = paciente;
+    public static void setSelectedPaciente(Paciente paciente) {
+        selectedPaciente = paciente;
     }
 
     public static void loadCuentas(Activity activity) {
+        Gson gson = new Gson();
         SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
         Set<String> myStrings = prefs.getStringSet("User", null);
-
-        Gson gson = new Gson();
-
         if (myStrings != null) {
-
-            //   for (int i = 0; i < myStrings.size(); i++) {
-            Iterator iter = myStrings.iterator();
-
-            while (iter.hasNext()) {
-
-                Paciente.add(gson.fromJson(iter.next().toString(), Paciente.class));
-
+            for (String paciente : myStrings) {
+                Paciente.agregarPaciente(gson.fromJson(paciente, Paciente.class));
             }
-
-
         }
-
-
     }
 
-    public static ArrayList<Paciente> getCuentas() {
-
-        return mPacientes;
+    public static List<Paciente> getCuentas() {
+        return pacientes;
     }
 
-    public static void borrarCuentaBase(Activity activity, Paciente paciente) {
-
-
-        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
-        Set<String> s = new HashSet<String>(prefs.getStringSet("User", new HashSet<String>()));
-
-        Gson gson = new Gson();
-
-        if (s != null) {
-
-            //   for (int i = 0; i < myStrings.size(); i++) {
-            Iterator iter = s.iterator();
-
-            while (iter.hasNext()) {
-
-                Paciente pacienteGuardado = (gson.fromJson(iter.next().toString(), Paciente.class));
-
-                if (pacienteGuardado.getmDNI().equals(paciente.getmDNI())) {
-
-                  iter.remove();
-
-
-                } else {
-
-                }
-
-            }
-
-
-        }
-
-        SharedPreferences.Editor edit = prefs.edit();
-
-        edit.clear();
-        edit.apply();
-        edit.commit();
-        edit.putStringSet("User", s);
-        edit.apply();
-        edit.commit();
-
-
-    }
-
-    public static void borrarCuenta(Paciente paciente) {
-
-        if (mPacientes != null) {
-            for (int i = 0; i < mPacientes.size(); i++) {
-
-                if (paciente.getmDNI().equals(mPacientes.get(i).getmDNI())) {
-                    mPacientes.remove(i);
-
+    public static void borrarCuenta(Activity activity, Paciente paciente) {
+        if (!pacientes.isEmpty()) {
+            for (Paciente p : pacientes) {
+                if (p.getNombreCompleto().equals(paciente.getNombreCompleto())) {
+                    pacientes.remove(p);
+                    break;
                 }
             }
-
-
         }
+        saveCuentas(activity);
     }
 
     public static void borrarSelectedPaciente() {
-
-        mSelectedPaciente = null;
-
-    }
-
-    public List<Evaluacion> getEvaluaciones() {
-        return evaluaciones;
-    }
-
-    public void setEvaluaciones(List<Evaluacion> evaluaciones) {
-        this.evaluaciones = evaluaciones;
+        selectedPaciente = null;
     }
 
     public Evaluacion getEvaluacionFinalizada(){

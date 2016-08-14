@@ -23,7 +23,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_juego);
         AdministradorJuegos.setContext(getApplicationContext());
 
-        Paciente paciente = Paciente.getmSelectedPaciente();
+        Paciente paciente = Paciente.getSelectedPaciente();
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacionActual();
         } else {

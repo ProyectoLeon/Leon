@@ -1,11 +1,9 @@
 package com.limeri.leon;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,18 +18,19 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelecPacienteActivity extends AppCompatActivity {
 
 
-    String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula;
-    AlertDialog dialog;
-    ListView pacientes;
-    ArrayAdapter<String> adapter;
+    private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula;
+    private ListView lvPacientes;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +38,11 @@ public class SelecPacienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec_paciente);
 
-        pacientes = (ListView) findViewById(R.id.listPacientes);
+        lvPacientes = (ListView) findViewById(R.id.listPacientes);
         Button btnAdd = (Button) findViewById(R.id.buttonAddPaciente);
         ImageButton btnSearch = (ImageButton) findViewById(R.id.btn_search);
         final EditText searchString = (EditText) findViewById(R.id.et_search);
         Button btnMostrarTodo = (Button) findViewById(R.id.btn_mostrarTodos);
-
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar_main,
@@ -54,19 +52,13 @@ public class SelecPacienteActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(actionBarLayout);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
-
         adapter = new ArrayAdapter<String>(this, R.layout.paciente_item);
         adapter.clear();
 
-        for (int i = 0; i < Paciente.getCuentas().size(); i++) {
-
-            String nombreApellidoCuenta = Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido();
-
-            adapter.add(nombreApellidoCuenta);
+        for (Paciente paciente : Paciente.getCuentas()) {
+            adapter.add(paciente.getNombreCompleto());
         }
-
-
-        pacientes.setAdapter(adapter);
+        lvPacientes.setAdapter(adapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,73 +71,47 @@ public class SelecPacienteActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
-
-                for (int i = 0; i < Paciente.getCuentasByName(searchString.getText().toString()).size(); i++) {
-
-                    String nombre = Paciente.getCuentasByName(searchString.getText().toString()).get(i).getNombre();
-                    String apellido = Paciente.getCuentasByName(searchString.getText().toString()).get(i).getApellido();
-
-                    if (nombre != "" || apellido != "") {
-                        adapter.add(nombre + " " + apellido);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
+                for (Paciente paciente : Paciente.getCuentasByName(searchString.getText().toString())) {
+                    if (paciente.getNombreCompleto() != "") {
+                        adapter.add(paciente.getNombreCompleto());
                     }
-
                 }
-
                 if (adapter.getCount() != 0) {
-                    pacientes.setAdapter(adapter);
-                    pacientes.invalidateViews();
-
+                    lvPacientes.setAdapter(adapter);
+                    lvPacientes.invalidateViews();
                 }
-
             }
         });
 
         btnMostrarTodo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
-
-                for (int i = 0; i < Paciente.getCuentas().size(); i++) {
-                    adapter.add(Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido());
-
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
+                for (Paciente paciente : Paciente.getCuentas()) {
+                    adapter.add(paciente.getNombreCompleto());
                 }
-
                 if (adapter.getCount() != 0) {
-                    pacientes.setAdapter(adapter);
-                    pacientes.invalidateViews();
-
+                    lvPacientes.setAdapter(adapter);
+                    lvPacientes.invalidateViews();
                 }
-
             }
         });
 
-        pacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvPacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
-
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
-                Paciente.setmSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
-
-                Intent mainIntent = new Intent(SelecPacienteActivity.this, MainActivity.class);
-                SelecPacienteActivity.this.startActivity(mainIntent);
-                SelecPacienteActivity.this.finish();
-
+                Paciente.setSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
+                Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
             }
         });
-
-
     }
-
 
     private void showDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-
         // I'm using fragment here so I'm using getView() to provide ViewGroup
         // but you can provide here any other instance of ViewGroup from your Fragment / Activity
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.crear_paciente_popup, (ViewGroup) this
@@ -167,7 +133,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 //        for (int i = 0; i < mPacientes.size(); i++) {
 
-        //    adapter.add(mPacientes.get(i).getNombre().toString());
+        //    adapter.agregarPaciente(mPacientes.get(i).getNombre().toString());
 
         // }
 
@@ -191,52 +157,34 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 mApellido = input2.getText().toString();
                 mDNI = input3.getText().toString();
                 mFechaNac = input4.getText().toString();
-                //         mProv = spin1.getSelectedItem().toString();
 
                 Paciente paciente = new Paciente();
 
                 paciente.setApellido(mApellido);
                 paciente.setNombre(mNombre);
-                paciente.setmDNI(mDNI);
-                paciente.setmFechaNac(mFechaNac);
-                //paciente.setProvider(mProv);
+                paciente.setDni(mDNI);
+                paciente.setFechaNac(mFechaNac);
 
-                Paciente.add(paciente);
-
-                adapter.add(paciente.getNombre() + " " + paciente.getApellido());
-                pacientes.setAdapter(adapter);
+                adapter.add(paciente.getNombreCompleto());
+                lvPacientes.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-                pacientes.invalidateViews();
-//TODO: Validar el guardado del paciente
+                lvPacientes.invalidateViews();
+
                 Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
-
-                try {
-
-
-                } catch (Exception ex) {
-                    Log.d("Fullfill", "Fullfill error" + ex.toString());
-                }
-
-                // callAdapter();
             }
         });
+
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
+            dialog.cancel();
             }
         });
 
-
-        dialog = builder.create();
-
-
+        AlertDialog dialog = builder.create();
         dialog.show();
 
-
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
@@ -246,7 +194,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
         }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-
         if (button2 != null) {
             button2.setBackgroundColor(getResources().getColor(R.color.black));
             button2.setTextColor(getResources().getColor(R.color.black));
@@ -256,23 +203,18 @@ public class SelecPacienteActivity extends AppCompatActivity {
         }
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         if(adapter != null) {
             adapter.clear();
-            ((ArrayAdapter<String>)pacientes.getAdapter()).clear();
-            pacientes.invalidateViews();
-            pacientes = new ListView(this);
+            ((ArrayAdapter<String>) lvPacientes.getAdapter()).clear();
+            lvPacientes.invalidateViews();
+            lvPacientes = new ListView(this);
         }
-
-        Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
-        SelecPacienteActivity.this.startActivity(mainIntent);
-        SelecPacienteActivity.this.finish();
+        Navegacion.irA(this, LoginActivity.class);
     }
 
     @Override
@@ -291,16 +233,14 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_signout:{
-                Intent mainIntent = new Intent(SelecPacienteActivity.this, LoginActivity.class);
-                SelecPacienteActivity.this.startActivity(mainIntent);
-                SelecPacienteActivity.this.finish();
+                Navegacion.irA(this, LoginActivity.class);
                 break;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    //POPUP PARA EDITAR DATOS PROFESIONAL
     //TODO: Cambiar los tipos de datos. Que sea DNI solo numérico y fecha de nacimiento campo fecha.
     private void showDialog_Prof() {
 
@@ -348,7 +288,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     password.setError("Contraseñas no coinciden");
                     confPassword.setError("Contraseñas no coinciden");
                 }else {
-
                     Profesional profesional = Profesional.getProfesional();
                     Profesional.borrarCuentaBase(SelecPacienteActivity.this, profesional);
 
@@ -359,14 +298,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     profesional.setmMatricula(mProfMatricula);
 
                     Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
-                    //TODO: Validar la actualización de guardar profesional;
-
-                    try {
-
-
-                    } catch (Exception ex) {
-                        Log.d("Fullfill", "Fullfill error" + ex.toString());
-                    }
+                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
                 }
                 // callAdapter();
             }
@@ -375,9 +307,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                return;
-
-            }
+           }
 
 
         });
