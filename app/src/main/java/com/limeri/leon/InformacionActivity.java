@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -58,30 +59,42 @@ public class InformacionActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(InformacionActivity.this)
-                        //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
-                        //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+                AlertDialog.Builder builder = new AlertDialog.Builder(InformacionActivity.this);
 
-                        .setTitle("Popup")
-                        .setMessage("Por favor seleccione opción")
-                        .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                guardar();
-                            }
-                        })
-                        .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        })
-                        .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                cancelar();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.alert_dialog,null);
+
+                builder.setView(dialogView);
+
+                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+                final AlertDialog dialog = builder.create();
+
+                btn_positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        guardar();
+                    }
+                });
+
+                btn_negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancelar();
+                    }
+                });
+
+                btn_neutral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Display the custom alert dialog on interface
+                dialog.show();
             }
         });
 

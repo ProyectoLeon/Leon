@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
     private int cantCorrectas = 0;
     private String jsonString;
     private int puntaje;
+    private long tiempo_detenido;
     private Chronometer crono;
 
 
@@ -56,29 +58,70 @@ public class BqSimbolosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
-                //TODO: Corregir el diseño del layout del POPUP CANCELAR JUEGO para que se visualicen los botones
+                crono.stop();
+                final long tiempo_ejecutado = SystemClock.elapsedRealtime() - crono.getBase();
+                AlertDialog.Builder builder = new AlertDialog.Builder(BqSimbolosActivity.this);
 
-                new AlertDialog.Builder(BqSimbolosActivity.this)
-                        .setTitle("Popup")
-                        .setMessage("Por favor seleccione opción")
-                        .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                guardar();
-                            }
-                        })
-                        .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        })
-                        .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                cancelar();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.alert_dialog,null);
+
+                builder.setView(dialogView);
+
+                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+                final AlertDialog dialog = builder.create();
+
+                btn_positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        guardar();
+                    }
+                });
+
+                btn_negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancelar();
+                    }
+                });
+
+                btn_neutral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Dismiss/cancel the alert dialog;
+                        tiempo_detenido = SystemClock.elapsedRealtime() - crono.getBase() - tiempo_ejecutado;
+                        crono.start();
+                        dialog.cancel();
+                    }
+                });
+
+                // Display the custom alert dialog on interface
+                dialog.show();
+
+
+                /**    .setTitle("Popup")
+                 .setMessage("Por favor seleccione opción")
+                 .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
+                 public void onClick(DialogInterface dialog, int which) {
+                 guardar();
+                 }
+                 })
+                 .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
+                 public void onClick(DialogInterface dialog, int which) {
+                 return;
+                 }
+                 })
+                 .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                cancelar();
+                }
+                })
+                 .setIcon(android.R.drawable.ic_dialog_alert)
+                 .show();
+                 */
             }
         });
         //Cancelar juego - Finaliza aqui
@@ -122,7 +165,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
             respuestaSi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
+                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() - tiempo_detenido;
                     if (elapsedMillis/1000 < 120) {
                         if (respuesta.equals("true")){
                             cantCorrectas ++;
@@ -144,7 +187,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
             respuestaNo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
+                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() - tiempo_detenido;
                     if (elapsedMillis/1000 < 120) {
                         if (respuesta.equals("false")) {
                             cantCorrectas++;
