@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.limeri.leon.R;
+import com.limeri.leon.ValorExamenActivity;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -62,12 +63,13 @@ public class AdministradorJuegos {
 
     public void guardarJuego(Integer puntosJuego, Activity activity) {
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacion();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
         Juego juego = evaluacion.getJuegoActual();
         juego.setPuntosJuego(puntosJuego);
         juego.finalizar();
         if (isUltimoJuego(juego)) {
             evaluacion.finalizar();
+            Navegacion.volver(activity, ValorExamenActivity.class);
         }
         Paciente.saveCuenta(activity, paciente);
     }
@@ -124,7 +126,7 @@ public class AdministradorJuegos {
 
     public void cancelarJuego(Activity activity) {
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacion();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
         Juego juego = evaluacion.getJuegoActual();
         alternativas.add(juego.getCategoria());
         juego.setPuntosJuego(0);

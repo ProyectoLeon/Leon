@@ -10,21 +10,23 @@ import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Paciente;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ValorExamenActivity extends AppCompatActivity {
 public AdministradorJuegos administradorJuegos;
     public List<Juego> listaJuegos;
-    public List<String> llistadoPuntos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valor_examen);
 
-        Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacion();
+        Paciente paciente = Paciente.getmSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
         listaJuegos = evaluacion.getJuegos();
+        List<String> llistadoPuntos = new ArrayList<>();
         for (Juego juego : listaJuegos){
             String puntaje = juego.getNombre() + ": " + juego.getPuntosJuego().toString();
             llistadoPuntos.add(puntaje);

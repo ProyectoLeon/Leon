@@ -25,7 +25,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
         Paciente paciente = Paciente.getSelectedPaciente();
         if (paciente.tieneEvaluacionIniciada()) {
-            evaluacion = paciente.getEvaluacion();
+            evaluacion = paciente.getEvaluacionActual();
         } else {
             evaluacion = new Evaluacion(paciente);
             paciente.agregarEvaluacion(evaluacion);

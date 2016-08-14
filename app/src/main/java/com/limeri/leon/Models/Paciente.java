@@ -174,7 +174,17 @@ public class Paciente {
         selectedPaciente = null;
     }
 
-    public Evaluacion getEvaluacion() {
+    public Evaluacion getEvaluacionFinalizada(){
+       Evaluacion ultimaEval = null;
+        for(Evaluacion eval : evaluaciones) {
+            if (eval.isFinalizada()){
+                ultimaEval = eval;
+            }
+        }
+        return ultimaEval;
+    }
+
+    public Evaluacion getEvaluacionActual() {
         for (Evaluacion eval : evaluaciones) {
             if (!eval.isFinalizada())
                 return eval;
