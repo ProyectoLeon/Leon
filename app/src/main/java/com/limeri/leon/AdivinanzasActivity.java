@@ -3,7 +3,6 @@ package com.limeri.leon;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,20 +14,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -73,8 +71,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(AdivinanzasActivity.this, ExamenActivity.class);
-                                AdivinanzasActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -85,7 +82,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -100,39 +97,10 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        Writer writer = new StringWriter();
-
         if (nivel == 0) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasadivinanzas);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasadivinanzas));
         }
 
-
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -213,7 +181,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
             leerJson();
         } catch (Exception ex) {
             guardar();
-        }}
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -223,17 +192,20 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        //Paciente paciente = Paciente.getmSelectedPaciente();
-        //Juego juego = paciente.getEvaluacion().getJuegoActual();
-        //juego.setPuntosJuego(puntaje);
-        //juego.finalizar();
-        //Paciente.saveCuenta(AdivinanzasActivity.this, paciente);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(AdivinanzasActivity.this,InicioJuegoActivity.class);
-        AdivinanzasActivity.this.startActivity(mainIntent);
-        AdivinanzasActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 }

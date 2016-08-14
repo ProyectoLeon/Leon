@@ -3,22 +3,18 @@ package com.limeri.leon;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.SystemClock;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +51,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
 
-     //BORRAR?   palabra = (TextView) findViewById(R.id.palabra);
+        //BORRAR?   palabra = (TextView) findViewById(R.id.palabra);
 
 //CONFIGURACION DEL BOTON DE CANCELAR JUEGO - Comienza aquí
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
@@ -74,8 +70,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-                                BqSimbolosActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -86,7 +81,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -106,38 +101,10 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        Writer writer = new StringWriter();
-
         if (nivel == 0) {
-            InputStream is = getResources().openRawResource(R.raw.busquedasimbolos);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.busquedasimbolos));
         }
 
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -146,9 +113,6 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
             if (nivel > jsonArray.length()){
                 guardar();
-                Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-                BqSimbolosActivity.this.startActivity(mainIntent);
-                BqSimbolosActivity.this.finish();
             }
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -169,22 +133,21 @@ public class BqSimbolosActivity extends AppCompatActivity {
                     long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
                     if (elapsedMillis/1000 < 120) {
                         if (respuesta.equals("true")){
-                        cantCorrectas ++;
-                    } else {
-                        cantIncorrectas ++;
-                    };
-                    nivel++;
+                            cantCorrectas ++;
+                        } else {
+                            cantIncorrectas ++;
+                        };
+                        nivel++;
                         try {
                             leerJson();
                         } catch (Exception ex) {
-                            Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-                            BqSimbolosActivity.this.startActivity(mainIntent);
-                            BqSimbolosActivity.this.finish();
+                            guardar();
                         }
                     }else{
-                    guardar(); }
+                        guardar();
+                    }
 
-                    }});
+                }});
             respuestaNo = (Button) findViewById(R.id.buttonNo);
             respuestaNo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,18 +155,16 @@ public class BqSimbolosActivity extends AppCompatActivity {
                     long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase();
                     if (elapsedMillis/1000 < 120) {
                         if (respuesta.equals("false")) {
-                        cantCorrectas++;
-                    } else {
-                        cantIncorrectas++;
-                    }
-                    ;
-                    nivel++;
+                            cantCorrectas++;
+                        } else {
+                            cantIncorrectas++;
+                        }
+                        ;
+                        nivel++;
                         try {
                             leerJson();
                         } catch (Exception ex) {
-                            Intent mainIntent = new Intent(BqSimbolosActivity.this, InicioJuegoActivity.class);
-                            BqSimbolosActivity.this.startActivity(mainIntent);
-                            BqSimbolosActivity.this.finish();
+                            guardar();
                         }
                     }else {
                         guardar();
@@ -219,26 +180,27 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             //Este metodo se tiene que llamar antes de salir del juego
-            AdministradorJuegos.getInstance().guardarJuego(cantCorrectas,null,this);
-            Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-            BqSimbolosActivity.this.startActivity(mainIntent);
-            BqSimbolosActivity.this.finish();
+            guardar();
         }
 
     }
 
     private void guardar() {
-        int puntosJuego = cantCorrectas - cantIncorrectas;
-       // AdministradorJuegos.getInstance().guardarJuego(puntosJuego,null,this);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(cantCorrectas - cantIncorrectas, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(BqSimbolosActivity.this, ExamenActivity.class);
-        BqSimbolosActivity.this.startActivity(mainIntent);
-        BqSimbolosActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
-
-
-    }
+}
 

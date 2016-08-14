@@ -2,7 +2,6 @@ package com.limeri.leon;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,19 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 public class SemejanzasActivity extends AppCompatActivity {
@@ -44,7 +38,7 @@ public class SemejanzasActivity extends AppCompatActivity {
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
-    private int puntosJuego;
+    private int puntaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +67,7 @@ public class SemejanzasActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
-                                SemejanzasActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -85,7 +78,7 @@ public class SemejanzasActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -149,7 +142,7 @@ public class SemejanzasActivity extends AppCompatActivity {
                     // Para los dos primeros niveles, no hay tercera opción.
                     // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
                     if (!(nivel == 0 || nivel == 1)){
-                        puntosJuego++;
+                        puntaje++;
                     }
                     cantIncorrectas = 0;
                 }
@@ -159,9 +152,9 @@ public class SemejanzasActivity extends AppCompatActivity {
                     // Para los dos primeros niveles, no hay tercera opción.
                     // La primera opción suma 1 punto.
                     if (nivel == 0 || nivel == 1) {
-                        puntosJuego++;
+                        puntaje++;
                     } else {
-                        puntosJuego = puntosJuego + 2;
+                        puntaje = puntaje + 2;
                     }
                 }
             }
@@ -196,7 +189,7 @@ public class SemejanzasActivity extends AppCompatActivity {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
         if (cantIncorrectas == 5) {
-            volver();
+            guardar();
         } else {
             nivel++;}
 
@@ -212,15 +205,21 @@ public class SemejanzasActivity extends AppCompatActivity {
         }
     }
 
-
     private void guardar() {
-        //AdministradorJuegos.getInstance().guardarJuego(puntosJuego,null,this);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(SemejanzasActivity.this, ExamenActivity.class);
-        SemejanzasActivity.this.startActivity(mainIntent);
-        SemejanzasActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 }

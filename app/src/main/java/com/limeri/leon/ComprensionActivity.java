@@ -14,8 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,8 +71,7 @@ public class ComprensionActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class);
-                                ComprensionActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -82,7 +82,7 @@ public class ComprensionActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -100,36 +100,9 @@ public class ComprensionActivity extends AppCompatActivity {
         Writer writer = new StringWriter();
 
         if (nivel == 0) {
-            InputStream is = getResources().openRawResource(R.raw.preguntascomprension);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntascomprension));
         }
 
-
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -214,7 +187,8 @@ public class ComprensionActivity extends AppCompatActivity {
             leerJson();
         } catch (Exception ex) {
             guardar();
-        }}
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -224,17 +198,20 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        //Paciente paciente = Paciente.getmSelectedPaciente();
-        //Juego juego = paciente.getEvaluacion().getJuegoActual();
-        //juego.setPuntosJuego(puntaje);
-        //juego.finalizar();
-        //Paciente.saveCuenta(ComprensionActivity.this, paciente);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(ComprensionActivity.this, ExamenActivity.class); //InicioJuegoActivity.class);
-        ComprensionActivity.this.startActivity(mainIntent);
-        ComprensionActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 }

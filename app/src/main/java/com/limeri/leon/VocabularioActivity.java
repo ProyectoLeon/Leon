@@ -2,7 +2,6 @@ package com.limeri.leon;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
-import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -63,8 +61,7 @@ public class VocabularioActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(VocabularioActivity.this, ExamenActivity.class);
-                                VocabularioActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -75,7 +72,7 @@ public class VocabularioActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -198,15 +195,21 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        //Este metodo se tiene que llamar antes de salir del juego
-        AdministradorJuegos.getInstance().guardarJuego(puntaje,null,this);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(VocabularioActivity.this, InicioJuegoActivity.class);
-        VocabularioActivity.this.startActivity(mainIntent);
-        VocabularioActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
 }

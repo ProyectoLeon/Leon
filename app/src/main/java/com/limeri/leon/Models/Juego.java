@@ -1,4 +1,4 @@
-package com.limeri.leon.Models.Juegos;
+package com.limeri.leon.Models;
 
 import com.limeri.leon.common.Estados;
 
@@ -53,5 +53,9 @@ public class Juego {
 
     public Boolean isCancelado() {
         return estado == Estados.CANCELADO;
+    }
+
+    public void cancelar() {
+        estado = Estados.CANCELADO;
     }
 }

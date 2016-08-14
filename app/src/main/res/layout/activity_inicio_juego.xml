@@ -27,7 +27,6 @@
         android:text="Siguiente Juego"
         android:id="@+id/juego"
         android:textSize="26dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="false"
         android:layout_below="@+id/siguienteJuego"/>
 

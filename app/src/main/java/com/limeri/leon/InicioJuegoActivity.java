@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
-import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Paciente;
 
 public class InicioJuegoActivity extends AppCompatActivity {

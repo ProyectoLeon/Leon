@@ -1,8 +1,6 @@
 package com.limeri.leon;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +18,7 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -51,7 +50,7 @@ public class MatricesActivity extends AppCompatActivity {
     private List<List<String>> matriz = new ArrayList<>();
     private List<String> opciones;
     private Map<Integer, Integer> puntos = new HashMap<>();
-    private int puntosJuego = 0;
+    private int puntaje = 0;
     private GridLayout gridMatriz;
     private GridLayout gridOpciones;
     private int size;
@@ -96,8 +95,7 @@ public class MatricesActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(MatricesActivity.this, ExamenActivity.class);
-                                MatricesActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -108,7 +106,7 @@ public class MatricesActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -163,7 +161,7 @@ public class MatricesActivity extends AppCompatActivity {
                 }
             }
             puntosNivel++;
-            puntosJuego++;
+            puntaje++;
         } else {
             cantCorrectasSeguidas = 0;
             cantIncorrectasSeguidas++;
@@ -189,14 +187,21 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        AdministradorJuegos.getInstance().guardarJuego(puntosJuego,puntos,this);
-        volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(MatricesActivity.this, InicioJuegoActivity.class);
-        MatricesActivity.this.startActivity(mainIntent);
-        MatricesActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
     private void revertir() {

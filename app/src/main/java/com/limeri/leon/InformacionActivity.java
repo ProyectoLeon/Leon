@@ -14,8 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.limeri.leon.Models.Juegos.Juego;
-import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,8 +73,7 @@ public class InformacionActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione opción")
                         .setPositiveButton("Guardar y Finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                                InformacionActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -84,7 +84,7 @@ public class InformacionActivity extends AppCompatActivity {
                         .setNeutralButton("Seleccionar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -99,39 +99,10 @@ public class InformacionActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        Writer writer = new StringWriter();
-
         if (nivel == 5) {
-            InputStream is = getResources().openRawResource(R.raw.preguntasinformacion);
-
-            char[] buffer = new char[1024];
-
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jsonString = writer.toString();
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
         }
 
-
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -153,9 +124,7 @@ public class InformacionActivity extends AppCompatActivity {
             respuestas.setAdapter(adapter);
 
         } catch (JSONException e) {
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
+            guardar();
         }
 
     }
@@ -172,7 +141,7 @@ public class InformacionActivity extends AppCompatActivity {
                 //Corregir para identificar cuando hacer retroceso o no
                 if (position == 1){
                     cantIncorrectas++;
-                cantConsec = 0;
+                    cantConsec = 0;
                 } else { cantIncorrectas = 0;
                     puntaje++;
                 }
@@ -207,47 +176,44 @@ public class InformacionActivity extends AppCompatActivity {
         }
         if (cantIncorrectas== 5) {
             guardar();
-            Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-            InformacionActivity.this.startActivity(mainIntent);
-            InformacionActivity.this.finish();
         } else
         if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
             nivel = 4;
         } else if (cantIncorrectas == 0 & cantConsec == 2) {
             nivel = 5;
         }else if (cantIncorrectas > 0 & nivel < 5) {
-        nivel --;
+            nivel --;
         }
         else if (cantIncorrectas ==0 & nivel < 5) {
             nivel --;
             cantConsec++;
         }
         else if (nivel > 4){
+            nivel++;
+        }
 
-            nivel++;}
-
-             try {
-                leerJson();
-            } catch (Exception ex) {
-                Intent mainIntent = new Intent(InformacionActivity.this, ExamenActivity.class);
-                InformacionActivity.this.startActivity(mainIntent);
-                InformacionActivity.this.finish();
-            }}
+        try {
+            leerJson();
+        } catch (Exception ex) {
+            guardar();
+        }
+    }
 
     private void guardar() {
-       // Paciente paciente = Paciente.getmSelectedPaciente();
-//        Juego juego = paciente.getEvaluacion().getJuegoActual();
- //       juego.setPuntosJuego(puntaje);
-//        juego.setPuntosNiveles(puntos);
-   //     juego.finalizar();
-     //   Paciente.saveCuenta(InformacionActivity.this, paciente);
-   //     volver();
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
 
-    private void volver() {
-        Intent mainIntent = new Intent(InformacionActivity.this, InicioJuegoActivity.class);
-        InformacionActivity.this.startActivity(mainIntent);
-        InformacionActivity.this.finish();
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
     }
-
-    }
+}

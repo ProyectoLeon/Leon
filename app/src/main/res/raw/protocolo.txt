@@ -1,34 +1,16 @@
 {
 	"juegos": [
         {
+            "nombre":"Semejanzas",
+            "categoria":"Comprensión verbal",
+            "activity":"SemejanzasActivity",
+            "alternativo":false
+        },
+        {
             "nombre":"Vocabulario",
             "categoria":"Comprensión verbal",
             "activity":"VocabularioActivity",
             "alternativo":false
-        },
-        {
-            "nombre":"Semejanzas",
-            "categoria":"Comprensión verbal",
-            "activity":"SemejanzasActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Comprensión",
-            "categoria":"Comprensión verbal",
-            "activity":"CompresionActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Información",
-            "categoria":"Comprensión verbal",
-            "activity":"InformacionActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Adivinanzas",
-            "categoria":"Comprensión verbal",
-            "activity":"AdivinanzasActivity",
-            "alternativo":true
         },
         {
             "nombre":"Matrices",
@@ -37,40 +19,10 @@
             "alternativo":false
         },
         {
-            "nombre":"Cubos",
-            "categoria":"Razonamiento Perceptivo",
-            "activity":"CubosActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Conceptos",
-            "categoria":"Razonamiento Perceptivo",
-            "activity":"ConceptosActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Figuras incompletas",
-            "categoria":"Razonamiento Perceptivo",
-            "activity":"FiguraIncompletaActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Dígitos",
-            "categoria":"Memoria de Trabajo",
-            "activity":"MatricesActivity",
+            "nombre":"Comprensión",
+            "categoria":"Comprensión verbal",
+            "activity":"CompresionActivity",
             "alternativo":false
-        },
-        {
-            "nombre":"Letras y Números",
-            "categoria":"Memoria de Trabajo",
-            "activity":"LetrasNumerosActivity",
-            "alternativo":true
-        },
-        {
-            "nombre":"Aritmética",
-            "categoria":"Memoria de Trabajo",
-            "activity":"AritmeticaActivity",
-            "alternativo":true
         },
         {
             "nombre":"Búsqueda de Símbolos",
@@ -79,16 +31,16 @@
             "alternativo":false
         },
         {
-            "nombre":"Claves",
-            "categoria":"Velocidad de Procesamiento",
-            "activity":"ClavesActivity",
-            "alternativo":true
+            "nombre":"Información",
+            "categoria":"Comprensión verbal",
+            "activity":"InformacionActivity",
+            "alternativo":false
         },
         {
-            "nombre":"Animales",
-            "categoria":"Velocidad de Procesamiento",
-            "activity":"AnimalesActivity",
-            "alternativo":true
+            "nombre":"Adivinanzas",
+            "categoria":"Comprensión verbal",
+            "activity":"AdivinanzasActivity",
+            "alternativo":false
         }
     ]
 }

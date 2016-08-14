@@ -1,6 +1,5 @@
 package com.limeri.leon.Models;
 
-import com.limeri.leon.Models.Juegos.Juego;
 import com.limeri.leon.common.Estados;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class Evaluacion {
     public Juego getUltimoJuego() {
         Juego ultimo = null;
         for (Juego juego : juegos) {
-            if (juego.isFinalizado()) {
+            if (juego.isFinalizado() || juego.isCancelado()) {
                 ultimo = juego;
             }
         }
@@ -45,7 +44,7 @@ public class Evaluacion {
 
     public Juego getJuegoActual() {
         for (Juego juego : juegos) {
-            if (!juego.isFinalizado()) {
+            if (!juego.isFinalizado() && !juego.isCancelado()) {
                 return juego;
             }
         }

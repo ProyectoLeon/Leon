@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
-import com.limeri.leon.Models.Juegos.Juego;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Paciente;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public AdministradorJuegos administradorJuegos;
         Evaluacion evaluacion = paciente.getEvaluacion();
         listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos){
-            String puntaje = juego.getPuntosJuego().toString();
+            String puntaje = juego.getNombre() + ": " + juego.getPuntosJuego().toString();
             llistadoPuntos.add(puntaje);
         }
 

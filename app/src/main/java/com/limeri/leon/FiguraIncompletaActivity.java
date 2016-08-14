@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Navegacion;
+
 public class FiguraIncompletaActivity extends AppCompatActivity {
 
 
@@ -20,6 +23,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     static final double PORC_PUNTO_CORRECTO_X = 0.55;
     static final double PORC_COTA_Y = 0.072;
     static final double PORC_COTA_X = 0.08;
+    private Integer puntaje = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
                         .setMessage("Por favor seleccione alguna opción")
                         .setPositiveButton("Guardar y finalizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent mainIntent = new Intent(FiguraIncompletaActivity.this, ExamenActivity.class);
-                                FiguraIncompletaActivity.this.startActivity(mainIntent);
+                                guardar();
                             }
                         })
                         .setNegativeButton("Reiniciar", new DialogInterface.OnClickListener() {
@@ -55,7 +58,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
                         .setNeutralButton("Activar Juego Alternativo", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                cancelar();
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -65,4 +68,21 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
 
     }
 
+    private void guardar() {
+        try {
+            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
+    }
+
+    private void cancelar() {
+        try {
+            AdministradorJuegos.getInstance().cancelarJuego(this);
+            Navegacion.volver(this, InicioJuegoActivity.class);
+        } catch (Exception e) {
+            Navegacion.volver(this, ExamenActivity.class);
+        }
+    }
 }
