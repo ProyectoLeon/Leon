@@ -194,7 +194,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private void guardar() {
         try {
             AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+           // Navegacion.volver(this, InicioJuegoActivity.class);
         } catch (Exception e) {
             Navegacion.volver(this, ExamenActivity.class);
         }

@@ -63,11 +63,11 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
             String nombreApellidoCuenta = Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido();
 
-               adapter.add(nombreApellidoCuenta);
-            }
+            adapter.add(nombreApellidoCuenta);
+        }
 
 
-         pacientes.setAdapter(adapter);
+        pacientes.setAdapter(adapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +109,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.paciente_item);
 
                 for (int i = 0; i < Paciente.getCuentas().size(); i++) {
-                adapter.add(Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido());
+                    adapter.add(Paciente.getCuentas().get(i).getNombre() + " " + Paciente.getCuentas().get(i).getApellido());
 
                 }
 
@@ -200,7 +200,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 paciente.setNombre(mNombre);
                 paciente.setmDNI(mDNI);
                 paciente.setmFechaNac(mFechaNac);
-               //paciente.setProvider(mProv);
+                //paciente.setProvider(mProv);
 
                 Paciente.add(paciente);
 
@@ -384,7 +384,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
             }
 
 
-});
+        });
     }
 
-    }
+}
