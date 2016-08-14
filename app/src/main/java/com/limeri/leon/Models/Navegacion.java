@@ -11,7 +11,7 @@ import com.limeri.leon.InicioJuegoActivity;
  */
 public class Navegacion {
 
-    public static void volver(Activity actividad, Class clase) {
+    public static void irA(Activity actividad, Class clase) {
         Intent mainIntent = new Intent(actividad, clase);
         actividad.startActivity(mainIntent);
         actividad.finish();

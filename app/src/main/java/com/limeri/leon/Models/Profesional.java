@@ -129,7 +129,7 @@ public class Profesional {
 
                 while (iter.hasNext()) {
 
-                    Paciente.add(gson.fromJson(iter.next().toString(), Paciente.class));
+                    Paciente.agregarPaciente(gson.fromJson(iter.next().toString(), Paciente.class));
 
                 }
 
@@ -188,7 +188,7 @@ public class Profesional {
             if (mPacientes != null) {
                 for (int i = 0; i < mPacientes.size(); i++) {
 
-                    if (paciente.getmDNI().equals(mPacientes.get(i).getmDNI())) {
+                    if (paciente.getDni().equals(mPacientes.get(i).getDni())) {
                         mPacientes.remove(i);
 
                     }

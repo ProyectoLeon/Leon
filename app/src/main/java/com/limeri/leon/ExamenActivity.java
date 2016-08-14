@@ -36,7 +36,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonSemejanzas = (Button) findViewById(R.id.buttonSemejanzas);
 
         ActionBar AB = getSupportActionBar();
-        AB.setTitle(Paciente.getmSelectedPaciente().getNombreCompleto());
+        AB.setTitle(Paciente.getSelectedPaciente().getNombreCompleto());
 
         buttonInformacion.setOnClickListener(new View.OnClickListener() {
             @Override

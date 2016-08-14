@@ -2,15 +2,12 @@ package com.limeri.leon;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
@@ -71,18 +68,18 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     private void guardar() {
         try {
             AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 
     private void cancelar() {
         try {
             AdministradorJuegos.getInstance().cancelarJuego(this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 }

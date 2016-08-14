@@ -61,7 +61,7 @@ public class AdministradorJuegos {
     }
 
     public void guardarJuego(Integer puntosJuego, Activity activity) {
-        Paciente paciente = Paciente.getmSelectedPaciente();
+        Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacion();
         Juego juego = evaluacion.getJuegoActual();
         juego.setPuntosJuego(puntosJuego);
@@ -123,7 +123,7 @@ public class AdministradorJuegos {
     }
 
     public void cancelarJuego(Activity activity) {
-        Paciente paciente = Paciente.getmSelectedPaciente();
+        Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacion();
         Juego juego = evaluacion.getJuegoActual();
         alternativas.add(juego.getCategoria());

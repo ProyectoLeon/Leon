@@ -2,7 +2,6 @@ package com.limeri.leon;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,15 +18,6 @@ import com.limeri.leon.common.JSONLoader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 
 public class BqSimbolosActivity extends AppCompatActivity {
 
@@ -188,18 +178,18 @@ public class BqSimbolosActivity extends AppCompatActivity {
     private void guardar() {
         try {
             AdministradorJuegos.getInstance().guardarJuego(cantCorrectas - cantIncorrectas, this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 
     private void cancelar() {
         try {
             AdministradorJuegos.getInstance().cancelarJuego(this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 }

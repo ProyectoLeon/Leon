@@ -189,18 +189,18 @@ public class MatricesActivity extends AppCompatActivity {
     private void guardar() {
         try {
             AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 
     private void cancelar() {
         try {
             AdministradorJuegos.getInstance().cancelarJuego(this);
-            Navegacion.volver(this, InicioJuegoActivity.class);
+            Navegacion.irA(this, InicioJuegoActivity.class);
         } catch (Exception e) {
-            Navegacion.volver(this, ExamenActivity.class);
+            Navegacion.irA(this, ExamenActivity.class);
         }
     }
 

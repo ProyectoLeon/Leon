@@ -21,7 +21,7 @@
         {
             "nombre":"Comprensión",
             "categoria":"Comprensión verbal",
-            "activity":"CompresionActivity",
+            "activity":"ComprensionActivity",
             "alternativo":false
         },
         {
