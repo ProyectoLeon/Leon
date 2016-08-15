@@ -13,12 +13,6 @@
             "alternativo":false
         },
         {
-            "nombre":"Matrices",
-            "categoria":"Razonamiento Perceptivo",
-            "activity":"MatricesActivity",
-            "alternativo":false
-        },
-        {
             "nombre":"Comprensión",
             "categoria":"Comprensión verbal",
             "activity":"ComprensionActivity",
@@ -41,6 +35,12 @@
             "categoria":"Comprensión verbal",
             "activity":"AdivinanzasActivity",
             "alternativo":false
-        }
+        },
+         {
+             "nombre":"Matrices",
+             "categoria":"Razonamiento Perceptivo",
+             "activity":"MatricesActivity",
+             "alternativo":false
+         }
     ]
 }

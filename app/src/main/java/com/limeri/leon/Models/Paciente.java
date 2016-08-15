@@ -175,21 +175,22 @@ public class Paciente {
     }
 
     public Evaluacion getEvaluacionFinalizada(){
-       Evaluacion ultimaEval = null;
+       Evaluacion evaluacionFinalizada = null;
         for(Evaluacion eval : evaluaciones) {
             if (eval.isFinalizada()){
-                ultimaEval = eval;
+                evaluacionFinalizada = eval;
             }
         }
-        return ultimaEval;
+        return evaluacionFinalizada;
     }
 
     public Evaluacion getEvaluacionActual() {
+        Evaluacion evaluacionActual = null;
         for (Evaluacion eval : evaluaciones) {
             if (!eval.isFinalizada())
-                return eval;
+                evaluacionActual = eval;
         }
-        return null;
+        return evaluacionActual;
     }
 
     public void agregarEvaluacion(Evaluacion evaluacion) {

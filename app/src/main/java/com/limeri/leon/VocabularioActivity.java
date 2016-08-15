@@ -1,13 +1,9 @@
 package com.limeri.leon;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -27,13 +25,11 @@ public class VocabularioActivity extends AppCompatActivity {
 
     private TextView palabra;
     private TextView seleccion;
-    private String respuestaSeleccionada = "";
     private int nivel = 4; // Consideramos los niveles 0 a 3 (gráficos)
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private int puntPerfecto = 0;
     private String jsonString;
-    private int puntaje;
     private ImageView imagen;
 
     @Override
@@ -42,60 +38,14 @@ public class VocabularioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vocabulario);
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
-        siguiente.setOnClickListener(clickSiguiente());
+        if (siguiente != null) {
+            siguiente.setOnClickListener(clickSiguiente());
+        }
 
         palabra = (TextView) findViewById(R.id.palabra);
         imagen = (ImageView) findViewById(R.id.imagen);
 
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.action_bar,
-                null);
-
-        getSupportActionBar().setCustomView(actionBarLayout);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-
-        Button boton =(Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(VocabularioActivity.this);
-
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.alert_dialog,null);
-
-                builder.setView(dialogView);
-
-                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
-                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
-
-                final AlertDialog dialog = builder.create();
-
-                btn_positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        guardar();
-                    }
-                });
-
-                btn_negative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cancelar();
-                    }
-                });
-
-                btn_neutral.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                // Display the custom alert dialog on interface
-                dialog.show();
-            }
-        });
+        Navegacion.agregarMenuJuego(this);
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
@@ -107,7 +57,6 @@ public class VocabularioActivity extends AppCompatActivity {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
         }
 
-        String data = "";
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -131,19 +80,21 @@ public class VocabularioActivity extends AppCompatActivity {
             }
             if (nivel < 4) {
                 String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_list_item_1, listRespuestas);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
                 ListView respuestas = (ListView) findViewById(R.id.respuestas);
-                respuestas.setOnItemClickListener(opcionSeleccionada());
-                respuestas.setAdapter(adapter);
+                if (respuestas != null) {
+                    respuestas.setOnItemClickListener(opcionSeleccionada());
+                    respuestas.setAdapter(adapter);
+                }
             } else {
                 String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
                         (jsonObject.optString("respuesta2").toString())};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_list_item_1, listRespuestas);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
                 ListView respuestas = (ListView) findViewById(R.id.respuestas);
-                respuestas.setOnItemClickListener(opcionSeleccionada());
-                respuestas.setAdapter(adapter);
+                if (respuestas != null) {
+                    respuestas.setOnItemClickListener(opcionSeleccionada());
+                    respuestas.setAdapter(adapter);
+                }
             }
         } catch (JSONException e) {
             guardar();
@@ -158,7 +109,6 @@ public class VocabularioActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                respuestaSeleccionada = seleccion.getText().toString();
                 //TODO: Corregir para identificar cuando hacer retrogresion.
                 // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
                 if (nivel < 4) {
@@ -167,7 +117,7 @@ public class VocabularioActivity extends AppCompatActivity {
                         puntPerfecto = 0;
                     } else {
                         cantIncorrectas = 0;
-                        puntaje++;
+                        sumarPuntos(1);
                         puntPerfecto = 1;
                     }
                 } else {
@@ -176,16 +126,21 @@ public class VocabularioActivity extends AppCompatActivity {
                         puntPerfecto = 0;
                     } else if (position == 1) {
                         cantIncorrectas = 0;
-                        puntaje++;
+                        sumarPuntos(1);
                         puntPerfecto = 0;
                     } else {
                         cantIncorrectas = 0;
-                        puntaje = puntaje + 2;
+                        sumarPuntos(2);
                         puntPerfecto = 1;
                     }
                 }
             }
         };
+    }
+
+    private void sumarPuntos(Integer puntos) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
     }
 
     private void seleccionar(TextView view) {
@@ -206,7 +161,7 @@ public class VocabularioActivity extends AppCompatActivity {
                     guardarRespuesta();
                     seleccion = null;
                 } catch (Exception ex) {
-                    return;
+                    ex.printStackTrace();
                 }
             }
         };
@@ -250,21 +205,7 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        try {
-            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
-            Navegacion.irA(this, InicioJuegoActivity.class);
-        } catch (Exception e) {
-            Navegacion.irA(this, ExamenActivity.class);
-        }
-    }
-
-    private void cancelar() {
-        try {
-            AdministradorJuegos.getInstance().cancelarJuego(this);
-            Navegacion.irA(this, InicioJuegoActivity.class);
-        } catch (Exception e) {
-            Navegacion.irA(this, ExamenActivity.class);
-        }
+        AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
 }

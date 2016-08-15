@@ -1,6 +1,5 @@
 package com.limeri.leon;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,7 +27,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacionActual();
         } else {
-            evaluacion = new Evaluacion(paciente);
+            evaluacion = new Evaluacion();
             paciente.agregarEvaluacion(evaluacion);
             Paciente.saveCuenta(this,paciente);
         }

@@ -220,7 +220,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Profesional.setProfesional(profesional);
                             profesional.saveProfesional(LoginActivity.this, profesional);
                             break;
-
                         }
                     } else {
                         existeUser = false;

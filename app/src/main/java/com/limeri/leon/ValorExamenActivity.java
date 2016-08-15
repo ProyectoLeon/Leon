@@ -39,6 +39,6 @@ public class ValorExamenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Navegacion.irA(this, SelecPacienteActivity.class);
+        Navegacion.irA(this, MainActivity.class);
     }
 }

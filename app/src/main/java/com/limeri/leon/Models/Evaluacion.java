@@ -16,10 +16,6 @@ public class Evaluacion {
 
     private List<Juego> juegos = new ArrayList<>();
 
-    public Evaluacion(Paciente paciente) {
-        this.paciente = null;
-    }
-
     public Paciente getPaciente() {
         return paciente;
     }

@@ -3,6 +3,8 @@ package com.limeri.leon.Models;
 import android.app.Activity;
 import android.content.Context;
 
+import com.limeri.leon.ExamenActivity;
+import com.limeri.leon.InicioJuegoActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
 import com.limeri.leon.common.JSONLoader;
@@ -61,17 +63,45 @@ public class AdministradorJuegos {
         return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
     }
 
-    public void guardarJuego(Integer puntosJuego, Activity activity) {
-        Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionActual();
-        Juego juego = evaluacion.getJuegoActual();
-        juego.setPuntosJuego(puntosJuego);
-        juego.finalizar();
-        if (isUltimoJuego(juego)) {
-            evaluacion.finalizar();
-            Navegacion.irA(activity, ValorExamenActivity.class);
+    public void guardarJuego(Activity activity) {
+        try {
+            Paciente paciente = Paciente.getSelectedPaciente();
+            Evaluacion evaluacion = paciente.getEvaluacionActual();
+            Juego juego = evaluacion.getJuegoActual();
+            juego.finalizar();
+            if (isUltimoJuego(juego)) {
+                evaluacion.finalizar();
+                Navegacion.irA(activity, ValorExamenActivity.class);
+            } else {
+                Navegacion.irA(activity, InicioJuegoActivity.class);
+            }
+            Paciente.saveCuenta(activity, paciente);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Navegacion.irA(activity, ExamenActivity.class);
         }
-        Paciente.saveCuenta(activity, paciente);
+    }
+
+    public void cancelarJuego(Activity activity) {
+        try {
+            Paciente paciente = Paciente.getSelectedPaciente();
+            Evaluacion evaluacion = paciente.getEvaluacionActual();
+            Juego juego = evaluacion.getJuegoActual();
+            alternativas.add(juego.getCategoria());
+            juego.setPuntosJuego(0);
+            juego.setPuntosNiveles(null);
+            juego.cancelar();
+            if (isUltimoJuego(juego)) {
+                evaluacion.finalizar();
+                Navegacion.irA(activity, ValorExamenActivity.class);
+            } else {
+                Navegacion.irA(activity, InicioJuegoActivity.class);
+            }
+            Paciente.saveCuenta(activity, paciente);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Navegacion.irA(activity, ExamenActivity.class);
+        }
     }
 
     private Boolean isUltimoJuego(Juego juego) {
@@ -122,20 +152,6 @@ public class AdministradorJuegos {
             juego = getJuegoInicial();
         }
         return juego;
-    }
-
-    public void cancelarJuego(Activity activity) {
-        Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionActual();
-        Juego juego = evaluacion.getJuegoActual();
-        alternativas.add(juego.getCategoria());
-        juego.setPuntosJuego(0);
-        juego.setPuntosNiveles(null);
-        juego.cancelar();
-        if (isUltimoJuego(juego)) {
-            //evaluacion.finalizar();
-        }
-        Paciente.saveCuenta(activity, paciente);
     }
 
     class JuegoWisc {

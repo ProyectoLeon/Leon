@@ -1,18 +1,13 @@
-
 package com.limeri.leon;
 
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +15,9 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -51,8 +48,6 @@ public class MatricesActivity extends AppCompatActivity {
     private Map<String,Integer> mapOpciones = new HashMap<>();
     private List<List<String>> matriz = new ArrayList<>();
     private List<String> opciones;
-    private Map<Integer, Integer> puntos = new HashMap<>();
-    private int puntaje = 0;
     private GridLayout gridMatriz;
     private GridLayout gridOpciones;
     private int size;
@@ -77,58 +72,14 @@ public class MatricesActivity extends AppCompatActivity {
         display.getSize(size);
         this.size = (size.x-100)/5;
 
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.action_bar,
-                null);
-
-
-        getSupportActionBar().setCustomView(actionBarLayout);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-
-        Button boton =(Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MatricesActivity.this);
-
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.alert_dialog,null);
-
-                builder.setView(dialogView);
-
-                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
-                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
-
-                final android.app.AlertDialog dialog = builder.create();
-
-                btn_positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        guardar();
-                    }
-                });
-
-                btn_negative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cancelar();
-                    }
-                });
-
-                btn_neutral.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                // Display the custom alert dialog on interface
-                dialog.show();
-            }
-        });
+        Navegacion.agregarMenuJuego(this);
 
         inicializarJuego();
+    }
+
+    private void sumarPuntos(Integer puntos) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
     }
 
     private void inicializarJuego() {
@@ -146,7 +97,10 @@ public class MatricesActivity extends AppCompatActivity {
         cargarOpciones();
 
         //Seteo el metodo Siguiente
-        findViewById(R.id.siguiente).setOnClickListener(clickSiguiente());
+        View siguiente = findViewById(R.id.siguiente);
+        if (siguiente != null) {
+            siguiente.setOnClickListener(clickSiguiente());
+        }
     }
 
     private View.OnClickListener clickSiguiente() {
@@ -161,7 +115,6 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        int puntosNivel = 0;
         if (isCorrecta()) {
             cantIncorrectasSeguidas = 0;
             cantCorrectasSeguidas++;
@@ -173,8 +126,7 @@ public class MatricesActivity extends AppCompatActivity {
                     revertir();
                 }
             }
-            puntosNivel++;
-            puntaje++;
+            sumarPuntos(1);
         } else {
             cantCorrectasSeguidas = 0;
             cantIncorrectasSeguidas++;
@@ -191,7 +143,6 @@ public class MatricesActivity extends AppCompatActivity {
                 }
             }
         }
-        puntos.put(nivel,puntosNivel);
         if (isUltimoNivel()){
             guardar();
         } else {
@@ -200,21 +151,7 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void guardar() {
-        try {
-            AdministradorJuegos.getInstance().guardarJuego(puntaje, this);
-            Navegacion.irA(this, InicioJuegoActivity.class);
-        } catch (Exception e) {
-            Navegacion.irA(this, ExamenActivity.class);
-        }
-    }
-
-    private void cancelar() {
-        try {
-            AdministradorJuegos.getInstance().cancelarJuego(this);
-            Navegacion.irA(this, InicioJuegoActivity.class);
-        } catch (Exception e) {
-            Navegacion.irA(this, ExamenActivity.class);
-        }
+        AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
     private void revertir() {
@@ -334,9 +271,6 @@ public class MatricesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
     }
 
     private void leerJson() {
