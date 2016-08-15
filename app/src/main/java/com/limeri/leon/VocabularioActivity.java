@@ -202,7 +202,12 @@ public class VocabularioActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                guardarRespuesta();
+                try {
+                    guardarRespuesta();
+                    seleccion = null;
+                } catch (Exception ex) {
+                    return;
+                }
             }
         };
     }

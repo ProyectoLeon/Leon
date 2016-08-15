@@ -162,7 +162,12 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                guardarRespuesta();
+                try {
+                    guardarRespuesta();
+                    seleccion = null;
+                } catch (Exception ex) {
+                    return;
+                }
             }
         };
     }
