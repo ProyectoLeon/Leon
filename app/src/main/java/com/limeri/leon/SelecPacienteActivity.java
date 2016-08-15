@@ -34,7 +34,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//TODO: Validar porque ONCREATE se carga dos veces
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec_paciente);
 
@@ -241,7 +240,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
     }
 
     //POPUP PARA EDITAR DATOS PROFESIONAL
-    //TODO: Cambiar los tipos de datos. Que sea DNI solo numérico y fecha de nacimiento campo fecha.
     private void showDialog_Prof() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

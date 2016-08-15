@@ -27,6 +27,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
     private Button respuestaNo;
     private String pregunta;
     private String respuesta;
+    private ImageView muestra;
     private ImageView imagesimbolo;
     private String respuestaSeleccionada = "";
     private int nivel = 0;
@@ -90,8 +91,8 @@ public class BqSimbolosActivity extends AppCompatActivity {
                 btn_neutral.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Dismiss/cancel the alert dialog;
-                        tiempo_detenido = SystemClock.elapsedRealtime() - crono.getBase() - tiempo_ejecutado;
+                    //TODO: Revisar lógica del crono cuando se pausa el juego y se retoma.
+                    tiempo_detenido = SystemClock.elapsedRealtime() - crono.getBase() - tiempo_ejecutado;
                         crono.start();
                         dialog.cancel();
                     }
@@ -139,6 +140,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
         if (nivel == 0) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.busquedasimbolos));
+        nivel++;
         }
 
         try {
@@ -151,15 +153,16 @@ public class BqSimbolosActivity extends AppCompatActivity {
                 guardar();
             }
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
-//TODO: Corregir la lectura del JSON que arranca de FILA 0 y nivelarlo con los niveles del protocolo que empiezan en 1.
-            //Por eso en el primer nivel no se muestra imagen.
             pregunta = (jsonObject.getString("pregunta").toString());
             respuesta = (jsonObject.optString("respuesta0").toString());
-
+            muestra = (ImageView) findViewById(R.id.muestra);
             imagesimbolo = (ImageView) findViewById(R.id.imageVSimbolos);
-            String nivelImagen = "bs"+nivel;
-            int simb = getResources().getIdentifier(nivelImagen,"drawable",getPackageName());
+            String nivelSimbolo = "bs"+nivel;
+            String nivelMuestra = "m"+nivel;
+            int simb = getResources().getIdentifier(nivelSimbolo,"drawable",getPackageName());
+            int muest = getResources().getIdentifier(nivelMuestra, "drawable",getPackageName());
             imagesimbolo.setImageResource(simb);
+            muestra.setImageResource(muest);
 
             respuestaSi = (Button) findViewById(R.id.buttonYes);
             respuestaSi.setOnClickListener(new View.OnClickListener() {

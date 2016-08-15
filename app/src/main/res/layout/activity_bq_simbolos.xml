@@ -14,18 +14,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageVSimbolos"
         android:src="@drawable/abc_btn_check_to_on_mtrl_015"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿Se encuentra el símbolo?"
+        android:text="¿Se encuentra el símbolo de la muestra?"
         android:id="@+id/textView3"
-        android:textSize="20dp"
-        android:layout_below="@+id/imageVSimbolos"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:textSize="18dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,32 +39,6 @@
         android:weightSum="2"
         android:layout_marginTop="20dp">
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SI"
-            android:id="@+id/buttonYes"
-            android:layout_marginBottom="92dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/buttonNo"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="20dp"
-            android:layout_weight="1" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NO"
-            android:id="@+id/buttonNo"
-            android:textSize="20dp"
-            android:layout_alignTop="@+id/linearLayout2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_weight="1" />
-
     </LinearLayout>
 
     <Chronometer
@@ -73,5 +47,56 @@
         android:id="@+id/cronometro"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/imageVSimbolos" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NO"
+        android:id="@+id/buttonNo"
+        android:textSize="20dp"
+        android:layout_weight="1"
+        android:layout_above="@+id/cronometro"
+        android:layout_marginBottom="146dp"
+        android:layout_alignEnd="@+id/linearLayout2"
+        android:layout_alignStart="@+id/cronometro" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SI"
+        android:id="@+id/buttonYes"
+        android:textSize="20dp"
+        android:layout_weight="1"
+        android:layout_alignTop="@+id/buttonNo"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/imageVSimbolos" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muestra"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Búsqueda"
+        android:id="@+id/textView6"
+        android:textSize="20dp"
+        android:layout_above="@+id/imageVSimbolos"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/muestra"
+        android:src="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

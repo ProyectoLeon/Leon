@@ -126,7 +126,8 @@
             android:layout_height="wrap_content"
             android:hint="Correo electrónico"
             android:imeOptions="actionDone"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 

@@ -23,7 +23,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_juego);
         AdministradorJuegos.setContext(getApplicationContext());
-
+//TODO: Revisar la lógica de ejecución de un TEST y finalizarlo, en lugar de volver a empezar.
         Paciente paciente = Paciente.getSelectedPaciente();
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacionActual();
@@ -57,3 +57,5 @@ public class InicioJuegoActivity extends AppCompatActivity {
         Navegacion.irA(this, MainActivity.class);
     }
 }
+
+//TODO: Agregar lógica de cancelar o volver atrás.

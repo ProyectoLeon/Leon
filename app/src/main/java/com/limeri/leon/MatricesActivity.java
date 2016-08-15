@@ -88,7 +88,6 @@ public class MatricesActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Agregar la lógica de cancelar juego en NAVEGACIÓN
                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MatricesActivity.this);
 
                 LayoutInflater inflater = getLayoutInflater();

@@ -78,7 +78,8 @@
             android:hint="DNI"
             android:imeOptions="actionDone"
             android:layout_below="@+id/view2"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -101,7 +102,9 @@
             android:layout_height="wrap_content"
             android:hint="Fecha de Nacimiento"
             android:imeOptions="actionDone"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:inputType="date"
+            />
 
     </android.support.design.widget.TextInputLayout>
 

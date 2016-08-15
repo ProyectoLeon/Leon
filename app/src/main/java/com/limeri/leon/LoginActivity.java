@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -219,6 +220,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Profesional.setProfesional(profesional);
                             profesional.saveProfesional(LoginActivity.this, profesional);
                             break;
+
                         }
                     } else {
                         existeUser = false;
@@ -362,15 +364,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
+            /**try {
                 // Simulate network access.
-                Thread.sleep(2000);
+              Thread.sleep(2000);
+                Log.d("Background","");
             } catch (InterruptedException e) {
                 return false;
             }
-
+            */
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mMatricula)) {
@@ -379,8 +381,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+          return true;
         }
 
         @Override
