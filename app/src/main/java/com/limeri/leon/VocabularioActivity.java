@@ -31,6 +31,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private int nivel = 4; // Consideramos los niveles 0 a 3 (gráficos)
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
+    private int puntPerfecto = 0;
     private String jsonString;
     private int puntaje;
     private ImageView imagen;
@@ -163,19 +164,24 @@ public class VocabularioActivity extends AppCompatActivity {
                 if (nivel < 4) {
                     if (position == 1){
                         cantIncorrectas++;
+                        puntPerfecto = 0;
                     } else {
                         cantIncorrectas = 0;
                         puntaje++;
+                        puntPerfecto = 1;
                     }
                 } else {
                     if (position == 2){
                         cantIncorrectas++;
+                        puntPerfecto = 0;
                     } else if (position == 1) {
                         cantIncorrectas = 0;
                         puntaje++;
+                        puntPerfecto = 0;
                     } else {
                         cantIncorrectas = 0;
                         puntaje = puntaje + 2;
+                        puntPerfecto = 1;
                     }
                 }
             }
@@ -206,17 +212,19 @@ public class VocabularioActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas == 5) {
             guardar();
-        }  else if ( nivel == 4 & puntaje < 2 ){
+        }  else if ( nivel == 4 & puntPerfecto == 0 & cantConsec == 0 ){
             nivel = 3;
-        }  else if ( nivel == 5 & puntaje < 4 ){
+        }  else if ( nivel == 5 & puntPerfecto == 0 & cantConsec == 0 ){
             nivel = 3;
-        }  else if (nivel < 4 & cantIncorrectas == 0 & cantConsec == 2) {
-            nivel = 5;
         }  else if ( nivel < 4 & cantIncorrectas > 0 ){
             nivel --;
         }  else if ( nivel < 4 & cantIncorrectas == 0 ){
-            nivel --;
             cantConsec++;
+            if (cantConsec == 2) {
+                nivel = 4;
+            } else {
+                nivel --;
+            }
         }  else if ( nivel < 0 ){
             guardar();
         } else {
