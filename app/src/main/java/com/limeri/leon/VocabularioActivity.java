@@ -28,7 +28,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private TextView palabra;
     private TextView seleccion;
     private String respuestaSeleccionada = "";
-    private int nivel = 0; // Provisoriamente no consideramos los niveles 1 a 4 (gráficos)
+    private int nivel = 4; // Consideramos los niveles 0 a 3 (gráficos)
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private String jsonString;
@@ -102,7 +102,7 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if (nivel == 0) {
+        if (nivel == 4) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
         }
 
@@ -119,7 +119,7 @@ public class VocabularioActivity extends AppCompatActivity {
 
             String pregunta = jsonObject.getString("pregunta").toString();
 //TODO: Corregir para cuando debe ser dibujo o pregunta según el nivel.
-            if (nivel == 0) {
+            if (nivel < 4) {
                 palabra.setVisibility(View.GONE);
                 imagen.setVisibility(View.VISIBLE);
                 imagen.setImageResource(getResources().getIdentifier(pregunta, "drawable", this.getPackageName()));
@@ -128,19 +128,25 @@ public class VocabularioActivity extends AppCompatActivity {
                 palabra.setVisibility(View.VISIBLE);
                 palabra.setText(pregunta);
             }
-            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
-                    (jsonObject.optString("respuesta2").toString())};
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, listRespuestas);
-
-            ListView respuestas = (ListView) findViewById(R.id.respuestas);
-            respuestas.setOnItemClickListener(opcionSeleccionada());
-            respuestas.setAdapter(adapter);
-
+            if (nivel < 4) {
+                String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_list_item_1, listRespuestas);
+                ListView respuestas = (ListView) findViewById(R.id.respuestas);
+                respuestas.setOnItemClickListener(opcionSeleccionada());
+                respuestas.setAdapter(adapter);
+            } else {
+                String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
+                        (jsonObject.optString("respuesta2").toString())};
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_list_item_1, listRespuestas);
+                ListView respuestas = (ListView) findViewById(R.id.respuestas);
+                respuestas.setOnItemClickListener(opcionSeleccionada());
+                respuestas.setAdapter(adapter);
+            }
         } catch (JSONException e) {
             guardar();
         }
-
     }
 
     private AdapterView.OnItemClickListener opcionSeleccionada() {
@@ -154,14 +160,23 @@ public class VocabularioActivity extends AppCompatActivity {
                 respuestaSeleccionada = seleccion.getText().toString();
                 //TODO: Corregir para identificar cuando hacer retrogresion.
                 // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                if (position == 2){
-                    cantIncorrectas++;
-                } else if (position == 1) {
-                    cantIncorrectas = 0;
-                    puntaje++;
+                if (nivel < 4) {
+                    if (position == 1){
+                        cantIncorrectas++;
+                    } else {
+                        cantIncorrectas = 0;
+                        puntaje++;
+                    }
                 } else {
-                    cantIncorrectas = 0;
-                    puntaje = puntaje + 2;
+                    if (position == 2){
+                        cantIncorrectas++;
+                    } else if (position == 1) {
+                        cantIncorrectas = 0;
+                        puntaje++;
+                    } else {
+                        cantIncorrectas = 0;
+                        puntaje = puntaje + 2;
+                    }
                 }
             }
         };
@@ -189,12 +204,21 @@ public class VocabularioActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         blanquear(seleccion);
-        if (cantIncorrectas== 5) {
+        if (cantIncorrectas == 5) {
             guardar();
-            // }  else if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-          //  nivel = 4;
-        // } else if (cantConsec == 2) {
-          //  nivel = 5;
+        }  else if ( nivel == 4 & puntaje < 2 ){
+            nivel = 3;
+        }  else if ( nivel == 5 & puntaje < 4 ){
+            nivel = 3;
+        }  else if (nivel < 4 & cantIncorrectas == 0 & cantConsec == 2) {
+            nivel = 5;
+        }  else if ( nivel < 4 & cantIncorrectas > 0 ){
+            nivel --;
+        }  else if ( nivel < 4 & cantIncorrectas == 0 ){
+            nivel --;
+            cantConsec++;
+        }  else if ( nivel < 0 ){
+            guardar();
         } else {
             nivel++;
         }
@@ -202,7 +226,8 @@ public class VocabularioActivity extends AppCompatActivity {
             leerJson();
         } catch (Exception ex) {
             guardar();
-        }}
+        }
+    }
 
     @Override
     public void onBackPressed() {

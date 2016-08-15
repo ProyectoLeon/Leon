@@ -1,7 +1,23 @@
 {
 	"vocabulario": [
-	  {
-	  "pregunta": "leon",
+	   {
+        "pregunta": "leon",
+        "respuesta0": "Auto / Automóvil",
+        "respuesta1": "Camión"
+    }, {
+	    "pregunta": "leon",
+		"respuesta0": "Flor (nombre específico de flor)",
+		"respuesta1": "Planta"
+	}, {
+	    "pregunta": "leon",
+		"respuesta0": "Tren / Locomotora",
+		"respuesta1": "Máquina"
+	}, {
+	    "pregunta": "leon",
+		"respuesta0": "Balde / Cubeta",
+		"respuesta1": "Canasta"
+	}, {
+	    "pregunta": "¿Qué es una VACA?",
 		"respuesta0": "Animal / Mamífero / Da leche y carne / Animal de granja",
 		"respuesta1": "Da leche / Da carne / Hace muuuu",
 		"respuesta2": "Cualquier otra cosa"
