@@ -26,6 +26,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private TextView palabra;
     private TextView seleccion;
     private int nivel = 4; // Consideramos los niveles 0 a 3 (gráficos)
+    private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private int puntPerfecto = 0;
@@ -172,16 +173,15 @@ public class VocabularioActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas == 5) {
             guardar();
-        }  else if ( nivel == 4 & puntPerfecto == 0 & cantConsec == 0 ){
-            nivel = 3;
-        }  else if ( nivel == 5 & puntPerfecto == 0 & cantConsec == 0 ){
+        }  else if ( (nivel == 4 | nivel == 5) & puntPerfecto == 0 & cantConsec == 0 ){
+            nivelErroneo = nivel;
             nivel = 3;
         }  else if ( nivel < 4 & cantIncorrectas > 0 ){
             nivel --;
         }  else if ( nivel < 4 & cantIncorrectas == 0 ){
             cantConsec++;
             if (cantConsec == 2) {
-                nivel = 4;
+                nivel = nivelErroneo + 1;
             } else {
                 nivel --;
             }

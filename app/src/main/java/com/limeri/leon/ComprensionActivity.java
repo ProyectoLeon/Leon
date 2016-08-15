@@ -132,7 +132,7 @@ public class ComprensionActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //ESTE JUEGO NO TIENE RETROGRESIÓN
         blanquear(seleccion);
-        if (cantIncorrectas== 5) {
+        if (cantIncorrectas== 4) {
             guardar();
         } else {
             nivel++;
