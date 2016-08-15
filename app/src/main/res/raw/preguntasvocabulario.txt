@@ -1,19 +1,19 @@
 {
 	"vocabulario": [
 	   {
-        "pregunta": "leon",
+        "pregunta": "auto",
         "respuesta0": "Auto / Automóvil",
         "respuesta1": "Camión"
     }, {
-	    "pregunta": "leon",
+	    "pregunta": "flor",
 		"respuesta0": "Flor (nombre específico de flor)",
 		"respuesta1": "Planta"
 	}, {
-	    "pregunta": "leon",
+	    "pregunta": "tren",
 		"respuesta0": "Tren / Locomotora",
 		"respuesta1": "Máquina"
 	}, {
-	    "pregunta": "leon",
+	    "pregunta": "balde",
 		"respuesta0": "Balde / Cubeta",
 		"respuesta1": "Canasta"
 	}, {
