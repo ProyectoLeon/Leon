@@ -13,7 +13,7 @@ tools:context="com.limeri.leon.MainActivity">
 <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Comenzar Test WISC IV"
+    android:text="Comenzar Evaluación"
     android:id="@+id/buttonTest"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
@@ -44,7 +44,7 @@ tools:context="com.limeri.leon.MainActivity">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visualizar estadísticas"
+        android:text="Estadísticas Evaluación"
         android:id="@+id/buttonEstadisticas"
         android:layout_below="@+id/buttonTest"
         android:layout_alignParentLeft="true"

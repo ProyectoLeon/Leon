@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 
 public class InicioJuegoActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         } else {
             evaluacion = new Evaluacion(paciente);
             paciente.agregarEvaluacion(evaluacion);
+            Paciente.saveCuenta(this,paciente);
         }
 
         juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
@@ -41,13 +43,17 @@ public class InicioJuegoActivity extends AppCompatActivity {
                 try {
                     evaluacion.agregarJuego(juego);
                     Class activity = Class.forName(PREFIJO + juego.getNombreActividad());
-                    Intent mainIntent = new Intent(InicioJuegoActivity.this, activity);
-                    InicioJuegoActivity.this.startActivity(mainIntent);
-                    InicioJuegoActivity.this.finish();
+                    Navegacion.irA(InicioJuegoActivity.this, activity);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Navegacion.irA(this, MainActivity.class);
     }
 }

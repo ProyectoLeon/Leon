@@ -203,4 +203,12 @@ public class Paciente {
         }
         return false;
     }
+
+    public Boolean tieneEvaluacionFinalizada() {
+        for (Evaluacion eval : evaluaciones) {
+            if (eval.isFinalizada())
+                return true;
+        }
+        return false;
+    }
 }

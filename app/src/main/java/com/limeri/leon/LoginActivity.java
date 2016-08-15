@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
@@ -406,16 +407,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void login(String eMail) {
         try {
             Paciente.loadCuentas(this);
-
             User.saveUserEmail(getBaseContext(), eMail);
         } catch (Exception ex) {
 
         }
-
-
-        Intent mainIntent = new Intent(LoginActivity.this, SelecPacienteActivity.class);
-        LoginActivity.this.startActivity(mainIntent);
-        LoginActivity.this.finish();
+        Navegacion.irA(LoginActivity.this, SelecPacienteActivity.class);
     }
 }
 

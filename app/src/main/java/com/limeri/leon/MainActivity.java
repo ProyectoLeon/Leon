@@ -2,6 +2,7 @@ package com.limeri.leon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.Navegacion;
@@ -26,43 +28,80 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonEditarPaciente;
     String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre, mProfMatricula;
     AlertDialog dialog;
+    private TextView txtPaciente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView txtPaciente = (TextView) findViewById(R.id.txtPaciente);
+        try {
+            txtPaciente = (TextView) findViewById(R.id.txtPaciente);
+            Paciente paciente = Paciente.getSelectedPaciente();
+            if(paciente != null) {
+                actualizarNombrePaciente();
+            }
 
-        if(Paciente.getSelectedPaciente() != null) {
-            txtPaciente.setText(txtPaciente.getText().toString() + Paciente.getSelectedPaciente().getNombreCompleto());
+            ActionBar AB = getSupportActionBar();
+            if (AB != null) {
+                AB.setTitle(txtPaciente.getText());
+            }
+
+            Button buttonTest = (Button) findViewById(R.id.buttonTest);
+            if (buttonTest != null) {
+                if (paciente.tieneEvaluacionIniciada()) {
+                    buttonTest.setText("Continuar Evaluación");
+                }
+                buttonTest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Navegacion.irA(MainActivity.this, InicioJuegoActivity.class);
+                    }
+                });
+            }
+
+            Button buttonJuegos = (Button) findViewById(R.id.buttonJuegos);
+            if (buttonJuegos != null) {
+                buttonJuegos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Navegacion.irA(MainActivity.this, ExamenActivity.class);
+                    }
+                });
+            }
+
+            Button buttonEstadisticas = (Button) findViewById(R.id.buttonEstadisticas);
+            if (buttonEstadisticas != null) {
+                if (paciente.tieneEvaluacionFinalizada()) {
+                    buttonEstadisticas.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Navegacion.irA(MainActivity.this, ValorExamenActivity.class);
+                        }
+                    });
+                } else {
+                    buttonEstadisticas.setEnabled(false);
+                }
+            }
+
+            Button buttonEditarPaciente = (Button) findViewById(R.id.buttonEditarPaciente);
+            if (buttonEditarPaciente != null) {
+                buttonEditarPaciente.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialog();
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+    }
 
-        ActionBar AB = getSupportActionBar();
-        AB.setTitle(txtPaciente.getText());
-
-        findViewById(R.id.buttonTest).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navegacion.irA(MainActivity.this, InicioJuegoActivity.class);
-            }
-        });
-        findViewById(R.id.buttonJuegos).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navegacion.irA(MainActivity.this, ExamenActivity.class);
-            }
-        });
-        buttonEditarPaciente = (Button) findViewById(R.id.buttonEditarPaciente);
-        buttonEditarPaciente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
+    private void actualizarNombrePaciente() {
+        txtPaciente.setText("Paciente: " + Paciente.getSelectedPaciente().getNombreCompleto());
     }
 
     @Override
@@ -124,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(viewInflated);
 
         // Set up the buttons
-        builder.setPositiveButton("Actualizar datos paciente", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -142,20 +181,18 @@ public class MainActivity extends AppCompatActivity {
                 paciente.setFechaNac(mFechaNac);
 
                 Paciente.saveCuenta(MainActivity.this, paciente);
+                actualizarNombrePaciente();
             }
         });
 
-        builder.setNegativeButton("Eliminar paciente", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Paciente paciente = Paciente.getSelectedPaciente();
                 Paciente.borrarCuenta(MainActivity.this, paciente);
                 Paciente.borrarSelectedPaciente();
                 dialog.cancel();
-                Intent mainIntent = new Intent(MainActivity.this, SelecPacienteActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
-
+                Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
             }
         });
 
@@ -166,13 +203,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
             button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
+            button.setPadding(10, 0, 10, 0);
         }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -183,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
             button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setPadding(10, 0, 10, 0);
         }
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
@@ -217,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(viewInflated);
 
         // Set up the buttons
-        builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
@@ -272,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
             button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
+            button.setPadding(10, 0, 10, 0);
         }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -282,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
             button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setPadding(10, 0, 10, 0);
         }
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
