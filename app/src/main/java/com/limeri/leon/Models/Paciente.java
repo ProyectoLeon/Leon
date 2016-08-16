@@ -81,14 +81,14 @@ public class Paciente {
         Gson gson = new Gson();
         Type listType = new TypeToken<Paciente>() {}.getType();
 
-        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences prefs = activity.getSharedPreferences(User.getUserEmail(activity), Context.MODE_PRIVATE);
         Set<String> s = new HashSet<>();
         for (Paciente p : pacientes) {
             s.add(gson.toJson(p,listType));
         }
 
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putStringSet("User", s);
+        edit.putStringSet(User.getUserEmail(activity), s);
         edit.apply();
     }
 
@@ -145,12 +145,15 @@ public class Paciente {
 
     public static void loadCuentas(Activity activity) {
         Gson gson = new Gson();
-        SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
-        Set<String> myStrings = prefs.getStringSet("User", null);
+        pacientes = new ArrayList<>();
+        SharedPreferences prefs = activity.getSharedPreferences(User.getUserEmail(activity), Context.MODE_PRIVATE);
+        Set<String> myStrings = prefs.getStringSet(User.getUserEmail(activity), null);
+
         if (myStrings != null) {
             for (String paciente : myStrings) {
                 Paciente.agregarPaciente(gson.fromJson(paciente, Paciente.class));
             }
+
         }
     }
 

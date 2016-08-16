@@ -60,6 +60,42 @@ public class Profesional {
         return mSelectedProfesional;
     }
 
+    public static Profesional getSavedProfesional(Activity activity, String id) {
+
+        Gson gson = new Gson();
+
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<String>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        if (s != null) {
+
+            //   for (int i = 0; i < myStrings.size(); i++) {
+            Iterator iter = s.iterator();
+
+            while (iter.hasNext()) {
+
+                Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
+
+                if (profesionalGuardado.getmMatricula().equals(id)) {
+
+                   return profesionalGuardado;
+
+
+                } else {
+
+                }
+
+            }
+
+
+        }
+
+
+        return new Profesional();
+    }
+
+
+
     public static void setProfesional (Profesional profesional) {
         mSelectedProfesional = profesional;
     }

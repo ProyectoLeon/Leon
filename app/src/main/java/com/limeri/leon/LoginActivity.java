@@ -213,10 +213,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             mAuthTask = new UserLoginTask(matricula, password);
                             mAuthTask.execute((Void) null);
                             Profesional profesional = new Profesional();
-                            profesional.setNombre(nombreJson);
-                            profesional.setmCorreo(correoJson);
-                            profesional.setmMatricula(matriculaJson);
-                            profesional.setmPassword(passwordJson);
+                            profesional = Profesional.getSavedProfesional(LoginActivity.this, matricula);
+                         //   profesional.setNombre(nombreJson);
+                         //   profesional.setmCorreo(correoJson);
+                         //   profesional.setmMatricula(matriculaJson);
+                         //   profesional.setmPassword(passwordJson);
                             Profesional.setProfesional(profesional);
                             profesional.saveProfesional(LoginActivity.this, profesional);
                             break;
@@ -404,10 +405,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public void login(String eMail) {
+    public void login(String matricula) {
         try {
+
+            User.saveUserEmail(getBaseContext(), matricula);
             Paciente.loadCuentas(this);
-            User.saveUserEmail(getBaseContext(), eMail);
         } catch (Exception ex) {
 
         }
