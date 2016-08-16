@@ -13,8 +13,21 @@ import com.limeri.leon.R;
 
 public class Navegacion {
 
+    private static Class anterior;
+
     public static void irA(Activity actividad, Class clase) {
+        anterior = actividad.getClass();
         Intent mainIntent = new Intent(actividad, clase);
+        actividad.startActivity(mainIntent);
+        actividad.finish();
+    }
+
+    public static void irA(Activity actividad, Class clase, Class claseAnterior) {
+        Class destino = clase;
+        if (anterior.equals(claseAnterior)) {
+            destino = anterior;
+        }
+        Intent mainIntent = new Intent(actividad, destino);
         actividad.startActivity(mainIntent);
         actividad.finish();
     }

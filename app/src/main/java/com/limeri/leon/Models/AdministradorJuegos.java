@@ -73,7 +73,7 @@ public class AdministradorJuegos {
                 evaluacion.finalizar();
                 Navegacion.irA(activity, ValorExamenActivity.class);
             } else {
-                Navegacion.irA(activity, InicioJuegoActivity.class);
+                Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             }
             Paciente.saveCuenta(activity, paciente);
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class AdministradorJuegos {
                 evaluacion.finalizar();
                 Navegacion.irA(activity, ValorExamenActivity.class);
             } else {
-                Navegacion.irA(activity, InicioJuegoActivity.class);
+                Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             }
             Paciente.saveCuenta(activity, paciente);
         } catch (Exception e) {
