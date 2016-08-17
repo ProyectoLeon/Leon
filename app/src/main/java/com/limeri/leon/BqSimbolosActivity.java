@@ -87,6 +87,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
                         if (elapsedMillis / 1000 < 120) {
+                            //TODO: Revisar la logica del puntaje porque esta restando cuando la respuesta es correcta, y viceversa
                             if (respuesta.equals("true") & (nivel >4)) {
                                 sumarPuntos(1);
                             } else {

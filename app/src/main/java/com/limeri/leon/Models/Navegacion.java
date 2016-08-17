@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.limeri.leon.ExamenActivity;
 import com.limeri.leon.R;
+import com.limeri.leon.ValorExamenActivity;
 
 public class Navegacion {
 
@@ -26,6 +28,10 @@ public class Navegacion {
         Class destino = clase;
         if (anterior.equals(claseAnterior)) {
             destino = anterior;
+            if (anterior.equals(ExamenActivity.class)) {
+                Paciente.getSelectedPaciente().getEvaluacionActual().finalizar();
+                destino = ValorExamenActivity.class;
+            }
         }
         Intent mainIntent = new Intent(activity, destino);
         activity.startActivity(mainIntent);
