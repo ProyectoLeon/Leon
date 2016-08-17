@@ -11,9 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
-import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
-import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -44,6 +42,7 @@ public class InformacionActivity extends AppCompatActivity {
         palabra = (TextView) findViewById(R.id.palabra);
 
         Navegacion.agregarMenuJuego(this);
+        AdministradorJuegos.getInstance().inicializarJuego();
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
@@ -103,8 +102,7 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void sumarPuntos(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
     private void seleccionar(TextView view) {

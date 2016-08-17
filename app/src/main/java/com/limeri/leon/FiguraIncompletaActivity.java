@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
-import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
-import com.limeri.leon.Models.Paciente;
 
 public class FiguraIncompletaActivity extends AppCompatActivity {
 
@@ -24,12 +22,12 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_figura_incompleta);
 
         Navegacion.agregarMenuJuego(this);
+        AdministradorJuegos.getInstance().inicializarJuego();
 
     }
 
     private void sumarPuntos(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
     //TODO: Lógica del JUEGO - Iteración 3

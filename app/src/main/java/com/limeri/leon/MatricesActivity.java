@@ -15,9 +15,7 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
-import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
-import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
 import com.limeri.leon.common.JSONLoader;
@@ -73,16 +71,16 @@ public class MatricesActivity extends AppCompatActivity {
         this.size = (size.x-100)/5;
 
         Navegacion.agregarMenuJuego(this);
+        AdministradorJuegos.getInstance().inicializarJuego();
 
-        inicializarJuego();
+        inicializarVariables();
     }
 
     private void sumarPuntos(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
-    private void inicializarJuego() {
+    private void inicializarVariables() {
         gridMatriz.removeAllViews();
         gridOpciones.removeAllViews();
         respuesta = null;
@@ -181,7 +179,7 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void cargarSiguienteNivel() {
-        inicializarJuego();
+        inicializarVariables();
     }
 
     private boolean isCorrecta() {

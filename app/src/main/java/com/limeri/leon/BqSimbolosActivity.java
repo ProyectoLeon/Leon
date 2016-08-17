@@ -1,21 +1,15 @@
 package com.limeri.leon;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
-import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
-import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -46,61 +40,8 @@ public class BqSimbolosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
 
-        //CONFIGURACION DEL BOTON DE CANCELAR JUEGO - Comienza aquí
-        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
-                R.layout.action_bar,
-                null);
-
-        getSupportActionBar().setCustomView(actionBarLayout);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-
-        Button boton = (Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                crono.stop();
-                tiempo_ejecutado = tiempo_ejecutado + SystemClock.elapsedRealtime() - crono.getBase();
-                AlertDialog.Builder builder = new AlertDialog.Builder(BqSimbolosActivity.this);
-
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.alert_dialog, null);
-
-                builder.setView(dialogView);
-
-                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
-                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
-
-                final AlertDialog dialog = builder.create();
-
-                btn_positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AdministradorJuegos.getInstance().guardarJuego(BqSimbolosActivity.this);
-                    }
-                });
-
-                btn_negative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AdministradorJuegos.getInstance().cancelarJuego(BqSimbolosActivity.this);
-                    }
-                });
-
-                btn_neutral.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        crono = (Chronometer) findViewById(R.id.cronometro);
-                        crono.setBase(SystemClock.elapsedRealtime());
-                        crono.start();
-                        dialog.cancel();
-                    }
-                });
-
-                // Display the custom alert dialog on interface
-                dialog.show();
-            }
-        });
+        Navegacion.agregarMenuJuego(this);
+        AdministradorJuegos.getInstance().inicializarJuego();
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         crono = (Chronometer) findViewById(R.id.cronometro);
@@ -197,17 +138,11 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
     }
 
-
     private void sumarPuntos(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(juego.getPuntosJuego() + puntos);
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
     private void guardar() {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        if (juego.getPuntosJuego() < 0) {
-            juego.setPuntosJuego(0);
-        }
         AdministradorJuegos.getInstance().guardarJuego(this);
     }
 }

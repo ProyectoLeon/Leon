@@ -15,21 +15,21 @@ public class Navegacion {
 
     private static Class anterior;
 
-    public static void irA(Activity actividad, Class clase) {
-        anterior = actividad.getClass();
-        Intent mainIntent = new Intent(actividad, clase);
-        actividad.startActivity(mainIntent);
-        actividad.finish();
+    public static void irA(Activity activity, Class clase) {
+        anterior = activity.getClass();
+        Intent mainIntent = new Intent(activity, clase);
+        activity.startActivity(mainIntent);
+        activity.finish();
     }
 
-    public static void irA(Activity actividad, Class clase, Class claseAnterior) {
+    public static void irA(Activity activity, Class clase, Class claseAnterior) {
         Class destino = clase;
         if (anterior.equals(claseAnterior)) {
             destino = anterior;
         }
-        Intent mainIntent = new Intent(actividad, destino);
-        actividad.startActivity(mainIntent);
-        actividad.finish();
+        Intent mainIntent = new Intent(activity, destino);
+        activity.startActivity(mainIntent);
+        activity.finish();
     }
 
     public static void agregarMenuJuego(final AppCompatActivity activity) {
@@ -75,7 +75,7 @@ public class Navegacion {
                 btn_neutral.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.cancel();
+                        irA(activity, activity.getClass());
                     }
                 });
 

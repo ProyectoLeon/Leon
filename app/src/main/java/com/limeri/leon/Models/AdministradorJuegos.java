@@ -68,6 +68,9 @@ public class AdministradorJuegos {
             Paciente paciente = Paciente.getSelectedPaciente();
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
+            if (juego.getPuntosJuego() < 0) {
+                juego.setPuntosJuego(0);
+            }
             juego.finalizar();
             if (isUltimoJuego(juego)) {
                 evaluacion.finalizar();
@@ -152,6 +155,19 @@ public class AdministradorJuegos {
             juego = getJuegoInicial();
         }
         return juego;
+    }
+
+    private void sumarPuntosJuego(Integer puntos) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        juego.setPuntosJuego(puntos);
+    }
+
+    public void sumarPuntos(Integer puntos) {
+        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
+    }
+
+    public void inicializarJuego() {
+        sumarPuntosJuego(0);
     }
 
     class JuegoWisc {
