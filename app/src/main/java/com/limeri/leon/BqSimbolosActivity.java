@@ -88,11 +88,12 @@ public class BqSimbolosActivity extends AppCompatActivity {
                         long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
                         if (elapsedMillis / 1000 < 120) {
                             //Está funcionando OK, solo que los primeros 4 niveles son de prueba.
-                            if (respuesta.equals("true") & (nivel >4)) {
+                            if (nivel>4){
+                            if (respuesta.equals("true") ) {
                                 sumarPuntos(1);
                             } else {
                                 sumarPuntos(-1);
-                            }
+                            }}
 
                             try {
                                 leerJson();
@@ -114,11 +115,12 @@ public class BqSimbolosActivity extends AppCompatActivity {
                         long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
                         //Está funcionando OK, solo que los primeros 4 niveles son de prueba.
                         if (elapsedMillis / 1000 < 120) {
-                            if (respuesta.equals("false") & (nivel>4)) {
+                            if (nivel>4){
+                            if (respuesta.equals("false") ) {
                                 sumarPuntos(1);
                             } else {
                                 sumarPuntos(-1);
-                            }
+                            }}
                             try {
                                 leerJson();
                             } catch (Exception ex) {

@@ -209,17 +209,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             cancel = true;
                             break;
                         } else {
-/*
                             showProgress(true);
                             mAuthTask = new UserLoginTask(matricula, password);
                             mAuthTask.execute((Void) null);
-*/
                             Profesional profesional = new Profesional();
-                            profesional = Profesional.getSavedProfesional(LoginActivity.this, matricula);
-                         //   profesional.setNombre(nombreJson);
-                         //   profesional.setmCorreo(correoJson);
-                         //   profesional.setmMatricula(matriculaJson);
-                         //   profesional.setmPassword(passwordJson);
+                            profesional.setNombre(nombreJson);
+                            profesional.setmCorreo(correoJson);
+                            profesional.setmMatricula(matriculaJson);
+                            profesional.setmPassword(passwordJson);
                             Profesional.setProfesional(profesional);
                             profesional.saveProfesional(LoginActivity.this, profesional);
                             break;
