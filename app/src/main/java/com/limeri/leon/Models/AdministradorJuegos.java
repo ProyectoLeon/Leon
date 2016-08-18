@@ -91,9 +91,10 @@ public class AdministradorJuegos {
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
             alternativas.add(juego.getCategoria());
-            //TODO: Validar que se almacene el puntaje del juego hasta el momento de cancelarlo
-            //juego.setPuntosJuego(0);
-            //juego.setPuntosNiveles(null);
+            //Desde aca no se puede validar, habría que validarlo en cada juego (se asume que se está guardando, al igual que el guardar)
+            if (juego.getPuntosJuego() < 0) {
+                juego.setPuntosJuego(0);
+            }
             juego.cancelar();
             if (isUltimoJuego(juego)) {
                 evaluacion.finalizar();
