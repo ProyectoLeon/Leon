@@ -27,6 +27,7 @@ public class InformacionActivity extends AppCompatActivity {
     private int nivel = 5;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
+    private boolean jsonLoaded = false;
     private String jsonString;
 
     @Override
@@ -50,9 +51,9 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-//TODO: Que lo haga solo una vez, no cuando solo es nivel 5.
-        if (nivel == 5) {
+        if ((nivel == 5) & (jsonLoaded == false)) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
+            jsonLoaded = true;
         }
 
         try {
@@ -119,7 +120,12 @@ public class InformacionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                guardarRespuesta();
+                try {
+                    guardarRespuesta();
+                    seleccion = null;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         };
     }
@@ -152,6 +158,13 @@ public class InformacionActivity extends AppCompatActivity {
         } catch (Exception ex) {
             guardar();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        guardar();
     }
 
     private void guardar() {

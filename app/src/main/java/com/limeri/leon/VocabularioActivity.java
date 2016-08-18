@@ -27,7 +27,8 @@ public class VocabularioActivity extends AppCompatActivity {
     private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
-    private int puntPerfecto = 0;
+    private boolean puntPerfecto = false;
+    private boolean jsonLoaded = false;
     private String jsonString;
     private ImageView imagen;
 
@@ -53,8 +54,9 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if (nivel == 4) {
+        if ((nivel == 4) & (jsonLoaded == false)) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
+            jsonLoaded = true;
         }
 
         try {
@@ -68,7 +70,7 @@ public class VocabularioActivity extends AppCompatActivity {
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             String pregunta = jsonObject.getString("pregunta").toString();
-//TODO: Corregir para cuando debe ser dibujo o pregunta según el nivel.
+
             if (nivel < 4) {
                 palabra.setVisibility(View.GONE);
                 imagen.setVisibility(View.VISIBLE);
@@ -109,29 +111,29 @@ public class VocabularioActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                //TODO: Corregir para identificar cuando hacer retrogresion.
+
                 // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
                 if (nivel < 4) {
                     if (position == 1){
                         cantIncorrectas++;
-                        puntPerfecto = 0;
+                        puntPerfecto = false;
                     } else {
                         cantIncorrectas = 0;
                         sumarPuntos(1);
-                        puntPerfecto = 1;
+                        puntPerfecto = true;
                     }
                 } else {
                     if (position == 2){
                         cantIncorrectas++;
-                        puntPerfecto = 0;
+                        puntPerfecto = false;
                     } else if (position == 1) {
                         cantIncorrectas = 0;
                         sumarPuntos(1);
-                        puntPerfecto = 0;
+                        puntPerfecto = false;
                     } else {
                         cantIncorrectas = 0;
                         sumarPuntos(2);
-                        puntPerfecto = 1;
+                        puntPerfecto = true;
                     }
                 }
             }
@@ -171,7 +173,7 @@ public class VocabularioActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas == 5) {
             guardar();
-        }  else if ( (nivel == 4 | nivel == 5) & puntPerfecto == 0 & cantConsec == 0 ){
+        }  else if ( (nivel == 4 | nivel == 5) & puntPerfecto == false & cantConsec == 0 ){
             nivelErroneo = nivel;
             nivel = 3;
         }  else if ( nivel < 4 & cantIncorrectas > 0 ){

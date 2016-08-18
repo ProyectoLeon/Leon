@@ -65,8 +65,10 @@ public class AdivinanzasActivity extends AppCompatActivity {
                     android.R.layout.simple_list_item_1, listRespuestas);
 
             ListView respuestas = (ListView) findViewById(R.id.respuestas);
-            respuestas.setOnItemClickListener(opcionSeleccionada());
-            respuestas.setAdapter(adapter);
+            if (respuestas != null) {
+                respuestas.setOnItemClickListener(opcionSeleccionada());
+                respuestas.setAdapter(adapter);
+            }
 
         } catch (JSONException e) {
             guardar();
@@ -114,7 +116,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
                     guardarRespuesta();
                     seleccion = null;
                 } catch (Exception ex) {
-                    return;
+                    ex.printStackTrace();
                 }
             }
         };
