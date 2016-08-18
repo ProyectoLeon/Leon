@@ -57,4 +57,4 @@ public class InicioJuegoActivity extends AppCompatActivity {
     }
 }
 
-//TODO: Agregar lógica de cancelar o volver atrás.
+//TODO: Agregar lógica de cancelar (Opciones: Salir de la evaluación, seleccionar alternativo) o volver atrás.

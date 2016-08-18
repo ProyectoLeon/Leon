@@ -37,7 +37,7 @@
             android:id="@+id/dialog_negative_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
+            android:text="Seleccionar juego alternativo"
             android:layout_below="@+id/dialog_positive_btn"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

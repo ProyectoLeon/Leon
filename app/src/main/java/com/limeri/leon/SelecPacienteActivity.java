@@ -29,6 +29,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 
     private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula;
+    AlertDialog dialog;
     private ListView lvPacientes;
     private ArrayAdapter<String> adapter;
 
@@ -119,6 +120,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);
         final EditText input2 = (EditText) viewInflated.findViewById(R.id.inputApellido);
         final EditText input3 = (EditText) viewInflated.findViewById(R.id.inputDNI);
+        //TODO: Corregir el campo FECHA DE NACIMIENTO, para que sea un campo solo de tipo FECHA. Que valide el tipo de dato.
         final EditText input4 = (EditText) viewInflated.findViewById(R.id.inputFechaNac);
         //   final Spinner spin1 = (Spinner) viewInflated.findViewById(R.id.inputProvider);
 
@@ -139,7 +141,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         // if (adapter.getCount() != 0) {
         //    lView.setAdapter(adapter);
         // }
-
+        //TODO: Setear un nuevo layout, para reutilizar y definir un diseño de pantalla acorde al modelo.
         builder.setView(viewInflated);
 
 
@@ -180,7 +182,8 @@ public class SelecPacienteActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog dialog = builder.create();
+
+        dialog = builder.create();
         dialog.show();
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -309,6 +312,38 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 
         });
+
+        dialog = builder.create();
+
+
+        dialog.show();
+
+
+        Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+        if (button != null) {
+            button.setBackgroundColor(getResources().getColor(R.color.black));
+            button.setTextColor(getResources().getColor(R.color.black));
+            button.setGravity(Gravity.END);
+            button.setGravity(Gravity.CENTER_VERTICAL);
+            button.setBackground(getResources().getDrawable(R.drawable.button));
+            button.setPadding(10, 0, 10, 0);
+        }
+
+        Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+        if (button2 != null) {
+            button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button2.setTextColor(getResources().getColor(R.color.black));
+            button2.setGravity(Gravity.START);
+            button2.setBackground(getResources().getDrawable(R.drawable.button));
+            button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setPadding(10, 0, 10, 0);
+        }
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+
     }
+
 
 }

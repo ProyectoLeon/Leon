@@ -39,6 +39,7 @@ public class Navegacion {
     }
 
     public static void agregarMenuJuego(final AppCompatActivity activity) {
+        //TODO: Crear un popup que solicita contraseña o patrón para desbloquear el menú de cancelación de un juego
         ViewGroup actionBarLayout = (ViewGroup) activity.getLayoutInflater().inflate(R.layout.action_bar,null);
 
         ActionBar actionBar =  activity.getSupportActionBar();

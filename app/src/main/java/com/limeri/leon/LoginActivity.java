@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check if the user entered a password
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_empty_password));
+            mPasswordView.setError("Por favor ingrese la contraseña");
             focusView = mPasswordView;
             cancel = true;
         } else {
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (matriculaJson.equals(matricula)) {
                         existeUser = true;
                         if (!passwordJson.equals(password)) {
-                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.setError("La contraseña es incorrecta");
                             focusView = mPasswordView;
                             cancel = true;
                             break;
@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             // Check for a valid email address.
             if (TextUtils.isEmpty(matricula)) {
-                mMatriculaView.setError(getString(R.string.error_field_required));
+                mMatriculaView.setError("Por favor complete los datos obligatorios");
                 focusView = mMatriculaView;
                 cancel = true;
             }

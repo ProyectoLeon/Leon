@@ -91,8 +91,9 @@ public class AdministradorJuegos {
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
             alternativas.add(juego.getCategoria());
-            juego.setPuntosJuego(0);
-            juego.setPuntosNiveles(null);
+            //TODO: Validar que se almacene el puntaje del juego hasta el momento de cancelarlo
+            //juego.setPuntosJuego(0);
+            //juego.setPuntosNiveles(null);
             juego.cancelar();
             if (isUltimoJuego(juego)) {
                 evaluacion.finalizar();
@@ -143,6 +144,7 @@ public class AdministradorJuegos {
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
                         break;
                     } else if (alternativas.contains(juegoWisc.categoria)) {
+                     //TODO: Agregar lógica de validación de que puede seguir "seleccionando alternativo" porque quedan disponibles para reemplazar.
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
                         alternativas.remove(juegoWisc.categoria);
                         break;

@@ -87,7 +87,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
                         if (elapsedMillis / 1000 < 120) {
-                            //TODO: Revisar la logica del puntaje porque esta restando cuando la respuesta es correcta, y viceversa
+                            //Está funcionando OK, solo que los primeros 4 niveles son de prueba.
                             if (respuesta.equals("true") & (nivel >4)) {
                                 sumarPuntos(1);
                             } else {
@@ -112,6 +112,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
+                        //Está funcionando OK, solo que los primeros 4 niveles son de prueba.
                         if (elapsedMillis / 1000 < 120) {
                             if (respuesta.equals("false") & (nivel>4)) {
                                 sumarPuntos(1);

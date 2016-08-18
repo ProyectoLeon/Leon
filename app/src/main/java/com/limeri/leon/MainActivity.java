@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         input2.setText(Paciente.getSelectedPaciente().getApellido());
         input3.setText(Paciente.getSelectedPaciente().getDni());
         input4.setText(Paciente.getSelectedPaciente().getFechaNac());
-
+        //TODO: Setear un nuevo layout, para reutilizar y definir un diseño de pantalla acorde al modelo.
         builder.setView(viewInflated);
 
         // Set up the buttons
@@ -196,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
         dialog = builder.create();
 
 
