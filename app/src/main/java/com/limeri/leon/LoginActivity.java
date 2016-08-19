@@ -177,7 +177,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //TODO: Realizar la lógica para incluir mensaje de error cuando la matricula es nula.
         //TODO: Validar el tipo de dato de MATRICULA para que acepte solo numéricos
-        if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(matricula)) {
+            mMatriculaView.setError("Por favor ingrese la matricula");
+            focusView = mMatriculaView;
+            cancel = true;}
+        else if (TextUtils.isEmpty(password)) {
             mPasswordView.setError("Por favor ingrese la contraseña");
             focusView = mPasswordView;
             cancel = true;
@@ -214,12 +218,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             mAuthTask = new UserLoginTask(matricula, password);
                             mAuthTask.execute((Void) null);
                             Profesional profesional = new Profesional();
-                            profesional.setNombre(nombreJson);
-                            profesional.setmCorreo(correoJson);
-                            profesional.setmMatricula(matriculaJson);
-                            profesional.setmPassword(passwordJson);
-                            Profesional.setProfesional(profesional);
+
+                            if(Profesional.getSavedProfesional(LoginActivity.this, matricula) != null) {
+                                profesional = Profesional.getSavedProfesional(LoginActivity.this, matricula);
+
+                            } else {
+
+                                profesional.setNombre(nombreJson);
+                                profesional.setmCorreo(correoJson);
+                                profesional.setmMatricula(matriculaJson);
+                                profesional.setmPassword(passwordJson);
+                                Profesional.setProfesional(profesional);
+                            }
+
                             profesional.saveProfesional(LoginActivity.this, profesional);
+                            Profesional.setProfesional(profesional);
                             break;
                         }
                     } else {
@@ -230,12 +243,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             } catch (JSONException e) {
                 return;
-            }
-            // Check for a valid email address.
-            if (TextUtils.isEmpty(matricula)) {
-                mMatriculaView.setError("Por favor complete los datos obligatorios");
-                focusView = mMatriculaView;
-                cancel = true;
             }
 
             if (!existeUser) {

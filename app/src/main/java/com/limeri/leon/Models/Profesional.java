@@ -76,7 +76,7 @@ public class Profesional {
 
                 Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
 
-                if (profesionalGuardado.getmMatricula().equals(id)) {
+                if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(id)) {
 
                    return profesionalGuardado;
 
@@ -91,7 +91,7 @@ public class Profesional {
         }
 
 
-        return new Profesional();
+        return null;
     }
 
 
@@ -193,7 +193,7 @@ public class Profesional {
 
                     Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
 
-                    if (profesionalGuardado.getmMatricula().equals(profesional.getmMatricula())) {
+                    if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(profesional.getmMatricula())) {
 
                         iter.remove();
                         break;

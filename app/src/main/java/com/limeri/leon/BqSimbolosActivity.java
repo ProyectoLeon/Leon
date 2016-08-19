@@ -1,23 +1,29 @@
 package com.limeri.leon;
 
-import android.os.Bundle;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-//TODO: Agregar el stop y el nuevo crono para almacenar valores de tiempo
-public class BqSimbolosActivity extends AppCompatActivity {
 
+public class BqSimbolosActivity extends AppCompatActivity {
 
     private Button respuestaSi;
     private Button respuestaNo;
@@ -33,21 +39,77 @@ public class BqSimbolosActivity extends AppCompatActivity {
     private int puntaje;
     private long tiempo_ejecutado = 0;
     private Chronometer crono;
-
+    private boolean cronostop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
 
-        Navegacion.agregarMenuJuego(this);
-        AdministradorJuegos.getInstance().inicializarJuego();
+        //CONFIGURACION DEL BOTON DE CANCELAR JUEGO - Comienza aquí
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.action_bar,
+                null);
+
+        getSupportActionBar().setCustomView(actionBarLayout);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        Button boton = (Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crono.stop();
+                cronostop=true;
+                tiempo_ejecutado = tiempo_ejecutado + SystemClock.elapsedRealtime() - crono.getBase();
+                AlertDialog.Builder builder = new AlertDialog.Builder(BqSimbolosActivity.this);
+
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.alert_dialog, null);
+
+                builder.setView(dialogView);
+
+                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+                final AlertDialog dialog = builder.create();
+
+                btn_positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AdministradorJuegos.getInstance().guardarJuego(BqSimbolosActivity.this);
+                    }
+                });
+
+                btn_negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AdministradorJuegos.getInstance().cancelarJuego(BqSimbolosActivity.this);
+                    }
+                });
+
+                btn_neutral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        crono = (Chronometer) findViewById(R.id.cronometro);
+                        crono.setBase(SystemClock.elapsedRealtime());
+                        crono.start();
+                        cronostop = false;
+                        dialog.cancel();
+                    }
+                });
+
+                // Display the custom alert dialog on interface
+                dialog.show();
+
+            }
+        });
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         crono = (Chronometer) findViewById(R.id.cronometro);
         crono.setBase(SystemClock.elapsedRealtime());
         crono.start();
-
+        cronostop = false;
         leerJson();
 
     }
@@ -148,6 +210,18 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
     private void guardar() {
         AdministradorJuegos.getInstance().guardarJuego(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /** TODO: On back pressed cuando se encuentre el popup abierto
+         * if (cronostop = true){
+            crono = (Chronometer) findViewById(R.id.cronometro);
+            crono.setBase(SystemClock.elapsedRealtime());
+            crono.start();
+            cronostop = false;
+        }*/
     }
 }
 
