@@ -15,7 +15,7 @@ import com.limeri.leon.common.JSONLoader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//TODO: Agregar el stop y el nuevo crono para almacenar valores de tiempo
 public class BqSimbolosActivity extends AppCompatActivity {
 
 

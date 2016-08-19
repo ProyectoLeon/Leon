@@ -25,6 +25,14 @@ import com.limeri.leon.Models.Profesional;
 import java.util.ArrayList;
 import java.util.List;
 
+//popup de abm fecha de nacimiento formato DDMMAAAA
+//TODO: Adaptar el LAYOUT de ABM paciente
+//TODO: Ver campos para incluir del wisc en ABM paciente
+//TODO: Ajustar como campos obligatorios, con su msje de error
+// TODO: Al seleccionar el paciente, deberá mostrar un popup de advertencia si el chico es mayor a 8 años.
+// TODO: En el ABM PROFESIONAL, que guarde los cambios y que valide la password con la anterior
+// TODO: Boton search en caso de escrbir un caracter que no se encuentra en los nombes, no deberia traer ningun paciente
+
 public class SelecPacienteActivity extends AppCompatActivity {
 
 

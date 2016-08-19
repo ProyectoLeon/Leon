@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//TODO: Corregir las idas y vueltas (retrogresión y cancelación)
 public class InformacionActivity extends AppCompatActivity {
 
 

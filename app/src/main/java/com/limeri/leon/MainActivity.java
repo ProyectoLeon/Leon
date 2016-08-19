@@ -25,6 +25,7 @@ import com.limeri.leon.Models.Profesional;
 
 import java.util.List;
 
+//TODO: Doble chequeo para eliminar paciente. consulta si deberá borrarlo. (popup)
 
 public class MainActivity extends AppCompatActivity {
 

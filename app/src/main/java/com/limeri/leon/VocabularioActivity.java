@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//TODO: para los que son imágenes, en realidad debería primero mostrar el dibujo y un botón de "responder"
+// y el profesional selecciona la respuesta que dijo el chico. A partir de ahi, siguiente pregunta.
 public class VocabularioActivity extends AppCompatActivity {
 
     private TextView palabra;

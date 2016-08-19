@@ -24,6 +24,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonSemejanzas;
     private Paciente paciente;
 
+    //TODO: Que para los juegos libres, no se muestre la opción activar juego alternativo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -175,7 +175,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check if the user entered a password
+        //TODO: Realizar la lógica para incluir mensaje de error cuando la matricula es nula.
+        //TODO: Validar el tipo de dato de MATRICULA para que acepte solo numéricos
         if (TextUtils.isEmpty(password)) {
             mPasswordView.setError("Por favor ingrese la contraseña");
             focusView = mPasswordView;
