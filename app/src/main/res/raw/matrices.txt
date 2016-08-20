@@ -28,7 +28,7 @@
 			"matriz":{
 				"fila1":["micro","skate","payaso"],
 				"fila2":["micro","","payaso"],
-				"fila3":[]},
+				"fila3":["micro","skate","payaso"]},
 			"opciones":["skate","cubos","frutilla","redoblante","micro"],
 			"respuesta":"skate"
 		},

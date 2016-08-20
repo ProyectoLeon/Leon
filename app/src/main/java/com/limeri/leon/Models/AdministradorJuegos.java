@@ -91,7 +91,6 @@ public class AdministradorJuegos {
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
             alternativas.add(juego.getCategoria());
-            //Desde aca no se puede validar, habría que validarlo en cada juego (se asume que se está guardando, al igual que el guardar)
             if (juego.getPuntosJuego() < 0) {
                 juego.setPuntosJuego(0);
             }
@@ -130,6 +129,24 @@ public class AdministradorJuegos {
         return ultimo;
     }
 
+    public Boolean isUltimoJuegoCategoria() {
+        Boolean ultimo = true;
+        Boolean siguiente = false;
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
+        Juego juego = evaluacion.getJuegoActual();
+        for (JuegoWisc juegoWisc : juegosWisc) {
+            if (siguiente) {
+                if (juegoWisc.alternativo && juegoWisc.categoria.equals(juego.getCategoria())) {
+                    ultimo = false;
+                }
+            } else if (juego.getNombre().equals(juegoWisc.nombre)) {
+                siguiente = true;
+            }
+        }
+        return ultimo;
+    }
+
     public static void setContext(Context context) {
         applicationContext = context;
     }
@@ -145,7 +162,6 @@ public class AdministradorJuegos {
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
                         break;
                     } else if (alternativas.contains(juegoWisc.categoria)) {
-                     //TODO: Agregar lógica de validación de que puede seguir "seleccionando alternativo" porque quedan disponibles para reemplazar.
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
                         alternativas.remove(juegoWisc.categoria);
                         break;
@@ -171,6 +187,19 @@ public class AdministradorJuegos {
 
     public void inicializarJuego() {
         sumarPuntosJuego(0);
+    }
+
+    public void cancelarUltimoJuego(Activity activity) {
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
+        Juego juego = evaluacion.getJuegoActual();
+        if (juego.getPuntosJuego() < 0) {
+            juego.setPuntosJuego(0);
+        }
+        juego.cancelar();
+        evaluacion.finalizar();
+        Navegacion.irA(activity, ValorExamenActivity.class);
+        Paciente.saveCuenta(activity, paciente);
     }
 
     class JuegoWisc {

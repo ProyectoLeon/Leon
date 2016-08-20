@@ -3,9 +3,9 @@ package com.limeri.leon.Models;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -67,8 +67,8 @@ public class Navegacion {
 
     }
 
-    private static void showPopupSalir(final Activity activity) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+    private static void showPopupSalir(final AppCompatActivity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.alert_dialog,null);
@@ -79,7 +79,7 @@ public class Navegacion {
         Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
         Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
 
-        final android.app.AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
 
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +91,9 @@ public class Navegacion {
         btn_negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdministradorJuegos.getInstance().cancelarJuego(activity);
+                if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
+                    cancelarUltimoJuego(activity);
+                }
             }
         });
 
@@ -108,7 +110,7 @@ public class Navegacion {
 
 
 
-    private static void showPopupPassword(final Activity context) {
+    private static void showPopupPassword(final AppCompatActivity context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Ingrese contraseña");
@@ -138,5 +140,38 @@ public class Navegacion {
         });
 
         builder.show();
+    }
+
+    private static void cancelarUltimoJuego(final AppCompatActivity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.ultimo_juego_dialog,null);
+
+        builder.setView(dialogView);
+
+        Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+        Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+        Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+        final AlertDialog dialog = builder.create();
+
+        btn_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
+        btn_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().cancelarJuego(activity);
+
+            }
+        });
+
+        // Display the custom alert dialog on interface
+        dialog.show();
     }
 }
