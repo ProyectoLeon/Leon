@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.limeri.leon.ExamenActivity;
@@ -146,16 +147,19 @@ public class Navegacion {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.ultimo_juego_dialog,null);
+        View dialogView = inflater.inflate(R.layout.alert_dialog,null);
 
         builder.setView(dialogView);
 
         Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
         Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
         Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+        TextView tv = (TextView) dialogView.findViewById(R.id.dialog_tv);
 
         final AlertDialog dialog = builder.create();
 
+        tv.setText("No quedan juegos alternativos para esta categoría, ¿Desea continuar?");
+        btn_negative.setText("No");
         btn_negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +167,9 @@ public class Navegacion {
             }
         });
 
+        btn_neutral.setVisibility(View.GONE);
+
+        btn_positive.setText("Si");
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
