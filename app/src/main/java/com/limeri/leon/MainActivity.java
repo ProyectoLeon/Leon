@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
@@ -273,11 +274,13 @@ public class MainActivity extends AppCompatActivity {
             mProfMatricula = matricula.getText().toString();
 
             if (confPassword.getText().toString().isEmpty()) {
-                confPassword.setError("Repita contraseña");
+                Toast.makeText(MainActivity.this, "Repita la contraseña", Toast.LENGTH_SHORT).show();
+                //confPassword.setError("Repita contraseña");
             } else if (!password.getText().toString().equals(confPassword.getText().toString()))
             {
-                password.setError("Contraseñas no coinciden");
-                confPassword.setError("Contraseñas no coinciden");
+                Toast.makeText(MainActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                //password.setError("Contraseñas no coinciden");
+                //confPassword.setError("Contraseñas no coinciden");
             }else {
 
                 Profesional profesional = Profesional.getProfesional();

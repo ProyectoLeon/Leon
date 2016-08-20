@@ -175,8 +175,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        //TODO: Realizar la lógica para incluir mensaje de error cuando la matricula es nula.
-        //TODO: Validar el tipo de dato de MATRICULA para que acepte solo numéricos
         if (TextUtils.isEmpty(matricula)) {
             mMatriculaView.setError("Por favor ingrese la matricula");
             focusView = mMatriculaView;

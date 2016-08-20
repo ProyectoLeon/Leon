@@ -1,22 +1,27 @@
 package com.limeri.leon;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -45,7 +50,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
-
+//TODO: Validar el cronometro cuando es pausa, o cancelar.
         //CONFIGURACION DEL BOTON DE CANCELAR JUEGO - Comienza aquí
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar,
@@ -61,46 +66,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
                 crono.stop();
                 cronostop=true;
                 tiempo_ejecutado = tiempo_ejecutado + SystemClock.elapsedRealtime() - crono.getBase();
-                AlertDialog.Builder builder = new AlertDialog.Builder(BqSimbolosActivity.this);
-
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.alert_dialog, null);
-
-                builder.setView(dialogView);
-
-                Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
-                Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
-
-                final AlertDialog dialog = builder.create();
-
-                btn_positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AdministradorJuegos.getInstance().guardarJuego(BqSimbolosActivity.this);
-                    }
-                });
-
-                btn_negative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AdministradorJuegos.getInstance().cancelarJuego(BqSimbolosActivity.this);
-                    }
-                });
-
-                btn_neutral.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        crono = (Chronometer) findViewById(R.id.cronometro);
-                        crono.setBase(SystemClock.elapsedRealtime());
-                        crono.start();
-                        cronostop = false;
-                        dialog.cancel();
-                    }
-                });
-
-                // Display the custom alert dialog on interface
-                dialog.show();
+                showPopupPassword(BqSimbolosActivity.this);
 
             }
         });
@@ -223,5 +189,82 @@ public class BqSimbolosActivity extends AppCompatActivity {
             cronostop = false;
         }*/
     }
+
+    public void showPopupPassword(final Activity activity) {
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
+        builder.setTitle("Ingrese contraseña");
+
+// Set up the input
+        final EditText input = new EditText(activity);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(Profesional.getProfesional().getmPassword().equals(input.getText().toString())){
+                    showPopupSalir(activity);
+                } else {
+                    Toast.makeText(activity, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void showPopupSalir(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog, null);
+
+        builder.setView(dialogView);
+
+        Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+        Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+        Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+        final AlertDialog dialog = builder.create();
+
+        btn_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().guardarJuego(context);
+            }
+        });
+
+        btn_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().cancelarJuego(context);
+            }
+        });
+
+        btn_neutral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crono = (Chronometer) findViewById(R.id.cronometro);
+                crono.setBase(SystemClock.elapsedRealtime());
+                crono.start();
+                cronostop = false;
+                dialog.cancel();
+            }
+        });
+
+        // Display the custom alert dialog on interface
+        dialog.show();
+
+    }
+
 }
 

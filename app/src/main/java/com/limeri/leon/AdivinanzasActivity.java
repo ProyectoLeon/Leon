@@ -20,7 +20,6 @@ import org.json.JSONObject;
 
 
 //TODO: Onback, se debería pausar y actuar igual que el botón de cancelar juego.
-//TODO: Cancelar juego debería solicitar la contraseña para mostrar el popup de cancelar juego
 
 public class AdivinanzasActivity extends AppCompatActivity {
 
