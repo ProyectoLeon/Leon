@@ -1,9 +1,12 @@
 package com.limeri.leon;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,24 +15,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
+import org.w3c.dom.ls.LSResourceResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.validation.Validator;
+
 //popup de abm fecha de nacimiento formato DDMMAAAA
-//TODO: Adaptar el LAYOUT de ABM paciente
+
 //TODO: Ver campos para incluir del wisc en ABM paciente
-//TODO: Ajustar como campos obligatorios, con su msje de error
-// TODO: Al seleccionar el paciente, deberá mostrar un popup de advertencia si el chico es mayor a 8 años.
 // TODO: En el ABM PROFESIONAL, que guarde los cambios y que valide la password con la anterior
 // TODO: Boton search en caso de escrbir un caracter que no se encuentra en los nombes, no deberia traer ningun paciente
 
@@ -112,7 +127,18 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
                 Paciente.setSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
-                Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
+                int año = Calendar.getInstance().get(Calendar.YEAR);
+                if (Paciente.getSelectedPaciente().cantidadAños(año)>7) {
+                    new AlertDialog.Builder(SelecPacienteActivity.this)
+                            .setTitle("Adventencia")
+                            .setMessage("Se evaluará al paciente como un niño de 7 años")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
+                                }
+                            }).show();
+                }
             }
         });
     }
@@ -124,63 +150,84 @@ public class SelecPacienteActivity extends AppCompatActivity {
         // but you can provide here any other instance of ViewGroup from your Fragment / Activity
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.crear_paciente_popup, (ViewGroup) this
                 .findViewById(android.R.id.content), false);
+
         // Set up the input
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);
         final EditText input2 = (EditText) viewInflated.findViewById(R.id.inputApellido);
         final EditText input3 = (EditText) viewInflated.findViewById(R.id.inputDNI);
-        //TODO: Corregir el campo FECHA DE NACIMIENTO, para que sea un campo solo de tipo FECHA. Que valide el tipo de dato.
         final EditText input4 = (EditText) viewInflated.findViewById(R.id.inputFechaNac);
-        //   final Spinner spin1 = (Spinner) viewInflated.findViewById(R.id.inputProvider);
 
+        input4.setText("DD/MM/AAAA");
+        input4.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            private String ddmmyyyy = "DDMMYYYY";
+            private Calendar cal = Calendar.getInstance();
 
-//        final ListView lView = (ListView) viewInflated.findViewById(R.id.listPacientes);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.cuenta_item);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+              if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]", "");
+                    String cleanC = current.replaceAll("[^\\d.]", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 8){
+                        clean = clean + ddmmyyyy.substring(clean.length());
+                    }else{
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int day  = Integer.parseInt(clean.substring(0,2));
+                        int mon  = Integer.parseInt(clean.substring(2,4));
+                        int year = Integer.parseInt(clean.substring(4,8));
+
+                        if(mon > 12) mon = 12;
+                        cal.set(Calendar.MONTH, mon-1);
+                        year = (year<1900)?1900:(year>2100)?2100:year;
+                        cal.set(Calendar.YEAR, year);
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+
+                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                        clean = String.format("%02d%02d%02d",day, mon, year);
+                    }
+
+                    clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                            clean.substring(2, 4),
+                            clean.substring(4, 8));
+
+                    sel = sel < 0 ? 0 : sel;
+                    current = clean;
+                    input4.setText(current);
+                    input4.setSelection(sel < current.length() ? sel : current.length());
+            }}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         final List<Paciente> mPacientes = Paciente.getCuentas();
 
-//        for (int i = 0; i < mPacientes.size(); i++) {
-
-        //    adapter.agregarPaciente(mPacientes.get(i).getNombre().toString());
-
-        // }
-
-        // if (adapter.getCount() != 0) {
-        //    lView.setAdapter(adapter);
-        // }
         //TODO: Setear un nuevo layout, para reutilizar y definir un diseño de pantalla acorde al modelo.
         builder.setView(viewInflated);
-
-
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-
-        // Set up the buttons
 
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
 
-                mNombre = input.getText().toString();
-                mApellido = input2.getText().toString();
-                mDNI = input3.getText().toString();
-                mFechaNac = input4.getText().toString();
-
-                Paciente paciente = new Paciente();
-
-                paciente.setApellido(mApellido);
-                paciente.setNombre(mNombre);
-                paciente.setDni(mDNI);
-                paciente.setFechaNac(mFechaNac);
-
-                adapter.add(paciente.getNombreCompleto());
-                lvPacientes.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                lvPacientes.invalidateViews();
-
-                Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
-            }
+                }
         });
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -193,7 +240,55 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         dialog = builder.create();
         dialog.show();
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(
+                new View.OnClickListener() {
 
+                    @Override
+                    public void onClick(View v) {
+                        mNombre = input.getText().toString();
+                        mApellido = input2.getText().toString();
+                        mDNI = input3.getText().toString();
+                        mFechaNac = input4.getText().toString();
+                        if (mNombre.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Por favor complete el nombre del paciente",
+                                    Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        else if (mApellido.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Por favor complete el apellido del paciente.",
+                                    Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        else if (mDNI.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Por favor complete el DNI del paciente.",
+                                    Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                         else {
+
+                            dialog.dismiss();
+
+                            Paciente paciente = new Paciente();
+
+                            paciente.setApellido(mApellido);
+                            paciente.setNombre(mNombre);
+                            paciente.setDni(mDNI);
+                            paciente.setFechaNac(mFechaNac);
+
+                            adapter.add(paciente.getNombreCompleto());
+                            lvPacientes.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            lvPacientes.invalidateViews();
+
+                            Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
+                        }
+                    }
+                });
+
+        //TODO: Adaptar el LAYOUT de ABM paciente
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
@@ -214,6 +309,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
     }
+
 
     @Override
     public void onBackPressed() {

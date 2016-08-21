@@ -81,7 +81,6 @@ public class Navegacion {
         Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
 
         final AlertDialog dialog = builder.create();
-
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.InformacionActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -214,5 +217,11 @@ public class Paciente {
                 return true;
         }
         return false;
+    }
+
+    public int cantidadAños(int añoActual){
+        String año = fechaNac.substring(6,10);
+        int diff = añoActual - Integer.parseInt(año);
+        return diff;
     }
 }

@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,8 +26,6 @@ import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
 import java.util.List;
-
-//TODO: Doble chequeo para eliminar paciente. consulta si deberá borrarlo. (popup)
 
 public class MainActivity extends AppCompatActivity {
 
@@ -190,12 +189,15 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                showPopupConfirmar(MainActivity.this);
+                /**
                 Paciente paciente = Paciente.getSelectedPaciente();
                 Paciente.borrarCuenta(MainActivity.this, paciente);
                 Paciente.borrarSelectedPaciente();
                 dialog.cancel();
                 Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
-            }
+            */
+                 }
         });
 
         builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -336,6 +338,33 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
 
+    }
+
+    private void showPopupConfirmar(final AppCompatActivity context) {
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        String msje = "¿Está seguro que desea eliminar al paciente " + Paciente.getSelectedPaciente().getNombreCompleto() + " ?";
+        builder.setTitle(msje);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Paciente paciente = Paciente.getSelectedPaciente();
+                Paciente.borrarCuenta(MainActivity.this, paciente);
+                Paciente.borrarSelectedPaciente();
+                dialog.cancel();
+                Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }
 
