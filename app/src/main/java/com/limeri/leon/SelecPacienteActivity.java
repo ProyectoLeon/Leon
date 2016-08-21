@@ -3,6 +3,7 @@ package com.limeri.leon;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,21 +27,8 @@ import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.validation.Validator;
+import java.util.Locale;
 
 //popup de abm fecha de nacimiento formato DDMMAAAA
 
@@ -73,8 +60,11 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 null);
 
 
-        getSupportActionBar().setCustomView(actionBarLayout);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setCustomView(actionBarLayout);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
 
         adapter = new ArrayAdapter<String>(this, R.layout.paciente_item);
         adapter.clear();
@@ -84,43 +74,47 @@ public class SelecPacienteActivity extends AppCompatActivity {
         }
         lvPacientes.setAdapter(adapter);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
+        if (btnAdd != null) {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog();
+                }
+            });
+        }
 
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
-                for (Paciente paciente : Paciente.getCuentasByName(searchString.getText().toString())) {
-                    if (paciente.getNombreCompleto() != "") {
+        if (btnSearch != null) {
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
+                    for (Paciente paciente : Paciente.getCuentasByName(searchString.getText().toString())) {
+                        if (paciente.getNombreCompleto() != "") {
+                            adapter.add(paciente.getNombreCompleto());
+                        }
+                    }
+                    lvPacientes.setAdapter(adapter);
+                    lvPacientes.invalidateViews();
+                }
+            });
+        }
+
+        if (btnMostrarTodo != null) {
+            btnMostrarTodo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
+                    for (Paciente paciente : Paciente.getCuentas()) {
                         adapter.add(paciente.getNombreCompleto());
                     }
+                    if (adapter.getCount() != 0) {
+                        lvPacientes.setAdapter(adapter);
+                        lvPacientes.invalidateViews();
+                    }
                 }
-                if (adapter.getCount() != 0) {
-                    lvPacientes.setAdapter(adapter);
-                    lvPacientes.invalidateViews();
-                }
-            }
-        });
-
-        btnMostrarTodo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), R.layout.paciente_item);
-                for (Paciente paciente : Paciente.getCuentas()) {
-                    adapter.add(paciente.getNombreCompleto());
-                }
-                if (adapter.getCount() != 0) {
-                    lvPacientes.setAdapter(adapter);
-                    lvPacientes.invalidateViews();
-                }
-            }
-        });
+            });
+        }
 
         lvPacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -215,7 +209,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                         //would be automatically corrected to 28/02/2012
 
                         day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
-                        clean = String.format("%02d%02d%02d",day, mon, year);
+                        clean = String.format(Locale.FRANCE,"%02d%02d%02d",day, mon, year);
                     }
 
                     clean = String.format("%s/%s/%s", clean.substring(0, 2),
@@ -232,8 +226,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-
-        final List<Paciente> mPacientes = Paciente.getCuentas();
 
         //TODO: Setear un nuevo layout, para reutilizar y definir un diseño de pantalla acorde al modelo.
         builder.setView(viewInflated);
