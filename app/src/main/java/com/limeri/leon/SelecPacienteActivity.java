@@ -132,18 +132,19 @@ public class SelecPacienteActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
                                 }
-                            }).show();}
-                    /**else if (Paciente.getSelectedPaciente().cantidadAños(año)<6) {
+                            }).show();
+                }
+                else if (Paciente.getSelectedPaciente().cantidadAños(año)<6) {
                     new AlertDialog.Builder(SelecPacienteActivity.this)
                             .setTitle("Adventencia")
-                            .setMessage("Se evaluará al paciente como un niño de 7 años")
+                            .setMessage("Se evaluará al paciente como un niño de 6 años")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
-                                    Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
+                                    Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
                                 }
                             }).show();
-                */
+                }
                 else{
                         Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
                     }
@@ -309,7 +310,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
             button.setGravity(Gravity.RIGHT);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
-        }
+    }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         if (button2 != null) {
