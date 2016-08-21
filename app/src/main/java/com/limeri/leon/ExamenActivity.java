@@ -65,13 +65,13 @@ public class ExamenActivity extends AppCompatActivity {
         });
 
 
-        buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
+        /*buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 paciente.getEvaluacionActual().agregarJuego(new Juego("","",""));
                 Navegacion.irA(ExamenActivity.this, FiguraIncompletaActivity.class);
             }
-        });
+        });*/
 
         buttonClaves.setOnClickListener(new View.OnClickListener() {
             @Override
