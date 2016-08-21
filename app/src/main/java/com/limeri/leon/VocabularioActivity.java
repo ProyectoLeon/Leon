@@ -175,7 +175,7 @@ public class VocabularioActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas == 5) {
             guardar();
-        }  else if ( (nivel == 4 | nivel == 5) & puntPerfecto == false & cantConsec == 0 ){
+        }  else if ( (nivel == 4 | nivel == 5) & !puntPerfecto & cantConsec == 0 ){
             nivelErroneo = nivel;
             nivel = 3;
         }  else if ( nivel < 4 & cantIncorrectas > 0 ){
@@ -201,9 +201,6 @@ public class VocabularioActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
     }
 
     private void guardar() {

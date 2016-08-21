@@ -18,17 +18,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//TODO: Corregir las idas y vueltas (retrogresión y cancelación)
 public class InformacionActivity extends AppCompatActivity {
 
 
     private TextView palabra;
     private TextView seleccion;
     private int longArray;
-    private int nivel = 5;
+    private int nivel = 4;
+    private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private boolean jsonLoaded = false;
+    private boolean backHecho = false;
     private String jsonString;
 
     @Override
@@ -52,7 +53,7 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if ((nivel == 5) & (jsonLoaded == false)) {
+        if ((nivel == 4) & (!jsonLoaded)) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
             jsonLoaded = true;
         }
@@ -139,18 +140,22 @@ public class InformacionActivity extends AppCompatActivity {
         if (cantIncorrectas== 5) {
             guardar();
         } else
-        if (cantIncorrectas==1 & (nivel == 5 | nivel ==6)){
-            nivel = 4;
-        } else if (cantIncorrectas == 0 & cantConsec == 2) {
-            nivel = 5;
-        }else if (cantIncorrectas > 0 & nivel < 5) {
+        if ((nivel == 4 | nivel == 5) & cantIncorrectas == 1 & !backHecho){
+            nivelErroneo = nivel;
+            nivel = 3;
+            backHecho = true;
+        }else if (cantIncorrectas > 0 & nivel < 4) {
             nivel --;
         }
-        else if (cantIncorrectas ==0 & nivel < 5) {
-            nivel --;
+        else if (cantIncorrectas ==0 & nivel < 4) {
             cantConsec++;
+            if (cantConsec == 2) {
+                nivel = nivelErroneo + 1;
+            } else {
+                nivel --;
+            }
         }
-        else if (nivel > 4){
+        else if (nivel >= 4){
             nivel++;
         }
 
@@ -163,9 +168,6 @@ public class InformacionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
     }
 
     private void guardar() {

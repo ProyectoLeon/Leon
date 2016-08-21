@@ -142,9 +142,6 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
     }
 
     private void guardar() {

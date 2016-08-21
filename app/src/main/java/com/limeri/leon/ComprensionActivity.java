@@ -144,9 +144,6 @@ public class ComprensionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        guardar();
     }
 
     private void guardar() {
