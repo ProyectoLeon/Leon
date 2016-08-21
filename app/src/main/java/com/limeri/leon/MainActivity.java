@@ -96,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            Button buttonBorrarEvaluaciones = (Button) findViewById(R.id.buttonBorrarEvaluaciones);
+            if (buttonBorrarEvaluaciones != null) {
+                buttonBorrarEvaluaciones.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Paciente.getSelectedPaciente().borrarEvaluaciones();
+                    }
+                });
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

@@ -224,4 +224,8 @@ public class Paciente {
         int diff = añoActual - Integer.parseInt(año);
         return diff;
     }
+
+    public void borrarEvaluaciones() {
+        evaluaciones.clear();
+    }
 }
