@@ -202,6 +202,13 @@ public class AdministradorJuegos {
         Paciente.saveCuenta(activity, paciente);
     }
 
+    public Boolean isUltimoJuegoProtocolo() {
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
+        Juego juego = evaluacion.getJuegoActual();
+        return isUltimoJuego(juego);
+    }
+
     class JuegoWisc {
         public String nombre;
         public String categoria;

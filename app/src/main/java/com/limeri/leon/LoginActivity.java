@@ -212,9 +212,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             cancel = true;
                             break;
                         } else {
-                            showProgress(true);
+                            /*showProgress(true);
                             mAuthTask = new UserLoginTask(matricula, password);
-                            mAuthTask.execute((Void) null);
+                            mAuthTask.execute((Void) null);*/
                             Profesional profesional = new Profesional();
 
                             if(Profesional.getSavedProfesional(LoginActivity.this, matricula) != null) {

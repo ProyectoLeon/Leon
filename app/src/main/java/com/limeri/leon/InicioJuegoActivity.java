@@ -2,13 +2,12 @@ package com.limeri.leon;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
@@ -22,7 +21,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
     private Evaluacion evaluacion;
     private Juego juego;
     private final String PREFIJO = this.getClass().getPackage().getName() + ".";
-    private Class activity;
+    private TextView txtJuego;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,27 +39,36 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
         juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
 
-        ((TextView) findViewById(R.id.juego)).setText(juego.getNombre());
+        txtJuego = (TextView) findViewById(R.id.juego);
+        if (txtJuego != null) {
+            txtJuego.setText(juego.getNombre());
+        }
 
-        findViewById(R.id.buttonStart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    evaluacion.agregarJuego(juego);
-                    activity = Class.forName(PREFIJO + juego.getNombreActividad());
-                    Navegacion.irA(InicioJuegoActivity.this, activity);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+        Button buttonStart = (Button) findViewById(R.id.buttonStart);
+        if (buttonStart != null) {
+            buttonStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        evaluacion.agregarJuego(juego);
+                        Class activity = Class.forName(PREFIJO + juego.getNombreActividad());
+                        Navegacion.irA(InicioJuegoActivity.this, activity);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar,
                 null);
 
-        getSupportActionBar().setCustomView(actionBarLayout);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setCustomView(actionBarLayout);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
 
         Button boton = (Button) getSupportActionBar().getCustomView().findViewById(R.id.boton_actionbar);
         boton.setOnClickListener(new View.OnClickListener() {
@@ -85,13 +93,22 @@ public class InicioJuegoActivity extends AppCompatActivity {
                         Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
                     }
                 });
-                btn_neutral.setVisibility(View.INVISIBLE);
+                btn_neutral.setVisibility(View.GONE);
 
                 btn_negative.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: Configurar la alterantiva de activar el juego alternativo antes de abrir el juego (hacerlo desde esta pantalla)
-                        // AdministradorJuegos.getInstance().cancelarJuego();
+                        evaluacion.agregarJuego(juego);
+                        Boolean ultimoJuego = AdministradorJuegos.getInstance().isUltimoJuegoProtocolo();
+                        AdministradorJuegos.getInstance().cancelarJuego(InicioJuegoActivity.this);
+                        if (!ultimoJuego) {
+                            juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
+
+                            txtJuego = (TextView) findViewById(R.id.juego);
+                            if (txtJuego != null) {
+                                txtJuego.setText(juego.getNombre());
+                            }
+                        }
                     }
                 });
 

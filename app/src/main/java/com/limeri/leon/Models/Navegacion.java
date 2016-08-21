@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -68,48 +69,6 @@ public class Navegacion {
 
     }
 
-    private static void showPopupSalir(final AppCompatActivity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_dialog,null);
-
-        builder.setView(dialogView);
-
-        Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
-        Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-        Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
-
-        final AlertDialog dialog = builder.create();
-        btn_positive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AdministradorJuegos.getInstance().guardarJuego(activity);
-            }
-        });
-
-        btn_negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
-                    cancelarUltimoJuego(activity);
-                }
-            }
-        });
-
-        btn_neutral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                irA(activity, activity.getClass());
-            }
-        });
-
-        // Display the custom alert dialog on interface
-        dialog.show();
-    }
-
-
-
     private static void showPopupPassword(final AppCompatActivity context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -140,6 +99,64 @@ public class Navegacion {
         });
 
         builder.show();
+    }
+
+    private static void showPopupSalir(final AppCompatActivity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog,null);
+
+        builder.setView(dialogView);
+
+        Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
+        Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
+        Button btn_neutral = (Button) dialogView.findViewById(R.id.dialog_neutral_btn);
+
+        final AlertDialog dialog = builder.create();
+        btn_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().guardarJuego(activity);
+            }
+        });
+
+        if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
+            btn_negative.setText("Cancelar Juego");
+            btn_negative.setOnClickListener(cancelarUltimoJuegoListener(activity));
+        } else {
+            btn_negative.setOnClickListener(cancelarJuegoListener(activity));
+        }
+
+        btn_neutral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irA(activity, activity.getClass());
+            }
+        });
+
+        // Display the custom alert dialog on interface
+        dialog.show();
+    }
+
+    @NonNull
+    private static View.OnClickListener cancelarUltimoJuegoListener(final AppCompatActivity activity) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelarUltimoJuego(activity);
+            }
+        };
+    }
+
+    @NonNull
+    private static View.OnClickListener cancelarJuegoListener(final AppCompatActivity activity) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().cancelarJuego(activity);
+            }
+        };
     }
 
     private static void cancelarUltimoJuego(final AppCompatActivity activity) {
