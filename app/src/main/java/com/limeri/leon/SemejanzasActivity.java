@@ -165,7 +165,12 @@ public class SemejanzasActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private void guardar() {
         AdministradorJuegos.getInstance().guardarJuego(this);
     }
 }
+
