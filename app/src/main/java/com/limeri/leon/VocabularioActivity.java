@@ -19,8 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//TODO: para los que son imágenes, en realidad debería primero mostrar el dibujo y un botón de "responder"
-// y el profesional selecciona la respuesta que dijo el chico. A partir de ahi, siguiente pregunta.
 public class VocabularioActivity extends AppCompatActivity {
 
     private TextView palabra;
@@ -31,6 +29,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private int cantConsec = 0;
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
+    private boolean soloImagen = true;
     private String jsonString;
     private ImageView imagen;
 
@@ -56,7 +55,7 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if ((nivel == 4) & (jsonLoaded == false)) {
+        if ((nivel == 4) & (!jsonLoaded)) {
             jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
             jsonLoaded = true;
         }
@@ -83,12 +82,22 @@ public class VocabularioActivity extends AppCompatActivity {
                 palabra.setText(pregunta);
             }
             if (nivel < 4) {
-                String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
-                ListView respuestas = (ListView) findViewById(R.id.respuestas);
-                if (respuestas != null) {
-                    respuestas.setOnItemClickListener(opcionSeleccionada());
-                    respuestas.setAdapter(adapter);
+                if (!soloImagen) {
+                    String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
+                    ListView respuestas = (ListView) findViewById(R.id.respuestas);
+                    if (respuestas != null) {
+                        respuestas.setOnItemClickListener(opcionSeleccionada());
+                        respuestas.setAdapter(adapter);
+                    }
+                } else {
+                    String[] listRespuestas = {};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
+                    ListView respuestas = (ListView) findViewById(R.id.respuestas);
+                    if (respuestas != null) {
+                        respuestas.setOnItemClickListener(opcionSeleccionada());
+                        respuestas.setAdapter(adapter);
+                    }
                 }
             } else {
                 String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
@@ -171,26 +180,32 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
-        blanquear(seleccion);
-        if (cantIncorrectas == 5) {
-            guardar();
-        }  else if ( (nivel == 4 | nivel == 5) & !puntPerfecto & cantConsec == 0 ){
-            nivelErroneo = nivel;
-            nivel = 3;
-        }  else if ( nivel < 4 & cantIncorrectas > 0 ){
-            nivel --;
-        }  else if ( nivel < 4 & cantIncorrectas == 0 ){
-            cantConsec++;
-            if (cantConsec == 2) {
-                nivel = nivelErroneo + 1;
-            } else {
-                nivel --;
-            }
-        }  else if ( nivel < 0 ){
-            guardar();
+        if (nivel < 4 & soloImagen) {
+            soloImagen = false;
         } else {
-            nivel++;
+            //Faltaría guardar la respuesta en la base de datos
+            blanquear(seleccion);
+            if (cantIncorrectas == 5) {
+                guardar();
+            } else if ((nivel == 4 | nivel == 5) & !puntPerfecto & cantConsec == 0) {
+                nivelErroneo = nivel;
+                nivel = 3;
+            } else if (nivel < 4 & cantIncorrectas > 0) {
+                nivel--;
+                soloImagen = true;
+            } else if (nivel < 4 & cantIncorrectas == 0) {
+                cantConsec++;
+                if (cantConsec == 2) {
+                    nivel = nivelErroneo + 1;
+                } else {
+                    nivel--;
+                    soloImagen = true;
+                }
+            } else if (nivel < 0) {
+                guardar();
+            } else {
+                nivel++;
+            }
         }
         try {
             leerJson();
