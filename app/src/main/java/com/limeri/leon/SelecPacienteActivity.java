@@ -32,6 +32,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -137,9 +138,23 @@ public class SelecPacienteActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
                                 }
+                            }).show();}
+                    /**else if (Paciente.getSelectedPaciente().cantidadAños(año)<6) {
+                    new AlertDialog.Builder(SelecPacienteActivity.this)
+                            .setTitle("Adventencia")
+                            .setMessage("Se evaluará al paciente como un niño de 7 años")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
+                                }
                             }).show();
+                */
+                else{
+                        Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
+                    }
                 }
-            }
+
         });
     }
 
@@ -170,7 +185,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-              if (!s.toString().equals(current)) {
+                if (!s.toString().equals(current)) {
                     String clean = s.toString().replaceAll("[^\\d.]", "");
                     String cleanC = current.replaceAll("[^\\d.]", "");
 
@@ -211,7 +226,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     current = clean;
                     input4.setText(current);
                     input4.setSelection(sel < current.length() ? sel : current.length());
-            }}
+                }}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -227,13 +242,13 @@ public class SelecPacienteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                }
+            }
         });
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            dialog.cancel();
+                dialog.cancel();
             }
         });
 
@@ -267,7 +282,13 @@ public class SelecPacienteActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG);
                             toast.show();
                         }
-                         else {
+                        else if(mFechaNac.matches(".*[A-Z].*")){
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Por favor complete la fecha de nacimiento del paciente.",
+                                    Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        else {
 
                             dialog.dismiss();
 
@@ -412,7 +433,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-           }
+            }
 
 
         });
