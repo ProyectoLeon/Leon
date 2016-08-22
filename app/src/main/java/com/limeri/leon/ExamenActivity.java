@@ -124,6 +124,15 @@ public class ExamenActivity extends AppCompatActivity {
 
             }
         });
+        buttonClaves.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Claves","","ClavesActivity"));
+                Navegacion.irA(ExamenActivity.this, ClavesActivity.class);
+
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {

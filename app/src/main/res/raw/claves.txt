@@ -1,0 +1,27 @@
+
+{
+	"claves": [
+	  {
+	  "pregunta": "circulo",
+		"respuesta": "3"
+	},
+	  {
+    	  "pregunta": "estrella",
+    		"respuesta": "1"
+    	}, {
+		"pregunta": "cuadrado",
+		"respuesta": "4"
+	}, {
+		"pregunta": "cruz",
+		"respuesta": "5"
+
+        	},
+       {
+       		"pregunta": "triangulo",
+       		"respuesta": "2"
+
+               	}
+
+
+	 ]
+}
