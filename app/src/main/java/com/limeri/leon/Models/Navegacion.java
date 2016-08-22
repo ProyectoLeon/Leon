@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.limeri.leon.BqSimbolosActivity;
 import com.limeri.leon.ExamenActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
@@ -97,7 +98,14 @@ public class Navegacion {
                 dialog.cancel();
             }
         });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
 
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                ((BqSimbolosActivity)context).onResume();
+                dialog.dismiss();
+            }
+        });
         builder.show();
     }
 
@@ -135,6 +143,14 @@ public class Navegacion {
             }
         });
 
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                ((BqSimbolosActivity)activity).onResume();
+                dialog.dismiss();
+            }
+        });
         // Display the custom alert dialog on interface
         dialog.show();
     }

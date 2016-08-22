@@ -50,7 +50,6 @@ public class BqSimbolosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
-//TODO: Validar el cronometro cuando es pausa, o cancelar.
         //CONFIGURACION DEL BOTON DE CANCELAR JUEGO - Comienza aquí
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar,
@@ -181,14 +180,14 @@ public class BqSimbolosActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        /** TODO: On back pressed cuando se encuentre el popup abierto
-         * if (cronostop = true){
+         /** if (cronostop = true){
             crono = (Chronometer) findViewById(R.id.cronometro);
             crono.setBase(SystemClock.elapsedRealtime());
             crono.start();
             cronostop = false;
         }*/
     }
+
 
     public void showPopupPassword(final Activity activity) {
 
@@ -219,6 +218,14 @@ public class BqSimbolosActivity extends AppCompatActivity {
             }
         });
 
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                onResume();
+                dialog.dismiss();
+            }
+        });
         builder.show();
     }
 
@@ -253,11 +260,17 @@ public class BqSimbolosActivity extends AppCompatActivity {
         btn_neutral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crono = (Chronometer) findViewById(R.id.cronometro);
-                crono.setBase(SystemClock.elapsedRealtime());
-                crono.start();
-                cronostop = false;
+                onResume();
                 dialog.cancel();
+            }
+        });
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                onResume();
+                dialog.dismiss();
             }
         });
 
@@ -265,6 +278,13 @@ public class BqSimbolosActivity extends AppCompatActivity {
         dialog.show();
 
     }
+    public void onResume(){
+        super.onResume();
+        crono = (Chronometer) findViewById(R.id.cronometro);
+        crono.setBase(SystemClock.elapsedRealtime());
+        crono.start();
+        cronostop = false;
 
+    }
 }
 

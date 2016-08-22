@@ -6,13 +6,15 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,35 +22,48 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".InformacionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MatricesActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InformacionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MatricesActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SelecPacienteActivity"
             android:label="Seleccionar Paciente"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ExamenActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FiguraIncompletaActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AdivinanzasActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BqSimbolosActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".InicioJuegoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".VocabularioActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ComprensionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SemejanzasActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ValorExamenActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ExamenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FiguraIncompletaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AdivinanzasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BqSimbolosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InicioJuegoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VocabularioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ComprensionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SemejanzasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ValorExamenActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ClavesActivity"></activity>
     </application>
 
 </manifest>
