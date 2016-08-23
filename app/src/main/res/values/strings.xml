@@ -26,6 +26,14 @@
         completions."
     </string>
     <string name="title_activity_selec_paciente">SelecPacienteActivity</string>
+    <string name="clave2">Linea vertical</string>
+    <string name="clave3">Signo menor</string>
+    <string name="clave4">Signo V</string>
+    <string name="clave1">Linea Horizontal</string>
+    <string name="clave5">Circulo</string>
+
+
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
