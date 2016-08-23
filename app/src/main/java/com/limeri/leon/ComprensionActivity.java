@@ -25,6 +25,7 @@ public class ComprensionActivity extends AppCompatActivity {
     private int nivel = 0;
     private int cantIncorrectas = 0;
     private String jsonString;
+    private int posSelecc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +87,7 @@ public class ComprensionActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                if (position == 2){
-                    cantIncorrectas++;
-                } else if (position == 1) {
-                    cantIncorrectas = 0;
-                    sumarPuntos(1);
-                } else {
-                    cantIncorrectas = 0;
-                    sumarPuntos(2);
-                }
+                posSelecc = position;
             }
         };
     }
@@ -117,6 +110,15 @@ public class ComprensionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                if (posSelecc == 2){
+                    cantIncorrectas++;
+                } else if (posSelecc == 1) {
+                    cantIncorrectas = 0;
+                    sumarPuntos(1);
+                } else {
+                    cantIncorrectas = 0;
+                    sumarPuntos(2);
+                }
                 try {
                     guardarRespuesta();
                     seleccion = null;

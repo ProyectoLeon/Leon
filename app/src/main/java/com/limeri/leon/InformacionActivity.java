@@ -31,6 +31,7 @@ public class InformacionActivity extends AppCompatActivity {
     private boolean jsonLoaded = false;
     private boolean backHecho = false;
     private String jsonString;
+    private int posSelecc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +95,7 @@ public class InformacionActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                if (position == 1){
-                    cantIncorrectas++;
-                    cantConsec = 0;
-                } else { cantIncorrectas = 0;
-                    sumarPuntos(1);
-                }
+                posSelecc = position;
             }
         };
     }
@@ -122,6 +118,13 @@ public class InformacionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                if (posSelecc == 1){
+                    cantIncorrectas++;
+                    cantConsec = 0;
+                } else {
+                    cantIncorrectas = 0;
+                    sumarPuntos(1);
+                }
                 try {
                     guardarRespuesta();
                     seleccion = null;

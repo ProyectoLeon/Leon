@@ -25,6 +25,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private int nivel = 0;
     private int cantIncorrectas = 0;
     private String jsonString;
+    private int posSelecc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +85,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                if (position == 1){
-                    cantIncorrectas++;
-                } else {
-                    cantIncorrectas = 0;
-                    sumarPuntos(1);
-                }
+                posSelecc = position;
             }
         };
     }
@@ -112,6 +108,12 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                if (posSelecc == 1){
+                    cantIncorrectas++;
+                } else {
+                    cantIncorrectas = 0;
+                    sumarPuntos(1);
+                }
                 try {
                     guardarRespuesta();
                     seleccion = null;

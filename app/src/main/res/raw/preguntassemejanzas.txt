@@ -2,67 +2,119 @@
 {
 	"semejanzas": [
 	  {
-	  	"pregunta": "¿En qué se parecen la LECHE y el AGUA? ¿Los dos son..?",
+  	"pregunta": "¿En qué se parecen la LECHE y el AGUA? ¿Los dos son..?",
 
-		"respuesta0": "Ambos/ Los dos: Son (fluidos, líquidos) / Son (nutritivos, saludables, buenos para uno) / Son bebidas; Refrescos; Cosas que se beben",
+	"respuesta0": "Son (fluidos, líquidos, nutritivos, saludables, buenos para uno). Son bebidas; Refrescos; Cosas que se beben",
 
-		"respuesta1": "[Demuestra que se beben] / Son húmedas; Tienen agua / Puedes derramarlas, volcarlas / Se ponen en una jarra / Tienen vitaminas / Las dos son (blancas, frías)"
+	"respuesta1": "[Demuestra que se beben] / Cualquier otra respuesta"
+
 	}, {
-		"pregunta": "¿En qué se parecen un LÁPIZ y una LAPICERA? ¿Los dos son..?",
 
-		"respuesta0": "Ambos/ Los dos: Son para (escribir, dibujar, colorear) / Son para poder escribir / Son herramientas para dibujar / Son elementos para (la escuela, la oficina, el arte)",
+	"pregunta": "¿En qué se parecen un LÁPIZ y una LAPICERA? ¿Los dos son..?",
 
-		"respuesta1": "[Demuestra que escriben] / Tienen un (extremo putiagudo, gomas de borrar) / Tienen (tinta, mina) dentro de ellos / Tienen la misma (forma, tamaño); Son derechos; Largos; Redondeados / Tienen colores"
+	"respuesta0": "Son (herramientas, elementos) para (escribir, dibujar, colorear, la escuela, la oficina, el arte)",
+
+	"respuesta1": "[Demuestra que escriben] / Cualquier otra respuesta"
+
 	}, {
-		"pregunta": "¿En qué se parecen una MANZANA y una BANANA?",
 
-		"respuesta0": "Ambas/ Las dos son (frutas, frutos)",
+	"pregunta": "¿En qué se parecen una MANZANA y una BANANA?",
 
-		"respuesta1": "Ambas/ Las dos: / Son comida; Cosas que comes; Comestibles / (Crecen, vienen) de un árbol / Son vegetales / Son sabrosas; Dulces / Son buenas para la salud; Saludables; Nutritivas; Contienen (minerales, vitaminas) / Tienen (piel, semillas y cáscara) / Cosas que (pelas, cortas)",
+	"respuesta0": "Son (frutas, frutos)",
 
-		"respuesta2": "Son buenas / Mismo color; Amarillo / Son jugosas / Son redondeadas; Pequeñas; Suaves"
+	"respuesta1": "Son (comida, vegetales, sabrosas, dulces, saludables, cosas que pelas o cortas). Vienen de un árbol. Tienen (minerales, vitaminas, piel,
+semillas y cáscara)",
+
+	"respuesta2": "Son buenas / Cualquier otra respuesta."
+
 	}, {
-     		"pregunta": "¿En qué se parecen una CAMISA y un ZAPATO?",
 
-     		"respuesta0": "Una respuesta que indique que ambos son prendas de vestir. Ambos/ Los dos: Son ropa; Vestimenta / Prendas de vestir / Parte de la indumentaria / Parte de un uniforme",
+	"pregunta": "¿En qué se parecen una CAMISA y un ZAPATO?",
 
-	     	"respuesta1": "Ambos/ Los dos: Visten / (Se ponen sobre, van encima de, cubren, tapa) el cuerpo / Te protegen (el cuerpo); Mantienen el calor / Se ajustan a tu cuerpo",
+	"respuesta0": "Una respuesta que indique que ambos son prendas de vestir",
 
-	     	"respuesta2": "Tiene (botones, cierre, cordones) / Pueden ser de (cuero, tela); Hechos de fábrica. Cosidas a máquina / Cuestan dinero; Los compras / Son suaves; Pueden ser del mismo color / Se usan para salir / [Señala los zapatos o la camisa]"
+     	"respuesta1": "Visten. (Se ponen sobre, cubren, se ajustan a) el cuerpo; Mantienen el calor",
+
+     	"respuesta2": "[Señala los zapatos o la camisa] / Cualquier otra respuesta."
+
      	}, {
 
-	        "pregunta": "¿En qué se parecen un GATO y un RATÓN?",
+        "pregunta": "¿En qué se parecen un GATO y un RATÓN?",
 
-        	"respuesta0": "Una respuesta que indique que ambos son animales, mamíferos, seres vivos. Ambos/ Los dos: / Son mamíferos. Animales de sangre caliente; Vertebrados; Vivíparos / Son animales; Son cuadrúpedos; Animales de cuatro patas / Son seres vivos; Viven / Ambos nacen, crecen, se reprooducen y mueren",
+       	"respuesta0": "Indica que ambos son animales, mamíferos, seres vivos. Son vertebrados, vivíparos, cuadrúpedos. Nacen, crecen, se reproducen y mueren",
 
-	        "respuesta1": "Ambos/ Los dos: / Son mascotas; Se domestican / Tienen (colas, bigotes, pelaje, cuatro patas, uñas, ojos) [Nombra característica/s física/s compartida/s] / Corren; Escarban; Caminan [Nombre el mismo comportamiento en ambos] / Tienen comportamiento nocturno; Pueden ver en la oscuridad; Son activos en la noche",
+        "respuesta1": "Son mascotas; Se domestican. [Nombra características físicas o comportamiento compartidos] / Tienen comportamiento nocturno; Pueden ver en la
+oscuridad",
 
-	        "respuesta2": "Son doméstivos; Viven en la casa / Comen queso; Roban comida / Tienen el mismo color de piel [Nombra cualquier color] / Juegan; Juegas con ellos / Son enemigos; Se persiguen; Se odian"
+        "respuesta2": "Cualquier otra respuesta."
+
         }, {
-	        "pregunta": "¿En qué se parecen una MARIPOSA y una ABEJA?",
 
-	        "respuesta0": "Una respuesta que indique que ambos son insectos. Ambas/ Las dos: Son insectos / Son insectos voladores",
+	"pregunta": "¿En qué se parecen una MARIPOSA y una ABEJA?",
 
-	        "respuesta1": "Ambas/ Las dos: / Son animales invertebrados / Son animales / Son bichos / Tienen alas; Vuelan / Tienen (seis patas, cuerpos segmentados) / Provienen de (larvas, capullos) / Viven en (larvas, capullos) / Juntan (néctar, polen); Polinizan las flores / Tienen antenas",
+        "respuesta0": "Una respuesta que indique que ambos son insectos.",
 
-	        "respuesta2": "(Se paran encima de, se posan en, comen de, les gustan) las flores / (Producen, recogen) miel / Pican / Están afuera"
+        "respuesta1": "Son bichos, animales (invertebrados), Vuelan, Tienen (alas, seis patas, cuerpos segmentados, antenas) / Provienen de (larvas, capullos) / Juntan
+(néctar, polen)",
+
+        "respuesta2": "Cualquier otra respuesta."
+
       	}, {
-    		"pregunta": "¿En qué se parecen el INVIERNO y el VERANO?",
-      		"respuesta0": "Una respuesta que indique que ambos son estaciones del año. Ambos/ Los dos: Son estaciones / Son estaciones del año / Son dos de las cuatro estaciones / Tienen solsticios",
 
-       		"respuesta1": "Ambos/ Los dos: Son (épocas, partes, tiempos) del año / Cambios en el (clima, tiempo) / Clima",
+    	"pregunta": "¿En qué se parecen el INVIERNO y el VERANO?",
 
-		"respuesta2": "Son parte de la primavera, verano, invierno, otoño [Nombra las estaciones] / Son parte de la naturaleza / Meses del año / Vacaciones / Días; Semanas; Años / Es divertido; Puedes salir y jugar afuera / Tienen (nubes, sol, lluvia) / Es (ventoso, frío)"
+	"respuesta0": "Una respuesta que indique que ambos son estaciones del año.",
+
+	"respuesta1": " Son (épocas, partes, tiempos) del año / Cambios en el (clima, tiempo) / Clima",
+
+	"respuesta2": "Cualquier otra respuesta."
 
        	}, {
 
        	"pregunta": "¿En qué se parecen el CEMENTO y los LADRILLOS?",
 
-       	"respuesta0": "Una respuesta que indique que ambos materiales son utilizados en la construcción. Ambos/ Los dos: Son (materiales, productos, recursos) para la construcción / (Materiales, productos, elementos) usados para construir una (casa, edificio, estructura, paredes, cercos) / Materiales que utilizas para hacer un (edificio, estructura, paredes, cercos) / Son elementos de construcción",
+       	"respuesta0": "Indica que ambos son utilizados en la construcción. Son (materiales, productos, recursos) usados para la construcción (estructuras, paredes,
+cercos)",
 
-       	"respuesta1": "Ambos/ Los dos: Son (materiales, recursos, elementos, productos) / (Hacen, construyen) cosas con ellos / (Para, usados en, parte de) los edificios; casas / Cosas usadas para hacer una (casa, un edificio) / Se utilizan en la construcción / Forman parte de los (cimientos, paredes, cercas)",
+       	"respuesta1": "Son (materiales, recursos, elementos, productos). Construyen cosas con ellos. Parte de los edificios, casas. Cosas usadas para hacer una (casa,
+un edificio). Se utilizan en la construcción",
 
-       	"respuesta2": "Construcción / Productos naturales; Elementos de la tierra / Cosas que se pueden usar / Son (duras, pesadas, sólidas, fuertes, apilables); Hechas por el hombre; Ásperas"
+       	"respuesta2": "Cualquier otra respuesta."
+
+       	}, {
+
+       	"pregunta": "¿En qué se parecen un CODO y una RODILLA?",
+
+       	"respuesta0": "Indica que ambos son articulaciones; son como bisagras; que están en el medio del brazo o de la pierna.",
+
+       	"respuesta1": "Se (doblan, giran, mueven), son flexibles; Conectan los huesos, Partes de los miembros; Tienen (ligamentos, rótulas, músculos, cartílagos); Son
+huesos que (conectan, doblan, mueven, se sostienen juntos con otros huesos); Ayudan a moverte",
+
+       	"respuesta2": "Cualquier otra respuesta."
+
+       	}, {
+
+       	"pregunta": "¿En qué se parecen una MONTAÑA y un LAGO?",
+
+       	"respuesta0": "Son (fenómenos, lugares, accidentes) geográficos, topográficos, (partes, características, factores abióticas) de la superficie de la tierra;
+(paisajes, formaciones, características) del suelo; Se forman por (la naturaleza, los glaciares, el movimiento de las placas)",
+
+       	"respuesta1": "Son (naturales, recursos naturales, lugares en la Tierra, factores abióticos); parte de (la naturaleza, el medio ambiente, el mundo); no son
+seres vivos; Lugares para acampar, recreativos; El clima los modifica; [Referencias geográficas]",
+
+       	"respuesta2": "Cualquier otra respuesta."
+
+       	},{
+
+       	"pregunta": "¿En qué se parecen el ENOJO y la ALEGRÍA?",
+
+       	"respuesta0": "Son sentimimentos, reacciones, expresiones, respuestas emocionales, emociones, estados de ánimo, estados mentales, signos de cómo se siente la
+persona",
+
+       	"respuesta1": "Se pueden expresar ambas; Cómo se siente uno; Respuestas; Reacciones; Actitudes; Expresiones de tu cara; Gestos; Miradas, Ocurren dentro de ti;
+Pensamientos",
+
+       	"respuesta2": "Cualquier otra respuesta"
 
        	}
 	 ]

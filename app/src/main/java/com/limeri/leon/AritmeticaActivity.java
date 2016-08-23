@@ -33,6 +33,7 @@ public class AritmeticaActivity extends AppCompatActivity {
     private boolean backHecho = false;
     private String jsonString;
     private ImageView imagen;
+    private int posSelecc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,16 +124,7 @@ public class AritmeticaActivity extends AppCompatActivity {
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
 
-                // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                if (position == 1){
-                    cantIncorrectas++;
-                    cantConsec = 0;
-                    puntPerfecto = false;
-                } else {
-                    cantIncorrectas = 0;
-                    sumarPuntos(1);
-                    puntPerfecto = true;
-                }
+                posSelecc = position;
             }
         };
     }
@@ -155,6 +147,16 @@ public class AritmeticaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
+                if (posSelecc == 1){
+                    cantIncorrectas++;
+                    cantConsec = 0;
+                    puntPerfecto = false;
+                } else {
+                    cantIncorrectas = 0;
+                    sumarPuntos(1);
+                    puntPerfecto = true;
+                }
                 try {
                     guardarRespuesta();
                     seleccion = null;

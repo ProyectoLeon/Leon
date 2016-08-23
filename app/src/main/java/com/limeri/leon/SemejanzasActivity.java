@@ -28,6 +28,7 @@ public class SemejanzasActivity extends AppCompatActivity {
     private int nivel = PRIMER_NIVEL;
     private int cantIncorrectas = 0;
     private String jsonString;
+    private int posSelecc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,28 +92,8 @@ public class SemejanzasActivity extends AppCompatActivity {
                 if (seleccion != null) blanquear(seleccion);
                 seleccion = ((TextView) view);
                 seleccionar(seleccion);
-                if (position == 2){
-                    cantIncorrectas++;
-                } else if (position == 1){
+                posSelecc = position;
 
-                    // Para los dos primeros niveles, no hay tercera opción.
-                    // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
-                    if (!(nivel == 0 || nivel == 1)){
-                        sumarPuntos(1);
-                    }
-                    cantIncorrectas = 0;
-                }
-                 else if (position == 0) {
-                    cantIncorrectas = 0;
-
-                    // Para los dos primeros niveles, no hay tercera opción.
-                    // La primera opción suma 1 punto.
-                    if (nivel == 0 || nivel == 1) {
-                        sumarPuntos(1);
-                    } else {
-                        sumarPuntos(2);
-                    }
-                }
             }
         };
     }
@@ -135,6 +116,29 @@ public class SemejanzasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                if (posSelecc == 2){
+                    cantIncorrectas++;
+                } else if (posSelecc == 1){
+
+                    // Para los dos primeros niveles, no hay tercera opción.
+                    // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
+                    if (!(nivel == 0 || nivel == 1)){
+                        sumarPuntos(1);
+                    }
+                    cantIncorrectas = 0;
+                }
+                else if (posSelecc == 0) {
+                    cantIncorrectas = 0;
+
+                    // Para los dos primeros niveles, no hay tercera opción.
+                    // La primera opción suma 1 punto.
+                    if (nivel == 0 || nivel == 1) {
+                        sumarPuntos(1);
+                    } else {
+                        sumarPuntos(2);
+                    }
+                }
+
                 try {
                     guardarRespuesta();
                     seleccion = null;

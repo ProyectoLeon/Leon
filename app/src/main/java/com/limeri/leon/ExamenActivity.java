@@ -33,7 +33,7 @@ public class ExamenActivity extends AppCompatActivity {
 
         buttonInformacion = (Button) findViewById(R.id.buttonInformacion);
         buttonMatrices = (Button) findViewById(R.id.buttonMatrices);
-        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
+//        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
         buttonClaves = (Button) findViewById(R.id.buttonClaves);
         buttonAdivinanzas = (Button) findViewById(R.id.buttonAdivinanzas);
         buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
