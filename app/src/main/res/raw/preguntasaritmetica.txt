@@ -1,0 +1,45 @@
+{
+	"aritmetica": [
+	   {
+        "pregunta": "arit1_pajaritos",
+        "respuesta0": "3",
+        "respuesta1": "Otro"
+    }, {
+	    "pregunta": "arit2_pollitos",
+		"respuesta0": "5",
+		"respuesta1": "Otro"
+	}, {
+	    "pregunta": "arit3_arboles",
+		"respuesta0": "10",
+		"respuesta1": "Otro"
+	}, {
+	    "pregunta": "arit4_bichos",
+		"respuesta0": "9",
+		"respuesta1": "Otro"
+	}, {
+	    "pregunta": "arit5_ardillas",
+		"respuesta0": "3",
+		"respuesta1": "Otro"
+	}, {
+	    "pregunta": "¿Cuántos son 2 lápices mas 3 lápices?",
+		"respuesta0": "5",
+		"respuesta1": "Otro"
+	}, {
+		"pregunta": "María tenía 4 monedas y su madre le da 2 más, ¿cuántas tiene en total?",
+		"respuesta0": "6",
+		"respuesta1": "Otro"
+	}, {
+		"pregunta": "Si corto una manzana por la mitad, ¿cuántos trozos tendré?",
+		"respuesta0": "2",
+		"respuesta1": "Otro"
+	}, {
+     	"pregunta": "Si tienes 3 hojas en cada mano, ¿cuántas hojas tienes en total?",
+     	"respuesta0": "6",
+     	"respuesta1": "Otro"
+    }, 	{
+        "pregunta": "Si tienes 10 caramelos y comes 3, ¿cuántos te quedan?",
+        "respuesta0": "7",
+        "respuesta1": "Otro"
+    }
+  ]
+}

@@ -46,6 +46,9 @@
             android:name=".AdivinanzasActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".AritmeticaActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".BqSimbolosActivity"
             android:screenOrientation="portrait" />
         <activity
