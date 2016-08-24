@@ -24,7 +24,6 @@
         android:text="Claves"
         android:id="@+id/buttonClaves"
         android:textSize="20dp"
-        android:layout_below="@+id/buttonInformacion"
         android:layout_alignParentStart="true" />
 
         <Button
@@ -33,7 +32,7 @@
             android:text="Juego Informacion"
             android:id="@+id/buttonInformacion"
             android:textSize="20dp"
-            android:layout_below="@+id/buttonMatrices"
+            android:layout_below="@+id/buttonClaves"
             android:layout_alignParentStart="true" />
 
         <Button
@@ -50,10 +49,10 @@
         android:layout_height="wrap_content"
         android:text="BUSQUEDA DE SIMBOLOS"
         android:id="@+id/buttonSimbolos"
-        android:layout_below="@+id/buttonClaves"
+        android:layout_below="@+id/buttonMatrices"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonClaves"
-        android:layout_alignEnd="@+id/buttonClaves"
+        android:layout_alignRight="@+id/buttonMatrices"
+        android:layout_alignEnd="@+id/buttonMatrices"
         android:textSize="20dp" />
 
     <Button
