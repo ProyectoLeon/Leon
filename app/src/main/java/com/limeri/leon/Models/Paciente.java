@@ -24,6 +24,7 @@ public class Paciente {
     private String apellido;
     private String fechaNac;
     private List<Evaluacion> evaluaciones = new ArrayList<>();
+    private List<Juego> juegosLibres = new ArrayList<>();
 
     public String getFechaNac() {
         return fechaNac;
@@ -227,5 +228,18 @@ public class Paciente {
 
     public void borrarEvaluaciones() {
         evaluaciones.clear();
+    }
+
+    public void agregarJuegoLibre(Juego juego) {
+        juegosLibres.add(juego);
+    }
+
+    public Juego getJuegoLibreActual() {
+        Juego juegoActual = null;
+        for (Juego juego : juegosLibres) {
+            if (!juego.isFinalizado() && !juego.isCancelado())
+                juegoActual = juego;
+        }
+        return juegoActual;
     }
 }

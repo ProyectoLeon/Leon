@@ -1,33 +1,34 @@
 package com.limeri.leon.Models;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.limeri.leon.BqSimbolosActivity;
 import com.limeri.leon.ExamenActivity;
+import com.limeri.leon.PopupActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
+
+import java.util.Stack;
 
 public class Navegacion {
 
     private static Class anterior;
+    private static Stack<Class> anteriores = new Stack<>();
 
     public static void irA(Activity activity, Class clase) {
         anterior = activity.getClass();
+        anteriores.push(activity.getClass());
         Intent mainIntent = new Intent(activity, clase);
         activity.startActivity(mainIntent);
         activity.finish();
@@ -47,6 +48,19 @@ public class Navegacion {
         activity.finish();
     }
 
+    public static void volver(Activity activity) {
+        Class anterior = anteriores.pop();
+        Intent mainIntent = new Intent(activity, anterior);
+        activity.startActivity(mainIntent);
+        activity.finish();
+    }
+
+    public static void irAPopUp(Activity activity) {
+        anteriores.push(activity.getClass());
+        Intent i = new Intent(activity.getApplicationContext(), PopupActivity.class);
+        activity.startActivity(i);
+    }
+
     public static void agregarMenuJuego(final AppCompatActivity activity) {
 
         ViewGroup actionBarLayout = (ViewGroup) activity.getLayoutInflater().inflate(R.layout.action_bar,null);
@@ -62,14 +76,15 @@ public class Navegacion {
             @Override
             public void onClick(View v) {
 
-                showPopupPassword(activity);
-
+                //showPopupPassword(activity);
+                irAPopUp(activity);
 
             }
         });
 
     }
 
+/*
     private static void showPopupPassword(final AppCompatActivity context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -86,7 +101,7 @@ public class Navegacion {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(Profesional.getProfesional().getmPassword().equals(input.getText().toString())){
-                    showPopupSalir(context);
+                    irAPopUp(context);
                 } else {
                     Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
                 }
@@ -213,4 +228,5 @@ public class Navegacion {
         // Display the custom alert dialog on interface
         dialog.show();
     }
+*/
 }

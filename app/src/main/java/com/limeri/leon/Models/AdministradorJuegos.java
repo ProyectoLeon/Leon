@@ -63,6 +63,48 @@ public class AdministradorJuegos {
         return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
     }
 
+    public static void setContext(Context context) {
+        applicationContext = context;
+    }
+
+    public Juego getSiguienteJuego(Evaluacion evaluacion) {
+        Juego juego = null;
+        if (evaluacion.tieneJuegos()) {
+            Boolean anterior = false;
+            Juego ultimoJuego = evaluacion.getUltimoJuego();
+            for (JuegoWisc juegoWisc : juegosWisc) {
+                if (anterior) {
+                    if (!juegoWisc.alternativo) {
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                        break;
+                    } else if (alternativas.contains(juegoWisc.categoria)) {
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                        alternativas.remove(juegoWisc.categoria);
+                        break;
+                    }
+                } else if (ultimoJuego.getNombre().equals(juegoWisc.nombre)) {
+                    anterior = true;
+                }
+            }
+        } else {
+            juego = getJuegoInicial();
+        }
+        return juego;
+    }
+
+    private void sumarPuntosJuego(Integer puntos) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        juego.setPuntosJuego(puntos);
+    }
+
+    public void sumarPuntos(Integer puntos) {
+        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
+    }
+
+    public void inicializarJuego() {
+        sumarPuntosJuego(0);
+    }
+
     public void guardarJuego(Activity activity) {
         try {
             Paciente paciente = Paciente.getSelectedPaciente();
@@ -145,48 +187,6 @@ public class AdministradorJuegos {
             }
         }
         return ultimo;
-    }
-
-    public static void setContext(Context context) {
-        applicationContext = context;
-    }
-
-    public Juego getSiguienteJuego(Evaluacion evaluacion) {
-        Juego juego = null;
-        if (evaluacion.tieneJuegos()) {
-            Boolean anterior = false;
-            Juego ultimoJuego = evaluacion.getUltimoJuego();
-            for (JuegoWisc juegoWisc : juegosWisc) {
-                if (anterior) {
-                    if (!juegoWisc.alternativo) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
-                        break;
-                    } else if (alternativas.contains(juegoWisc.categoria)) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
-                        alternativas.remove(juegoWisc.categoria);
-                        break;
-                    }
-                } else if (ultimoJuego.getNombre().equals(juegoWisc.nombre)) {
-                    anterior = true;
-                }
-            }
-        } else {
-            juego = getJuegoInicial();
-        }
-        return juego;
-    }
-
-    private void sumarPuntosJuego(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(puntos);
-    }
-
-    public void sumarPuntos(Integer puntos) {
-        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
-    }
-
-    public void inicializarJuego() {
-        sumarPuntosJuego(0);
     }
 
     public void cancelarUltimoJuego(Activity activity) {

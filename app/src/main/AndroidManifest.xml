@@ -66,7 +66,10 @@
         <activity
             android:name=".ValorExamenActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ClavesActivity"></activity>
+        <activity android:name=".ClavesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog"/>
     </application>
 
 </manifest>
