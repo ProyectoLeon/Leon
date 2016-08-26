@@ -148,29 +148,31 @@ public class VocabularioActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                if (nivel < 4) {
-                    if (posSelecc == 1){
-                        cantIncorrectas++;
-                        cantConsec = 0;
-                        puntPerfecto = false;
+                if (!soloImagen) {
+                    // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
+                    if (nivel < 4) {
+                        if (posSelecc == 1){
+                            cantIncorrectas++;
+                            cantConsec = 0;
+                            puntPerfecto = false;
+                        } else {
+                            cantIncorrectas = 0;
+                            sumarPuntos(1);
+                            puntPerfecto = true;
+                        }
                     } else {
-                        cantIncorrectas = 0;
-                        sumarPuntos(1);
-                        puntPerfecto = true;
-                    }
-                } else {
-                    if (posSelecc == 2){
-                        cantIncorrectas++;
-                        puntPerfecto = false;
-                    } else if (posSelecc == 1) {
-                        cantIncorrectas = 0;
-                        sumarPuntos(1);
-                        puntPerfecto = false;
-                    } else {
-                        cantIncorrectas = 0;
-                        sumarPuntos(2);
-                        puntPerfecto = true;
+                        if (posSelecc == 2){
+                            cantIncorrectas++;
+                            puntPerfecto = false;
+                        } else if (posSelecc == 1) {
+                            cantIncorrectas = 0;
+                            sumarPuntos(1);
+                            puntPerfecto = false;
+                        } else {
+                            cantIncorrectas = 0;
+                            sumarPuntos(2);
+                            puntPerfecto = true;
+                        }
                     }
                 }
                 try {

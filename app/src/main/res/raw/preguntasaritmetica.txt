@@ -1,24 +1,29 @@
 {
 	"aritmetica": [
 	   {
-        "pregunta": "arit1_pajaritos",
+	    "dibujo": "arit1_pajaritos",
+        "pregunta": "¿Cuántos pajaritos ves?",
         "respuesta0": "3",
         "respuesta1": "Otro"
     }, {
-	    "pregunta": "arit2_pollitos",
+        "dibujo": "arit2_pollitos",
+	    "pregunta": "¿Cuántos pollitos ves?",
 		"respuesta0": "5",
 		"respuesta1": "Otro"
 	}, {
-	    "pregunta": "arit3_arboles",
+	    "dibujo": "arit3_arboles",
+	    "pregunta": "¿Cuántos árboles ves?",
 		"respuesta0": "10",
 		"respuesta1": "Otro"
 	}, {
-	    "pregunta": "arit4_bichos",
+	    "dibujo": "arit4_bichos",
+	    "pregunta": "¿Cuántos insectos ves en total?",
 		"respuesta0": "9",
 		"respuesta1": "Otro"
 	}, {
-	    "pregunta": "arit5_ardillas",
-		"respuesta0": "3",
+	    "dibujo": "arit5_ardillas",
+	    "pregunta": "¿Cuántas avellanas quedan si cada ardilla se come una?",
+		"respuesta0": "2",
 		"respuesta1": "Otro"
 	}, {
 	    "pregunta": "¿Cuántos son 2 lápices mas 3 lápices?",
