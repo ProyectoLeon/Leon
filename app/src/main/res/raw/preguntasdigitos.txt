@@ -1,0 +1,45 @@
+{
+	"digitos": [
+	   {
+        "pregunta": "Directo: 2 - 9",
+        "respuesta0": "Correcto",
+        "respuesta1": "Incorrecto"
+    }, {
+	    "pregunta": "Inverso: 2 - 1",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Directo: 3 - 8 - 6",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 5 - 7 - 4",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Directo: 3 - 4 - 1 - 7",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 7 - 2 - 9 - 6",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+		"pregunta": "Directo: 8 - 4 - 2 - 3 - 9",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+		"pregunta": "Inverso: 4 - 1 - 3 - 5 - 7",
+		"respuesta0": "Correcto",
+		"respuesta1": "Incorrecto"
+	}, {
+     	"pregunta": "Directo: 3 - 8 - 9 - 1 - 7 - 4",
+     	"respuesta0": "Correcto",
+     	"respuesta1": "Incorrecto"
+    }, 	{
+        "pregunta": "Inverso: 1 - 6 - 5 - 2 - 9 - 8",
+        "respuesta0": "Correcto",
+        "respuesta1": "Incorrecto"
+    }
+  ]
+}

@@ -23,6 +23,7 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonComprension;
     Button buttonSemejanzas;
     Button buttonAritmetica;
+    Button buttonDigitos;
     private Paciente paciente;
 
     //TODO: Que para los juegos libres, no se muestre la opción activar juego alternativo
@@ -41,6 +42,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonComprension = (Button) findViewById(R.id.buttonComprension);
         buttonSemejanzas = (Button) findViewById(R.id.buttonSemejanzas);
         buttonAritmetica = (Button) findViewById(R.id.buttonAritmetica);
+        buttonDigitos = (Button) findViewById(R.id.buttonDigitos);
 
         AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
@@ -139,6 +141,14 @@ public class ExamenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 paciente.getEvaluacionActual().agregarJuego(new Juego("Aritmetica","","AritmeticaActivity"));
                 Navegacion.irA(ExamenActivity.this, AritmeticaActivity.class);
+
+            }
+        });
+        buttonDigitos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Digitos","","DigitosActivity"));
+                Navegacion.irA(ExamenActivity.this, DigitosActivity.class);
 
             }
         });

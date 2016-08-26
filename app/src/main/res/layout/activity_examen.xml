@@ -109,4 +109,14 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Digitos"
+        android:id="@+id/buttonDigitos"
+        android:layout_below="@+id/buttonAritmetica"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
 </RelativeLayout>

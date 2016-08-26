@@ -49,6 +49,9 @@
             android:name=".AritmeticaActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".DigitosActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".BqSimbolosActivity"
             android:screenOrientation="portrait" />
         <activity
