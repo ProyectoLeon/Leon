@@ -1,7 +1,10 @@
 package com.limeri.leon;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
@@ -20,6 +24,9 @@ import com.limeri.leon.common.JSONLoader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class AritmeticaActivity extends AppCompatActivity {
 
@@ -31,10 +38,15 @@ public class AritmeticaActivity extends AppCompatActivity {
     private int cantConsec = 0;
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
+    private boolean soloImagen = true;
     private boolean backHecho = false;
     private String jsonString;
     private ImageView imagen;
     private int posSelecc;
+    private Button siguiente;
+    private Button reconocer;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+    private JSONObject jsonObject;
     private Chronometer crono;
     private long tiempo_ejecutado = 0;
 
@@ -43,11 +55,14 @@ public class AritmeticaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aritmetica);
 
-        Button siguiente = (Button) findViewById(R.id.siguiente);
+        siguiente = (Button) findViewById(R.id.siguiente);
+        reconocer = (Button) findViewById(R.id.reconocer);
         if (siguiente != null) {
             siguiente.setOnClickListener(clickSiguiente());
         }
-
+        if (reconocer != null) {
+            reconocer.setOnClickListener(reconocerAudio());
+        }
         palabra = (TextView) findViewById(R.id.palabra);
         imagen = (ImageView) findViewById(R.id.imagen);
 
@@ -80,7 +95,7 @@ public class AritmeticaActivity extends AppCompatActivity {
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
-            JSONObject jsonObject = jsonArray.getJSONObject(nivel);
+            jsonObject = jsonArray.getJSONObject(nivel);
 
             String pregunta = jsonObject.getString("pregunta").toString();
 
@@ -96,7 +111,7 @@ public class AritmeticaActivity extends AppCompatActivity {
                 palabra.setText(pregunta);
             }
             if (nivel < 5) {
-                String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+             /*   String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
                 ListView respuestas = (ListView) findViewById(R.id.respuestas);
                 if (respuestas != null) {
@@ -110,8 +125,8 @@ public class AritmeticaActivity extends AppCompatActivity {
                 if (respuestas != null) {
                     respuestas.setOnItemClickListener(opcionSeleccionada());
                     respuestas.setAdapter(adapter);
-                }
-            }
+               }
+            */}
         } catch (JSONException e) {
             guardar();
         }
@@ -174,7 +189,7 @@ public class AritmeticaActivity extends AppCompatActivity {
 
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
-        blanquear(seleccion);
+        //blanquear(seleccion);
         if (cantIncorrectas == 4) {
             guardar();
         } else if ((nivel == 2 | nivel == 3) & !puntPerfecto & !backHecho) {
@@ -228,4 +243,73 @@ public class AritmeticaActivity extends AppCompatActivity {
         AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
-}
+    private View.OnClickListener reconocerAudio() {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),"No",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }};}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Boolean respondido;
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String respuesta = jsonObject.optString("respuesta0").toString();
+                    respondido = false;
+                    for (String audio : result){
+                        if ( !audio.equals(respuesta) | (elapsedMillis / 1000 > 30 )){
+                            respondido = false;
+                        }
+                        else {
+                            respondido = true;
+                            cantIncorrectas = 0;
+                            sumarPuntos(1);
+                            puntPerfecto = true;
+                            Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+                            break;
+                            }}
+
+                        if (respondido == false){
+                            cantIncorrectas++;
+                            cantConsec = 0;
+                            puntPerfecto = false;
+
+                        }
+                    iniciarCronometro();
+                    tiempo_ejecutado = 0;
+
+/**                        if (){
+                            cantIncorrectas = 0;
+                            sumarPuntos(1);
+                            puntPerfecto = true;
+                        }
+  */                      try {
+                            guardarRespuesta();
+                            //seleccion = null;
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
+
