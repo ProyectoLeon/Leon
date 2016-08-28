@@ -9,14 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limeri.leon.ExamenActivity">
 
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Figura Incompleta"-->
-        <!--android:id="@+id/buttonFiguraInc"-->
-        <!--android:textSize="20dp"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentStart="true" />-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Figura Incompleta"
+        android:id="@+id/buttonFiguraInc"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="fill_parent"
@@ -24,25 +24,26 @@
         android:text="Claves"
         android:id="@+id/buttonClaves"
         android:textSize="20dp"
+        android:layout_below="@+id/buttonFiguraInc"
         android:layout_alignParentStart="true" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Juego Informacion"
-            android:id="@+id/buttonInformacion"
-            android:textSize="20dp"
-            android:layout_below="@+id/buttonClaves"
-            android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Juego Informacion"
+        android:id="@+id/buttonInformacion"
+        android:textSize="20dp"
+        android:layout_below="@+id/buttonClaves"
+        android:layout_alignParentStart="true" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Juego Matrices"
-            android:id="@+id/buttonMatrices"
-            android:textSize="20dp"
-            android:layout_below="@+id/buttonInformacion"
-            android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Juego Matrices"
+        android:id="@+id/buttonMatrices"
+        android:textSize="20dp"
+        android:layout_below="@+id/buttonInformacion"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

@@ -1,0 +1,3 @@
+{
+	"figuras": ["carta","carta","carta","carta","carta","carta","carta","carta"]
+}

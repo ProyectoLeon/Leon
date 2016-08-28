@@ -34,7 +34,7 @@ public class ExamenActivity extends AppCompatActivity {
 
         buttonInformacion = (Button) findViewById(R.id.buttonInformacion);
         buttonMatrices = (Button) findViewById(R.id.buttonMatrices);
-//        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
+        buttonFiguraInc = (Button) findViewById(R.id.buttonFiguraInc);
         buttonClaves = (Button) findViewById(R.id.buttonClaves);
         buttonAdivinanzas = (Button) findViewById(R.id.buttonAdivinanzas);
         buttonSimbolos = (Button) findViewById(R.id.buttonSimbolos);
@@ -69,13 +69,13 @@ public class ExamenActivity extends AppCompatActivity {
         });
 
 
-        /*buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
+        buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("","",""));
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Figuras Incompletas","","FiguraIncompletaActivity"));
                 Navegacion.irA(ExamenActivity.this, FiguraIncompletaActivity.class);
             }
-        });*/
+        });
 
         buttonClaves.setOnClickListener(new View.OnClickListener() {
             @Override

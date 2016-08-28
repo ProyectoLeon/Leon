@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class MatricesActivity extends AppCompatActivity {
 
-    private static final int ULTIMO_NIVEL = 10;
+    public static final int ULTIMO_NIVEL = 10;
     public static final int NIVEL_INVERSION = 2;
     public static final int MAXIMO_ERRORES = 4;
     public static final int FIN_INVERSION = 2;
@@ -54,7 +54,6 @@ public class MatricesActivity extends AppCompatActivity {
     private boolean invertido;
     private int nivelErrado;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +68,12 @@ public class MatricesActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         this.size = (size.x-100)/5;
+
+        //Seteo el metodo Siguiente
+        View siguiente = findViewById(R.id.siguiente);
+        if (siguiente != null) {
+            siguiente.setOnClickListener(clickSiguiente());
+        }
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
@@ -93,12 +98,6 @@ public class MatricesActivity extends AppCompatActivity {
 
         cargarMatriz();
         cargarOpciones();
-
-        //Seteo el metodo Siguiente
-        View siguiente = findViewById(R.id.siguiente);
-        if (siguiente != null) {
-            siguiente.setOnClickListener(clickSiguiente());
-        }
     }
 
     private View.OnClickListener clickSiguiente() {

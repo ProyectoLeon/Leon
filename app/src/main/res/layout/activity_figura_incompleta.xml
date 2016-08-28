@@ -9,4 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.limeri.leon.FiguraIncompletaActivity">
 
+    <FrameLayout
+        android:id="@+id/contenedor"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ImageView
+            android:id="@+id/mask"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            android:src="@drawable/carta_mask"/>
+        <ImageView
+            android:id="@+id/figura"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/carta"/>
+    </FrameLayout>
+
 </RelativeLayout>
