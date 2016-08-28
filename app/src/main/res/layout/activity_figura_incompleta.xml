@@ -19,13 +19,19 @@
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
             android:visibility="invisible"
-            android:src="@drawable/carta_mask"/>
+            android:src="@drawable/carta_mask"
+            tools:ignore="ContentDescription" />
         <ImageView
             android:id="@+id/figura"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
-            android:src="@drawable/carta"/>
+            android:src="@drawable/carta"
+            tools:ignore="ContentDescription" />
     </FrameLayout>
-
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cronometro"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

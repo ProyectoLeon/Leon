@@ -29,6 +29,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     public static final int FIN_RETROGRESION = 2;
     public static final List<Integer> NIVELES_INICIALES = Arrays.asList(3, 4);
     public static final int PRIMER_NIVEL = 3;
+    public static final int TIEMPO_NIVEL = 20;
     private int nivel = PRIMER_NIVEL;
     private int cantCorrectasSeguidas = 0;
     private int cantIncorrectasSeguidas = 0;
@@ -126,7 +127,8 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     }
 
     private boolean isCorrecta(int touchColor) {
-        return Color.BLACK == touchColor;
+        long tiempo = (SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado)/1000;
+        return Color.BLACK == touchColor && (tiempo <= TIEMPO_NIVEL);
     }
 
     private void finalizarRetrogresion() {
@@ -161,7 +163,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
 
     private void inicializarVariables() {
         cargarFigura();
-        //iniciarCronometro();
+        iniciarCronometro();
     }
 
     private void iniciarCronometro() {
@@ -182,7 +184,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-    /*@Override
+    @Override
     public void onResume(){
         super.onResume();
         iniciarCronometro();
@@ -193,7 +195,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     public void onPause(){
         super.onPause();
         pararCronometro();
-    }*/
+    }
 
     private void pararCronometro() {
         crono.stop();
