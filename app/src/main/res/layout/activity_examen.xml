@@ -1,123 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.limeri.leon.ExamenActivity">
-
-    <Button
+<ScrollView android:id="@+id/ScrlView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Figura Incompleta"
-        android:id="@+id/buttonFiguraInc"
-        android:textSize="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.limeri.leon.ExamenActivity">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Claves"
-        android:id="@+id/buttonClaves"
-        android:textSize="20dp"
-        android:layout_below="@+id/buttonFiguraInc"
-        android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Figura Incompleta"
+                android:id="@+id/buttonFiguraInc"
+                android:textSize="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Juego Informacion"
-        android:id="@+id/buttonInformacion"
-        android:textSize="20dp"
-        android:layout_below="@+id/buttonClaves"
-        android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Claves"
+                android:id="@+id/buttonClaves"
+                android:textSize="20dp"
+                android:layout_below="@+id/buttonFiguraInc"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Juego Matrices"
-        android:id="@+id/buttonMatrices"
-        android:textSize="20dp"
-        android:layout_below="@+id/buttonInformacion"
-        android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Juego Informacion"
+                android:id="@+id/buttonInformacion"
+                android:textSize="20dp"
+                android:layout_below="@+id/buttonClaves"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BUSQUEDA DE SIMBOLOS"
-        android:id="@+id/buttonSimbolos"
-        android:layout_below="@+id/buttonMatrices"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonMatrices"
-        android:layout_alignEnd="@+id/buttonMatrices"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Juego Matrices"
+                android:id="@+id/buttonMatrices"
+                android:textSize="20dp"
+                android:layout_below="@+id/buttonInformacion"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vocabulario"
-        android:id="@+id/buttonVocabulario"
-        android:layout_below="@+id/buttonSimbolos"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonSimbolos"
-        android:layout_alignEnd="@+id/buttonSimbolos"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BUSQUEDA DE SIMBOLOS"
+                android:id="@+id/buttonSimbolos"
+                android:layout_below="@+id/buttonMatrices"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/buttonMatrices"
+                android:layout_alignEnd="@+id/buttonMatrices"
+                android:textSize="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comprensión"
-        android:id="@+id/buttonComprension"
-        android:layout_below="@+id/buttonVocabulario"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/buttonVocabulario"
-        android:layout_alignEnd="@+id/buttonVocabulario"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vocabulario"
+                android:id="@+id/buttonVocabulario"
+                android:layout_below="@+id/buttonSimbolos"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/buttonSimbolos"
+                android:layout_alignEnd="@+id/buttonSimbolos"
+                android:textSize="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADIVINANZAS"
-        android:id="@+id/buttonAdivinanzas"
-        android:layout_below="@+id/buttonComprension"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comprensión"
+                android:id="@+id/buttonComprension"
+                android:layout_below="@+id/buttonVocabulario"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/buttonVocabulario"
+                android:layout_alignEnd="@+id/buttonVocabulario"
+                android:textSize="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Semejanzas"
-        android:id="@+id/buttonSemejanzas"
-        android:layout_below="@+id/buttonAdivinanzas"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADIVINANZAS"
+                android:id="@+id/buttonAdivinanzas"
+                android:layout_below="@+id/buttonComprension"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aritmetica"
-        android:id="@+id/buttonAritmetica"
-        android:layout_below="@+id/buttonSemejanzas"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semejanzas"
+                android:id="@+id/buttonSemejanzas"
+                android:layout_below="@+id/buttonAdivinanzas"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Digitos"
-        android:id="@+id/buttonDigitos"
-        android:layout_below="@+id/buttonAritmetica"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aritmetica"
+                android:id="@+id/buttonAritmetica"
+                android:layout_below="@+id/buttonSemejanzas"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
 
-</RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Digitos"
+                android:id="@+id/buttonDigitos"
+                android:layout_below="@+id/buttonAritmetica"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Digitos"
+                android:id="@+id/buttonAnimales"
+                android:layout_below="@+id/buttonDigitos"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
+    </RelativeLayout>
+</ScrollView>
