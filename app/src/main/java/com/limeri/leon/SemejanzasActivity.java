@@ -28,7 +28,7 @@ public class SemejanzasActivity extends AppCompatActivity {
     private int nivel = PRIMER_NIVEL;
     private int cantIncorrectas = 0;
     private String jsonString;
-    private int posSelecc;
+    private int posSelecc = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,9 @@ public class SemejanzasActivity extends AppCompatActivity {
     }
 
     private void blanquear(TextView view) {
-        view.setTextColor(Color.BLACK);
+        if (view != null) {
+            view.setTextColor(Color.BLACK);
+        }
     }
 
     private View.OnClickListener clickSiguiente() {
@@ -116,34 +118,35 @@ public class SemejanzasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (posSelecc == 2){
-                    cantIncorrectas++;
-                } else if (posSelecc == 1){
+                if (posSelecc != -1) {
+                    if (posSelecc == 2) {
+                        cantIncorrectas++;
+                    } else if (posSelecc == 1) {
 
-                    // Para los dos primeros niveles, no hay tercera opción.
-                    // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
-                    if (!(nivel == 0 || nivel == 1)){
-                        sumarPuntos(1);
+                        // Para los dos primeros niveles, no hay tercera opción.
+                        // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
+                        if (!(nivel == 0 || nivel == 1)) {
+                            sumarPuntos(1);
+                        }
+                        cantIncorrectas = 0;
+                    } else if (posSelecc == 0) {
+                        cantIncorrectas = 0;
+
+                        // Para los dos primeros niveles, no hay tercera opción.
+                        // La primera opción suma 1 punto.
+                        if (nivel == 0 || nivel == 1) {
+                            sumarPuntos(1);
+                        } else {
+                            sumarPuntos(2);
+                        }
                     }
-                    cantIncorrectas = 0;
-                }
-                else if (posSelecc == 0) {
-                    cantIncorrectas = 0;
 
-                    // Para los dos primeros niveles, no hay tercera opción.
-                    // La primera opción suma 1 punto.
-                    if (nivel == 0 || nivel == 1) {
-                        sumarPuntos(1);
-                    } else {
-                        sumarPuntos(2);
+                    try {
+                        guardarRespuesta();
+                        seleccion = null;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                }
-
-                try {
-                    guardarRespuesta();
-                    seleccion = null;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
             }
         };
@@ -155,7 +158,8 @@ public class SemejanzasActivity extends AppCompatActivity {
         if (cantIncorrectas == 5) {
             guardar();
         } else {
-            nivel++;}
+            nivel++;
+        }
 
         if (nivel == ULTIMO_NIVEL){
             guardar();
@@ -166,6 +170,7 @@ public class SemejanzasActivity extends AppCompatActivity {
             } catch (Exception ex) {
                 guardar();
             }
+            posSelecc = -1;
         }
     }
 
