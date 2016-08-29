@@ -9,11 +9,8 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DigitosActivity extends AppCompatActivity {
+public class LetrasYNumerosActivity extends AppCompatActivity {
 
     private TextView palabra;
     private TextView seleccion;
@@ -45,7 +42,7 @@ public class DigitosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_digitos);
+        setContentView(R.layout.activity_letrasynumeros);
 
         reconocer = (Button) findViewById(R.id.reconocer);
         if (reconocer != null) {
@@ -59,19 +56,18 @@ public class DigitosActivity extends AppCompatActivity {
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
-
     }
 
     private void leerJson() {
         if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasdigitos));
+            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.letrasynumeros));
         }
 
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("digitos");
+            JSONArray jsonArray = jsonRootObject.getJSONArray("letrasynumeros");
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -95,16 +91,10 @@ public class DigitosActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         //blanquear(seleccion);
-        if ( cantIncorrectas >= 2 && ordenDirecto ) {
-            if ((nivel % 2) == 1) {
-                nivel = 10;
-                ordenDirecto = false;
-                cantIncorrectas = 0;
-            } else {
-                nivel++;
-            }
-        } else if ( cantIncorrectas >= 2 && !ordenDirecto ) {
-            if ((nivel % 2) == 1) {
+        if (nivel <= 2 && cantIncorrectas > 0) {
+            guardar();
+        } else if ( cantIncorrectas >= 3 ) {
+            if (((nivel - 1) % 3) == 0) {
                 guardar();
             } else {
                 nivel++;
@@ -158,12 +148,13 @@ public class DigitosActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String respuesta = jsonObject.optString("respuesta0").toString();
+                    String respuesta0 = jsonObject.optString("respuesta0").toString();
+                    String respuesta1 = jsonObject.optString("respuesta1").toString();
                     respondido = false;
-                    for (String audio : result){
+                    for (String audio : result) {
                         audio = audio.replaceAll(" ","");
-                        audio = audio.toLowerCase(); // para Letras y Números
-                        if ( !audio.equals(respuesta) ){
+                        audio = audio.toLowerCase();
+                        if ( !audio.equals(respuesta0) && !audio.equals(respuesta1) ) {
                             respondido = false;
                             if (mostrar) {
                                 Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
@@ -172,7 +163,9 @@ public class DigitosActivity extends AppCompatActivity {
                         } else {
                             respondido = true;
                             cantIncorrectas = 0;
-                            sumarPuntos(1);
+                            if (nivel > 2) {
+                                sumarPuntos(1);
+                            }
                             puntPerfecto = true;
                             Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;

@@ -58,6 +58,9 @@
             android:name=".InicioJuegoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".LetrasYNumerosActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".VocabularioActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -75,7 +78,9 @@
         <activity
             android:name=".PopupActivity"
             android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".AnimalesActivity"></activity>
+        <activity
+            android:name=".AnimalesActivity"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

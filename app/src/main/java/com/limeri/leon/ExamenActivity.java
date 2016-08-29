@@ -24,6 +24,8 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonSemejanzas;
     Button buttonAritmetica;
     Button buttonDigitos;
+    Button buttonLetrasYNumeros;
+    Button buttonAnimales;
     private Paciente paciente;
 
     //TODO: Que para los juegos libres, no se muestre la opción activar juego alternativo
@@ -43,6 +45,8 @@ public class ExamenActivity extends AppCompatActivity {
         buttonSemejanzas = (Button) findViewById(R.id.buttonSemejanzas);
         buttonAritmetica = (Button) findViewById(R.id.buttonAritmetica);
         buttonDigitos = (Button) findViewById(R.id.buttonDigitos);
+        buttonLetrasYNumeros = (Button) findViewById(R.id.buttonLetrasYNumeros);
+        buttonAnimales = (Button) findViewById(R.id.buttonLetrasYNumeros);
 
         AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
@@ -152,7 +156,22 @@ public class ExamenActivity extends AppCompatActivity {
 
             }
         });
+        buttonLetrasYNumeros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Letras y Numeros","","LetrasYNumerosActivity"));
+                Navegacion.irA(ExamenActivity.this, LetrasYNumerosActivity.class);
 
+            }
+        });
+        buttonAnimales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Animales","","AnimalesActivity"));
+                Navegacion.irA(ExamenActivity.this, AnimalesActivity.class);
+
+            }
+        });
     }
     @Override
     public void onBackPressed() {

@@ -248,22 +248,25 @@ public class AritmeticaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable");
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),"No",
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable");
+                try {
+                    startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+                } catch (ActivityNotFoundException a) {
+                    Toast.makeText(getApplicationContext(),"No",
                     Toast.LENGTH_SHORT).show();
-        }
+                }
+            }
+        };
+    }
 
-    }};}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Boolean respondido;
+        Boolean mostrar = true;
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
@@ -275,22 +278,24 @@ public class AritmeticaActivity extends AppCompatActivity {
                     for (String audio : result){
                         if ( !audio.equals(respuesta) | (elapsedMillis / 1000 > 30 )){
                             respondido = false;
-                        }
-                        else {
+                            if (mostrar) {
+                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+                                mostrar = false;
+                            }
+                        } else {
                             respondido = true;
                             cantIncorrectas = 0;
                             sumarPuntos(1);
                             puntPerfecto = true;
                             Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;
-                            }}
-
-                        if (respondido == false){
-                            cantIncorrectas++;
-                            cantConsec = 0;
-                            puntPerfecto = false;
-
                         }
+                    }
+                    if (respondido == false){
+                        cantIncorrectas++;
+                        cantConsec = 0;
+                        puntPerfecto = false;
+                    }
                     iniciarCronometro();
                     tiempo_ejecutado = 0;
 
@@ -311,5 +316,5 @@ public class AritmeticaActivity extends AppCompatActivity {
             }
 
         }
-    }
 
+    }

@@ -2,43 +2,83 @@
 	"digitos": [
 	   {
         "pregunta": "Directo: 2 - 9",
-        "respuesta0": "Correcto",
+        "respuesta0": "29",
         "respuesta1": "Incorrecto"
     }, {
-	    "pregunta": "Inverso: 2 - 1",
-		"respuesta0": "Correcto",
-		"respuesta1": "Incorrecto"
-	}, {
+        "pregunta": "Directo: 4 - 6",
+        "respuesta0": "46",
+        "respuesta1": "Incorrecto"
+    }, {
 	    "pregunta": "Directo: 3 - 8 - 6",
-		"respuesta0": "Correcto",
+		"respuesta0": "386",
 		"respuesta1": "Incorrecto"
 	}, {
-	    "pregunta": "Inverso: 5 - 7 - 4",
-		"respuesta0": "Correcto",
+	    "pregunta": "Directo: 6 - 1 - 2",
+		"respuesta0": "612",
 		"respuesta1": "Incorrecto"
 	}, {
 	    "pregunta": "Directo: 3 - 4 - 1 - 7",
-		"respuesta0": "Correcto",
+		"respuesta0": "3417",
 		"respuesta1": "Incorrecto"
 	}, {
-	    "pregunta": "Inverso: 7 - 2 - 9 - 6",
-		"respuesta0": "Correcto",
+	    "pregunta": "Directo: 6 - 1 - 5 - 8",
+		"respuesta0": "6158",
 		"respuesta1": "Incorrecto"
 	}, {
 		"pregunta": "Directo: 8 - 4 - 2 - 3 - 9",
-		"respuesta0": "Correcto",
+		"respuesta0": "84239",
 		"respuesta1": "Incorrecto"
 	}, {
-		"pregunta": "Inverso: 4 - 1 - 3 - 5 - 7",
-		"respuesta0": "Correcto",
+		"pregunta": "Directo: 5 - 2 - 1 - 8 - 6",
+		"respuesta0": "52186",
 		"respuesta1": "Incorrecto"
 	}, {
      	"pregunta": "Directo: 3 - 8 - 9 - 1 - 7 - 4",
-     	"respuesta0": "Correcto",
+     	"respuesta0": "389174",
      	"respuesta1": "Incorrecto"
     }, 	{
-        "pregunta": "Inverso: 1 - 6 - 5 - 2 - 9 - 8",
-        "respuesta0": "Correcto",
+     	"pregunta": "Directo: 7 - 9 - 6 - 4 - 8 - 3",
+     	"respuesta0": "796483",
+     	"respuesta1": "Incorrecto"
+    }, 	{
+	    "pregunta": "Inverso: 2 - 1",
+		"respuesta0": "12",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 1 - 3",
+		"respuesta0": "31",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 3 - 5",
+		"respuesta0": "53",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 6 - 4",
+		"respuesta0": "46",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 5 - 7 - 4",
+		"respuesta0": "475",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 2 - 5 - 9",
+		"respuesta0": "952",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 7 - 2 - 9 - 6",
+		"respuesta0": "6927",
+		"respuesta1": "Incorrecto"
+	}, {
+	    "pregunta": "Inverso: 8 - 4 - 9 - 3",
+		"respuesta0": "3948",
+		"respuesta1": "Incorrecto"
+	}, {
+		"pregunta": "Inverso: 4 - 1 - 3 - 5 - 7",
+		"respuesta0": "75314",
+		"respuesta1": "Incorrecto"
+	}, {
+        "pregunta": "Inverso: 9 - 7 - 8 - 5 - 2",
+        "respuesta0": "25879",
         "respuesta1": "Incorrecto"
     }
   ]

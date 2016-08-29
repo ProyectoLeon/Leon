@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.limeri.leon.DigitosActivity">
+    tools:context="com.limeri.leon.LetrasYNumerosActivity">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -42,13 +42,6 @@
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_row="7"
-            android:layout_column="0" />
-
-        <Chronometer
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cronometro"
-            android:layout_row="8"
             android:layout_column="0" />
 
     </GridLayout>
