@@ -81,13 +81,6 @@ public class ExamenActivity extends AppCompatActivity {
             }
         });
 
-        buttonClaves.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         buttonSimbolos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

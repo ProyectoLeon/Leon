@@ -6,7 +6,9 @@ import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.gesture.Prediction;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
@@ -24,6 +26,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ClavesActivity extends AppCompatActivity implements OnGesturePerformedListener{
+
+    public static final int TIEMPO_NIVEL = 120000; //En milisegundos
     private ImageView muestra;
     private ImageView imageclave;
     private GestureLibrary gestureLib;
@@ -32,8 +36,15 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
     private String pregunta;
     private String respuesta;
     private Chronometer crono;
-    private long tiempo_ejecutado;
-
+    private long tiempo_ejecutado = 0;
+    private long tiempo_inicio;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            guardar();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,7 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         setContentView(R.layout.activity_claves);
 
         muestra = (ImageView) findViewById(R.id.muestra);
+        crono = (Chronometer) findViewById(R.id.cronometro);
         gestureLib = GestureLibraries.fromRawResource(this, R.raw.gesture);
         if (!gestureLib.load()) {
             finish();
@@ -48,22 +60,14 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
 
         GestureOverlayView gestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
         gestureOverlayView.addOnGesturePerformedListener(this);
-        gestureOverlayView.setGestureStrokeAngleThreshold( 90.0f);
+        gestureOverlayView.setGestureStrokeAngleThreshold(90.0f);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
 
-        iniciarCronometro();
-
         //Llamo una funcion que se encarga de leer el archivo JSON
-        leerJson();
-    }
-
-    private void iniciarCronometro() {
-        crono = (Chronometer) findViewById(R.id.cronometro);
-        crono.setBase(SystemClock.elapsedRealtime());
-        crono.start();
-    }
+        inicializarVariables();
+        }
 
     private void leerJson() {
 
@@ -94,6 +98,8 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         }
 
     }
+
+    @Override
     public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
         ArrayList<Prediction> predictions = gestureLib.recognize(gesture);
         double scoreMax = 0;
@@ -103,30 +109,32 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
             if (prediction.score > scoreMax) {
                 scoreMax = prediction.score;
                 predictionName = prediction.name;
-            }}
-                String nombre = "clave" + predictionName;
-                int simb = getResources().getIdentifier(nombre, "string", getPackageName());
-                Toast.makeText(this, getResources().getString(simb), Toast.LENGTH_SHORT).show();
-                long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
-                if (elapsedMillis / 1000 < 120) {
-                //Está funcionando OK, solo que los primeros 4 niveles son de prueba.
-                // if (nivel>4){
-                if (respuesta.equals(predictionName) ) {
-                    sumarPuntos(1);
-                } else {
-                    sumarPuntos(0);
-                }
-
-                try {
-                    leerJson();
-                } catch (Exception ex) {
-                    guardar();
-                }
-            } else {
-                guardar();
             }
         }
+        String nombre = "clave" + predictionName;
+        int simb = getResources().getIdentifier(nombre, "string", getPackageName());
+        Toast.makeText(this, getResources().getString(simb), Toast.LENGTH_SHORT).show();
+        guardarRespuesta(predictionName);
+    }
 
+    private void guardarRespuesta(String tipoRespuesta) {
+        long local = SystemClock.elapsedRealtime();
+        long tiempo = local - tiempo_inicio + tiempo_ejecutado;
+        if (tiempo <= TIEMPO_NIVEL) {
+            if (respuesta.equals(tipoRespuesta) ) {
+                sumarPuntos(1);
+            } else {
+                sumarPuntos(0);
+            }
+            try {
+                cargarSiguienteNivel();
+            } catch (Exception ex) {
+                guardar();
+            }
+        } else {
+            guardar();
+        }
+    }
 
     private void sumarPuntos(Integer puntos) {
         AdministradorJuegos.getInstance().sumarPuntos(puntos);
@@ -136,26 +144,47 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
+    private void cargarSiguienteNivel() {
+        inicializarVariables();
+    }
+
+    private void inicializarVariables() {
+        leerJson();
+    }
+
+    private void iniciarCronometro() {
+        handler.postDelayed(runnable, TIEMPO_NIVEL - tiempo_ejecutado);
+        tiempo_inicio = SystemClock.elapsedRealtime();
+        crono.setBase(tiempo_inicio - tiempo_ejecutado);
+        crono.start();
+    }
+
     @Override
     public void onBackPressed() {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        iniciarCronometro();
-
+    public void finish() {
+        super.finish();
+        handler.removeCallbacks(runnable);
     }
 
     @Override
-    public void onPause(){
+    public void onResume() {
+        super.onResume();
+        iniciarCronometro();
+    }
+
+    @Override
+    public void onPause() {
         super.onPause();
         pararCronometro();
     }
 
     private void pararCronometro() {
+        handler.removeCallbacks(runnable);
         crono.stop();
-        tiempo_ejecutado = tiempo_ejecutado + SystemClock.elapsedRealtime() - crono.getBase();
+        long local = SystemClock.elapsedRealtime();
+        tiempo_ejecutado = local - tiempo_inicio + tiempo_ejecutado;
     }
-
 }

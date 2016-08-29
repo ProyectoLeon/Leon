@@ -4,16 +4,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
+import android.os.Handler;
 import android.os.SystemClock;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,33 +29,38 @@ import java.util.Locale;
 
 public class AritmeticaActivity extends AppCompatActivity {
 
+    public static final int TIEMPO_NIVEL = 30000; //En milisegundos
     private TextView palabra;
-    private TextView seleccion;
     private int nivel = 2; // Niveles 0 a 4: gráficos
     private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
     private int cantConsec = 0;
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
-    private boolean soloImagen = true;
     private boolean backHecho = false;
     private String jsonString;
     private ImageView imagen;
     private int posSelecc;
-    private Button siguiente;
-    private Button reconocer;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private JSONObject jsonObject;
     private Chronometer crono;
     private long tiempo_ejecutado = 0;
+    private long tiempo_inicio;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            guardarRespuesta();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aritmetica);
 
-        siguiente = (Button) findViewById(R.id.siguiente);
-        reconocer = (Button) findViewById(R.id.reconocer);
+        Button siguiente = (Button) findViewById(R.id.siguiente);
+        Button reconocer = (Button) findViewById(R.id.reconocer);
         if (siguiente != null) {
             siguiente.setOnClickListener(clickSiguiente());
         }
@@ -65,20 +69,14 @@ public class AritmeticaActivity extends AppCompatActivity {
         }
         palabra = (TextView) findViewById(R.id.palabra);
         imagen = (ImageView) findViewById(R.id.imagen);
+        crono = (Chronometer) findViewById(R.id.cronometro);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
 
-        iniciarCronometro();
         //Llamo una funcion que se encarga de leer el archivo JSON
-        leerJson();
+        inicializarVariables();
 
-    }
-
-    private void iniciarCronometro() {
-        crono = (Chronometer) findViewById(R.id.cronometro);
-        crono.setBase(SystemClock.elapsedRealtime());
-        crono.start();
     }
 
     private void leerJson() {
@@ -132,7 +130,7 @@ public class AritmeticaActivity extends AppCompatActivity {
         }
     }
 
-    private AdapterView.OnItemClickListener opcionSeleccionada() {
+    /*private AdapterView.OnItemClickListener opcionSeleccionada() {
 
         return new AdapterView.OnItemClickListener() {
             @Override
@@ -146,17 +144,13 @@ public class AritmeticaActivity extends AppCompatActivity {
         };
     }
 
-    private void sumarPuntos(Integer puntos) {
-        AdministradorJuegos.getInstance().sumarPuntos(puntos);
-    }
-
     private void seleccionar(TextView view) {
         view.setTextColor(Color.RED);
     }
 
     private void blanquear(TextView view) {
         view.setTextColor(Color.BLACK);
-    }
+    }*/
 
     private View.OnClickListener clickSiguiente() {
 
@@ -164,9 +158,11 @@ public class AritmeticaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
+                handler.removeCallbacks(runnable);
+                long local = SystemClock.elapsedRealtime();
+                long tiempo = local - tiempo_inicio + tiempo_ejecutado;
                 // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                if ((posSelecc == 1) | (elapsedMillis / 1000 > 30)) {
+                if ((posSelecc == 1) || (tiempo > TIEMPO_NIVEL)) {
                     cantIncorrectas++;
                     cantConsec = 0;
                     puntPerfecto = false;
@@ -175,11 +171,9 @@ public class AritmeticaActivity extends AppCompatActivity {
                     sumarPuntos(1);
                     puntPerfecto = true;
                 }
-                iniciarCronometro();
-                tiempo_ejecutado = 0;
                 try {
                     guardarRespuesta();
-                    seleccion = null;
+                    //seleccion = null;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -211,10 +205,27 @@ public class AritmeticaActivity extends AppCompatActivity {
             nivel++;
         }
         try {
-            leerJson();
+            cargarSiguienteNivel();
         } catch (Exception ex) {
             guardar();
         }
+    }
+
+    private void cargarSiguienteNivel() {
+        inicializarVariables();
+        iniciarCronometro();
+    }
+
+    private void inicializarVariables() {
+        tiempo_ejecutado = 0;
+        leerJson();
+    }
+
+    private void iniciarCronometro() {
+        handler.postDelayed(runnable, TIEMPO_NIVEL - tiempo_ejecutado);
+        tiempo_inicio = SystemClock.elapsedRealtime();
+        crono.setBase(tiempo_inicio - tiempo_ejecutado);
+        crono.start();
     }
 
     @Override
@@ -222,21 +233,32 @@ public class AritmeticaActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        iniciarCronometro();
-
+    public void finish() {
+        super.finish();
+        handler.removeCallbacks(runnable);
     }
 
     @Override
-    public void onPause(){
+    public void onResume() {
+        super.onResume();
+        iniciarCronometro();
+    }
+
+    @Override
+    public void onPause() {
         super.onPause();
         pararCronometro();
     }
 
     private void pararCronometro() {
+        handler.removeCallbacks(runnable);
         crono.stop();
-        tiempo_ejecutado = tiempo_ejecutado + SystemClock.elapsedRealtime() - crono.getBase();
+        long local = SystemClock.elapsedRealtime();
+        tiempo_ejecutado = local - tiempo_inicio + tiempo_ejecutado;
+    }
+
+    private void sumarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
     private void guardar() {
@@ -270,13 +292,14 @@ public class AritmeticaActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
-                    long elapsedMillis = SystemClock.elapsedRealtime() - crono.getBase() + tiempo_ejecutado;
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = jsonObject.optString("respuesta0").toString();
                     respondido = false;
+                    handler.removeCallbacks(runnable);
+                    long local = SystemClock.elapsedRealtime();
+                    long tiempo = local - tiempo_inicio + tiempo_ejecutado;
                     for (String audio : result){
-                        if ( !audio.equals(respuesta) | (elapsedMillis / 1000 > 30 )){
+                        if (!audio.equals(respuesta) || (tiempo > TIEMPO_NIVEL)){
                             respondido = false;
                             if (mostrar) {
                                 Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
@@ -296,25 +319,19 @@ public class AritmeticaActivity extends AppCompatActivity {
                         cantConsec = 0;
                         puntPerfecto = false;
                     }
-                    iniciarCronometro();
-                    tiempo_ejecutado = 0;
-
-/**                        if (){
-                            cantIncorrectas = 0;
-                            sumarPuntos(1);
-                            puntPerfecto = true;
-                        }
-  */                      try {
-                            guardarRespuesta();
-                            //seleccion = null;
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+                    /*if (){
+                        cantIncorrectas = 0;
+                        sumarPuntos(1);
+                        puntPerfecto = true;
+                    }*/
+                    try {
+                        guardarRespuesta();
+                        //seleccion = null;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-
                 }
             }
-
         }
-
     }
+}
