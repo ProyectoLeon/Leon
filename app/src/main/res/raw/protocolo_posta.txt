@@ -39,7 +39,7 @@
         {
             "nombre":"Letras y Números",
             "categoria":"Memoria de Trabajo",
-            "activity":"LetrasNumerosActivity",
+            "activity":"LetrasYNumerosActivity",
             "alternativo":false
         },
         {

@@ -46,7 +46,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonAritmetica = (Button) findViewById(R.id.buttonAritmetica);
         buttonDigitos = (Button) findViewById(R.id.buttonDigitos);
         buttonLetrasYNumeros = (Button) findViewById(R.id.buttonLetrasYNumeros);
-        buttonAnimales = (Button) findViewById(R.id.buttonLetrasYNumeros);
+        buttonAnimales = (Button) findViewById(R.id.buttonAnimales);
 
         AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
