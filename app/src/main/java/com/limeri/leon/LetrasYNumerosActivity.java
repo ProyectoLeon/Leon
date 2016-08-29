@@ -157,7 +157,7 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
                         if ( !audio.equals(respuesta0) && !audio.equals(respuesta1) ) {
                             respondido = false;
                             if (mostrar) {
-                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+                                //Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                                 mostrar = false;
                             }
                         } else {
