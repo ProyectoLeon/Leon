@@ -25,7 +25,7 @@ public class ComprensionActivity extends AppCompatActivity {
     private int nivel = 0;
     private int cantIncorrectas = 0;
     private String jsonString;
-    private int posSelecc;
+    private int posSelecc = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,9 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void blanquear(TextView view) {
-        view.setTextColor(Color.BLACK);
+        if (view != null) {
+            view.setTextColor(Color.BLACK);
+        }
     }
 
     private View.OnClickListener clickSiguiente() {
@@ -110,20 +112,22 @@ public class ComprensionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (posSelecc == 2){
-                    cantIncorrectas++;
-                } else if (posSelecc == 1) {
-                    cantIncorrectas = 0;
-                    sumarPuntos(1);
-                } else {
-                    cantIncorrectas = 0;
-                    sumarPuntos(2);
-                }
-                try {
-                    guardarRespuesta();
-                    seleccion = null;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                if (posSelecc != -1) {
+                    if (posSelecc == 2) {
+                        cantIncorrectas++;
+                    } else if (posSelecc == 1) {
+                        cantIncorrectas = 0;
+                        sumarPuntos(1);
+                    } else {
+                        cantIncorrectas = 0;
+                        sumarPuntos(2);
+                    }
+                    try {
+                        guardarRespuesta();
+                        seleccion = null;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         };
@@ -142,6 +146,8 @@ public class ComprensionActivity extends AppCompatActivity {
         } catch (Exception ex) {
             guardar();
         }
+
+        posSelecc = -1;
     }
 
     @Override
