@@ -29,7 +29,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private int cantConsec = 0;
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
-    private boolean soloImagen = true;
+    private boolean soloImagen = false;
     private boolean backHecho = false;
     private String jsonString;
     private ImageView imagen;
@@ -197,6 +197,7 @@ public class VocabularioActivity extends AppCompatActivity {
                 nivelErroneo = nivel;
                 nivel = 3;
                 backHecho = true;
+                soloImagen = true;
             } else if (nivel < 4 & cantIncorrectas > 0) {
                 nivel--;
                 soloImagen = true;
