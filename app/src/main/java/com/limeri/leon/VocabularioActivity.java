@@ -33,7 +33,7 @@ public class VocabularioActivity extends AppCompatActivity {
     private boolean backHecho = false;
     private String jsonString;
     private ImageView imagen;
-    private int posSelecc;
+    private int posSelecc = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +148,7 @@ public class VocabularioActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (!soloImagen) {
+                if (!soloImagen && posSelecc != -1) {
                     // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
                     if (nivel < 4) {
                         if (posSelecc == 1){
@@ -178,6 +178,7 @@ public class VocabularioActivity extends AppCompatActivity {
                 try {
                     guardarRespuesta();
                     seleccion = null;
+                    posSelecc = -1;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
