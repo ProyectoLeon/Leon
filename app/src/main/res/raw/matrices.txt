@@ -1,84 +1,86 @@
 {
 	"matrices": [
+
+			{
+    			"matriz":{
+    				"fila1":["redoblante","micro"],
+    				"fila2":["","micro"],
+    				"fila3":[]},
+    			"opciones":["skate","cubos","frutilla","redoblante","micro"],
+    			"respuesta":"redoblante"
+    		},
+    		{
+    			"matriz":{
+    				"fila1":["","cubos"],
+    				"fila2":["frutilla","cubos"],
+    				"fila3":[]},
+    			"opciones":["skate","cubos","frutilla","redoblante","micro"],
+    			"respuesta":"frutilla"
+    		},
+    		{
+    			"matriz":{
+    				"fila1":["skate","skate"],
+    				"fila2":["skate",""],
+    				"fila3":[]},
+    			"opciones":["skate","cubos","frutilla","redoblante","micro"],
+    			"respuesta":"skate"
+    		},
 		{
 			"matriz":{
-				"fila1":["skate","frutilla"],
-				"fila2":["skate",""],
+				"fila1":["matriz1_op1","matriz1_op1"],
+				"fila2":["matriz1_op1",""],
 				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"frutilla"
-	 	},
-	 	{
-			"matriz":{
-				"fila1":["payaso","cubos"],
-				"fila2":["","cubos"],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","payaso"],
-			"respuesta":"payaso"
+			"opciones":["matriz1_op1","matriz1_op2","matriz1_op3","matriz1_op4","matriz1_op5"],
+			"respuesta":"matriz1_op1"
 		},
 		{
 			"matriz":{
-				"fila1":["carta",""],
-				"fila2":["carta","micro"],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","carta","micro"],
-			"respuesta":"micro"
+				"fila1":["matriz2_op4","matriz2_op4",""],
+				"fila2":["matriz2_op4","matriz2_op4","matriz2_op4"],
+				"fila3":["matriz2_op4","matriz2_op4","matriz2_op4"]},
+			"opciones":["matriz2_op1","matriz2_op2","matriz2_op3","matriz2_op4","matriz2_op5"],
+			"respuesta":"matriz2_op4"
 		},
+				{
+        			"matriz":{
+        				"fila1":["matriz3_op2","matriz3_op2"],
+        				"fila2":["matriz3_op2",""],
+        				"fila3":[]},
+        			"opciones":["matriz3_op1","matriz3_op2","matriz3_op3","matriz3_op4","matriz3_op5"],
+        			"respuesta":"matriz3_op2"
+        		},
 		{
 			"matriz":{
-				"fila1":["micro","skate","payaso"],
-				"fila2":["micro","","payaso"],
-				"fila3":["micro","skate","payaso"]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"skate"
+				"fila1":["matriz4_op1",""],
+				"fila2":["matriz4_op2","matriz4_op2"],
+				"fila3":[]},
+			"opciones":["matriz4_op1","matriz4_op2","matriz4_op3","matriz4_op4","matriz4_op5"],
+			"respuesta":"matriz4_op1"
 		},
+				{
+        			"matriz":{
+        				"fila1":["matriz5_op3",""],
+        				"fila2":["matriz5_op3","matriz5_op3"],
+        				"fila3":[]},
+        			"opciones":["matriz5_op1","matriz5_op2","matriz5_op3","matriz5_op4","matriz5_op5"],
+        			"respuesta":"matriz5_op3"
+        		},
+
+        {
+            "matriz":{
+                "fila1":["matriz6_op1",""],
+                "fila2":["matriz6_op1","matriz6_op4"],
+                "fila3":[]},
+             "opciones":["matriz6_op1","matriz6_op2","matriz6_op3","matriz6_op4","matriz6_op5"],
+              "respuesta":"matriz6_op4"
+         },
 		{
 			"matriz":{
-				"fila1":["","payaso"],
-				"fila2":["redoblante","payaso"],
+				"fila1":["matriz7_op1",""],
+				"fila2":["matriz7_op1","matriz7_op1"],
 				"fila3":[]},
-			"opciones":["skate","payaso","frutilla","redoblante","micro"],
-			"respuesta":"redoblante"
-		},
-		{
-			"matriz":{
-				"fila1":["payaso","frutilla"],
-				"fila2":["","frutilla"],
-				"fila3":[]},
-			"opciones":["payaso","cubos","frutilla","redoblante","micro"],
-			"respuesta":"payaso"
-		},
-		{
-			"matriz":{
-				"fila1":["cubos",""],
-				"fila2":["cubos","skate"],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"skate"
-		},
-		{
-			"matriz":{
-				"fila1":["redoblante","micro"],
-				"fila2":["","micro"],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"redoblante"
-		},
-		{
-			"matriz":{
-				"fila1":["","cubos"],
-				"fila2":["frutilla","cubos"],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"frutilla"
-		},
-		{
-			"matriz":{
-				"fila1":["skate","skate"],
-				"fila2":["skate",""],
-				"fila3":[]},
-			"opciones":["skate","cubos","frutilla","redoblante","micro"],
-			"respuesta":"skate"
+			"opciones":["matriz7_op1","matriz7_op2","matriz7_op3","matriz7_op4","matriz7_op5"],
+			"respuesta":"matriz7_op1"
 		}
 	]
 }
