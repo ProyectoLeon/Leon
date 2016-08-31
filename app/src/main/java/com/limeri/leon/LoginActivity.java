@@ -121,6 +121,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 showDialog_Prof();
             }
         });
+        Button mForgetPass = (Button) findViewById(R.id.forget_pass_button);
+        mForgetPass.setOnClickListener( new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Se ha enviado un correo a su casilla",Toast.LENGTH_LONG).show();}});
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

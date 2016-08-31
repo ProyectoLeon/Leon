@@ -1,5 +1,6 @@
 package com.limeri.leon;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -177,24 +178,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
 
-                mNombre = input.getText().toString();
-                mApellido = input2.getText().toString();
-                mDNI = input3.getText().toString();
-                mFechaNac = input4.getText().toString();
-
-                Paciente paciente = Paciente.getSelectedPaciente();
-
-                paciente.setApellido(mApellido);
-                paciente.setNombre(mNombre);
-                paciente.setDni(mDNI);
-                paciente.setFechaNac(mFechaNac);
-
-                Paciente.saveCuenta(MainActivity.this, paciente);
-                actualizarNombrePaciente();
-            }
-        });
+        }});
 
         builder.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
             @Override
@@ -223,6 +208,45 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        mNombre = input.getText().toString();
+                        mApellido = input2.getText().toString();
+                        mDNI = input3.getText().toString();
+                        mFechaNac = input4.getText().toString();
+
+                        Paciente paciente = Paciente.getSelectedPaciente();
+
+                        paciente.setApellido(mApellido);
+                        paciente.setNombre(mNombre);
+                        paciente.setDni(mDNI);
+                        paciente.setFechaNac(mFechaNac);
+
+                        if (mNombre.isEmpty()) {
+                            input.setError("Por favor ingrese el nombre del paciente");
+                        } else if (mApellido.isEmpty())
+                        {
+                            input2.setError("Por favor ingrese el apellido del paciente");
+                        }
+                        else if (mDNI.isEmpty())
+                        {
+                            input3.setError("Por favor ingrese el DNI del paciente");
+                        }
+                        else if (mFechaNac.isEmpty())
+                        {
+                            input4.setError("Por favor ingrese la fecha del nacimiento del paciente");
+                        }
+                        else {
+                            dialog.dismiss();
+
+                            Paciente.saveCuenta(MainActivity.this, paciente);
+                            actualizarNombrePaciente();
+                        }
+                    }});
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
@@ -264,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText password = (EditText) viewInflated.findViewById(R.id.inputPassword);
         final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
+        final EditText producto = (EditText) viewInflated.findViewById(R.id.inputProducto);
 
         nombre.setText(Profesional.getProfesional().getNombre());
         nombre.setEnabled(false);
@@ -271,42 +296,16 @@ public class MainActivity extends AppCompatActivity {
         matricula.setEnabled(false);
         password.setText(Profesional.getProfesional().getmPassword());
         correo.setText(Profesional.getProfesional().getmCorreo());
+        producto.setVisibility(View.GONE);
+
 
         builder.setView(viewInflated);
 
         // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
 
-            mProfPassword = password.getText().toString();
-            mProfCorreo = correo.getText().toString();
-            mProfNombre = nombre.getText().toString();
-            mProfMatricula = matricula.getText().toString();
-
-            if (confPassword.getText().toString().isEmpty()) {
-                Toast.makeText(MainActivity.this, "Repita la contraseña", Toast.LENGTH_SHORT).show();
-                //confPassword.setError("Repita contraseña");
-            } else if (!password.getText().toString().equals(confPassword.getText().toString()))
-            {
-                Toast.makeText(MainActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-                //password.setError("Contraseñas no coinciden");
-                //confPassword.setError("Contraseñas no coinciden");
-            }else {
-
-                Profesional profesional = Profesional.getProfesional();
-                Profesional.borrarCuentaBase(MainActivity.this, profesional);
-
-                // Profesional profesional = new Profesional();
-                profesional.setNombre(mProfNombre);
-                profesional.setmCorreo(mProfCorreo);
-                profesional.setmPassword(mProfPassword);
-                profesional.setmMatricula(mProfMatricula);
-
-                Profesional.saveProfesional(MainActivity.this, profesional);
-            }
-            // callAdapter();
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -325,7 +324,39 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfPassword = password.getText().toString();
+                mProfCorreo = correo.getText().toString();
+                mProfNombre = nombre.getText().toString();
+                mProfMatricula = matricula.getText().toString();
+                String confPass = confPassword.getText().toString();
 
+                if (confPass.isEmpty()) {
+                    //Toast.makeText(MainActivity.this, "Repita la contraseña", Toast.LENGTH_SHORT).show();
+                    confPassword.setError("Repita contraseña");
+                } else if (!mProfPassword.equals(confPass))
+                {
+                    //Toast.makeText(MainActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    password.setError("Contraseñas no coinciden");
+                    confPassword.setError("Contraseñas no coinciden");
+                }else {
+                    dialog.dismiss();
+                    Profesional profesional = Profesional.getProfesional();
+                    Profesional.borrarCuentaBase(MainActivity.this, profesional);
+
+                    // Profesional profesional = new Profesional();
+                    profesional.setNombre(mProfNombre);
+                    profesional.setmCorreo(mProfCorreo);
+                    profesional.setmPassword(mProfPassword);
+                    profesional.setmMatricula(mProfMatricula);
+
+                    Profesional.saveProfesional(MainActivity.this, profesional);
+                }
+                // callAdapter();
+
+            }});
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
