@@ -1,20 +1,29 @@
 ﻿
 {
-	"usuarios": [
-	  {
-	  "matricula": "1234",
-		"contrasena": "1234",
-		"nombre": "Antonella",
-		"mail": "cirulliantonella@gmail.com",
-		"producto": "123444"
-	}, 
- {
-	  "matricula": "1235",
-		"contrasena": "1235",
-		"nombre": "Nicolas",
-		"mail": "cirulliantonella@gmail.com",
-		"producto": "123445"
-	} 
-
-	 ]
+    "usuarios": [
+        {
+            "matricula": "1234",
+            "contrasena": "1234",
+            "nombre": "Antonella",
+            "mail": "cirulliantonella@gmail.com",
+            "producto": "123444",
+            "registrado": "true"
+        },
+        {
+            "matricula": "1235",
+            "contrasena": "1235",
+            "nombre": "Nicolas",
+            "mail": "cirulliantonella@gmail.com",
+            "producto": "123445",
+            "registrado": "true"
+        },
+         {
+             "matricula": "1236",
+             "contrasena": "",
+             "nombre": "Nicolas",
+             "mail": "cirulliantonella@gmail.com",
+             "producto": "123456",
+             "registrado": "false"
+         }
+    ]
 }

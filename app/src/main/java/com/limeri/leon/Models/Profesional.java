@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.limeri.leon.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +22,9 @@ public class Profesional {
     private String mCorreo;
     private String mPassword;
     private String mMatricula;
+    private String mProducto;
+    private boolean mRegistrado;
+
     private static Profesional mSelectedProfesional;
 
     public String getmCorreo() {
@@ -46,15 +51,29 @@ public class Profesional {
         this.mMatricula = mMatricula;
     }
 
+    public String getNombre() {
+        return mNombre;
+    }
 
-        public String getNombre() {
-            return mNombre;
-        }
+    public void setNombre(String mUsuario) {
+        this.mNombre = mUsuario;
+    }
 
-        public void setNombre(String mUsuario) {
-            this.mNombre = mUsuario;
-        }
+    public String getProducto() {
+        return mProducto;
+    }
 
+    public void setProducto(String mProducto) {
+        this.mProducto = mProducto;
+    }
+
+    public boolean isRegistrado() {
+        return mRegistrado;
+    }
+
+    public void setRegistrado(boolean mRegistrado) {
+        this.mRegistrado = mRegistrado;
+    }
 
     public static Profesional getProfesional() {
         return mSelectedProfesional;
@@ -65,7 +84,7 @@ public class Profesional {
         Gson gson = new Gson();
 
         SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
-        Set<String> s = new HashSet<String>(prefs.getStringSet("Profesional", new HashSet<String>()));
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
 
         if (s != null) {
 
@@ -118,7 +137,7 @@ public class Profesional {
 
             SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
 
-            Set<String> s = new HashSet<String>(prefs.getStringSet("Profesional", new HashSet<String>()));
+            Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
 
             s.add(cuentas);
 
@@ -176,49 +195,114 @@ public class Profesional {
         }
 
 */
-            public static void borrarCuentaBase(Activity activity, Profesional profesional) {
+    public static void borrarCuentaBase(Activity activity, Profesional profesional) {
 
 
-            SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
-            Set<String> s = new HashSet<String>(prefs.getStringSet("Profesional", new HashSet<String>()));
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
 
-            Gson gson = new Gson();
+        Gson gson = new Gson();
 
-            if (s != null) {
+        if (s != null) {
 
-                //   for (int i = 0; i < myStrings.size(); i++) {
-                Iterator iter = s.iterator();
+            //   for (int i = 0; i < myStrings.size(); i++) {
+            Iterator iter = s.iterator();
 
-                while (iter.hasNext()) {
+            while (iter.hasNext()) {
 
-                    Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
+                Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
 
-                    if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(profesional.getmMatricula())) {
+                if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(profesional.getmMatricula())) {
 
-                        iter.remove();
-                        break;
+                    iter.remove();
+                    break;
 
-                    } else {
-
-                    }
+                } else {
 
                 }
 
-
             }
-
-            SharedPreferences.Editor edit = prefs.edit();
-
-            edit.clear();
-            edit.apply();
-            edit.commit();
-            edit.putStringSet("Profesional", s);
-            edit.apply();
-            edit.commit();
 
 
         }
- /**
+
+        SharedPreferences.Editor edit = prefs.edit();
+
+        edit.clear();
+        edit.apply();
+        edit.commit();
+        edit.putStringSet("Profesional", s);
+        edit.apply();
+        edit.commit();
+
+
+    }
+
+    public static boolean existeMatricula(Activity activity, String matricula) {
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        Gson gson = new Gson();
+
+        boolean existe = false;
+        for (String prof : s) {
+            Profesional profesional = gson.fromJson(prof, Profesional.class);
+            if (profesional.getmMatricula().equals(matricula)) {
+                existe = true;
+                break;
+            }
+        }
+        return existe;
+    }
+
+    public static boolean isMatriculaRegistrada(Activity activity, String matricula) {
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        Gson gson = new Gson();
+
+        boolean registrada = false;
+        for (String prof : s) {
+            Profesional profesional = gson.fromJson(prof, Profesional.class);
+            if (profesional.getmMatricula().equals(matricula) && profesional.isRegistrado()) {
+                registrada = true;
+                break;
+            }
+        }
+        return registrada;
+    }
+
+    public static String getProductoMatricula(Activity activity, String matricula) {
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        Gson gson = new Gson();
+
+        String producto = "";
+        for (String prof : s) {
+            Profesional profesional = gson.fromJson(prof, Profesional.class);
+            if (profesional.getmMatricula().equals(matricula)) {
+                producto = profesional.getProducto();
+                break;
+            }
+        }
+        return producto;
+    }
+
+    public static List<Profesional> getProfesionales(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        Gson gson = new Gson();
+
+        List<Profesional> profs = new ArrayList<>();
+        for (String prof : s) {
+            Profesional profesional = gson.fromJson(prof, Profesional.class);
+            profs.add(profesional);
+        }
+        return profs;
+    }
+    /**
         public static void borrarCuenta(Paciente paciente) {
 
             if (mPacientes != null) {

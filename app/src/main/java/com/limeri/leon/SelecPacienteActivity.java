@@ -39,7 +39,7 @@ import java.util.Locale;
 public class SelecPacienteActivity extends AppCompatActivity {
 
 
-    private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula;
+    private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula, mProducto;
     AlertDialog dialog;
     private ListView lvPacientes;
     private ArrayAdapter<String> adapter;
@@ -353,7 +353,21 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_signout:{
-                Navegacion.irA(this, LoginActivity.class);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("¿Desea cerrar sesión?");
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Navegacion.irA(SelecPacienteActivity.this, LoginActivity.class);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
             }
         }
@@ -376,6 +390,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         final EditText password = (EditText) viewInflated.findViewById(R.id.inputPassword);
         final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
+        final EditText producto = (EditText) viewInflated.findViewById(R.id.inputProducto);
 
         nombre.setText(Profesional.getProfesional().getNombre());
         nombre.setEnabled(false);
@@ -383,43 +398,15 @@ public class SelecPacienteActivity extends AppCompatActivity {
         matricula.setEnabled(false);
         password.setText(Profesional.getProfesional().getmPassword());
         correo.setText(Profesional.getProfesional().getmCorreo());
-
+        producto.setVisibility(View.GONE);
 
         builder.setView(viewInflated);
-
 
         // Set up the buttons
 
         builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                mProfPassword = password.getText().toString();
-                mProfCorreo = correo.getText().toString();
-                mProfNombre = nombre.getText().toString();
-                mProfMatricula = matricula.getText().toString();
-
-                if (confPassword.getText().toString().isEmpty()) {
-                    confPassword.setError("Repita contraseña");
-                } else if (!password.getText().toString().equals(confPassword.getText().toString()))
-                {
-                    password.setError("Contraseñas no coinciden");
-                    confPassword.setError("Contraseñas no coinciden");
-                }else {
-                    Profesional profesional = Profesional.getProfesional();
-                    Profesional.borrarCuentaBase(SelecPacienteActivity.this, profesional);
-
-                    // Profesional profesional = new Profesional();
-                    profesional.setNombre(mProfNombre);
-                    profesional.setmCorreo(mProfCorreo);
-                    profesional.setmPassword(mProfPassword);
-                    profesional.setmMatricula(mProfMatricula);
-
-                    Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
-                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
-                }
-                // callAdapter();
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -438,7 +425,38 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfPassword = password.getText().toString();
+                mProfCorreo = correo.getText().toString();
+                mProfNombre = nombre.getText().toString();
+                mProfMatricula = matricula.getText().toString();
+                mProducto = producto.getText().toString();
+                String confPass = confPassword.getText().toString();
 
+                if (confPass.isEmpty()) {
+                    confPassword.setError("Repita contraseña");
+                } else if (!mProfPassword.equals(confPass)) {
+                    password.setError("Contraseñas no coinciden");
+                    confPassword.setError("Contraseñas no coinciden");
+                } else {
+                    Profesional profesional = Profesional.getProfesional();
+                    Profesional.borrarCuentaBase(SelecPacienteActivity.this, profesional);
+
+                    // Profesional profesional = new Profesional();
+                    profesional.setNombre(mProfNombre);
+                    profesional.setmCorreo(mProfCorreo);
+                    profesional.setmPassword(mProfPassword);
+                    profesional.setmMatricula(mProfMatricula);
+
+                    Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
+                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
+                    dialog.dismiss();
+                }
+                // callAdapter();
+            }
+        });
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));

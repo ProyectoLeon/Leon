@@ -3,10 +3,11 @@ package com.limeri.leon;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -20,16 +21,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
@@ -44,6 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.Manifest.permission.PROCESS_OUTGOING_CALLS;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -65,6 +70,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private String mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula, mProducto;
+    private AlertDialog dialog;
     private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -80,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.usuariosmatriculados));
 
         populateAutoComplete();
+        cargarUsuariosMatriculados();
 
         if (User.getUserEmail(getBaseContext()) != null) {
 
@@ -99,16 +107,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mLogInButton = (Button) findViewById(R.id.login_in_button);
+        mLogInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
+        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog_Prof();
+            }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void cargarUsuariosMatriculados() {
+        try {
+            JSONObject jsonRootObject = new JSONObject(jsonString);
+
+            //Get the instance of JSONArray that contains JSONObjects
+            JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
+
+            //Iterate the jsonArray and print the info of JSONObjects
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String nombreJson = jsonObject.getString("nombre");
+                String matriculaJson = jsonObject.getString("matricula");
+                String passwordJson = jsonObject.getString("contrasena");
+                String correoJson = jsonObject.getString("mail");
+                String productoJson = jsonObject.getString("producto");
+                Boolean registradoJson = jsonObject.getBoolean("registrado");
+
+                Profesional profesional = new Profesional();
+
+                profesional.setNombre(nombreJson);
+                profesional.setmCorreo(correoJson);
+                profesional.setmMatricula(matriculaJson);
+                profesional.setmPassword(passwordJson);
+                profesional.setProducto(productoJson);
+                profesional.setRegistrado(registradoJson);
+                Profesional.setProfesional(profesional);
+                Profesional.saveProfesional(LoginActivity.this, profesional);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void populateAutoComplete() {
@@ -178,8 +228,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (TextUtils.isEmpty(matricula)) {
             mMatriculaView.setError("Por favor ingrese la matricula");
             focusView = mMatriculaView;
-            cancel = true;}
-        else if (TextUtils.isEmpty(password)) {
+            cancel = true;
+        } else if (TextUtils.isEmpty(password)) {
             mPasswordView.setError("Por favor ingrese la contraseña");
             focusView = mPasswordView;
             cancel = true;
@@ -189,62 +239,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String data = "";
             boolean existeUser = false;
 
-            try {
-                JSONObject jsonRootObject = new JSONObject(jsonString);
-
-                //Get the instance of JSONArray that contains JSONObjects
-                JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
-
-                //Iterate the jsonArray and print the info of JSONObjects
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String nombreJson = jsonObject.getString("nombre");
-                    String matriculaJson = jsonObject.getString("matricula");
-                    String passwordJson = jsonObject.getString("contrasena");
-                    String correoJson = jsonObject.getString("mail");
-
-                    if (matriculaJson.equals(matricula)) {
-                        existeUser = true;
-                        if (!passwordJson.equals(password)) {
-                            mPasswordView.setError("La contraseña es incorrecta");
-                            focusView = mPasswordView;
-                            cancel = true;
-                            break;
-                        } else {
-                            /*showProgress(true);
-                            mAuthTask = new UserLoginTask(matricula, password);
-                            mAuthTask.execute((Void) null);*/
-                            Profesional profesional = new Profesional();
-
-                            if(Profesional.getSavedProfesional(LoginActivity.this, matricula) != null) {
-                                profesional = Profesional.getSavedProfesional(LoginActivity.this, matricula);
-
-                            } else {
-
-                                profesional.setNombre(nombreJson);
-                                profesional.setmCorreo(correoJson);
-                                profesional.setmMatricula(matriculaJson);
-                                profesional.setmPassword(passwordJson);
-                                Profesional.setProfesional(profesional);
-                            }
-
-                            profesional.saveProfesional(LoginActivity.this, profesional);
-                            Profesional.setProfesional(profesional);
-                            break;
-                        }
+            for (Profesional profesional : Profesional.getProfesionales(this)) {
+                if (profesional.getmMatricula().equals(matricula)) {
+                    existeUser = true;
+                    if (!profesional.getmPassword().equals(password)) {
+                        mPasswordView.setError("La contraseña es incorrecta");
+                        focusView = mPasswordView;
+                        cancel = true;
                     } else {
-                        existeUser = false;
+                        Profesional.setProfesional(profesional);
                     }
-
+                    break;
+                } else {
+                    existeUser = false;
                 }
 
-            } catch (JSONException e) {
-                return;
             }
 
             if (!existeUser) {
-                mMatriculaView.setError("Número de matricula inexistente");
+                mMatriculaView.setError("El número de matrícula es incorrecto");
                 focusView = mMatriculaView;
                 cancel = true;
             }
@@ -419,6 +432,111 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         }
         Navegacion.irA(LoginActivity.this, SelecPacienteActivity.class);
+    }
+
+    //POPUP PARA REGISTRAR PROFESIONAL
+    private void showDialog_Prof() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // I'm using fragment here so I'm using getView() to provide ViewGroup
+        // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.datos_profesional_popup, (ViewGroup) this.findViewById(android.R.id.content), false);
+        // Set up the input
+        final EditText nombre = (EditText) viewInflated.findViewById(R.id.inputNombre);
+        final EditText matricula = (EditText) viewInflated.findViewById(R.id.inputMatricula);
+        final EditText producto = (EditText) viewInflated.findViewById(R.id.inputProducto);
+        final EditText password = (EditText) viewInflated.findViewById(R.id.inputPassword);
+        final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
+        final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
+
+//        nombre.setText(Profesional.getProfesional().getNombre());
+//        nombre.setEnabled(false);
+        nombre.setVisibility(View.GONE);
+//        matricula.setText(Profesional.getProfesional().getmMatricula());
+//        matricula.setEnabled(false);
+//        password.setText(Profesional.getProfesional().getmPassword());
+//        correo.setText(Profesional.getProfesional().getmCorreo());
+        correo.setVisibility(View.GONE);
+//        producto.setText(Profesional.getProfesional().getProducto());
+
+        builder.setView(viewInflated);
+
+        // Set up the buttons
+
+        builder.setPositiveButton("Actualizar datos", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialog = builder.create();
+
+        dialog.show();
+
+        Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfPassword = password.getText().toString();
+                mProfMatricula = matricula.getText().toString();
+                mProducto = producto.getText().toString();
+                String confPass = confPassword.getText().toString();
+
+                if (mProfMatricula.isEmpty() || mProducto.isEmpty() || mProfPassword.isEmpty() || mProfPassword.isEmpty()) {
+                    Toast.makeText(getApplicationContext(),"Por favor ingresar los datos obligatorios",Toast.LENGTH_LONG).show();
+                } else if (!Profesional.existeMatricula(LoginActivity.this, mProfMatricula)) {
+                    matricula.setError("No existe una cuenta con ese número de matricula");
+                } else if (Profesional.isMatriculaRegistrada(LoginActivity.this, mProfMatricula)) {
+                    matricula.setError("El número de matrícula ya posee cuenta registrada");
+                } else if (!mProducto.equals(Profesional.getProductoMatricula(LoginActivity.this, mProfMatricula))) {
+                    producto.setError("Código de producto incorrecto");
+                } else if (!mProfPassword.equals(confPass)) {
+                    password.setError("Las contraseñas no son iguales");
+                    confPassword.setError("Las contraseñas no son iguales");
+                } else {
+                    Profesional profesional = Profesional.getProfesional();
+                    Profesional.borrarCuentaBase(LoginActivity.this, profesional);
+
+                    //profesional.setProducto(mProducto);
+                    profesional.setmPassword(mProfPassword);
+                    profesional.setRegistrado(true);
+                    //profesional.setmMatricula(mProfMatricula);
+
+                    Profesional.saveProfesional(LoginActivity.this, profesional);
+                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
+
+                    dialog.dismiss();
+                }
+            }
+        });
+        if (button != null) {
+            button.setBackgroundColor(getResources().getColor(R.color.black));
+            button.setTextColor(getResources().getColor(R.color.black));
+            button.setGravity(Gravity.END);
+            button.setGravity(Gravity.CENTER_VERTICAL);
+            button.setBackground(getResources().getDrawable(R.drawable.button));
+            button.setPadding(10, 0, 10, 0);
+        }
+
+        Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+        if (button2 != null) {
+            button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button2.setTextColor(getResources().getColor(R.color.black));
+            button2.setGravity(Gravity.START);
+            button2.setBackground(getResources().getDrawable(R.drawable.button));
+            button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setPadding(10, 0, 10, 0);
+        }
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+
     }
 }
 
