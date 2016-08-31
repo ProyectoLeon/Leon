@@ -1,33 +1,33 @@
 {
 	"adivinanzas": [
 	  {
-	  "pregunta": "Es un animal con una trompa larga y orejas grandes",
+	  "pregunta": "Pista: Es un animal con una trompa larga y orejas grandes",
 		"respuesta0": "Elefante",
-		"respuesta1": "Ciervo / Armadillo / Oso Hormiguero"
+		"respuesta1": "Ciervo / Armadillo / Oso Hormiguero / Otro"
 	}, {
-		"pregunta": "Es un lugar de la casa donde se prepara la comida",
+		"pregunta": "Pista: Es un lugar de la casa donde se prepara la comida",
 		"respuesta0": "Cocina",
-		"respuesta1": "Cacerola / Olla / Tetera / Fuego"
+		"respuesta1": "Cacerola / Olla / Tetera / Fuego / Otro"
 	}, {
-		"pregunta": "Está en la cara y se utiliza para oler cosas",
+		"pregunta": "Pista: Está en la cara y se utiliza para oler cosas",
 		"respuesta0": "Nariz / Fosas nasales",
-		"respuesta1": "Cara / Mente / Cerebro / Boca / Lengua / Labios"
+		"respuesta1": "Cara / Mente / Cerebro / Boca / Lengua / Labios / Otro"
 	}, {
-     	"pregunta": "Se puede abrir para pasar a otro lugar y a veces se cierra con llave",
+     	"pregunta": "Pista: Se puede abrir para pasar a otro lugar y a veces se cierra con llave",
      	"respuesta0": "Puerta / Verja / Portón",
-     	"respuesta1": "Perilla / Manija / Armario / Picaporte"
+     	"respuesta1": "Perilla / Manija / Armario / Picaporte / Otro"
     }, 	{
-        "pregunta": "Es algo que se lleva para cubrir la cabeza",
+        "pregunta": "Pista: Es algo que se lleva para cubrir la cabeza",
         "respuesta0": "Sombrero / Gorra / Turbante / Casco / Pañuelo / etc.",
-        "respuesta1": "Sábana / Toalla / Paraguas"
+        "respuesta1": "Sábana / Toalla / Paraguas / Otro"
     }, 	{
-       	"pregunta": "Funciona con electricidad y conserva los alimentos frescos",
+       	"pregunta": "Pista: Funciona con electricidad y conserva los alimentos frescos",
        	"respuesta0": "Heladera / Congelador / Frigorífico",
-       	"respuesta1": "Ventilador"
+       	"respuesta1": "Ventilador / Otro"
     }, 	{
-       	"pregunta": "Se forma en la tierra después de llover, y puede ensuciarte la ropa",
+       	"pregunta": "Pista 1: Se forma en la tierra después de llover / Pista 2: Puede ensuciarte la ropa",
        	"respuesta0": "Barro / Lodo / Pasto o Hierba mojada / Charco / Agua sucia",
-       	"respuesta1": "Escarcha / Humedad / Agua / Polvo / Arcilla"
+       	"respuesta1": "Escarcha / Humedad / Agua / Polvo / Arcilla / Otro"
     }
   ]
 }
