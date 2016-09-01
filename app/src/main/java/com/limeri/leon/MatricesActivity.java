@@ -140,7 +140,7 @@ public class MatricesActivity extends AppCompatActivity {
                 }
             }
         }
-        if (isUltimoNivel()){
+        if (noHayMasNiveles()){
             guardar();
         } else {
             cargarSiguienteNivel();
@@ -173,8 +173,8 @@ public class MatricesActivity extends AppCompatActivity {
         return NIVELES_INICIALES.contains(nivel);
     }
 
-    private boolean isUltimoNivel() {
-        return nivel == ULTIMO_NIVEL;
+    private boolean noHayMasNiveles() {
+        return nivel == ULTIMO_NIVEL || nivel < 0;
     }
 
     private void cargarSiguienteNivel() {
