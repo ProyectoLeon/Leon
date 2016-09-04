@@ -1,12 +1,14 @@
 package com.limeri.leon;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,9 +40,10 @@ public class AritmeticaActivity extends AppCompatActivity {
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
     private boolean backHecho = false;
+    private boolean reconocerAudio = false;
+    private boolean respondido;
     private String jsonString;
     private ImageView imagen;
-    private int posSelecc;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private JSONObject jsonObject;
     private Chronometer crono;
@@ -50,11 +53,9 @@ public class AritmeticaActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            cantIncorrectas++;
-            cantConsec = 0;
-            puntPerfecto = false;
+            respondido = false;
             guardarRespuesta();
-            iniciarCronometro();
+//            iniciarCronometro();
         }
     };
 
@@ -63,11 +64,7 @@ public class AritmeticaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aritmetica);
 
-        Button siguiente = (Button) findViewById(R.id.siguiente);
         Button reconocer = (Button) findViewById(R.id.reconocer);
-        if (siguiente != null) {
-            siguiente.setOnClickListener(clickSiguiente());
-        }
         if (reconocer != null) {
             reconocer.setOnClickListener(reconocerAudio());
         }
@@ -80,7 +77,6 @@ public class AritmeticaActivity extends AppCompatActivity {
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         inicializarVariables();
-
     }
 
     private void leerJson() {
@@ -112,82 +108,23 @@ public class AritmeticaActivity extends AppCompatActivity {
                 palabra.setVisibility(View.VISIBLE);
                 palabra.setText(pregunta);
             }
-            if (nivel < 5) {
-             /*   String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
-                ListView respuestas = (ListView) findViewById(R.id.respuestas);
-                if (respuestas != null) {
-                    respuestas.setOnItemClickListener(opcionSeleccionada());
-                    respuestas.setAdapter(adapter);
-                }
-            } else {
-                String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listRespuestas);
-                ListView respuestas = (ListView) findViewById(R.id.respuestas);
-                if (respuestas != null) {
-                    respuestas.setOnItemClickListener(opcionSeleccionada());
-                    respuestas.setAdapter(adapter);
-               }
-            */}
         } catch (JSONException e) {
             guardar();
         }
     }
 
-    /*private AdapterView.OnItemClickListener opcionSeleccionada() {
-
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (seleccion != null) blanquear(seleccion);
-                seleccion = ((TextView) view);
-                seleccionar(seleccion);
-
-                posSelecc = position;
-            }
-        };
-    }
-
-    private void seleccionar(TextView view) {
-        view.setTextColor(Color.RED);
-    }
-
-    private void blanquear(TextView view) {
-        view.setTextColor(Color.BLACK);
-    }*/
-
-    private View.OnClickListener clickSiguiente() {
-
-        return new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                handler.removeCallbacks(runnable);
-                long local = SystemClock.elapsedRealtime();
-                long tiempo = local - tiempo_inicio + tiempo_ejecutado;
-                // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                if ((posSelecc == 1) || (tiempo > TIEMPO_NIVEL)) {
-                    cantIncorrectas++;
-                    cantConsec = 0;
-                    puntPerfecto = false;
-                } else {
-                    cantIncorrectas = 0;
-                    sumarPuntos(1);
-                    puntPerfecto = true;
-                }
-                try {
-                    guardarRespuesta();
-                    //seleccion = null;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-    }
-
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         //blanquear(seleccion);
+        if (respondido) {
+            cantIncorrectas = 0;
+            sumarPuntos(1);
+            puntPerfecto = true;
+        } else {
+            cantIncorrectas++;
+            cantConsec = 0;
+            puntPerfecto = false;
+        }
         if (cantIncorrectas == 4) {
             guardar();
         } else if ((nivel == 2 | nivel == 3) & !puntPerfecto & !backHecho) {
@@ -217,12 +154,13 @@ public class AritmeticaActivity extends AppCompatActivity {
 
     private void cargarSiguienteNivel() {
         inicializarVariables();
-//        iniciarCronometro();
+        iniciarCronometro();
     }
 
     private void inicializarVariables() {
         tiempo_ejecutado = 0;
         leerJson();
+        reconocerAudio = false;
     }
 
     private void iniciarCronometro() {
@@ -245,7 +183,9 @@ public class AritmeticaActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        iniciarCronometro();
+        if (!reconocerAudio) {
+            iniciarCronometro();
+        }
     }
 
     @Override
@@ -278,6 +218,7 @@ public class AritmeticaActivity extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable");
+                reconocerAudio = true;
                 try {
                     startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
                 } catch (ActivityNotFoundException a) {
@@ -291,7 +232,6 @@ public class AritmeticaActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Boolean respondido;
         Boolean mostrar = true;
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
@@ -303,6 +243,8 @@ public class AritmeticaActivity extends AppCompatActivity {
                     long local = SystemClock.elapsedRealtime();
                     long tiempo = local - tiempo_inicio + tiempo_ejecutado;
                     for (String audio : result){
+                        audio = audio.replaceAll(" ","");
+                        audio = audio.replaceAll("[^\\.0123456789]","");
                         if (!audio.equals(respuesta) || (tiempo > TIEMPO_NIVEL)){
                             respondido = false;
                             if (mostrar) {
@@ -311,29 +253,55 @@ public class AritmeticaActivity extends AppCompatActivity {
                             }
                         } else {
                             respondido = true;
-                            cantIncorrectas = 0;
-                            sumarPuntos(1);
-                            puntPerfecto = true;
+//                            cantIncorrectas = 0;
+//                            sumarPuntos(1);
+//                            puntPerfecto = true;
                             Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
                     if (respondido == false){
-                        cantIncorrectas++;
-                        cantConsec = 0;
-                        puntPerfecto = false;
+//                        cantIncorrectas++;
+//                        cantConsec = 0;
+//                        puntPerfecto = false;
                     }
-                    /*if (){
-                        cantIncorrectas = 0;
-                        sumarPuntos(1);
-                        puntPerfecto = true;
-                    }*/
-                    try {
-                        guardarRespuesta();
-                        //seleccion = null;
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    if (respondido) {
+                        builder.setTitle("La respuesta se interpretó correcta, ¿está de acuerdo?");
+                    } else {
+                        builder.setTitle("La respuesta se interpretó incorrecta, ¿está de acuerdo?");
                     }
+                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                guardarRespuesta();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            respondido = !respondido;
+                            try {
+                                guardarRespuesta();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+//                    try {
+//                        guardarRespuesta();
+//                        //seleccion = null;
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
                 }
             }
         }

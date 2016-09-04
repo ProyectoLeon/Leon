@@ -1,11 +1,13 @@
 package com.limeri.leon;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +38,7 @@ public class DigitosActivity extends AppCompatActivity {
     private int cantIncorrectas = 0;
     private boolean puntPerfecto = false;
     private boolean ordenDirecto = true;
+    private boolean respondido;
     private String jsonString;
     private int posSelecc;
     private Button reconocer;
@@ -95,6 +98,14 @@ public class DigitosActivity extends AppCompatActivity {
     private void guardarRespuesta() {
         //Faltaría guardar la respuesta en la base de datos
         //blanquear(seleccion);
+        if (respondido) {
+            cantIncorrectas = 0;
+            sumarPuntos(1);
+            puntPerfecto = true;
+        } else {
+            cantIncorrectas++;
+            puntPerfecto = false;
+        }
         if ( cantIncorrectas >= 2 && ordenDirecto ) {
             if ((nivel % 2) == 1) {
                 nivel = 10;
@@ -151,7 +162,6 @@ public class DigitosActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Boolean respondido;
         Boolean mostrar = true;
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
@@ -163,8 +173,6 @@ public class DigitosActivity extends AppCompatActivity {
                     for (String audio : result){
                         audio = audio.replaceAll(" ","");
                         audio = audio.replaceAll("[^\\.0123456789]","");
-                        audio = audio.toLowerCase(); // para Letras y Números
-
                         if ( !audio.equals(respuesta) ){
                             respondido = false;
                             if (mostrar) {
@@ -173,24 +181,54 @@ public class DigitosActivity extends AppCompatActivity {
                             }
                         } else {
                             respondido = true;
-                            cantIncorrectas = 0;
-                            sumarPuntos(1);
-                            puntPerfecto = true;
+//                            cantIncorrectas = 0;
+//                            sumarPuntos(1);
+//                            puntPerfecto = true;
                             Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
                     if (!respondido){
-                        cantIncorrectas++;
-                        puntPerfecto = false;
+//                        cantIncorrectas++;
+//                        puntPerfecto = false;
                     }
 
-                    try {
-                        guardarRespuesta();
-                        //seleccion = null;
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    if (respondido) {
+                        builder.setTitle("La respuesta se interpretó correcta, ¿está de acuerdo?");
+                    } else {
+                        builder.setTitle("La respuesta se interpretó incorrecta, ¿está de acuerdo?");
                     }
+                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                guardarRespuesta();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            respondido = !respondido;
+                            try {
+                                guardarRespuesta();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+//                    try {
+//                        guardarRespuesta();
+//                        //seleccion = null;
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
                 }
 
             }
