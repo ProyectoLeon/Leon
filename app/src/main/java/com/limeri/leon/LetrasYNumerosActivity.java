@@ -154,6 +154,7 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
                     for (String audio : result) {
                         audio = audio.replaceAll(" ","");
                         audio = audio.toLowerCase();
+                        audio = audio.replaceAll("[yi]","");
                         if ( !audio.equals(respuesta0) && !audio.equals(respuesta1) ) {
                             respondido = false;
                             if (mostrar) {

@@ -50,7 +50,11 @@ public class AritmeticaActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            cantIncorrectas++;
+            cantConsec = 0;
+            puntPerfecto = false;
             guardarRespuesta();
+            iniciarCronometro();
         }
     };
 
@@ -213,7 +217,7 @@ public class AritmeticaActivity extends AppCompatActivity {
 
     private void cargarSiguienteNivel() {
         inicializarVariables();
-        iniciarCronometro();
+//        iniciarCronometro();
     }
 
     private void inicializarVariables() {

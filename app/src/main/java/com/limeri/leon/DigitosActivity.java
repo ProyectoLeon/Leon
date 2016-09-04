@@ -162,7 +162,9 @@ public class DigitosActivity extends AppCompatActivity {
                     respondido = false;
                     for (String audio : result){
                         audio = audio.replaceAll(" ","");
+                        audio = audio.replaceAll("[^\\.0123456789]","");
                         audio = audio.toLowerCase(); // para Letras y Números
+
                         if ( !audio.equals(respuesta) ){
                             respondido = false;
                             if (mostrar) {
