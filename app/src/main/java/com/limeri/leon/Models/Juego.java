@@ -2,6 +2,7 @@ package com.limeri.leon.Models;
 
 import com.limeri.leon.common.Estados;
 
+import java.util.List;
 import java.util.Map;
 
 public class Juego {
@@ -12,11 +13,13 @@ public class Juego {
     private Estados estado = Estados.CREADO;
     private Map<Integer, Integer> puntosNiveles;
     private String nombreActividad;
+    private List<List<Integer>> puntajesEquivalentes;
 
-    public Juego(String nombre, String categoria, String activity) {
+    public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.nombreActividad = activity;
+        this.puntajesEquivalentes = puntajesEquivalentes;
     }
 
     public String getNombreActividad(){
@@ -60,6 +63,15 @@ public class Juego {
     }
 
     public Integer getPuntajeEscalar () {
-        return 1;
+
+        Integer puntajeEquivalente = 0;
+
+        for (List<Integer> puntajeDirecto : puntajesEquivalentes){
+            if (puntajeDirecto.contains(puntos)){
+                puntajeEquivalente = puntajesEquivalentes.indexOf(puntajeDirecto) + 1;
+            }
+        }
+
+        return puntajeEquivalente;
     }
 }

@@ -3,6 +3,8 @@ package com.limeri.leon.Models;
 import android.app.Activity;
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.ExamenActivity;
 import com.limeri.leon.InicioJuegoActivity;
 import com.limeri.leon.R;
@@ -13,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +54,11 @@ public class AdministradorJuegos {
                 juego.categoria = jsonJuego.getString("categoria");
                 juego.activity = jsonJuego.getString("activity");
                 juego.alternativo = jsonJuego.getBoolean("alternativo");
+
+                Type listType = new TypeToken<List<List<Integer>>>() {}.getType();
+                JSONArray jsonEquivalencia = jsonJuego.getJSONArray("equivalencia");
+                juego.puntaje = (List<List<Integer>>) new Gson().fromJson(jsonEquivalencia.toString(), listType);
+
                 juegosWisc.add(juego);
             }
         } catch (JSONException e) {
@@ -60,7 +68,7 @@ public class AdministradorJuegos {
 
     private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(0);
-        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
     }
 
     public static void setContext(Context context) {
@@ -75,10 +83,10 @@ public class AdministradorJuegos {
             for (JuegoWisc juegoWisc : juegosWisc) {
                 if (anterior) {
                     if (!juegoWisc.alternativo) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
                         break;
                     } else if (alternativas.contains(juegoWisc.categoria)) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
                         alternativas.remove(juegoWisc.categoria);
                         break;
                     }
@@ -214,11 +222,45 @@ public class AdministradorJuegos {
         public String categoria;
         public String activity;
         public Boolean alternativo;
+        public List<List<Integer>> puntaje = new ArrayList<>();
     }
 
     public void calcularPuntaje() {
-//        for (JuegoWisc juego : evaluacion.getJuegos()) {
-//            juego.getPuntaje();
-//        }
+        Integer puntosCompVerbal = 0;
+        Integer puntosRazPercep = 0;
+        Integer puntosMemOper = 0;
+        Integer puntosVelocProc = 0;
+        Integer coeficienteIntelectual = 0;
+        Integer puntajeEscalar = 0;
+
+
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionActual();
+
+        for (Juego juego : evaluacion.getJuegos()) {
+            puntajeEscalar = juego.getPuntajeEscalar();
+            coeficienteIntelectual = coeficienteIntelectual + puntajeEscalar;
+
+            switch (juego.getCategoria()){
+                case("Comprensión verbal"):
+                    puntosCompVerbal = puntosCompVerbal + puntajeEscalar;
+                    break;
+                case("Razonamiento Perceptivo"):
+                    puntosRazPercep = puntosRazPercep + puntajeEscalar;
+                    break;
+                case("Memoria Operativa"):
+                    puntosMemOper = puntosMemOper + puntajeEscalar;
+                    break;
+                case("Velocidad de Procesamiento"):
+                    puntosVelocProc = puntosVelocProc + puntajeEscalar;
+                    break;
+            }
+        }
+
+        evaluacion.setPuntosCompVerbal(puntosCompVerbal);
+        evaluacion.setPuntosRazPercep(puntosRazPercep);
+        evaluacion.setPuntosMemOper(puntosMemOper);
+        evaluacion.setPuntosVelocProc(puntosVelocProc);
+        evaluacion.setCoeficienteIntelectual(coeficienteIntelectual);
     }
 }
