@@ -9,6 +9,11 @@ public class Evaluacion {
 
     private Paciente paciente;
     private Estados estado = Estados.CREADO;
+    private Integer puntosCompVerbal;
+    private Integer puntosRazPercep;
+    private Integer puntosMemOper;
+    private Integer puntosVelocProc;
+    private Integer coeficienteIntelectual;
 
     public List<Juego> getJuegos() {
         return juegos;
@@ -57,5 +62,45 @@ public class Evaluacion {
 
     public void finalizar() {
         estado = Estados.FINALIZADO;
+    }
+
+    public Integer getPuntosCompVerbal() {
+        return puntosCompVerbal;
+    }
+
+    public void setPuntosCompVerbal(Integer puntosCompVerbal) {
+        this.puntosCompVerbal = puntosCompVerbal;
+    }
+
+    public Integer getPuntosRazPercep() {
+        return puntosRazPercep;
+    }
+
+    public void setPuntosRazPercep(Integer puntosRazPercep) {
+        this.puntosRazPercep = puntosRazPercep;
+    }
+
+    public Integer getPuntosMemOper() {
+        return puntosMemOper;
+    }
+
+    public void setPuntosMemOper(Integer puntosMemOper) {
+        this.puntosMemOper = puntosMemOper;
+    }
+
+    public Integer getPuntosVelocProc() {
+        return puntosVelocProc;
+    }
+
+    public void setPuntosVelocProc(Integer puntosVelocProc) {
+        this.puntosVelocProc = puntosVelocProc;
+    }
+
+    public Integer getCoeficienteIntelectual() {
+        return coeficienteIntelectual;
+    }
+
+    public void setCoeficienteIntelectual(Integer coeficienteIntelectual) {
+        this.coeficienteIntelectual = coeficienteIntelectual;
     }
 }

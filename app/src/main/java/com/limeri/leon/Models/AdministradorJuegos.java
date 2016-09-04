@@ -215,4 +215,10 @@ public class AdministradorJuegos {
         public String activity;
         public Boolean alternativo;
     }
+
+    public void calcularPuntaje() {
+//        for (JuegoWisc juego : evaluacion.getJuegos()) {
+//            juego.getPuntaje();
+//        }
+    }
 }

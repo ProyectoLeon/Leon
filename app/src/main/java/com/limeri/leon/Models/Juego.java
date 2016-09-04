@@ -58,4 +58,8 @@ public class Juego {
     public void cancelar() {
         estado = Estados.CANCELADO;
     }
+
+    public Integer getPuntajeEscalar () {
+        return 1;
+    }
 }
