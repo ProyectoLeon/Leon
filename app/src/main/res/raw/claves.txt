@@ -3,22 +3,22 @@
 	"claves": [
 	  {
 	  "pregunta": "circulo",
-		"respuesta": "3"
+		"respuesta": "menor"
 	},
 	  {
     	  "pregunta": "estrella",
-    		"respuesta": "1"
+    		"respuesta": "v invert"
     	}, {
 		"pregunta": "cuadrado",
-		"respuesta": "4"
+		"respuesta": "v"
 	}, {
 		"pregunta": "cruz",
-		"respuesta": "5"
+		"respuesta": "circu"
 
         	},
        {
        		"pregunta": "triangulo",
-       		"respuesta": "2"
+       		"respuesta": "hori"
 
                	}
 

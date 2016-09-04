@@ -60,7 +60,7 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
 
         GestureOverlayView gestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
         gestureOverlayView.addOnGesturePerformedListener(this);
-        gestureOverlayView.setGestureStrokeAngleThreshold(90.0f);
+        //gestureOverlayView.setGestureStrokeAngleThreshold(90.0f);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
@@ -111,9 +111,9 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
                 predictionName = prediction.name;
             }
         }
-        String nombre = "clave" + predictionName;
-        int simb = getResources().getIdentifier(nombre, "string", getPackageName());
-        Toast.makeText(this, getResources().getString(simb), Toast.LENGTH_SHORT).show();
+      //  String nombre = "clave" + predictionName;
+       // int simb = getResources().getIdentifier(predictionName, "string", getPackageName());
+        Toast.makeText(this, predictionName , Toast.LENGTH_SHORT).show();
         guardarRespuesta(predictionName);
     }
 
