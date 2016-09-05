@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
@@ -34,6 +36,9 @@ public class ValorExamenActivity extends AppCompatActivity {
 
         ListView listado = (ListView) findViewById(R.id.listadoP);
         listado.setAdapter(adapter);
+        TextView puntaje = (TextView) findViewById(R.id.puntaje);
+        AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
+        puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
     }
 
     @Override

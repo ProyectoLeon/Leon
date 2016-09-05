@@ -225,17 +225,13 @@ public class AdministradorJuegos {
         public List<List<Integer>> puntaje = new ArrayList<>();
     }
 
-    public void calcularPuntaje() {
+    public void calcularPuntaje(Evaluacion evaluacion) {
         Integer puntosCompVerbal = 0;
         Integer puntosRazPercep = 0;
         Integer puntosMemOper = 0;
         Integer puntosVelocProc = 0;
         Integer coeficienteIntelectual = 0;
         Integer puntajeEscalar = 0;
-
-
-        Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionActual();
 
         for (Juego juego : evaluacion.getJuegos()) {
             puntajeEscalar = juego.getPuntajeEscalar();

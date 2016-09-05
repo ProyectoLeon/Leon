@@ -69,6 +69,7 @@ public class Juego {
         for (List<Integer> puntajeDirecto : puntajesEquivalentes){
             if (puntajeDirecto.contains(puntos)){
                 puntajeEquivalente = puntajesEquivalentes.indexOf(puntajeDirecto) + 1;
+                break;
             }
         }
 
