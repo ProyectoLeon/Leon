@@ -53,6 +53,7 @@ public class MatricesActivity extends AppCompatActivity {
     private String respuesta;
     private boolean invertido;
     private int nivelErrado;
+    private boolean retrogresion = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class MatricesActivity extends AppCompatActivity {
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
                 guardar();
-            } else if (isNivelesIniciales()) {
+            } else if (isNivelesIniciales() && !retrogresion) {
                 nivelErrado = nivel;
                 invertir();
             } else {
@@ -162,6 +163,7 @@ public class MatricesActivity extends AppCompatActivity {
 
     private void invertir() {
         nivel = NIVEL_INVERSION;
+        retrogresion = true;
         invertido = true;
     }
 
