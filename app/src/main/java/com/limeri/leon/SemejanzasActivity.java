@@ -124,11 +124,14 @@ public class SemejanzasActivity extends AppCompatActivity {
                     } else if (posSelecc == 1) {
 
                         // Para los dos primeros niveles, no hay tercera opción.
-                        // La segunda opción suma 0 puntos pero NO suma respuestas incorrectas.
-                        if (!(nivel == 0 || nivel == 1)) {
+                        // La segunda opción suma 0 puntos y suma respuestas incorrectas.
+                        if (nivel == 0 || nivel == 1) {
+                            cantIncorrectas++;
+                        } else {
                             sumarPuntos(1);
+                            cantIncorrectas = 0;
                         }
-                        cantIncorrectas = 0;
+
                     } else if (posSelecc == 0) {
                         cantIncorrectas = 0;
 
