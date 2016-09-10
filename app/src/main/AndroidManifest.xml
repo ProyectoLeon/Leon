@@ -80,7 +80,7 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".AnimalesActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
