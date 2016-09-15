@@ -1,0 +1,3 @@
+{
+	"cubos": ["cubo1","cubo2","cubo3","cubo4"]
+}

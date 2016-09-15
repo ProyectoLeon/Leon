@@ -3,6 +3,7 @@ package com.limeri.leon;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.style.BulletSpan;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,7 +27,8 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonDigitos;
     Button buttonLetrasYNumeros;
     Button buttonAnimales;
-    private Paciente paciente;
+    Button buttonCubos;
+    Paciente paciente;
 
     //TODO: Que para los juegos libres, no se muestre la opción activar juego alternativo
     @Override
@@ -47,6 +49,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonDigitos = (Button) findViewById(R.id.buttonDigitos);
         buttonLetrasYNumeros = (Button) findViewById(R.id.buttonLetrasYNumeros);
         buttonAnimales = (Button) findViewById(R.id.buttonAnimales);
+        buttonCubos = (Button) findViewById(R.id.buttonCubos);
 
         AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
@@ -162,6 +165,14 @@ public class ExamenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 paciente.getEvaluacionActual().agregarJuego(new Juego("Animales","","AnimalesActivity",null));
                 Navegacion.irA(ExamenActivity.this, AnimalesActivity.class);
+
+            }
+        });
+        buttonCubos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paciente.getEvaluacionActual().agregarJuego(new Juego("Construcción con Cubos","","CubosActivity",null));
+                Navegacion.irA(ExamenActivity.this, CubosActivity.class);
 
             }
         });

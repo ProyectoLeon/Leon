@@ -1,6 +1,13 @@
 {
 	"juegos": [
         {
+            "nombre":"Construcción con Cubos",
+            "categoria":"Razonamiento Perceptivo",
+            "activity":"CubosActivity",
+            "alternativo":false,
+            "equivalencia":[]
+        },
+        {
             "nombre":"Semejanzas",
             "categoria":"Comprensión verbal",
             "activity":"SemejanzasActivity",
