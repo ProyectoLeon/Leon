@@ -61,7 +61,7 @@
             "alternativo":false
         },
         {
-            "nombre":"Comletamiento de Figuras",
+            "nombre":"Completamiento de Figuras",
             "categoria":"Razonamiento Perceptivo",
             "activity":"FiguraIncompletaActivity",
             "alternativo":true

@@ -153,5 +153,15 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
                 android:textSize="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conceptos"
+                android:id="@+id/buttonConceptos"
+                android:layout_below="@+id/buttonCubos"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:textSize="20dp" />
     </RelativeLayout>
 </ScrollView>
