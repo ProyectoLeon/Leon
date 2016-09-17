@@ -144,6 +144,18 @@ public class AdivinanzasActivity extends AppCompatActivity {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
+    private void restarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().restarPuntos(puntos);
+    }
+
+    private void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        AdministradorJuegos.getInstance().guardarPuntosNivel(nivel, puntos);
+    }
+
+    private Integer getPuntosNivel(Integer puntos) {
+        return AdministradorJuegos.getInstance().getPuntosNivel(nivel);
+    }
+
     private void seleccionar(TextView view) {
         view.setTextColor(Color.RED);
     }
@@ -163,9 +175,11 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 if (posSelecc != -1) {
                     if (posSelecc == 1) {
                         cantIncorrectas++;
+                        guardarPuntosNivel(nivel, 0);
                     } else {
                         cantIncorrectas = 0;
                         sumarPuntos(1);
+                        guardarPuntosNivel(nivel, 1);
                     }
                     try {
                         guardarRespuesta();
@@ -192,12 +206,29 @@ public class AdivinanzasActivity extends AppCompatActivity {
         } catch (Exception ex) {
             guardar();
         }
-
         posSelecc = -1;
     }
 
     @Override
     public void onBackPressed() {
+        volverAtras();
+    }
+
+    private void volverAtras() {
+        blanquear(seleccion);
+        nivel--;
+        if (nivel < 0) {
+            guardar();
+        } else {
+            restarPuntos(getPuntosNivel(nivel));
+            try {
+                actualizarParciales();
+                leerJson();
+            } catch (Exception ex) {
+                guardar();
+            }
+            posSelecc = -1;
+        }
     }
 
     private void guardar() {

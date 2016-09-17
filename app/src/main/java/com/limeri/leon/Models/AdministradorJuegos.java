@@ -105,8 +105,22 @@ public class AdministradorJuegos {
         juego.setPuntosJuego(puntos);
     }
 
+    public Integer getPuntosNivel(Integer nivel) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        return juego.getPuntosNivel(nivel);
+    }
+
+    public void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+        juego.guardarPuntosNivel(nivel, puntos);
+    }
+
     public void sumarPuntos(Integer puntos) {
         sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
+    }
+
+    public void restarPuntos(Integer puntos) {
+        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() - puntos);
     }
 
     public Integer obtenerPuntos() {
