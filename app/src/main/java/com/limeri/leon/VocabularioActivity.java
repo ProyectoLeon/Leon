@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
@@ -32,8 +33,15 @@ public class VocabularioActivity extends AppCompatActivity {
     private boolean soloImagen = false;
     private boolean backHecho = false;
     private String jsonString;
+    private String jsonParciales;
+    private TextView parciales;
+    private String parcial1;
+    private String parcial2;
+    private String parcial;
     private ImageView imagen;
     private int posSelecc = -1;
+    private int longArray;
+    private ProgressBar progBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +55,56 @@ public class VocabularioActivity extends AppCompatActivity {
 
         palabra = (TextView) findViewById(R.id.palabra);
         imagen = (ImageView) findViewById(R.id.imagen);
+        parciales = (TextView) findViewById(R.id.parciales);
+        progBar = (ProgressBar)findViewById(R.id.progBar);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
 
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
+        leerParciales();
+    }
 
+    private void leerParciales() {
+
+        if (nivel == 4) {
+            jsonParciales = JSONLoader.loadJSON(getResources().openRawResource(R.raw.parciales));
+        }
+
+        try {
+            JSONObject jsonRootObject = new JSONObject(jsonParciales);
+            JSONArray jsonArray = jsonRootObject.getJSONArray("parciales");
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            parcial1 = jsonObject.getString("parcial1").toString();
+            parcial2 = jsonObject.getString("parcial2").toString();
+
+            parcial = 0 + parcial1 + (longArray - nivel) + parcial2;
+
+            parciales.setText(parcial);
+
+            progBar.setMax(longArray);
+            progBar.setProgress(nivel);
+
+        } catch (JSONException e) {
+            guardar();
+        }
+    }
+
+    private void actualizarParciales() {
+        parcial = obtenerPuntos() + parcial1 + (longArray - nivel) + parcial2;
+        parciales.setText(parcial);
+
+        progBar.setMax(longArray);
+        progBar.setProgress(nivel);
+
+        if (soloImagen){
+            parciales.setVisibility(View.GONE);
+            progBar.setVisibility(View.GONE);
+        } else {
+            parciales.setVisibility(View.VISIBLE);
+            progBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private void leerJson() {
@@ -67,6 +118,8 @@ public class VocabularioActivity extends AppCompatActivity {
 
             //Get the instance of JSONArray that contains JSONObjects
             JSONArray jsonArray = jsonRootObject.getJSONArray("vocabulario");
+
+            longArray = jsonArray.length();
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -132,6 +185,10 @@ public class VocabularioActivity extends AppCompatActivity {
 
     private void sumarPuntos(Integer puntos) {
         AdministradorJuegos.getInstance().sumarPuntos(puntos);
+    }
+
+    private Integer obtenerPuntos() {
+        return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
     private void seleccionar(TextView view) {
@@ -217,6 +274,7 @@ public class VocabularioActivity extends AppCompatActivity {
             }
         }
         try {
+            actualizarParciales();
             leerJson();
         } catch (Exception ex) {
             guardar();

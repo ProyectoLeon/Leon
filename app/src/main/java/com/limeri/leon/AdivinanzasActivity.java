@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
@@ -32,6 +33,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private String parcial;
     private int posSelecc = -1;
     private int longArray;
+    private ProgressBar progBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
         palabra = (TextView) findViewById(R.id.palabra);
         parciales = (TextView) findViewById(R.id.parciales);
+        progBar = (ProgressBar)findViewById(R.id.progBar);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
@@ -73,6 +76,9 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
             parciales.setText(parcial);
 
+            progBar.setMax(longArray);
+            progBar.setProgress(nivel);
+
         } catch (JSONException e) {
             guardar();
         }
@@ -81,6 +87,9 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private void actualizarParciales() {
         parcial = obtenerPuntos() + parcial1 + (longArray - nivel) + parcial2;
         parciales.setText(parcial);
+
+        progBar.setMax(longArray);
+        progBar.setProgress(nivel);
     }
 
     private void leerJson() {
