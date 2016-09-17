@@ -19,14 +19,12 @@
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
             android:visibility="invisible"
-            android:src="@drawable/carta_mask"
             tools:ignore="ContentDescription" />
         <ImageView
             android:id="@+id/figura"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
-            android:src="@drawable/carta"
             tools:ignore="ContentDescription" />
     </FrameLayout>
     <Chronometer
