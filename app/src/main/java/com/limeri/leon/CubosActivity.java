@@ -2,14 +2,19 @@ package com.limeri.leon;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.JSONLoader;
@@ -25,6 +30,7 @@ import org.neuroph.core.NeuralNetwork;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,9 +48,20 @@ public class CubosActivity extends AppCompatActivity {
     private String pathFoto;
     private int nivel;
     private int ultimoNivel;
-    private List<String> listCubos;
+    private List<Cubo> listCubos;
     private ImageView imgCubo;
-    private String respuesta;
+    private Cubo respuesta;
+    private Integer intentos;
+    private Chronometer crono;
+    private long tiempo_ejecutado = 0;
+    private long tiempo_inicio;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            guardarRespuesta(false);
+        }
+    };
     private Runnable redNeuronal = new Runnable() {
         public void run() {
             //Abro el archivo de la red neuronal
@@ -63,6 +80,7 @@ public class CubosActivity extends AppCompatActivity {
 
         //Busco los ImageView
         imgCubo = (ImageView) findViewById(R.id.cubo);
+        crono = (Chronometer) findViewById(R.id.cronometro);
 
         // Agrego el menu y pongo el puntaje en 0
         Navegacion.agregarMenuJuego(this);
@@ -96,6 +114,8 @@ public class CubosActivity extends AppCompatActivity {
     }
 
     private void inicializarVariables() {
+        intentos = 0;
+        tiempo_ejecutado = 0;
         cargarCubo();
     }
 
@@ -105,12 +125,22 @@ public class CubosActivity extends AppCompatActivity {
             try {
                 String jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.cubos));
                 JSONObject jsonRootObject = new JSONObject(jsonString);
-                JSONArray jsonFigurasArray = jsonRootObject.getJSONArray("cubos");
+                JSONArray jsonCubosArray = jsonRootObject.getJSONArray("cubos");
                 listCubos = new ArrayList<>();
-                if (jsonFigurasArray != null) {
-                    int len = jsonFigurasArray.length();
+                if (jsonCubosArray != null) {
+                    int len = jsonCubosArray.length();
                     for (int i = 0; i < len; i++) {
-                        String cubo = jsonFigurasArray.get(i).toString();
+                        JSONObject jsonCubo = jsonCubosArray.getJSONObject(i);
+                        Cubo cubo = new Cubo();
+                        cubo.nombre = jsonCubo.getString("nombre");
+                        cubo.tiempo = jsonCubo.getInt("tiempo");
+                        cubo.intentos = jsonCubo.getInt("intentos");
+                        cubo.puntos = jsonCubo.getInt("puntos");
+
+                        Type listType = new TypeToken<List<Cubo.Bonificacion>>() {}.getType();
+                        JSONArray jsonBonificacion = jsonCubo.getJSONArray("bonificacion");
+                        cubo.bonificacion = (List<Cubo.Bonificacion>) new Gson().fromJson(jsonBonificacion.toString(), listType);
+
                         listCubos.add(cubo);
                     }
                     ultimoNivel = len - 1;
@@ -122,7 +152,7 @@ public class CubosActivity extends AppCompatActivity {
 
         //Cargo el cubo al imageView
         respuesta = listCubos.get(nivel);
-        imgCubo.setImageResource(getResources().getIdentifier(respuesta, "drawable", this.getPackageName()));
+        imgCubo.setImageResource(getResources().getIdentifier(respuesta.nombre, "drawable", this.getPackageName()));
     }
 
     private void guardar() {
@@ -176,19 +206,75 @@ public class CubosActivity extends AppCompatActivity {
                 //Elimino el File donde se guardó la imagen
                 foto.delete();
 
-                if(imagen.equals(respuesta)) {
-                    Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
-                    AdministradorJuegos.getInstance().sumarPuntos(1);
-                    cargarSiguienteNivel();
-                }
+                guardarRespuesta(imagen.equals(respuesta.nombre));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void guardarRespuesta(boolean correcto) {
+        handler.removeCallbacks(runnable);
+        if(correcto) {
+            Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
+            Integer puntos = respuesta.puntos;
+            if (masDeUnIntento()) {
+                puntos--;
+            }
+            AdministradorJuegos.getInstance().sumarPuntos(puntos);
+            cargarSiguienteNivel();
+        } else {
+            intentos++;
+            if (intentos == respuesta.intentos) {
+                AdministradorJuegos.getInstance().sumarPuntos(0);
+                cargarSiguienteNivel();
+            }
+        }
+    }
+
+    private boolean masDeUnIntento() {
+        return intentos > 1;
+    }
+
     private void cargarSiguienteNivel() {
         inicializarVariables();
+        iniciarCronometro();
+    }
+
+    private void iniciarCronometro() {
+        handler.postDelayed(runnable, respuesta.tiempo - tiempo_ejecutado);
+        tiempo_inicio = SystemClock.elapsedRealtime();
+        crono.setBase(tiempo_inicio - tiempo_ejecutado);
+        crono.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iniciarCronometro();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pararCronometro();
+    }
+
+    private void pararCronometro() {
+        handler.removeCallbacks(runnable);
+        crono.stop();
+        long local = SystemClock.elapsedRealtime();
+        tiempo_ejecutado = local - tiempo_inicio + tiempo_ejecutado;
     }
 
     private String reconocerImagen(Image image) {
@@ -208,5 +294,18 @@ public class CubosActivity extends AppCompatActivity {
             }
         }
         return answer;
+    }
+
+    class Cubo {
+        private String nombre;
+        private Integer tiempo;
+        private Integer intentos;
+        private Integer puntos;
+        private List<Bonificacion> bonificacion = new ArrayList<>();
+
+        class Bonificacion {
+            private Integer limite;
+            private Integer puntos;
+        }
     }
 }

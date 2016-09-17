@@ -27,4 +27,9 @@
         android:layout_marginTop="@dimen/margin_top"
         android:layout_below="@+id/cubo">
     </Button>
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cronometro"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>
