@@ -216,10 +216,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     private void volverAtras() {
         blanquear(seleccion);
-        nivel--;
-        if (nivel < 0) {
-            guardar();
-        } else {
+        if (nivel > 0) {
+            nivel--;
             restarPuntos(getPuntosNivel(nivel));
             try {
                 actualizarParciales();
