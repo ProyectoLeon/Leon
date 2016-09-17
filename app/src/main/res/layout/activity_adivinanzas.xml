@@ -43,6 +43,15 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_row="7"
                 android:layout_column="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/parciales"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_row="8"
+                android:layout_column="0" />
         </GridLayout>
 
 </RelativeLayout>
