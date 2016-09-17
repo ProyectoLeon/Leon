@@ -59,7 +59,7 @@ public class CubosActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            guardarRespuesta(false);
+            guardarRespuesta(null);
         }
     };
     private Runnable redNeuronal = new Runnable() {
@@ -133,7 +133,7 @@ public class CubosActivity extends AppCompatActivity {
                         JSONObject jsonCubo = jsonCubosArray.getJSONObject(i);
                         Cubo cubo = new Cubo();
                         cubo.nombre = jsonCubo.getString("nombre");
-                        cubo.tiempo = jsonCubo.getInt("tiempo");
+                        cubo.tiempo = jsonCubo.getInt("tiempo") * 1000;
                         cubo.intentos = jsonCubo.getInt("intentos");
                         cubo.puntos = jsonCubo.getInt("puntos");
 
@@ -206,16 +206,17 @@ public class CubosActivity extends AppCompatActivity {
                 //Elimino el File donde se guardó la imagen
                 foto.delete();
 
-                guardarRespuesta(imagen.equals(respuesta.nombre));
+                guardarRespuesta(imagen);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void guardarRespuesta(boolean correcto) {
+    private void guardarRespuesta(String imagen) {
         handler.removeCallbacks(runnable);
-        if(correcto) {
+        if(respuesta.nombre.equals(imagen)) {
+            nivel++;
             Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
             Integer puntos = respuesta.puntos;
             if (masDeUnIntento()) {
@@ -225,7 +226,8 @@ public class CubosActivity extends AppCompatActivity {
             cargarSiguienteNivel();
         } else {
             intentos++;
-            if (intentos == respuesta.intentos) {
+            if (intentos == respuesta.intentos || imagen == null) {
+                nivel++;
                 AdministradorJuegos.getInstance().sumarPuntos(0);
                 cargarSiguienteNivel();
             }

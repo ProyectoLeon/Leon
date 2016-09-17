@@ -2,6 +2,7 @@ package com.limeri.leon.Models;
 
 import com.limeri.leon.common.Estados;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class Juego {
         this.categoria = categoria;
         this.nombreActividad = activity;
         this.puntajesEquivalentes = puntajesEquivalentes;
+        this.puntosNiveles = new HashMap<>();
     }
 
     public String getNombreActividad(){
@@ -74,5 +76,13 @@ public class Juego {
         }
 
         return puntajeEquivalente;
+    }
+
+    public void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        puntosNiveles.put(nivel,puntos);
+    }
+
+    public Integer getPuntosNivel(Integer nivel) {
+        return puntosNiveles.get(nivel);
     }
 }
