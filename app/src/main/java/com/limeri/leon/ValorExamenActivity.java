@@ -36,9 +36,13 @@ public class ValorExamenActivity extends AppCompatActivity {
 
         ListView listado = (ListView) findViewById(R.id.listadoP);
         listado.setAdapter(adapter);
-        TextView puntaje = (TextView) findViewById(R.id.puntaje);
-        AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
-        puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
+        try {
+            TextView puntaje = (TextView) findViewById(R.id.puntaje);
+            AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
+            puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
