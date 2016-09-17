@@ -25,7 +25,13 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private int nivel = 0;
     private int cantIncorrectas = 0;
     private String jsonString;
+    private String jsonParciales;
+    private TextView parciales;
+    private String parcial1;
+    private String parcial2;
+    private String parcial;
     private int posSelecc = -1;
+    private int longArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         }
 
         palabra = (TextView) findViewById(R.id.palabra);
+        parciales = (TextView) findViewById(R.id.parciales);
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
@@ -45,6 +52,35 @@ public class AdivinanzasActivity extends AppCompatActivity {
         //Llamo una funcion que se encarga de leer el archivo JSON
         leerJson();
 
+        leerParciales();
+
+    }
+
+    private void leerParciales() {
+
+        if (nivel == 0) {
+            jsonParciales = JSONLoader.loadJSON(getResources().openRawResource(R.raw.parciales));
+        }
+
+        try {
+            JSONObject jsonRootObject = new JSONObject(jsonParciales);
+            JSONArray jsonArray = jsonRootObject.getJSONArray("parciales");
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            parcial1 = jsonObject.getString("parcial1").toString();
+            parcial2 = jsonObject.getString("parcial2").toString();
+
+            parcial = 0 + parcial1 + (longArray - nivel) + parcial2;
+
+            parciales.setText(parcial);
+
+        } catch (JSONException e) {
+            guardar();
+        }
+    }
+
+    private void actualizarParciales() {
+        parcial = obtenerPuntos() + parcial1 + (longArray - nivel) + parcial2;
+        parciales.setText(parcial);
     }
 
     private void leerJson() {
@@ -58,6 +94,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
             JSONArray jsonArray = jsonRootObject.getJSONArray("adivinanzas");
 
+            longArray = jsonArray.length();
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
@@ -92,6 +129,10 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     private void sumarPuntos(Integer puntos) {
         AdministradorJuegos.getInstance().sumarPuntos(puntos);
+    }
+
+    private Integer obtenerPuntos() {
+        return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
     private void seleccionar(TextView view) {
@@ -137,6 +178,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
             nivel++;
         }
         try {
+            actualizarParciales();
             leerJson();
         } catch (Exception ex) {
             guardar();

@@ -109,6 +109,10 @@ public class AdministradorJuegos {
         sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
     }
 
+    public Integer obtenerPuntos() {
+        return Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego();
+    }
+
     public void inicializarJuego() {
         sumarPuntosJuego(0);
     }

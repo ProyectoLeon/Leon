@@ -1,0 +1,8 @@
+{
+	"parciales": [
+	  {
+	    "parcial1": " puntos / ",
+		"parcial2": " restantes"
+	  }
+    ]
+}
