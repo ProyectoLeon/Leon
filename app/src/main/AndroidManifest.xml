@@ -88,6 +88,12 @@
         <activity
             android:name=".ConceptosActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ResumenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PuntuacionDirectaActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

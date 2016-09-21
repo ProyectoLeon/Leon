@@ -68,7 +68,7 @@ public class CubosActivity extends AppCompatActivity {
     private Runnable redNeuronal = new Runnable() {
         public void run() {
             //Abro el archivo de la red neuronal
-            InputStream is = getResources().openRawResource(R.raw.red_cubos);
+            InputStream is = getResources().openRawResource(R.raw.red1);
             //Cargo la red a partir del archivo
             NeuralNetwork nnet = NeuralNetwork.load(is);
             //Obtengo el plugin de reconocimiento
