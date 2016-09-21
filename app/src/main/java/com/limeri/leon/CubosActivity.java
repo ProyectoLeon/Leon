@@ -55,11 +55,14 @@ public class CubosActivity extends AppCompatActivity {
     private Chronometer crono;
     private long tiempo_ejecutado = 0;
     private long tiempo_inicio;
+    private boolean isFinTiempo;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            isFinTiempo = true;
             guardarRespuesta(null);
+            iniciarCronometro();
         }
     };
     private Runnable redNeuronal = new Runnable() {
@@ -111,12 +114,6 @@ public class CubosActivity extends AppCompatActivity {
                 abrirCamara();
             }
         };
-    }
-
-    private void inicializarVariables() {
-        intentos = 0;
-        tiempo_ejecutado = 0;
-        cargarCubo();
     }
 
     private void cargarCubo() {
@@ -215,23 +212,42 @@ public class CubosActivity extends AppCompatActivity {
 
     private void guardarRespuesta(String imagen) {
         handler.removeCallbacks(runnable);
+        Integer puntos = respuesta.puntos;
+        Boolean pasaNivel = true;
         if(respuesta.nombre.equals(imagen)) {
-            nivel++;
             Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
-            Integer puntos = respuesta.puntos;
             if (masDeUnIntento()) {
                 puntos--;
             }
-            AdministradorJuegos.getInstance().sumarPuntos(puntos);
-            cargarSiguienteNivel();
         } else {
             intentos++;
-            if (intentos == respuesta.intentos || imagen == null) {
-                nivel++;
-                AdministradorJuegos.getInstance().sumarPuntos(0);
+            if (noTieneOtroIntento() || isFinTiempo) {
+                puntos = 0;
+            } else {
+                pasaNivel = false;
+            }
+        }
+        if (pasaNivel) {
+            sumarPuntos(puntos);
+            nivel++;
+            if (isUltimoNivel()) {
+                guardar();
+            } else {
                 cargarSiguienteNivel();
             }
         }
+    }
+
+    private void sumarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().sumarPuntos(puntos);
+    }
+
+    private boolean isUltimoNivel() {
+        return ultimoNivel == nivel;
+    }
+
+    private boolean noTieneOtroIntento() {
+        return intentos == respuesta.intentos;
     }
 
     private boolean masDeUnIntento() {
@@ -240,7 +256,14 @@ public class CubosActivity extends AppCompatActivity {
 
     private void cargarSiguienteNivel() {
         inicializarVariables();
-        iniciarCronometro();
+        //iniciarCronometro();
+    }
+
+    private void inicializarVariables() {
+        intentos = 0;
+        tiempo_ejecutado = 0;
+        isFinTiempo = false;
+        cargarCubo();
     }
 
     private void iniciarCronometro() {
@@ -263,7 +286,10 @@ public class CubosActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        iniciarCronometro();
+//        if(!isSiguienteNivel) {
+            iniciarCronometro();
+//        }
+//        isSiguienteNivel = false;
     }
 
     @Override
