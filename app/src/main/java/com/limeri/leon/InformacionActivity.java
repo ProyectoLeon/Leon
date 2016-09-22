@@ -26,9 +26,12 @@ public class InformacionActivity extends AppCompatActivity {
     private TextView seleccion;
     private int longArray;
     private int nivel = 4;
+    private int nivelAnterior = 4;
     private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
+    private int cantIncorrectasAnt = 0;
     private int cantConsec = 0;
+    private int cantConsecAnt = 0;
     private boolean jsonLoaded = false;
     private boolean backHecho = false;
     private String jsonString;
@@ -150,6 +153,18 @@ public class InformacionActivity extends AppCompatActivity {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
+    private void restarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().restarPuntos(puntos);
+    }
+
+    private void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        AdministradorJuegos.getInstance().guardarPuntosNivel(nivel, puntos);
+    }
+
+    private Integer getPuntosNivel(Integer nivel) {
+        return AdministradorJuegos.getInstance().getPuntosNivel(nivel);
+    }
+
     private void seleccionar(TextView view) {
         view.setTextColor(Color.RED);
     }
@@ -168,11 +183,16 @@ public class InformacionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (posSelecc != -1) {
                     if (posSelecc == 1) {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas++;
+                        cantConsecAnt = cantConsec;
                         cantConsec = 0;
+                        guardarPuntosNivel(nivel, 0);
                     } else {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas = 0;
                         sumarPuntos(1);
+                        guardarPuntosNivel(nivel, 1);
                     }
                     try {
                         guardarRespuesta();
@@ -195,20 +215,26 @@ public class InformacionActivity extends AppCompatActivity {
         } else
         if ((nivel == 4 | nivel == 5) & cantIncorrectas == 1 & !backHecho){
             nivelErroneo = nivel;
+            nivelAnterior = nivel;
             nivel = 3;
-            backHecho = true;
         }else if (cantIncorrectas > 0 & nivel < 4) {
+            nivelAnterior = nivel;
             nivel --;
         }
         else if (cantIncorrectas ==0 & nivel < 4) {
+            cantConsecAnt = cantConsec;
             cantConsec++;
             if (cantConsec == 2) {
+                nivelAnterior = nivel;
                 nivel = nivelErroneo + 1;
+                backHecho = true;
             } else {
+                nivelAnterior = nivel;
                 nivel --;
             }
         }
         else if (nivel >= 4){
+            nivelAnterior = nivel;
             nivel++;
         }
 
@@ -224,6 +250,24 @@ public class InformacionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        volverAtras();
+    }
+
+    private void volverAtras() {
+        blanquear(seleccion);
+        if ((nivel > 0) & (nivel != nivelAnterior)) {
+            nivel = nivelAnterior;
+            cantConsec = cantConsecAnt;
+            cantIncorrectas = cantIncorrectasAnt;
+            restarPuntos(getPuntosNivel(nivel));
+            try {
+                actualizarParciales();
+                leerJson();
+            } catch (Exception ex) {
+                guardar();
+            }
+            posSelecc = -1;
+        }
     }
 
     private void guardar() {

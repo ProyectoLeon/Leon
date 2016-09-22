@@ -24,7 +24,9 @@ public class AdivinanzasActivity extends AppCompatActivity {
     private TextView palabra;
     private TextView seleccion;
     private int nivel = 0;
+    private int nivelAnterior = 0;
     private int cantIncorrectas = 0;
+    private int cantIncorrectasAnt = 0;
     private String jsonString;
     private String jsonParciales;
     private TextView parciales;
@@ -152,7 +154,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         AdministradorJuegos.getInstance().guardarPuntosNivel(nivel, puntos);
     }
 
-    private Integer getPuntosNivel(Integer puntos) {
+    private Integer getPuntosNivel(Integer nivel) {
         return AdministradorJuegos.getInstance().getPuntosNivel(nivel);
     }
 
@@ -174,9 +176,11 @@ public class AdivinanzasActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (posSelecc != -1) {
                     if (posSelecc == 1) {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas++;
                         guardarPuntosNivel(nivel, 0);
                     } else {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas = 0;
                         sumarPuntos(1);
                         guardarPuntosNivel(nivel, 1);
@@ -198,6 +202,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
             guardar();
             // RETROGRESION NO TIENE ESTE JUEGO
         } else {
+            nivelAnterior = nivel;
             nivel++;
         }
         try {
@@ -216,8 +221,9 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     private void volverAtras() {
         blanquear(seleccion);
-        if (nivel > 0) {
-            nivel--;
+        if ((nivel > 0) & (nivel != nivelAnterior)) {
+            nivel = nivelAnterior;
+            cantIncorrectas = cantIncorrectasAnt;
             restarPuntos(getPuntosNivel(nivel));
             try {
                 actualizarParciales();
