@@ -199,7 +199,7 @@ public class CubosActivity extends AppCompatActivity {
                 //Obtengo la imagen a partir del path guardado
                 Image image = ImageFactory.getImage(pathFoto);
                 //Muestro el nombre de la imagen reconocida
-                String imagen = "cubo" + reconocerImagen(image);
+                String imagen = reconocerImagen(image);
                 //Elimino el File donde se guardó la imagen
                 foto.delete();
 

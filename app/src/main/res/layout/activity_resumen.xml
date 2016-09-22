@@ -23,4 +23,12 @@
         android:id="@+id/siguienteButton"
         android:layout_below="@+id/tableView"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear PDF"
+        android:id="@+id/pdfButton"
+        android:layout_below="@+id/siguienteButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
