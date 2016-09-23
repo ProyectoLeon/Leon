@@ -24,7 +24,9 @@ public class ComprensionActivity extends AppCompatActivity {
     private TextView palabra;
     private TextView seleccion;
     private int nivel = 0;
+    private int nivelAnterior = 0;
     private int cantIncorrectas = 0;
+    private int cantIncorrectasAnt = 0;
     private String jsonString;
     private String jsonParciales;
     private TextView parciales;
@@ -146,6 +148,18 @@ public class ComprensionActivity extends AppCompatActivity {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
+    private void restarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().restarPuntos(puntos);
+    }
+
+    private void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        AdministradorJuegos.getInstance().guardarPuntosNivel(nivel, puntos);
+    }
+
+    private Integer getPuntosNivel(Integer nivel) {
+        return AdministradorJuegos.getInstance().getPuntosNivel(nivel);
+    }
+
     private void seleccionar(TextView view) {
         view.setTextColor(Color.RED);
     }
@@ -164,13 +178,19 @@ public class ComprensionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (posSelecc != -1) {
                     if (posSelecc == 2) {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas++;
+                        guardarPuntosNivel(nivel, 0);
                     } else if (posSelecc == 1) {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas = 0;
                         sumarPuntos(1);
+                        guardarPuntosNivel(nivel, 1);
                     } else {
+                        cantIncorrectasAnt = cantIncorrectas;
                         cantIncorrectas = 0;
                         sumarPuntos(2);
+                        guardarPuntosNivel(nivel, 2);
                     }
                     try {
                         guardarRespuesta();
@@ -189,6 +209,7 @@ public class ComprensionActivity extends AppCompatActivity {
         if (cantIncorrectas== 4) {
             guardar();
         } else {
+            nivelAnterior = nivel;
             nivel++;
         }
         try {
@@ -203,6 +224,23 @@ public class ComprensionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        volverAtras();
+    }
+
+    private void volverAtras() {
+        blanquear(seleccion);
+        if ((nivel > 0) & (nivel != nivelAnterior)) {
+            nivel = nivelAnterior;
+            cantIncorrectas = cantIncorrectasAnt;
+            restarPuntos(getPuntosNivel(nivel));
+            try {
+                actualizarParciales();
+                leerJson();
+            } catch (Exception ex) {
+                guardar();
+            }
+            posSelecc = -1;
+        }
     }
 
     private void guardar() {

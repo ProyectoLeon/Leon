@@ -25,9 +25,12 @@ public class VocabularioActivity extends AppCompatActivity {
     private TextView palabra;
     private TextView seleccion;
     private int nivel = 4; // Consideramos los niveles 0 a 3 (gráficos)
+    private int nivelAnterior = 4;
     private int nivelErroneo = 0;
     private int cantIncorrectas = 0;
+    private int cantIncorrectasAnt = 0;
     private int cantConsec = 0;
+    private int cantConsecAnt = 0;
     private boolean puntPerfecto = false;
     private boolean jsonLoaded = false;
     private boolean soloImagen = false;
@@ -191,12 +194,26 @@ public class VocabularioActivity extends AppCompatActivity {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
+    private void restarPuntos(Integer puntos) {
+        AdministradorJuegos.getInstance().restarPuntos(puntos);
+    }
+
+    private void guardarPuntosNivel(Integer nivel, Integer puntos) {
+        AdministradorJuegos.getInstance().guardarPuntosNivel(nivel, puntos);
+    }
+
+    private Integer getPuntosNivel(Integer nivel) {
+        return AdministradorJuegos.getInstance().getPuntosNivel(nivel);
+    }
+
     private void seleccionar(TextView view) {
         view.setTextColor(Color.RED);
     }
 
     private void blanquear(TextView view) {
-        view.setTextColor(Color.BLACK);
+        if (view != null) {
+            view.setTextColor(Color.BLACK);
+        }
     }
 
     private View.OnClickListener clickSiguiente() {
@@ -209,25 +226,36 @@ public class VocabularioActivity extends AppCompatActivity {
                     // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
                     if (nivel < 4) {
                         if (posSelecc == 1){
+                            cantIncorrectasAnt = cantIncorrectas;
                             cantIncorrectas++;
+                            cantConsecAnt = cantConsec;
                             cantConsec = 0;
+                            guardarPuntosNivel(nivel, 0);
                             puntPerfecto = false;
                         } else {
+                            cantIncorrectasAnt = cantIncorrectas;
                             cantIncorrectas = 0;
                             sumarPuntos(1);
+                            guardarPuntosNivel(nivel, 1);
                             puntPerfecto = true;
                         }
                     } else {
                         if (posSelecc == 2){
+                            cantIncorrectasAnt = cantIncorrectas;
                             cantIncorrectas++;
+                            guardarPuntosNivel(nivel, 0);
                             puntPerfecto = false;
                         } else if (posSelecc == 1) {
+                            cantIncorrectasAnt = cantIncorrectas;
                             cantIncorrectas = 0;
                             sumarPuntos(1);
+                            guardarPuntosNivel(nivel, 1);
                             puntPerfecto = false;
                         } else {
+                            cantIncorrectasAnt = cantIncorrectas;
                             cantIncorrectas = 0;
                             sumarPuntos(2);
+                            guardarPuntosNivel(nivel, 2);
                             puntPerfecto = true;
                         }
                     }
@@ -253,23 +281,29 @@ public class VocabularioActivity extends AppCompatActivity {
                 guardar();
             } else if ((nivel == 4 | nivel == 5) & !puntPerfecto & !backHecho) {
                 nivelErroneo = nivel;
+                nivelAnterior = nivel;
                 nivel = 3;
-                backHecho = true;
                 soloImagen = true;
             } else if (nivel < 4 & cantIncorrectas > 0) {
+                nivelAnterior = nivel;
                 nivel--;
                 soloImagen = true;
             } else if (nivel < 4 & cantIncorrectas == 0) {
+                cantConsecAnt = cantConsec;
                 cantConsec++;
                 if (cantConsec == 2) {
+                    nivelAnterior = nivel;
                     nivel = nivelErroneo + 1;
+                    backHecho = true;
                 } else {
+                    nivelAnterior = nivel;
                     nivel--;
                     soloImagen = true;
                 }
             } else if (nivel < 0) {
                 guardar();
             } else {
+                nivelAnterior = nivel;
                 nivel++;
             }
         }
@@ -283,6 +317,24 @@ public class VocabularioActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        volverAtras();
+    }
+
+    private void volverAtras() {
+        blanquear(seleccion);
+        if ((nivel > 0) & (nivel != nivelAnterior) & !soloImagen) {
+            nivel = nivelAnterior;
+            cantConsec = cantConsecAnt;
+            cantIncorrectas = cantIncorrectasAnt;
+            restarPuntos(getPuntosNivel(nivel));
+            try {
+                actualizarParciales();
+                leerJson();
+            } catch (Exception ex) {
+                guardar();
+            }
+            posSelecc = -1;
+        }
     }
 
     private void guardar() {
