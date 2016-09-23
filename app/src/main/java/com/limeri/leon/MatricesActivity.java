@@ -16,9 +16,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.DragAndDropSource;
 import com.limeri.leon.common.DragAndDropTarget;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +60,9 @@ public class MatricesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrices);
 
+        //Configuro la base de datos
+        cargarMatricesDB();
+
         //Busco los GridLayout
         gridMatriz = (GridLayout) findViewById(R.id.matriz);
         gridOpciones = (GridLayout) findViewById(R.id.opciones);
@@ -82,6 +85,10 @@ public class MatricesActivity extends AppCompatActivity {
         inicializarVariables();
     }
 
+    private void cargarMatricesDB() {
+        jsonString = DataBase.cargarJuego("matrices");
+    }
+
     private void sumarPuntos(Integer puntos) {
         AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
@@ -95,8 +102,7 @@ public class MatricesActivity extends AppCompatActivity {
         mapOpciones.clear();
         target = null;
 
-        leerJson();
-
+        cargarNivel();
         cargarMatriz();
         cargarOpciones();
     }
@@ -272,30 +278,32 @@ public class MatricesActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-    private void leerJson() {
-
-        if (nivel == PRIMER_NIVEL) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.matrices));
-        }
+    private void cargarNivel() {
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
-
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("matrices");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             //Iterate the jsonArray and print the info of JSONObjects
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             //Matriz
             JSONObject jsonMatriz = jsonObject.getJSONObject("matriz");
-            JSONArray jsonFila1 = jsonMatriz.getJSONArray("fila1");
-            JSONArray jsonFila2 = jsonMatriz.getJSONArray("fila2");
-            JSONArray jsonFila3 = jsonMatriz.getJSONArray("fila3");
             Type listType = new TypeToken<List<String>>() {}.getType();
-            matriz.add((List<String>) new Gson().fromJson(jsonFila1.toString(), listType));
-            if (jsonFila2.length() > 0) matriz.add((List<String>) new Gson().fromJson(jsonFila2.toString(), listType));
-            if (jsonFila3.length() > 0) matriz.add((List<String>) new Gson().fromJson(jsonFila3.toString(), listType));
+            if  (!jsonMatriz.isNull("fila1")) {
+                JSONArray jsonFila1 = jsonMatriz.getJSONArray("fila1");
+                if (jsonFila1.length() > 0)
+                    matriz.add((List<String>) new Gson().fromJson(jsonFila1.toString(), listType));
+            }
+            if  (!jsonMatriz.isNull("fila2")) {
+                JSONArray jsonFila2 = jsonMatriz.getJSONArray("fila2");
+                if (jsonFila2.length() > 0)
+                    matriz.add((List<String>) new Gson().fromJson(jsonFila2.toString(), listType));
+            }
+            if  (!jsonMatriz.isNull("fila3")) {
+                JSONArray jsonFila3 = jsonMatriz.getJSONArray("fila3");
+                if (jsonFila3.length() > 0)
+                    matriz.add((List<String>) new Gson().fromJson(jsonFila3.toString(), listType));
+            }
 
             //Opciones
             JSONArray jsonOpciones = jsonObject.getJSONArray("opciones");
@@ -310,3 +318,4 @@ public class MatricesActivity extends AppCompatActivity {
 
     }
 }
+

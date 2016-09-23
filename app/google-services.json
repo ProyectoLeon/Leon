@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1062824081729",
+    "firebase_url": "https://leondb-13e75.firebaseio.com",
+    "project_id": "leondb-13e75",
+    "storage_bucket": "leondb-13e75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062824081729:android:8bcfb9d6cff70404",
+        "android_client_info": {
+          "package_name": "com.limeri.leon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062824081729-k5p4navidsqe2th0j4501e8vgjhd77f7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApLtoSSGQbyPZOlDFxUNnlIn_SEhpG9G0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

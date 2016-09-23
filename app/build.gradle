@@ -29,4 +29,9 @@ dependencies {
     compile files('src/main/libs/encog-engine-2.5.0.jar')
     compile files('src/main/libs/JOCL-0.1.3a-beta.jar')
     compile files('src/main/libs/neuroph.jar')
+    compile 'com.google.firebase:firebase-database:9.0.0'
+    compile 'com.google.firebase:firebase-core:9.0.0'
+    compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
