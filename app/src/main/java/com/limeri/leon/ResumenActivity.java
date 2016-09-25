@@ -1,13 +1,10 @@
 package com.limeri.leon;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.pdf.PdfDocument;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateUtils;
+import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ResumenActivity extends AppCompatActivity {
     private int tabla = 0;
@@ -53,7 +49,7 @@ public class ResumenActivity extends AppCompatActivity {
         CompletarCelda(this, row0, "Año");
         CompletarCelda(this, row0, "Mes");
         CompletarCelda(this, row0, "Día");
-      //  row0.setBackgroundColor(Color.parseColor("#FFFFF"));
+        //  row0.setBackgroundColor(Color.parseColor("#FFFFF"));
         tablaedad.addView(row0);
 
         TableRow row1 = new TableRow(this);
@@ -64,10 +60,20 @@ public class ResumenActivity extends AppCompatActivity {
         Integer añoev = cal.get(Calendar.YEAR);
         Integer mesev = cal.get(Calendar.MONTH) + 1;
         Integer diaev = cal.get(Calendar.DAY_OF_MONTH);
-        String dateev = diaev.toString() + '/' + mesev.toString() + '/' + añoev.toString();
+
+// Para evitar que el día y el mes queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+        String strmesev = mesev.toString();
+        if (strmesev.length() == 1)
+            strmesev = 0 + strmesev;
+
+        String strdiaev = diaev.toString();
+        if (strdiaev.length() == 1)
+            strdiaev = 0 + strdiaev;
+
+        String dateev = strdiaev + '/' + strmesev + '/' + añoev.toString();
         CompletarCelda(this, row1, añoev.toString());
-        CompletarCelda(this, row1, mesev.toString());
-        CompletarCelda(this, row1, diaev.toString());
+        CompletarCelda(this, row1, strmesev);
+        CompletarCelda(this, row1, strdiaev);
         tablaedad.addView(row1);
 
         TableRow row2 = new TableRow(this);
@@ -84,9 +90,9 @@ public class ResumenActivity extends AppCompatActivity {
         TableRow row3 = new TableRow(this);
         CompletarCelda(this, row3, "Edad cronológica");
         String diferencia = CompararFechas(dateev, Paciente.getSelectedPaciente().getFechaNac().toString());
-        CompletarCelda(this, row3, diferencia);
-        CompletarCelda(this, row3, diferencia);
-        CompletarCelda(this, row3, diferencia);
+        CompletarCelda(this, row3, diferencia.substring(6, 8));
+        CompletarCelda(this, row3, diferencia.substring(3, 5));
+        CompletarCelda(this, row3, diferencia.substring(0, 2));
         tablaedad.addView(row3);
     }
 
@@ -107,22 +113,73 @@ public class ResumenActivity extends AppCompatActivity {
 
         try {
 
-            Date date1;
-            Date date2;
+            Integer mesRestado = 0;
+            Integer añoRestado = 0;
+            String strdia;
+            String strmes;
+            String straño;
+            Integer diadif;
+            Integer mesdif;
+            Integer añodif;
+
 
             SimpleDateFormat dates = new SimpleDateFormat("dd/mm/yyyy");
 
-            //Setting dates
-            date1 = dates.parse(DateEva);
-            date2 = dates.parse(DateBirth);
+// Obtengo substring de cada parte de la fecha (día, mes y año)
+            strdia = DateEva.toString().substring(0, 2);
+            strmes = DateEva.toString().substring(3, 5);
+            straño = DateEva.toString().substring(6, 10);
 
-            //TODO: Calcular diferencia entre fechas (dia, mes y año)
-            long difference = Math.abs(date1.getTime() - date2.getTime());
-            long differenceDates = difference / (24 * 60 * 60 * 1000);
-            long años = differenceDates / 365;
-            long meses = (differenceDates % 365) / 24;
+            Integer diaeval = Integer.valueOf(strdia);
+            Integer meseval = Integer.valueOf(strmes);
+            Integer añoeval = Integer.valueOf(straño);
 
-            dayDifference = Long.toString(differenceDates);
+            strdia = DateBirth.toString().substring(0, 2);
+            strmes = DateBirth.toString().substring(3, 5);
+            straño = DateBirth.toString().substring(6, 10);
+
+            Integer dianac = Integer.valueOf(strdia);
+            Integer mesnac = Integer.valueOf(strmes);
+            Integer añonac = Integer.valueOf(straño);
+
+// Calcular la diferencia en años, meses y días.
+            if (diaeval < dianac) {
+                mesRestado = 1;
+                diadif = diaeval + 30 - dianac;
+            } else {
+                diadif = diaeval - dianac;
+            }
+
+            if (mesRestado == 1)
+                meseval = meseval - 1;
+
+            if (meseval < mesnac) {
+                añoRestado = 1;
+                mesdif = meseval + 30 - mesnac;
+            } else {
+                mesdif = meseval - mesnac;
+            }
+
+            if (añoRestado == 1)
+                añoeval = añoeval - 1;
+
+            añodif = añoeval - añonac;
+
+
+// Lo volvemos a pasar a String
+            strdia = diadif.toString();
+            strmes = mesdif.toString();
+            straño = añodif.toString();
+
+// Para evitar que el día y el mes queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+            if (strdia.length() == 1)
+                strdia = 0 + strdia;
+
+            if (strmes.length() == 1)
+                strmes = 0 + strmes;
+
+// Lo devolvemos en AA,MM,DD
+            dayDifference = strdia + ',' + strmes + ',' + straño;
 
         } catch (Exception exception) {
             Log.e("DIDN'T WORK", "exception " + exception);
