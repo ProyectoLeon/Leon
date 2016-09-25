@@ -1,9 +1,14 @@
 package com.limeri.leon;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 
+import android.graphics.drawable.Drawable;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -57,7 +62,7 @@ public class AnimalesActivity extends AppCompatActivity {
     private String res = "prueba";
     private Canvas canvas;
     private Bitmap hotspots;
-    View frame;
+    FrameLayout frame;
     private SurfaceHolder surfaceHolder;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     // private DrawCircle circulo;
@@ -68,6 +73,7 @@ public class AnimalesActivity extends AppCompatActivity {
             guardarRespuesta(Color.RED);
         }
     };
+    private CanvasView canvasView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +82,7 @@ public class AnimalesActivity extends AppCompatActivity {
 
         //Busco los ImageView
         imgAnimales = (ImageView) findViewById(R.id.animales);
-       //
-        imgFront = (ImageView) findViewById(R.id.animales);
-
-
+        //imgFront = (ImageView) findViewById(R.id.animales);
         imgMask = (ImageView) findViewById(R.id.mask);
         crono = (Chronometer) findViewById(R.id.cronometro);
 
@@ -94,15 +97,36 @@ public class AnimalesActivity extends AppCompatActivity {
         }
 
         //Seteo el metodo sumar puntaje por cada vez que clickea sobre una figura y dibujo círculo
-        frame = findViewById(R.id.contenedor);
+        frame = (FrameLayout)findViewById(R.id.contenedor);
 
         if (frame != null) {
-            frame.setOnTouchListener(sumarPuntaje());
+            canvasView = new CanvasView(this);
+            canvasView.setOnTouchListener(new MyTouchListener());
+            frame.addView(canvasView);
+            //this.setContentView(canvasView);
+            //frame.setOnTouchListener(sumarPuntaje());
         }
 
 
         inicializarVariables();
 
+    }
+
+
+    private class MyTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                SquareDrawable square = new SquareDrawable("#0000FF");
+                square.setBounds((int) event.getX(), (int) event.getY(),
+                        (int) event.getX() + 20, (int) event.getY() + 20);
+                canvasView.addRenderable(square);
+                return true;
+
+            }
+            return false;
+        }
     }
 
 
@@ -233,20 +257,7 @@ public class AnimalesActivity extends AppCompatActivity {
                 }
             }
         }
-                /*
-        if (coordsImg.size()>0) {
-            while (coordsImg.size() <= runnedCoords && nonSelected == true) {
-                if (x>coordsImg.get(runnedCoords) && x<coordsImg.get(runnedCoords+1)) {
-                    if (y>coordsImg.get(runnedCoords+2) && y<coordsImg.get(runnedCoords+3)) {
-                        nonSelected = false;
-                    } else {
-                        runnedCoords= runnedCoords+4;
-                    }
-                 } else {
-                 runnedCoords= runnedCoords+4;
-                 }
-            }
-        }*/
+
         return nonSelected;
     }
 
@@ -349,5 +360,181 @@ public class AnimalesActivity extends AppCompatActivity {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
 
+//Interfaces para la vista
+    private interface Renderable {
+
+        void render( Canvas c );
+    }
+
+
+    private interface Updateable {
+
+        void update( long elapsed );
+
+    }
+
+//Clase para la vista personalizada
+    private class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
+
+        public class CanvasThread extends Thread {
+
+            private SurfaceHolder mSurfaceHolder;
+
+            private boolean mRun;
+
+            public CanvasThread(SurfaceHolder surfaceHolder) {
+                mSurfaceHolder = surfaceHolder;
+            }
+
+            public void run() {
+                long now = System.currentTimeMillis();
+                long lastTime = now;
+                while (mRun) {
+                    Canvas c = null;
+                    now = System.currentTimeMillis();
+                    update(now - lastTime);
+                    lastTime = now;
+                    try {
+                        c = mSurfaceHolder.lockCanvas(null);
+                        doDraw(c);
+                    } finally {
+                        if (c != null) {
+                            mSurfaceHolder.unlockCanvasAndPost(c);
+                        }
+                    }
+                }
+            }
+
+            public void setRunning(boolean running) {
+                mRun = running;
+            }
+
+        }
+
+        private CanvasThread thread;
+
+        private List<Renderable> renderables;
+        private List<Updateable> updateables;
+
+        public CanvasView(Context context) {
+            super(context);
+
+            SurfaceHolder holder = getHolder();
+            holder.setFormat(PixelFormat
+                    .TRANSPARENT);
+            holder.addCallback(this);
+
+            thread = new CanvasThread(holder);
+
+            renderables = new ArrayList<Renderable>();
+            updateables = new ArrayList<Updateable>();
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                                   int height) {
+
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            thread.setRunning(true);
+            thread.start();
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            boolean retry = true;
+            thread.setRunning(false);
+            while (retry) {
+                try {
+                    thread.join();
+                    retry = false;
+
+                } catch (InterruptedException e) {
+                }
+            }
+
+        }
+
+        public void addRenderable(Renderable r) {
+            synchronized (renderables) {
+                renderables.add(r);
+            }
+        }
+
+
+        public void addUpdateable(Updateable u) {
+            synchronized (updateables) {
+                updateables.add(u);
+            }
+        }
+
+
+        private void doDraw(Canvas c) {
+            c.drawARGB(0, 0, 0, 0);
+            synchronized (renderables) {
+                for (Renderable r : renderables) {
+                    r.render(c);
+                }
+            }
+        }
+
+
+        private void update(long elapsed) {
+            synchronized (updateables) {
+                for (Updateable u : updateables) {
+                    u.update(elapsed);
+                }
+            }
+        }
+
+    }
+
+
+    //Clase para dibujar el cuadrado
+
+    public class SquareDrawable extends Drawable implements Renderable {
+
+        private int color;
+
+        public SquareDrawable(String c) {
+            color = Color.parseColor(c);
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            Paint p = new Paint();
+            p.setColor(color);
+            canvas.drawRect(this.getBounds(), p);
+
+        }
+
+        @Override
+        public int getOpacity() {
+            return 0;
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter cf) {
+
+        }
+
+        @Override
+        public void render(Canvas c) {
+            draw( c );
+
+        }
+
+    }
+
+
+
 }
+
 
