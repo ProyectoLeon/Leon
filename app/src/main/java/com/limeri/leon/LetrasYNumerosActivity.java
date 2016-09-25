@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -47,6 +48,9 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_letrasynumeros);
 
+        //Configuro la base de datos
+        cargarLetrasNumDB();
+
         reconocer = (Button) findViewById(R.id.reconocer);
         if (reconocer != null) {
             reconocer.setOnClickListener(reconocerAudio());
@@ -62,15 +66,17 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.letrasynumeros));
-        }
+//        if (nivel == 0) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.letrasynumeros));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("letrasynumeros");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("letrasynumeros");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -85,6 +91,10 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
         catch (JSONException e) {
             guardar();
         }
+    }
+
+    private void cargarLetrasNumDB() {
+        jsonString = DataBase.cargarJuego("letrasynumeros");
     }
 
     private void sumarPuntos(Integer puntos) {

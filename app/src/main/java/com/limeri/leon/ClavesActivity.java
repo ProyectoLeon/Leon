@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -51,6 +52,9 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_claves);
 
+        //Configuro la base de datos
+        cargarClavesDB();
+
         muestra = (ImageView) findViewById(R.id.muestra);
         crono = (Chronometer) findViewById(R.id.cronometro);
         gestureLib = GestureLibraries.fromRawResource(this, R.raw.gesture);
@@ -71,15 +75,17 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
 
     private void leerJson() {
 
-        if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.claves));
-        }
+//        if (nivel == 0) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.claves));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("claves");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("claves");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             if (nivel > jsonArray.length()) {
                 guardar();
@@ -134,6 +140,10 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         } else {
             guardar();
         }
+    }
+
+    private void cargarClavesDB() {
+        jsonString = DataBase.cargarJuego("claves");
     }
 
     private void sumarPuntos(Integer puntos) {

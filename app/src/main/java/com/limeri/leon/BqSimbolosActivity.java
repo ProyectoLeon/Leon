@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -38,6 +39,9 @@ public class BqSimbolosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bq_simbolos);
+
+        //Configuro la base de datos
+        cargarSimbolosDB();
 
         crono = (Chronometer) findViewById(R.id.cronometro);
 
@@ -89,15 +93,17 @@ public class BqSimbolosActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.busquedasimbolos));
-        }
+//        if (nivel == 0) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.busquedasimbolos));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("simbolos");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("simbolos");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             if (nivel > jsonArray.length()) {
                 guardar();
@@ -122,6 +128,10 @@ public class BqSimbolosActivity extends AppCompatActivity {
             guardar();
         }
 
+    }
+
+    private void cargarSimbolosDB() {
+        jsonString = DataBase.cargarJuego("simbolos");
     }
 
     private void sumarPuntos(Integer puntos) {

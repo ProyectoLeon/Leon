@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -51,11 +52,15 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             guardarRespuesta(Color.RED);
         }
     };
+    private String jsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_figura_incompleta);
+
+        //Configuro la base de datos
+        cargarFigurasDB();
 
         //Busco los ImageView
         imgFigura = (ImageView) findViewById(R.id.figura);
@@ -169,6 +174,10 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
         return nivel == ultimoNivel;
     }
 
+    private void cargarFigurasDB() {
+        jsonString = DataBase.cargarJuego("figuras");
+    }
+
     private void cargarSiguienteNivel() {
         inicializarVariables();
         iniciarCronometro();
@@ -227,9 +236,10 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
 
         if (nivel == PRIMER_NIVEL) {
             try {
-                String jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.figurasincompletas));
-                JSONObject jsonRootObject = new JSONObject(jsonString);
-                JSONArray jsonFigurasArray = jsonRootObject.getJSONArray("figuras");
+//                String jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.figurasincompletas));
+//                JSONObject jsonRootObject = new JSONObject(jsonString);
+//                JSONArray jsonFigurasArray = jsonRootObject.getJSONArray("figuras");
+                JSONArray jsonFigurasArray = new JSONArray(jsonString);
                 listFiguras = new ArrayList<>();
                 listMasks = new ArrayList<>();
                 if (jsonFigurasArray != null) {

@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -46,6 +47,7 @@ public class CubosActivity extends AppCompatActivity {
     private File foto;
     private Uri uriImage;
     private String pathFoto;
+    private String jsonString;
     private int nivel;
     private int ultimoNivel;
     private List<Cubo> listCubos;
@@ -80,6 +82,9 @@ public class CubosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cubos);
+
+        //Configuro la base de datos
+        cargarCubosDB();
 
         //Busco los ImageView
         imgCubo = (ImageView) findViewById(R.id.cubo);
@@ -120,9 +125,10 @@ public class CubosActivity extends AppCompatActivity {
 
         if (nivel == PRIMER_NIVEL) {
             try {
-                String jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.cubos));
-                JSONObject jsonRootObject = new JSONObject(jsonString);
-                JSONArray jsonCubosArray = jsonRootObject.getJSONArray("cubos");
+//                String jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.cubos));
+//                JSONObject jsonRootObject = new JSONObject(jsonString);
+//                JSONArray jsonCubosArray = jsonRootObject.getJSONArray("cubos");
+                JSONArray jsonCubosArray = new JSONArray(jsonString);
                 listCubos = new ArrayList<>();
                 if (jsonCubosArray != null) {
                     int len = jsonCubosArray.length();
@@ -236,6 +242,10 @@ public class CubosActivity extends AppCompatActivity {
                 cargarSiguienteNivel();
             }
         }
+    }
+
+    private void cargarCubosDB() {
+        jsonString = DataBase.cargarJuego("cubos");
     }
 
     private void sumarPuntos(Integer puntos) {
