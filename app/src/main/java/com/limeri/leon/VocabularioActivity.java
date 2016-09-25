@@ -75,13 +75,14 @@ public class VocabularioActivity extends AppCompatActivity {
 
     private void leerParciales() {
 
-        if (nivel == 4) {
-            jsonParciales = JSONLoader.loadJSON(getResources().openRawResource(R.raw.parciales));
-        }
+//        if (nivel == 4) {
+//            jsonParciales = JSONLoader.loadJSON(getResources().openRawResource(R.raw.parciales));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonParciales);
-            JSONArray jsonArray = jsonRootObject.getJSONArray("parciales");
+//            JSONObject jsonRootObject = new JSONObject(jsonParciales);
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("parciales");
+            JSONArray jsonArray = new JSONArray(jsonParciales);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             parcial1 = jsonObject.getString("parcial1").toString();
             parcial2 = jsonObject.getString("parcial2").toString();
@@ -194,6 +195,7 @@ public class VocabularioActivity extends AppCompatActivity {
 
     private void cargarVocabularioDB() {
         jsonString = DataBase.cargarJuego("vocabulario");
+        jsonParciales = DataBase.cargarJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {
