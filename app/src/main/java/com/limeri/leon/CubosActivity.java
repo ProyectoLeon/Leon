@@ -140,9 +140,9 @@ public class CubosActivity extends AppCompatActivity {
                         cubo.intentos = jsonCubo.getInt("intentos");
                         cubo.puntos = jsonCubo.getInt("puntos");
 
-                        Type listType = new TypeToken<List<Cubo.Bonificacion>>() {}.getType();
-                        JSONArray jsonBonificacion = jsonCubo.getJSONArray("bonificacion");
-                        cubo.bonificacion = (List<Cubo.Bonificacion>) new Gson().fromJson(jsonBonificacion.toString(), listType);
+//                        Type listType = new TypeToken<List<Cubo.Bonificacion>>() {}.getType();
+//                        JSONArray jsonBonificacion = jsonCubo.getJSONArray("bonificacion");
+//                        cubo.bonificacion = (List<Cubo.Bonificacion>) new Gson().fromJson(jsonBonificacion.toString(), listType);
 
                         listCubos.add(cubo);
                     }

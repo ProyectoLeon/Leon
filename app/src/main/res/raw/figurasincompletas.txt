@@ -1,3 +1,0 @@
-{
-	"figuras": ["compfig1","compfig2","compfig3","compfig4","compfig5","compfig6","compfig7","compfig8"]
-}

@@ -102,9 +102,10 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             if (!retrogresion) {
                 nivel++;
             } else {
-                nivel--;
                 if (isFinRetrogresion()) {
                     finalizarRetrogresion();
+                } else {
+                    nivel--;
                 }
             }
             sumarPuntos(1);
@@ -125,6 +126,8 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             }
         }
         if (isUltimoNivel()) {
+            guardar();
+        } else if (nivel < 0){
             guardar();
         } else {
             cargarSiguienteNivel();
