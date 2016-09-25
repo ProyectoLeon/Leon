@@ -171,12 +171,15 @@ public class ResumenActivity extends AppCompatActivity {
             strmes = mesdif.toString();
             straño = añodif.toString();
 
-// Para evitar que el día y el mes queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+// Para evitar que el día, el mes y el año queden sin el cero adelante. Por ejemplo si es 9, queda 09.
             if (strdia.length() == 1)
                 strdia = 0 + strdia;
 
             if (strmes.length() == 1)
                 strmes = 0 + strmes;
+
+            if (straño.length() == 1)
+                straño = 0 + straño;
 
 // Lo devolvemos en AA,MM,DD
             dayDifference = strdia + ',' + strmes + ',' + straño;
@@ -196,6 +199,7 @@ public class ResumenActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Navegacion.irA(ResumenActivity.this, MainActivity.class);
+//                Navegacion.irA(ResumenActivity.this, PuntuacionDirectaActivity.class);
             }
         };
     }
