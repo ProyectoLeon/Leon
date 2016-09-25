@@ -109,7 +109,7 @@ public class ConceptosActivity extends AppCompatActivity {
     private void guardarRespuesta() {
        if (isCorrecta()) {
             cantIncorrectasSeguidas = 0;
-            //sumarPuntos(1);
+            sumarPuntos(1);
         } else {
            cantIncorrectasSeguidas++;
        }
