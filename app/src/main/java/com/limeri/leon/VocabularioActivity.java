@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -50,6 +51,9 @@ public class VocabularioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulario);
+
+        //Configuro la base de datos
+        cargarVocabularioDB();
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
         if (siguiente != null) {
@@ -111,16 +115,18 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if ((nivel == 4) & (!jsonLoaded)) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
-            jsonLoaded = true;
-        }
+//        if ((nivel == 4) & (!jsonLoaded)) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasvocabulario));
+//            jsonLoaded = true;
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("vocabulario");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("vocabulario");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             longArray = jsonArray.length();
 
@@ -184,6 +190,10 @@ public class VocabularioActivity extends AppCompatActivity {
                 posSelecc = position;
             }
         };
+    }
+
+    private void cargarVocabularioDB() {
+        jsonString = DataBase.cargarJuego("vocabulario");
     }
 
     private void sumarPuntos(Integer puntos) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -41,6 +42,9 @@ public class AdivinanzasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adivinanzas);
+
+        //Configuro la base de datos
+        cargarAdivinanzasDB();
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
         if (siguiente != null) {
@@ -96,14 +100,15 @@ public class AdivinanzasActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasadivinanzas));
-        }
+//        if (nivel == 0) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasadivinanzas));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("adivinanzas");
 
-            JSONArray jsonArray = jsonRootObject.getJSONArray("adivinanzas");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             longArray = jsonArray.length();
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
@@ -136,6 +141,10 @@ public class AdivinanzasActivity extends AppCompatActivity {
                 posSelecc = position;
             }
         };
+    }
+
+    private void cargarAdivinanzasDB() {
+        jsonString = DataBase.cargarJuego("adivinanzas");
     }
 
     private void sumarPuntos(Integer puntos) {

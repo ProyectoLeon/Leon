@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -41,6 +42,9 @@ public class ComprensionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comprension);
+
+        //Configuro la base de datos
+        cargarComprensionDB();
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
         if (siguiente != null) {
@@ -96,15 +100,16 @@ public class ComprensionActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        if (nivel == 0) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntascomprension));
-        }
+//        if (nivel == 0) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntascomprension));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("comprension");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("comprension");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             longArray = jsonArray.length();
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
@@ -138,6 +143,10 @@ public class ComprensionActivity extends AppCompatActivity {
                 posSelecc = position;
             }
         };
+    }
+
+    private void cargarComprensionDB() {
+        jsonString = DataBase.cargarJuego("comprension");
     }
 
     private void sumarPuntos(Integer puntos) {

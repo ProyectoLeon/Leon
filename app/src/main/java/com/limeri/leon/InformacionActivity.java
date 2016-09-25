@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -47,6 +48,9 @@ public class InformacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion);
+
+        //Configuro la base de datos
+        cargarInformacionDB();
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
         if (siguiente != null) {
@@ -99,16 +103,18 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void leerJson() {
-        if ((nivel == 4) & (!jsonLoaded)) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
-            jsonLoaded = true;
-        }
+//        if ((nivel == 4) & (!jsonLoaded)) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntasinformacion));
+//            jsonLoaded = true;
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("informacion");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("informacion");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             //Iterate the jsonArray and print the info of JSONObjects
             //for(int i=0; i < jsonArray.length(); i++){
@@ -143,6 +149,10 @@ public class InformacionActivity extends AppCompatActivity {
                 posSelecc = position;
             }
         };
+    }
+
+    private void cargarInformacionDB() {
+        jsonString = DataBase.cargarJuego("informacion");
     }
 
     private void sumarPuntos(Integer puntos) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -44,6 +45,9 @@ public class SemejanzasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_semejanzas);
+
+        //Configuro la base de datos
+        cargarSemejanzasDB();
 
         Button siguiente = (Button) findViewById(R.id.siguiente);
         if (siguiente != null) {
@@ -99,15 +103,17 @@ public class SemejanzasActivity extends AppCompatActivity {
 
     private void leerJson() {
 
-        if (nivel == PRIMER_NIVEL) {
-            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntassemejanzas));
-        }
+//        if (nivel == PRIMER_NIVEL) {
+//            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntassemejanzas));
+//        }
 
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
+//
+//            //Get the instance of JSONArray that contains JSONObjects
+//            JSONArray jsonArray = jsonRootObject.getJSONArray("semejanzas");
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("semejanzas");
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             longArray = jsonArray.length();
 
@@ -145,6 +151,10 @@ public class SemejanzasActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    private void cargarSemejanzasDB() {
+        jsonString = DataBase.cargarJuego("semejanzas");
     }
 
     private void sumarPuntos(Integer puntos) {
