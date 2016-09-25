@@ -1,36 +1,29 @@
 package com.limeri.leon;
 
-import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.ColorFilter;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
-
-import android.graphics.drawable.Drawable;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
-
-import android.graphics.Canvas;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.common.CanvasView;
 import com.limeri.leon.common.JSONLoader;
+import com.limeri.leon.common.SquareDrawable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +75,6 @@ public class AnimalesActivity extends AppCompatActivity {
 
         //Busco los ImageView
         imgAnimales = (ImageView) findViewById(R.id.animales);
-        //imgFront = (ImageView) findViewById(R.id.animales);
         imgMask = (ImageView) findViewById(R.id.mask);
         crono = (Chronometer) findViewById(R.id.cronometro);
 
@@ -100,21 +92,26 @@ public class AnimalesActivity extends AppCompatActivity {
         frame = (FrameLayout)findViewById(R.id.contenedor);
 
         if (frame != null) {
-            canvasView = new CanvasView(this);
-            canvasView.setOnTouchListener(new MyTouchListener());
-            frame.addView(canvasView);
+//            canvasView = new CanvasView(this);
+//            canvasView.setOnTouchListener(new MyTouchListener());
+//            frame.addView(canvasView);
             //this.setContentView(canvasView);
             //frame.setOnTouchListener(sumarPuntaje());
         }
 
+        canvasView = (CanvasView)findViewById(R.id.canvas);
+        if (canvasView != null) {
+            canvasView.setOnTouchListener(new MyTouchListener());
+            canvasView.setZOrderOnTop(true);
+//            SurfaceHolder canvasHolder = canvasView.getHolder();
+//            canvasHolder.setFormat(PixelFormat.TRANSPARENT);
+        }
 
         inicializarVariables();
-
     }
 
 
     private class MyTouchListener implements View.OnTouchListener {
-
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -347,8 +344,8 @@ public class AnimalesActivity extends AppCompatActivity {
 
     private void guardar() {
         int puntos = obtenerPuntos();
-        resultado = (TextView)findViewById(R.id.resultado);
-        resultado.setText(puntos);
+//        resultado = (TextView)findViewById(R.id.resultado);
+//        resultado.setText(puntos);
 
     }
 
@@ -359,182 +356,6 @@ public class AnimalesActivity extends AppCompatActivity {
     private Integer obtenerPuntos() {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
-
-//Interfaces para la vista
-    private interface Renderable {
-
-        void render( Canvas c );
-    }
-
-
-    private interface Updateable {
-
-        void update( long elapsed );
-
-    }
-
-//Clase para la vista personalizada
-    private class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
-
-        public class CanvasThread extends Thread {
-
-            private SurfaceHolder mSurfaceHolder;
-
-            private boolean mRun;
-
-            public CanvasThread(SurfaceHolder surfaceHolder) {
-                mSurfaceHolder = surfaceHolder;
-            }
-
-            public void run() {
-                long now = System.currentTimeMillis();
-                long lastTime = now;
-                while (mRun) {
-                    Canvas c = null;
-                    now = System.currentTimeMillis();
-                    update(now - lastTime);
-                    lastTime = now;
-                    try {
-                        c = mSurfaceHolder.lockCanvas(null);
-                        doDraw(c);
-                    } finally {
-                        if (c != null) {
-                            mSurfaceHolder.unlockCanvasAndPost(c);
-                        }
-                    }
-                }
-            }
-
-            public void setRunning(boolean running) {
-                mRun = running;
-            }
-
-        }
-
-        private CanvasThread thread;
-
-        private List<Renderable> renderables;
-        private List<Updateable> updateables;
-
-        public CanvasView(Context context) {
-            super(context);
-
-            SurfaceHolder holder = getHolder();
-            holder.setFormat(PixelFormat
-                    .TRANSPARENT);
-            holder.addCallback(this);
-
-            thread = new CanvasThread(holder);
-
-            renderables = new ArrayList<Renderable>();
-            updateables = new ArrayList<Updateable>();
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                                   int height) {
-
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-            thread.setRunning(true);
-            thread.start();
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            boolean retry = true;
-            thread.setRunning(false);
-            while (retry) {
-                try {
-                    thread.join();
-                    retry = false;
-
-                } catch (InterruptedException e) {
-                }
-            }
-
-        }
-
-        public void addRenderable(Renderable r) {
-            synchronized (renderables) {
-                renderables.add(r);
-            }
-        }
-
-
-        public void addUpdateable(Updateable u) {
-            synchronized (updateables) {
-                updateables.add(u);
-            }
-        }
-
-
-        private void doDraw(Canvas c) {
-            c.drawARGB(0, 0, 0, 0);
-            synchronized (renderables) {
-                for (Renderable r : renderables) {
-                    r.render(c);
-                }
-            }
-        }
-
-
-        private void update(long elapsed) {
-            synchronized (updateables) {
-                for (Updateable u : updateables) {
-                    u.update(elapsed);
-                }
-            }
-        }
-
-    }
-
-
-    //Clase para dibujar el cuadrado
-
-    public class SquareDrawable extends Drawable implements Renderable {
-
-        private int color;
-
-        public SquareDrawable(String c) {
-            color = Color.parseColor(c);
-        }
-
-        @Override
-        public void draw(Canvas canvas) {
-            Paint p = new Paint();
-            p.setColor(color);
-            canvas.drawRect(this.getBounds(), p);
-
-        }
-
-        @Override
-        public int getOpacity() {
-            return 0;
-        }
-
-        @Override
-        public void setAlpha(int alpha) {
-
-        }
-
-        @Override
-        public void setColorFilter(ColorFilter cf) {
-
-        }
-
-        @Override
-        public void render(Canvas c) {
-            draw( c );
-
-        }
-
-    }
-
-
-
 }
 
 

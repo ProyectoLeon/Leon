@@ -32,25 +32,22 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/carta"
                 tools:ignore="ContentDescription" />
+            <com.limeri.leon.common.CanvasView
+                android:id="@+id/canvas"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <Chronometer
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cronometro"
-            android:layout_alignParentEnd="true"/>
+            android:id="@+id/cronometro"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Siguiente"
-            android:id="@+id/siguiente"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
-
-    <TextView android:id="@+id/resultado"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text="Siguiente"
+        android:id="@+id/siguiente"
+        android:layout_gravity="center_horizontal"/>
 
 </RelativeLayout>
