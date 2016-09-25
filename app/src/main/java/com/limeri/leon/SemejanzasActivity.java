@@ -103,6 +103,7 @@ public class SemejanzasActivity extends AppCompatActivity {
 
     private void leerJson() {
 
+        String[] listRespuestas;
 //        if (nivel == PRIMER_NIVEL) {
 //            jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.preguntassemejanzas));
 //        }
@@ -122,8 +123,12 @@ public class SemejanzasActivity extends AppCompatActivity {
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
-            String[] listRespuestas = {(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
-                    (jsonObject.optString("respuesta2").toString())};
+            if (nivel < 3) {
+                listRespuestas = new String[]{(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
+            }else{
+                listRespuestas = new String[]{(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
+                        (jsonObject.optString("respuesta2").toString())};
+            }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, listRespuestas);
 
