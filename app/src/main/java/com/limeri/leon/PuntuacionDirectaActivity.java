@@ -110,7 +110,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
             }
             row.addView(col,index);
             row.addView(col,2);
-            row.addView(col, 7);
+            row.addView(col,7);
             tabla.addView(row);
         }
 
