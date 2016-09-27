@@ -2,7 +2,9 @@ package com.limeri.leon.common;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -93,6 +95,11 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+
+    public List<Renderable> getRenderable() {
+    return renderables;
+    }
+
     public void addRenderable(Renderable r) {
         synchronized (renderables) {
             renderables.add(r);
@@ -104,6 +111,15 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
         synchronized (updateables) {
             updateables.add(u);
         }
+    }
+
+    public void inicializar () {
+        renderables.clear();
+        updateables.clear();
+
+
+
+
     }
 
 

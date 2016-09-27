@@ -9,45 +9,42 @@
     android:paddingTop="16dp"
     tools:context="com.limeri.leon.AnimalesActivity">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
         <FrameLayout
             android:id="@+id/contenedor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
+            <Chronometer
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cronometro"
+                android:layout_gravity="left|bottom"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Siguiente"
+                android:id="@+id/siguiente"
+                android:layout_gravity="center_horizontal|bottom"/>
             <ImageView
                 android:id="@+id/mask"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:visibility="invisible"
                 android:src="@drawable/carta_mask"
+                android:layout_gravity="center_horizontal|top"
                 tools:ignore="ContentDescription" />
             <ImageView
                 android:id="@+id/animales"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:src="@drawable/carta"
+                android:layout_gravity="center_horizontal|top"
                 tools:ignore="ContentDescription" />
             <com.limeri.leon.common.CanvasView
                 android:id="@+id/canvas"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
         </FrameLayout>
-        <Chronometer
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cronometro"/>
-
-    </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Siguiente"
-        android:id="@+id/siguiente"
-        android:layout_gravity="center_horizontal"/>
 
 </RelativeLayout>

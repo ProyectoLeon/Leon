@@ -4,8 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -22,7 +26,9 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.CanvasView;
+import com.limeri.leon.common.ClearCanvas;
 import com.limeri.leon.common.JSONLoader;
+import com.limeri.leon.common.Renderable;
 import com.limeri.leon.common.SquareDrawable;
 
 import org.json.JSONArray;
@@ -31,6 +37,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+
 
 public class AnimalesActivity extends AppCompatActivity {
 
@@ -58,15 +67,8 @@ public class AnimalesActivity extends AppCompatActivity {
     FrameLayout frame;
     private SurfaceHolder surfaceHolder;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    // private DrawCircle circulo;
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            guardarRespuesta(Color.RED);
-        }
-    };
     private CanvasView canvasView;
+    int puntos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,24 +90,14 @@ public class AnimalesActivity extends AppCompatActivity {
             siguiente.setOnClickListener(clickSiguiente());
         }
 
-        //Seteo el metodo sumar puntaje por cada vez que clickea sobre una figura y dibujo círculo
-        frame = (FrameLayout)findViewById(R.id.contenedor);
-
-        if (frame != null) {
-//            canvasView = new CanvasView(this);
-//            canvasView.setOnTouchListener(new MyTouchListener());
-//            frame.addView(canvasView);
-            //this.setContentView(canvasView);
-            //frame.setOnTouchListener(sumarPuntaje());
-        }
+        //Seteo el metodo para sumar o restar puntaje por cada vez que clickea sobre una figura
 
         canvasView = (CanvasView)findViewById(R.id.canvas);
         if (canvasView != null) {
             canvasView.setOnTouchListener(new MyTouchListener());
             canvasView.setZOrderOnTop(true);
-//            SurfaceHolder canvasHolder = canvasView.getHolder();
-//            canvasHolder.setFormat(PixelFormat.TRANSPARENT);
         }
+
 
         inicializarVariables();
     }
@@ -114,126 +106,77 @@ public class AnimalesActivity extends AppCompatActivity {
     private class MyTouchListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                SquareDrawable square = new SquareDrawable("#0000FF");
-                square.setBounds((int) event.getX(), (int) event.getY(),
-                        (int) event.getX() + 20, (int) event.getY() + 20);
-                canvasView.addRenderable(square);
-                return true;
 
-            }
-            return false;
-        }
-    }
+                //Reviso que no haya sido seleccionado anteriormente
+                if (noEstaSeleecionado((int)event.getX(), (int) event.getY())){
 
+                    System.out.println("No fue seleccionada");
+                    //Busco color del mask
+                    int touchColor = getHotspotColor((int) event.getX(), (int) event.getY());
 
-    private View.OnTouchListener sumarPuntaje() {
-        return new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent ev) {
-                final int action = ev.getAction();
-                final int evX = (int) ev.getX();
-                final int evY = (int) ev.getY();
-                ArrayList<Integer> centerImg;
-                if (action == MotionEvent.ACTION_DOWN) {
-                    return true;
-                }
-                if (action == MotionEvent.ACTION_UP) {
-                    int touchColor = getHotspotColor(evX, evY);
-                    if (isNotPreviouslySelected(evX,evY)) {
-                        int resultado = guardarRespuesta(touchColor);
-                        if (resultado == ANIMAL) {
-                            centerImg = getRegionOfSelected(evX, evY, Color.BLACK);
-                            dibujarContornoRespuesta(centerImg);
-                        } else if (resultado == OTRA_FIGURA) {
-                            centerImg = getRegionOfSelected(evX, evY, -1237980);
-                            dibujarContornoRespuesta(centerImg);
+                    if (isCorrecta(touchColor)) {
+                        puntos++;
+                        marcarDibujo((int) event.getX(), (int) event.getY());
+                        System.out.println("Es correcta");
+                    } else {
+                        if (isInCorrecta(touchColor)) {
+                            puntos--;
+                            marcarDibujo((int) event.getX(), (int) event.getY());
+                            System.out.println("Es incorrecta");
                         }
-                        return true;
+
                     }
                 }
+                else {
+                    System.out.println("Fue seleccionada anteriormente");
+                }
                 return true;
+                }
+                return false;
+
             }
-        };
+
     }
 
-    private void dibujarContornoRespuesta(ArrayList<Integer> centerImg) {
-        BitmapFactory.Options myOptions = new BitmapFactory.Options();
-        myOptions.inDither = true;
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
-        myOptions.inPurgeable = true;
+    private boolean noEstaSeleecionado(int x, int y) {
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.animales,myOptions);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
-        paint.setStrokeWidth(3);
-        paint.setStyle(Paint.Style.STROKE);
+        List<Renderable> listaSeleccion = canvasView.getRenderable();
+
+        Boolean noEstaSeleccionada = true;
 
 
-        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        canvas = new Canvas(mutableBitmap);
-        canvas.drawCircle(centerImg.get(0),centerImg.get(1), 25, paint);
-        //canvas.drawLine(centerImg.get(0)-30,centerImg.get(1),centerImg.get(0)+30,centerImg.get(1),paint);
-        imgAnimales.setAdjustViewBounds(true);
-        imgAnimales.setImageBitmap(mutableBitmap);
-    }
+        if (listaSeleccion !=null && listaSeleccion.size() >0){
 
+            for (Renderable seleccion: listaSeleccion) {
+                int top=  seleccion.getBounds().top;
+                int bottom =seleccion.getBounds().bottom;
+                int right = seleccion.getBounds().right;
+                int left = seleccion.getBounds().left;
 
-    private ArrayList<Integer> getRegionOfSelected (int x, int y, int color) {
-            ArrayList<Integer> centro = new ArrayList<>();
-            ArrayList<Integer> coords = new ArrayList<>();
-            boolean anchoDerecho = false;
-            boolean anchoIzquierdo = false;
-            boolean altoTecho = false;
-            boolean altoPiso = false;
-            int relativeXR = x;
-            int relativeXL = x;
-            int relativeYT = y;
-            int relativeYD = y;
-            while (anchoDerecho==false && anchoIzquierdo==false && altoTecho == false && altoPiso == false) {
-                   if (anchoDerecho==false) {
-                       relativeXR =relativeXR +3;
-                       int pixel = getHotspotColor(relativeXR,y);
-                       if (color != pixel) {
-                            anchoDerecho = true;
-                       }
-                   }
-                   if (anchoIzquierdo==false) {
-                        relativeXL = relativeXL -3;
-                       int pixel = getHotspotColor(relativeXL,y);
-                       if (color != pixel) {
-                            anchoIzquierdo = true;
-                       }
-                   }
-                   if (altoTecho==false) {
-                       relativeYD = relativeYD - 3;
-                       int pixel = getHotspotColor(x,relativeYD);
-                       if (color != pixel) {
-                            altoTecho = true;
-                       }
-                   }
-                   if (altoPiso==false) {
-                       relativeYT = relativeYT +3;
-                       int pixel = getHotspotColor(x,relativeYT);
-                       if (color != pixel) {
-                            altoPiso = true;
-                       }
-                   }
+                if ((y <bottom && y > top && x < right && x > left) && seleccion != listaSeleccion.get(0) )
+                {
+                    noEstaSeleccionada = false;
+                }
+
             }
-        coords.add(0,relativeXR);
-        coords.add(1,relativeXL);
-        coords.add(2,relativeYT);
-        coords.add(3,relativeYD);
-        listaSeleccion.add(coords);
-        centro.add((relativeXL+relativeXR)/2);
-        centro.add((relativeYD+relativeYT)/2);
-        return centro;
+
+        }
+
+        return noEstaSeleccionada;
     }
+
+
+    private void marcarDibujo(int x, int y) {
+        SquareDrawable square = new SquareDrawable("#0000FF");
+        square.setBounds(x-50, y-50, x + 50,y + 50);
+        canvasView.addRenderable(square);
+    }
+
+
 
     private int getHotspotColor(int x, int y) {
-       // ImageView img = (ImageView) findViewById(R.id.mask);
         if (imgMask != null) {
             imgMask.setDrawingCacheEnabled(true);
             hotspots = Bitmap.createBitmap(imgMask.getDrawingCache());
@@ -243,24 +186,10 @@ public class AnimalesActivity extends AppCompatActivity {
         return -1;
     }
 
-    private boolean isNotPreviouslySelected(int x, int y) {
-        boolean nonSelected = true;
-        int runnedCoords=0;
-        for (ArrayList<Integer> crtSelect: listaSeleccion) {
-            if (x > crtSelect.get(0) && x < crtSelect.get(1)) {
-                if (y > crtSelect.get(2) && y < crtSelect.get(3))
-                    nonSelected = false;
-                {
-                }
-            }
-        }
-
-        return nonSelected;
-    }
 
     private boolean isCorrecta(int touchColor) {
         long local = SystemClock.elapsedRealtime();
-        return (Color.BLACK == touchColor);
+        return (-14503604 == touchColor);
     }
 
     private boolean isInCorrecta(int touchColor) {
@@ -269,17 +198,6 @@ public class AnimalesActivity extends AppCompatActivity {
     }
 
 
-    private int guardarRespuesta(int color) {
-        handler.removeCallbacks(runnable);
-        if (isCorrecta(color)) {
-            sumarPuntos(1);
-            return(0);
-        } else if (isInCorrecta(color)){
-            sumarPuntos(-1);
-            return(1);
-        }
-        return 2;
-    }
 
     private View.OnClickListener clickSiguiente() {
 
@@ -287,8 +205,11 @@ public class AnimalesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+
+                sumarPuntos(puntos);
                 //guardarRespuesta(); según los puntos del nivel, sumar por el tiempo
                 if (isUltimoNivel()) {
+                    canvasView.inicializar();
                     guardar();
                 } else {
                     nivel++;
@@ -305,11 +226,17 @@ public class AnimalesActivity extends AppCompatActivity {
     private void cargarSiguienteNivel() {
         inicializarVariables();
         //iniciarCronometro();
+
     }
 
     private void inicializarVariables() {
-        tiempo_ejecutado = 0;
-        cargarFigura();
+            tiempo_ejecutado = 0;
+            puntos = 0;
+            cargarFigura();
+            canvasView.inicializar();
+            ClearCanvas square = new ClearCanvas();
+            square.setBounds(0, 0, canvasView.getWidth(), canvasView.getHeight());
+            canvasView.addRenderable(square);
 
     }
 
@@ -339,14 +266,10 @@ public class AnimalesActivity extends AppCompatActivity {
         //Carga la figura y la solucion
         imgAnimales.setImageResource(getResources().getIdentifier(listAnimales.get(nivel), "drawable", this.getPackageName()));
         imgMask.setImageResource(getResources().getIdentifier(listMasks.get(nivel), "drawable", this.getPackageName()));
-
-    }
+         }
 
     private void guardar() {
-        int puntos = obtenerPuntos();
-//        resultado = (TextView)findViewById(R.id.resultado);
-//        resultado.setText(puntos);
-
+        AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
     private void sumarPuntos(Integer puntos) {
@@ -356,6 +279,9 @@ public class AnimalesActivity extends AppCompatActivity {
     private Integer obtenerPuntos() {
         return AdministradorJuegos.getInstance().obtenerPuntos();
     }
+
+
+
 }
 
 

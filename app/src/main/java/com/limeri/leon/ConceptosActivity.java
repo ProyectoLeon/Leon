@@ -2,7 +2,6 @@ package com.limeri.leon;
 
 
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -18,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,13 +35,11 @@ public class ConceptosActivity extends AppCompatActivity {
     public static final int PRIMER_NIVEL = 0;
     private int nivel = PRIMER_NIVEL;
     private int cantIncorrectasSeguidas = 0;
-    private LinearLayout target;
     private List<List<String>> matriz = new ArrayList<>();
     private ArrayList<ArrayList>  grillaLogica = new ArrayList<>();
     private ArrayList<Boolean> seleccion = new ArrayList<>();
     private GridLayout gridMatriz;
     private String jsonString;
-    private String respuesta;
     private Map<String, Integer> mapOpciones = new HashMap<>();
     private List<String> respuestas = new ArrayList<>();
 
@@ -84,10 +80,8 @@ public class ConceptosActivity extends AppCompatActivity {
 
     private void inicializarVariables() {
         gridMatriz.removeAllViews();
-        respuesta = null;
         matriz.clear();
         mapOpciones.clear();
-        target = null;
         grillaLogica.clear();
         seleccion.clear();
 

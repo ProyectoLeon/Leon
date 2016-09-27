@@ -6,9 +6,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
-/**
- * Created by Nico on 25/9/2016.
- */
 public class SquareDrawable extends Drawable implements Renderable {
     private int color;
 
@@ -20,7 +17,9 @@ public class SquareDrawable extends Drawable implements Renderable {
     public void draw(Canvas canvas) {
         Paint p = new Paint();
         p.setColor(color);
+        p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(this.getBounds(), p);
+
 
     }
 
@@ -44,5 +43,7 @@ public class SquareDrawable extends Drawable implements Renderable {
         draw( c );
 
     }
+
+
 
 }
