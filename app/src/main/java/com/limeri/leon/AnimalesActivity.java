@@ -1,27 +1,15 @@
 package com.limeri.leon;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
@@ -37,38 +25,35 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-
 
 public class AnimalesActivity extends AppCompatActivity {
 
     public static final int PRIMER_NIVEL = 0;
-    public final int ANIMAL = 0;
-    public final int OTRA_FIGURA = 1;
     public static final int TIEMPO_NIVEL = 20000; //En milisegundos
     private int nivel = PRIMER_NIVEL;
     private ImageView imgAnimales;
     private ImageView imgMask;
-    private ImageView imgFront;
     private List<String> listAnimales;
-    private ArrayList<ArrayList> listaSeleccion = new ArrayList<>();
     private int ultimoNivel = 1;
     private List<String> listMasks;
-    private ArrayList<ImageView> listaImg = new ArrayList<>();
     private Chronometer crono;
     private long tiempo_ejecutado = 0;
     private long tiempo_inicio;
-    private Button siguiente;
-    private TextView resultado;
-    private String res = "prueba";
-    private Canvas canvas;
     private Bitmap hotspots;
-    FrameLayout frame;
-    private SurfaceHolder surfaceHolder;
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private CanvasView canvasView;
-    int puntos = 0;
+    private int puntos = 0;
+    private long tiempoNivel = 0;
+    private int puntajePlus = 14;
+
+
+
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            guardarRespuesta();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +104,13 @@ public class AnimalesActivity extends AppCompatActivity {
                     if (isCorrecta(touchColor)) {
                         puntos++;
                         marcarDibujo((int) event.getX(), (int) event.getY());
-                        System.out.println("Es correcta");
+
+                        //System.out.println("Es correcta");
                     } else {
                         if (isInCorrecta(touchColor)) {
                             puntos--;
                             marcarDibujo((int) event.getX(), (int) event.getY());
-                            System.out.println("Es incorrecta");
+                            //System.out.println("Es incorrecta");
                         }
 
                     }
@@ -188,12 +174,10 @@ public class AnimalesActivity extends AppCompatActivity {
 
 
     private boolean isCorrecta(int touchColor) {
-        long local = SystemClock.elapsedRealtime();
         return (-14503604 == touchColor);
     }
 
     private boolean isInCorrecta(int touchColor) {
-        long local = SystemClock.elapsedRealtime();
         return (-1237980 == touchColor);
     }
 
@@ -206,18 +190,42 @@ public class AnimalesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                sumarPuntos(puntos);
-                //guardarRespuesta(); según los puntos del nivel, sumar por el tiempo
-                if (isUltimoNivel()) {
-                    canvasView.inicializar();
-                    guardar();
-                } else {
-                    nivel++;
-                    cargarSiguienteNivel();
-                }
+                guardarRespuesta();
             }
         };
     }
+
+    private void guardarRespuesta() {
+
+        handler.removeCallbacks(runnable);
+        long local = SystemClock.elapsedRealtime();
+        long tiempo = local - tiempo_inicio + tiempo_ejecutado;
+        tiempoNivel = tiempoNivel + tiempo;
+
+        if (isUltimoNivel()) {
+            canvasView.inicializar();
+            guardar();
+        } else {
+            nivel++;
+            cargarSiguienteNivel();
+        }
+
+    }
+
+    private void calcularPuntaje() {
+
+
+        System.out.println("Tiempo: " + tiempoNivel);
+
+        if (puntos>=puntajePlus){
+            if(tiempoNivel<=40000) puntos++;
+            if (tiempoNivel<=30000) puntos++;
+            if(tiempoNivel<=20000) puntos++;
+            if(tiempoNivel<=10000) puntos++;
+        }
+
+    }
+
 
     private boolean isUltimoNivel() {
         return nivel == ultimoNivel;
@@ -230,14 +238,22 @@ public class AnimalesActivity extends AppCompatActivity {
     }
 
     private void inicializarVariables() {
+
             tiempo_ejecutado = 0;
-            puntos = 0;
+            iniciarCronometro();
             cargarFigura();
             canvasView.inicializar();
             ClearCanvas square = new ClearCanvas();
             square.setBounds(0, 0, canvasView.getWidth(), canvasView.getHeight());
             canvasView.addRenderable(square);
 
+    }
+
+    private void iniciarCronometro() {
+        handler.postDelayed(runnable, TIEMPO_NIVEL - tiempo_ejecutado);
+        tiempo_inicio = SystemClock.elapsedRealtime();
+        crono.setBase(tiempo_inicio - tiempo_ejecutado);
+        crono.start();
     }
 
     private void cargarFigura() {
@@ -269,6 +285,9 @@ public class AnimalesActivity extends AppCompatActivity {
          }
 
     private void guardar() {
+
+        calcularPuntaje();
+        sumarPuntos(puntos);
         AdministradorJuegos.getInstance().guardarJuego(this);
     }
 
@@ -276,8 +295,33 @@ public class AnimalesActivity extends AppCompatActivity {
         AdministradorJuegos.getInstance().sumarPuntos(puntos);
     }
 
-    private Integer obtenerPuntos() {
-        return AdministradorJuegos.getInstance().obtenerPuntos();
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iniciarCronometro();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pararCronometro();
+    }
+
+    private void pararCronometro() {
+        handler.removeCallbacks(runnable);
+        crono.stop();
+        long local = SystemClock.elapsedRealtime();
+        tiempo_ejecutado = local - tiempo_inicio + tiempo_ejecutado;
     }
 
 
