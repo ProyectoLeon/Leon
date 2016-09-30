@@ -291,6 +291,7 @@ public class VocabularioActivity extends AppCompatActivity {
             blanquear(seleccion);
             if (cantIncorrectas == 5) {
                 guardar();
+                return;
             } else if ((nivel == 4 | nivel == 5) & !puntPerfecto & !backHecho) {
                 nivelErroneo = nivel;
                 nivelAnterior = nivel;

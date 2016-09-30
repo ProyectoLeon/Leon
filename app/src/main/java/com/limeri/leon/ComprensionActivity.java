@@ -219,6 +219,7 @@ public class ComprensionActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas== 4) {
             guardar();
+            return;
         } else {
             nivelAnterior = nivel;
             nivel++;

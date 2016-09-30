@@ -116,9 +116,11 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
         }
         if (nivel <= 2 && cantIncorrectas > 0) {
             guardar();
+            return;
         } else if ( cantIncorrectas >= 3 ) {
             if (((nivel - 1) % 3) == 0) {
                 guardar();
+                return;
             } else {
                 nivel++;
             }

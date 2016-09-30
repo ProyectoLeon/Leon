@@ -133,6 +133,7 @@ public class AritmeticaActivity extends AppCompatActivity {
         }
         if (cantIncorrectas == 4) {
             guardar();
+            return;
         } else if ((nivel == 2 | nivel == 3) & !puntPerfecto & !backHecho) {
             nivelErroneo = nivel;
             nivel = 1;

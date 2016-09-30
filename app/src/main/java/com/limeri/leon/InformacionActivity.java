@@ -221,9 +221,11 @@ public class InformacionActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (nivel == longArray){
             guardar();
+            return;
         }
         if (cantIncorrectas== 5) {
             guardar();
+            return;
         } else
         if ((nivel == 4 | nivel == 5) & cantIncorrectas == 1 & !backHecho){
             nivelErroneo = nivel;

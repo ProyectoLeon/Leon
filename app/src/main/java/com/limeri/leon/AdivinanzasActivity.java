@@ -211,6 +211,7 @@ public class AdivinanzasActivity extends AppCompatActivity {
         blanquear(seleccion);
         if (cantIncorrectas== 5) {
             guardar();
+            return;
             // RETROGRESION NO TIENE ESTE JUEGO
         } else {
             nivelAnterior = nivel;

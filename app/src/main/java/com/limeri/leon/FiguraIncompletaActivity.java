@@ -114,6 +114,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
                 guardar();
+                return;
             } else if (isNivelesIniciales()) {
                 nivelErrado = nivel;
                 iniciarRetrogresion();
