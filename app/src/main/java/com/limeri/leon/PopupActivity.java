@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
+import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
 public class PopupActivity extends Activity {
@@ -28,6 +29,7 @@ public class PopupActivity extends Activity {
 
         Button btn_positive = (Button) findViewById(R.id.dialog_positive_btn);
         Button btn_negative = (Button) findViewById(R.id.dialog_negative_btn);
+        Button btn_negative2 = (Button) findViewById(R.id.dialog_negative_btn2);
         Button btn_neutral = (Button) findViewById(R.id.dialog_neutral_btn);
 
         btn_positive.setOnClickListener(new View.OnClickListener() {
@@ -37,11 +39,21 @@ public class PopupActivity extends Activity {
             }
         });
 
-        if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
-            btn_negative.setText("Cancelar Juego");
-            btn_negative.setOnClickListener(cancelarUltimoJuegoListener(PopupActivity.this));
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            btn_negative.setVisibility(View.VISIBLE);
+            btn_negative2.setVisibility(View.GONE);
+            if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
+                btn_negative.setText("Cancelar Juego");
+                btn_negative.setOnClickListener(cancelarUltimoJuegoListener(PopupActivity.this));
+            } else {
+                btn_negative.setOnClickListener(cancelarJuegoListener(PopupActivity.this));
+            }
         } else {
-            btn_negative.setOnClickListener(cancelarJuegoListener(PopupActivity.this));
+            // Juego Libre
+            btn_negative2.setVisibility(View.VISIBLE);
+            btn_negative.setVisibility(View.GONE);
+            btn_negative2.setOnClickListener(cancelarJuegoLibreListener(PopupActivity.this));
         }
 
         btn_neutral.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +110,16 @@ public class PopupActivity extends Activity {
             @Override
             public void onClick(View v) {
                 AdministradorJuegos.getInstance().cancelarJuego(activity);
+            }
+        };
+    }
+
+    @NonNull
+    private static View.OnClickListener cancelarJuegoLibreListener(final Activity activity) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdministradorJuegos.getInstance().cancelarJuegoLibre(activity);
             }
         };
     }

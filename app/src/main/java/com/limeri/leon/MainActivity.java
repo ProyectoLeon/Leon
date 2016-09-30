@@ -66,12 +66,17 @@ public class MainActivity extends AppCompatActivity {
 
             Button buttonJuegos = (Button) findViewById(R.id.buttonJuegos);
             if (buttonJuegos != null) {
-                buttonJuegos.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navegacion.irA(MainActivity.this, ExamenActivity.class);
-                    }
-                });
+                if ((paciente.tieneEvaluacionFinalizada()) && (!paciente.tieneEvaluacionIniciada())) {
+                    buttonJuegos.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Navegacion.irA(MainActivity.this, ExamenActivity.class);
+                        }
+                    });
+                } else {
+                    // Se bloquea el botón de Juegos Libres
+                    buttonJuegos.setEnabled(false);
+                }
             }
 
             Button buttonEstadisticas = (Button) findViewById(R.id.buttonEstadisticas);
@@ -114,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void actualizarNombrePaciente() {
         txtPaciente.setText("Paciente: " + Paciente.getSelectedPaciente().getNombreCompleto());
+        ActionBar AB = getSupportActionBar();
+        if (AB != null) {
+            AB.setTitle(txtPaciente.getText());
+        }
     }
 
     @Override

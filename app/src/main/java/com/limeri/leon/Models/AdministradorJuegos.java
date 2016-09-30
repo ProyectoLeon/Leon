@@ -9,6 +9,7 @@ import com.limeri.leon.ExamenActivity;
 import com.limeri.leon.InicioJuegoActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
+import com.limeri.leon.ValorJuegoLibreActivity;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -101,30 +102,69 @@ public class AdministradorJuegos {
     }
 
     private void sumarPuntosJuego(Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.setPuntosJuego(puntos);
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+            juego.setPuntosJuego(puntos);
+        } else {
+            // Juego Libre
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual();
+            juego.setPuntosJuego(puntos);
+        }
     }
 
     public Integer getPuntosNivel(Integer nivel) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        return juego.getPuntosNivel(nivel);
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+            return juego.getPuntosNivel(nivel);
+        } else {
+            // Juego Libre
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual();
+            return juego.getPuntosNivel(nivel);
+        }
     }
 
     public void guardarPuntosNivel(Integer nivel, Integer puntos) {
-        Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
-        juego.guardarPuntosNivel(nivel, puntos);
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+            juego.guardarPuntosNivel(nivel, puntos);
+        } else {
+            // Juego Libre
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual();
+            juego.guardarPuntosNivel(nivel, puntos);
+        }
     }
 
     public void sumarPuntos(Integer puntos) {
-        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() + puntos);
+        } else {
+            // Juego Libre
+            sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual().getPuntosJuego() + puntos);
+        }
     }
 
     public void restarPuntos(Integer puntos) {
-        sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() - puntos);
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego() - puntos);
+        } else {
+            // Juego Libre
+            sumarPuntosJuego(Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual().getPuntosJuego() - puntos);
+        }
     }
 
     public Integer obtenerPuntos() {
-        return Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego();
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            return Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual().getPuntosJuego();
+        } else {
+            // Juego Libre
+            return Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual().getPuntosJuego();
+        }
     }
 
     public void inicializarJuego() {
@@ -134,19 +174,33 @@ public class AdministradorJuegos {
     public void guardarJuego(Activity activity) {
         try {
             Paciente paciente = Paciente.getSelectedPaciente();
-            Evaluacion evaluacion = paciente.getEvaluacionActual();
-            Juego juego = evaluacion.getJuegoActual();
-            if (juego.getPuntosJuego() < 0) {
-                juego.setPuntosJuego(0);
-            }
-            juego.finalizar();
-            if (isUltimoJuego(juego)) {
-                evaluacion.finalizar();
-                Navegacion.irA(activity, ValorExamenActivity.class);
+            if (paciente.tieneEvaluacionIniciada()) {
+                // Evaluación
+                Evaluacion evaluacion = paciente.getEvaluacionActual();
+                Juego juego = evaluacion.getJuegoActual();
+                if (juego.getPuntosJuego() < 0) {
+                    juego.setPuntosJuego(0);
+                }
+                juego.finalizar();
+                if (isUltimoJuego(juego)) {
+                    evaluacion.finalizar();
+                    Navegacion.irA(activity, ValorExamenActivity.class);
+                } else {
+                    Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
+                }
+                Paciente.saveCuenta(activity, paciente);
             } else {
-                Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
+                // Juego Libre
+                Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+                Juego juego = evaluacion.getJuegoLibreActual();
+                if (juego.getPuntosJuego() < 0) {
+                    juego.setPuntosJuego(0);
+                }
+                juego.finalizar();
+//                Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
+                Navegacion.irA(activity, ValorJuegoLibreActivity.class);
+                Paciente.saveCuenta(activity, paciente);
             }
-            Paciente.saveCuenta(activity, paciente);
         } catch (Exception e) {
             e.printStackTrace();
             Navegacion.irA(activity, ExamenActivity.class);
@@ -169,6 +223,24 @@ public class AdministradorJuegos {
             } else {
                 Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             }
+            Paciente.saveCuenta(activity, paciente);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Navegacion.irA(activity, ExamenActivity.class);
+        }
+    }
+
+    public void cancelarJuegoLibre(Activity activity) {
+        try {
+            Paciente paciente = Paciente.getSelectedPaciente();
+            Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+            Juego juego = evaluacion.getJuegoLibreActual();
+            alternativas.add(juego.getCategoria());
+            if (juego.getPuntosJuego() < 0) {
+                juego.setPuntosJuego(0);
+            }
+            juego.cancelar();
+            Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             Paciente.saveCuenta(activity, paciente);
         } catch (Exception e) {
             e.printStackTrace();

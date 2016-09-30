@@ -84,6 +84,9 @@
             android:name=".ValorExamenActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ValorJuegoLibreActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ClavesActivity"
             android:screenOrientation="portrait" />
         <activity

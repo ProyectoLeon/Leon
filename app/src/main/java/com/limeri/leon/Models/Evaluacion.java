@@ -18,8 +18,12 @@ public class Evaluacion {
     public List<Juego> getJuegos() {
         return juegos;
     }
+    public List<Juego> getJuegosLibres() {
+        return juegosLibres;
+    }
 
     private List<Juego> juegos = new ArrayList<>();
+    private List<Juego> juegosLibres = new ArrayList<>();
 
     public Paciente getPaciente() {
         return paciente;
@@ -43,8 +47,26 @@ public class Evaluacion {
         return ultimo;
     }
 
+    public Juego getUltimoJuegoLibre() {
+        Juego ultimo = null;
+        for (Juego juego : juegosLibres) {
+            if (juego.isFinalizado() || juego.isCancelado()) {
+                ultimo = juego;
+            }
+        }
+        return ultimo;
+    }
+
     public Juego getJuegoActual() {
         for (Juego juego : juegos) {
+            if (!juego.isFinalizado() && !juego.isCancelado()) {
+                return juego;
+            }
+        }
+        return null;
+    }
+    public Juego getJuegoLibreActual() {
+        for (Juego juego : juegosLibres) {
             if (!juego.isFinalizado() && !juego.isCancelado()) {
                 return juego;
             }
@@ -54,6 +76,9 @@ public class Evaluacion {
 
     public void agregarJuego(Juego juego) {
         juegos.add(juego);
+    }
+    public void agregarJuegoLibre(Juego juego) {
+        juegosLibres.add(juego);
     }
 
     public Boolean tieneJuegos() {

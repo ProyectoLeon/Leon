@@ -31,7 +31,6 @@ public class ExamenActivity extends AppCompatActivity {
     Button buttonConceptos;
     Paciente paciente;
 
-    //TODO: Que para los juegos libres, no se muestre la opción activar juego alternativo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +58,11 @@ public class ExamenActivity extends AppCompatActivity {
         if (AB != null) {
             AB.setTitle(paciente.getNombreCompleto());
         }
-        paciente.agregarEvaluacion(new Evaluacion());
 
         buttonInformacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Información","Comprensión verbal","InformacionActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Información","Comprensión verbal","InformacionActivity",null));
                 Navegacion.irA(ExamenActivity.this, InformacionActivity.class);
             }
         });
@@ -72,7 +70,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonMatrices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Matrices","Razonamiento Perceptivo","MatricesActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Matrices","Razonamiento Perceptivo","MatricesActivity",null));
                 Navegacion.irA(ExamenActivity.this, MatricesActivity.class);
             }
         });
@@ -81,7 +79,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonFiguraInc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Completamiento de Figuras","Razonamiento Perceptivo","FiguraIncompletaActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Completamiento de Figuras","Razonamiento Perceptivo","FiguraIncompletaActivity",null));
                 Navegacion.irA(ExamenActivity.this, FiguraIncompletaActivity.class);
             }
         });
@@ -89,7 +87,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonSimbolos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Búsqueda de Símbolos","Velocidad de Procesamiento","BqSimbolosActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Búsqueda de Símbolos","Velocidad de Procesamiento","BqSimbolosActivity",null));
                 Navegacion.irA(ExamenActivity.this, BqSimbolosActivity.class);
 
             }
@@ -98,7 +96,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonVocabulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Vocabulario","Comprensión verbal","VocabularioActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Vocabulario","Comprensión verbal","VocabularioActivity",null));
                 Navegacion.irA(ExamenActivity.this, VocabularioActivity.class);
 
             }
@@ -107,7 +105,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonComprension.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Comprensión","Comprensión verbal","ComprensionActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Comprensión","Comprensión verbal","ComprensionActivity",null));
                 Navegacion.irA(ExamenActivity.this, ComprensionActivity.class);
 
             }
@@ -116,7 +114,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonAdivinanzas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Adivinanzas","Comprensión verbal","AdivinanzasActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Adivinanzas","Comprensión verbal","AdivinanzasActivity",null));
                 Navegacion.irA(ExamenActivity.this, AdivinanzasActivity.class);
 
             }
@@ -125,7 +123,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonSemejanzas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Semejanzas","Comprensión verbal","SemejanzasActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Semejanzas","Comprensión verbal","SemejanzasActivity",null));
                 Navegacion.irA(ExamenActivity.this, SemejanzasActivity.class);
 
             }
@@ -133,7 +131,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonClaves.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Claves","Velocidad de Procesamiento","ClavesActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Claves","Velocidad de Procesamiento","ClavesActivity",null));
                 Navegacion.irA(ExamenActivity.this, ClavesActivity.class);
 
             }
@@ -141,7 +139,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonAritmetica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Aritmetica","Memoria de Trabajo","AritmeticaActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Aritmetica","Memoria de Trabajo","AritmeticaActivity",null));
                 Navegacion.irA(ExamenActivity.this, AritmeticaActivity.class);
 
             }
@@ -149,7 +147,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonDigitos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Retención de Digitos","Memoria de Trabajo","DigitosActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Retención de Digitos","Memoria de Trabajo","DigitosActivity",null));
                 Navegacion.irA(ExamenActivity.this, DigitosActivity.class);
 
             }
@@ -157,7 +155,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonLetrasYNumeros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Letras y Números","Memoria de Trabajo","LetrasYNumerosActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Letras y Números","Memoria de Trabajo","LetrasYNumerosActivity",null));
                 Navegacion.irA(ExamenActivity.this, LetrasYNumerosActivity.class);
 
             }
@@ -165,7 +163,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonAnimales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Animales","Velocidad de Procesamiento","AnimalesActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Animales","Velocidad de Procesamiento","AnimalesActivity",null));
                 Navegacion.irA(ExamenActivity.this, AnimalesActivity.class);
 
             }
@@ -173,7 +171,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonCubos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Construcción con Cubos","Razonamiento Perceptivo","CubosActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Construcción con Cubos","Razonamiento Perceptivo","CubosActivity",null));
                 Navegacion.irA(ExamenActivity.this, CubosActivity.class);
 
             }
@@ -182,7 +180,7 @@ public class ExamenActivity extends AppCompatActivity {
         buttonConceptos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paciente.getEvaluacionActual().agregarJuego(new Juego("Coceptos","Razonamiento Perceptivo","ConceptosActivity",null));
+                paciente.getEvaluacionFinalizada().agregarJuegoLibre(new Juego("Coceptos","Razonamiento Perceptivo","ConceptosActivity",null));
                 Navegacion.irA(ExamenActivity.this, ConceptosActivity.class);
 
             }
