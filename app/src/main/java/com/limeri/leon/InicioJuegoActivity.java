@@ -27,7 +27,6 @@ public class InicioJuegoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_juego);
-        AdministradorJuegos.setContext(getApplicationContext());
         Paciente paciente = Paciente.getSelectedPaciente();
         if (paciente.tieneEvaluacionIniciada()) {
             evaluacion = paciente.getEvaluacionActual();

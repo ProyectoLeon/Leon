@@ -36,6 +36,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
@@ -83,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        AdministradorJuegos.setContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
         jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.usuariosmatriculados));

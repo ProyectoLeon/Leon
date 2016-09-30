@@ -45,7 +45,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
 
         TableLayout tablaPD = (TableLayout) findViewById(R.id.tableView);
         TableRow row0 = new TableRow(this);
-        CompletarCelda(this, row0, "TEST");
+        CompletarCelda(this, row0, "Subtest");
         CompletarCelda(this, row0, "PD");
         CompletarCelda(this, row0, "PE");
         CompletarCelda(this, row0, "PE");
@@ -60,6 +60,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
 
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
+        col.setPadding(2, 2, 2, 2);
         col.setText(txt);
         row.addView(col);
     }
@@ -77,7 +78,8 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Navegacion.irA(PuntuacionDirectaActivity.this, MainActivity.class);
+//                Navegacion.irA(PuntuacionDirectaActivity.this, MainActivity.class);
+                Navegacion.irA(PuntuacionDirectaActivity.this, PerfilEscalaresActivity.class);
             }
         };
     }
@@ -95,23 +97,52 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
             TextView col = new TextView(this);
             col.setText(escalar);
             switch (juego.getCategoria()){
-                case "Razonamiento Perceptivo":{
-                    index = 4;
-                }
                 case "Comprensión verbal":{
-                    index = 3;
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
                 }
-                case "Memoria de Trabajo":{
-                    index = 5;
+                case "Razonamiento Perceptivo":{
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
+                }
+                case "Memoria Operativa":{
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
                 }
                 case "Velocidad de Procesamiento":{
-                    index = 6;
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
                 }
             }
-            row.addView(col,index);
-            row.addView(col,2);
-            row.addView(col,7);
-            tabla.addView(row);
+//            CompletarCelda(this, row, escalar);
+
+//            TextView col = new TextView(this);
+//            col.setText(escalar);
+//            row.addView(col, index);
+//            row.addView(col,index);
+//            row.addView(col,2);
+//            row.addView(col, 7);
+//            tabla.addView(row);
         }
 
 

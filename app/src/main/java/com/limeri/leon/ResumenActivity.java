@@ -198,8 +198,7 @@ public class ResumenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Navegacion.irA(ResumenActivity.this, PerfilEscalaresActivity.class);
-//                Navegacion.irA(ResumenActivity.this, PuntuacionDirectaActivity.class);
+                Navegacion.irA(ResumenActivity.this, PuntuacionDirectaActivity.class);
             }
         };
     }
