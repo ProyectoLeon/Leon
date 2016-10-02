@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.InformacionActivity;
+import com.limeri.leon.common.DataBase;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -100,6 +101,8 @@ public class Paciente {
         if (!pacientes.contains(paciente))
             pacientes.add(paciente);
         saveCuentas(activity);
+
+        DataBase.savePacientes();
     }
 
 /*
@@ -150,6 +153,7 @@ public class Paciente {
     public static void loadCuentas(Activity activity) {
         Gson gson = new Gson();
         pacientes = new ArrayList<>();
+/*
         SharedPreferences prefs = activity.getSharedPreferences(User.getUserEmail(activity), Context.MODE_PRIVATE);
         Set<String> myStrings = prefs.getStringSet(User.getUserEmail(activity), null);
 
@@ -158,6 +162,14 @@ public class Paciente {
                 Paciente.agregarPaciente(gson.fromJson(paciente, Paciente.class));
             }
 
+        }
+*/
+
+        String jsonPacientes = DataBase.getPacientes(Profesional.getProfesional().getmMatricula());
+        if (!jsonPacientes.equals("")) {
+            Type listType = new TypeToken<ArrayList<Paciente>>() {
+            }.getType();
+            pacientes = gson.fromJson(jsonPacientes, listType);
         }
     }
 

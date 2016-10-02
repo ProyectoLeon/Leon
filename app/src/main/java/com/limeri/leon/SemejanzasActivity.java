@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -160,8 +159,8 @@ public class SemejanzasActivity extends AppCompatActivity {
     }
 
     private void cargarSemejanzasDB() {
-        jsonString = DataBase.cargarJuego("semejanzas");
-        jsonParciales = DataBase.cargarJuego("parciales");
+        jsonString = DataBase.getEntidad("semejanzas");
+        jsonParciales = DataBase.getEntidad("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

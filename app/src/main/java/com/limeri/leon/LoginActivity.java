@@ -41,6 +41,7 @@ import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -243,31 +244,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         } else {
 
-            //Check for a valid MATRICULA
-            String data = "";
-            boolean existeUser = false;
-
-            for (Profesional profesional : Profesional.getProfesionales(this)) {
-                if (profesional.getmMatricula().equals(matricula)) {
-                    existeUser = true;
-                    if (!profesional.getmPassword().equals(password)) {
+            String strProfesional = DataBase.getProfesional(matricula);
+            if (strProfesional.equals("")) {
+                mMatriculaView.setError("El número de matrícula es incorrecto");
+                focusView = mMatriculaView;
+                cancel = true;
+            } else {
+                try {
+                    JSONObject jsonProfesional = new JSONObject(strProfesional);
+                    String pass = jsonProfesional.getString("contrasena");
+                    if (!pass.equals(password)) {
                         mPasswordView.setError("La contraseña es incorrecta");
                         focusView = mPasswordView;
                         cancel = true;
                     } else {
+                        Profesional profesional = new Profesional();
+                        profesional.setmMatricula(matricula);
+                        profesional.setmPassword(pass);
+                        profesional.setRegistrado(jsonProfesional.getBoolean("registrado"));
+                        profesional.setProducto(jsonProfesional.getString("producto"));
+                        profesional.setNombre(jsonProfesional.getString("nombre"));
+                        profesional.setmCorreo(jsonProfesional.getString("mail"));
                         Profesional.setProfesional(profesional);
                     }
-                    break;
-                } else {
-                    existeUser = false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-            }
-
-            if (!existeUser) {
-                mMatriculaView.setError("El número de matrícula es incorrecto");
-                focusView = mMatriculaView;
-                cancel = true;
             }
         }
 

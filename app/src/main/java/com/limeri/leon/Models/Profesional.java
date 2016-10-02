@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.limeri.leon.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;

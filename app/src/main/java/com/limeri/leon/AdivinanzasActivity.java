@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -145,8 +144,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void cargarAdivinanzasDB() {
-        jsonString = DataBase.cargarJuego("adivinanzas");
-        jsonParciales = DataBase.cargarJuego("parciales");
+        jsonString = DataBase.getEntidad("adivinanzas");
+        jsonParciales = DataBase.getEntidad("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

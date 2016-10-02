@@ -6,7 +6,6 @@ import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.gesture.Prediction;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +141,7 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
     }
 
     private void cargarClavesDB() {
-        jsonString = DataBase.cargarJuego("claves");
+        jsonString = DataBase.getEntidad("claves");
     }
 
     private void sumarPuntos(Integer puntos) {

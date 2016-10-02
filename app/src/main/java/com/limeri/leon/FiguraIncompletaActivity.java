@@ -14,11 +14,9 @@ import android.widget.ImageView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -179,7 +177,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     }
 
     private void cargarFigurasDB() {
-        jsonString = DataBase.cargarJuego("figuras");
+        jsonString = DataBase.getEntidad("figuras");
     }
 
     private void cargarSiguienteNivel() {

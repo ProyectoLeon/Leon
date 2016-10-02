@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -153,8 +152,8 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void cargarInformacionDB() {
-        jsonString = DataBase.cargarJuego("informacion");
-        jsonParciales = DataBase.cargarJuego("parciales");
+        jsonString = DataBase.getEntidad("informacion");
+        jsonParciales = DataBase.getEntidad("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

@@ -71,7 +71,7 @@ public class ConceptosActivity extends AppCompatActivity {
     }
 
     private void cargarConceptosDB() {
-        jsonString = DataBase.cargarJuego("conceptos");
+        jsonString = DataBase.getEntidad("conceptos");
     }
 
     private void sumarPuntos(Integer puntos) {

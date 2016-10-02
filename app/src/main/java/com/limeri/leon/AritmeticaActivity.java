@@ -3,7 +3,6 @@ package com.limeri.leon;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -11,7 +10,6 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -160,7 +157,7 @@ public class AritmeticaActivity extends AppCompatActivity {
     }
 
     private void cargarAritmeticaDB() {
-        jsonString = DataBase.cargarJuego("aritmetica");
+        jsonString = DataBase.getEntidad("aritmetica");
     }
 
     private void cargarSiguienteNivel() {

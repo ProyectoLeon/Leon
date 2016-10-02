@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,8 +146,8 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void cargarComprensionDB() {
-        jsonString = DataBase.cargarJuego("comprension");
-        jsonParciales = DataBase.cargarJuego("parciales");
+        jsonString = DataBase.getEntidad("comprension");
+        jsonParciales = DataBase.getEntidad("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

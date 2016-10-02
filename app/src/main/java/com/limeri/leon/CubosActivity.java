@@ -13,12 +13,9 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +28,6 @@ import org.neuroph.core.NeuralNetwork;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -245,7 +241,7 @@ public class CubosActivity extends AppCompatActivity {
     }
 
     private void cargarCubosDB() {
-        jsonString = DataBase.cargarJuego("cubos");
+        jsonString = DataBase.getEntidad("cubos");
     }
 
     private void sumarPuntos(Integer puntos) {
