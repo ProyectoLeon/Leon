@@ -29,7 +29,6 @@ public class PopupActivity extends Activity {
 
         Button btn_positive = (Button) findViewById(R.id.dialog_positive_btn);
         Button btn_negative = (Button) findViewById(R.id.dialog_negative_btn);
-        Button btn_negative2 = (Button) findViewById(R.id.dialog_negative_btn2);
         Button btn_neutral = (Button) findViewById(R.id.dialog_neutral_btn);
 
         btn_positive.setOnClickListener(new View.OnClickListener() {
@@ -41,8 +40,6 @@ public class PopupActivity extends Activity {
 
         if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
             // Evaluación
-            btn_negative.setVisibility(View.VISIBLE);
-            btn_negative2.setVisibility(View.GONE);
             if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
                 btn_negative.setText("Cancelar Juego");
                 btn_negative.setOnClickListener(cancelarUltimoJuegoListener(PopupActivity.this));
@@ -51,9 +48,8 @@ public class PopupActivity extends Activity {
             }
         } else {
             // Juego Libre
-            btn_negative2.setVisibility(View.VISIBLE);
-            btn_negative.setVisibility(View.GONE);
-            btn_negative2.setOnClickListener(cancelarJuegoLibreListener(PopupActivity.this));
+            btn_negative.setText("Cancelar Juego");
+            btn_negative.setOnClickListener(cancelarJuegoLibreListener(PopupActivity.this));
         }
 
         btn_neutral.setOnClickListener(new View.OnClickListener() {
