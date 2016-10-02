@@ -233,50 +233,52 @@ public class VocabularioActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (!soloImagen && posSelecc != -1) {
-                    // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
-                    if (nivel < 4) {
-                        if (posSelecc == 1){
-                            cantIncorrectasAnt = cantIncorrectas;
-                            cantIncorrectas++;
-                            cantConsecAnt = cantConsec;
-                            cantConsec = 0;
-                            guardarPuntosNivel(nivel, 0);
-                            puntPerfecto = false;
+                if (posSelecc != -1 || soloImagen) {
+                    if (!soloImagen) {
+                        // Si no obtiene puntuación perfecta en algunos de los primeros dos, sucuencia inversa hasta que acierta 2 seguidos.
+                        if (nivel < 4) {
+                            if (posSelecc == 1) {
+                                cantIncorrectasAnt = cantIncorrectas;
+                                cantIncorrectas++;
+                                cantConsecAnt = cantConsec;
+                                cantConsec = 0;
+                                guardarPuntosNivel(nivel, 0);
+                                puntPerfecto = false;
+                            } else {
+                                cantIncorrectasAnt = cantIncorrectas;
+                                cantIncorrectas = 0;
+                                sumarPuntos(1);
+                                guardarPuntosNivel(nivel, 1);
+                                puntPerfecto = true;
+                            }
                         } else {
-                            cantIncorrectasAnt = cantIncorrectas;
-                            cantIncorrectas = 0;
-                            sumarPuntos(1);
-                            guardarPuntosNivel(nivel, 1);
-                            puntPerfecto = true;
-                        }
-                    } else {
-                        if (posSelecc == 2){
-                            cantIncorrectasAnt = cantIncorrectas;
-                            cantIncorrectas++;
-                            guardarPuntosNivel(nivel, 0);
-                            puntPerfecto = false;
-                        } else if (posSelecc == 1) {
-                            cantIncorrectasAnt = cantIncorrectas;
-                            cantIncorrectas = 0;
-                            sumarPuntos(1);
-                            guardarPuntosNivel(nivel, 1);
-                            puntPerfecto = false;
-                        } else {
-                            cantIncorrectasAnt = cantIncorrectas;
-                            cantIncorrectas = 0;
-                            sumarPuntos(2);
-                            guardarPuntosNivel(nivel, 2);
-                            puntPerfecto = true;
+                            if (posSelecc == 2) {
+                                cantIncorrectasAnt = cantIncorrectas;
+                                cantIncorrectas++;
+                                guardarPuntosNivel(nivel, 0);
+                                puntPerfecto = false;
+                            } else if (posSelecc == 1) {
+                                cantIncorrectasAnt = cantIncorrectas;
+                                cantIncorrectas = 0;
+                                sumarPuntos(1);
+                                guardarPuntosNivel(nivel, 1);
+                                puntPerfecto = false;
+                            } else {
+                                cantIncorrectasAnt = cantIncorrectas;
+                                cantIncorrectas = 0;
+                                sumarPuntos(2);
+                                guardarPuntosNivel(nivel, 2);
+                                puntPerfecto = true;
+                            }
                         }
                     }
-                }
-                try {
-                    guardarRespuesta();
-                    seleccion = null;
-                    posSelecc = -1;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    try {
+                        guardarRespuesta();
+                        seleccion = null;
+                        posSelecc = -1;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         };
