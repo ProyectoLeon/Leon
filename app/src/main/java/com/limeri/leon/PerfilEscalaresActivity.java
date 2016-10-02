@@ -1,77 +1,65 @@
 package com.limeri.leon;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
-import android.opengl.GLSurfaceView;
-import android.os.Environment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.GridLayoutAnimationController;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.androidplot.util.PixelUtils;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.PointLabelFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.limeri.leon.Models.Evaluacion;
+import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
-
-import org.neuroph.util.random.GaussianRandomizer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class PerfilEscalaresActivity extends Activity {
 
 
-    LineGraphSeries<DataPoint> series, series2;
-    GraphView graph;
     Bitmap bitmap;
     Integer mWidth, mHeight;
     private XYPlot plot;
+    List<Columna> columnas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_perfil_escalares);
+        cargarColumnas();
         generarTablaEdad();
         completarGraficoEscalar();
-
+        completarGraficoCompuesto();
+        completarTablaComparaciones();
+        completarPtosFuertesyDebiles();
+        ImageView imageView = (ImageView) findViewById(R.id.encabezado);
+        imageView.setImageResource(R.drawable.encabezado);
         Button documentoPdf = (Button) findViewById(R.id.pdfButton);
         if (documentoPdf != null) {
             documentoPdf.setOnClickListener(clickPDF());
@@ -86,7 +74,6 @@ public class PerfilEscalaresActivity extends Activity {
         CompletarCelda(this, row0, "Año");
         CompletarCelda(this, row0, "Mes");
         CompletarCelda(this, row0, "Día");
-        //  row0.setBackgroundColor(Color.parseColor("#FFFFF"));
         tablaedad.addView(row0);
 
         TableRow row1 = new TableRow(this);
@@ -125,6 +112,7 @@ public class PerfilEscalaresActivity extends Activity {
 
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
+        col.setTextSize(10);
         col.setText(txt);
         row.addView(col);
     }
@@ -158,45 +146,184 @@ public class PerfilEscalaresActivity extends Activity {
         return dayDifference;
     }
     public void completarGraficoEscalar(){
-        graph = (GraphView) findViewById(R.id.graph);
+    GraphView graph;
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        agregarPuntajeEscalar();
+        graph = (GraphView) findViewById(R.id.graphEscalar);
         graph.setTitle("Perfil de puntuaciones escalares");
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(15);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(19);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph) ;
         staticLabelsFormatter.setHorizontalLabels(new String[]
-                {"","S","V","C","(I)","(Ad)","CC","Co","M","(FI)","D","LN","(A)","CI","BS","(An)"});
+              {"","S","V","C","(I)","(Ad)","CC","Co","M","(FI)","D","LN","(A)","CI","BS","(An)"});
         staticLabelsFormatter.setVerticalLabels(new String[]
-                {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"});
+              {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"});
+       // staticLabelsFormatter.formatLabel(5,true);
+        graph.getGridLabelRenderer().setTextSize(6f);
 
-        series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0.5,12),
-                new DataPoint(1,13),
-                new DataPoint(1.5,14)});
-        graph.addSeries(series);
-
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Subtests");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Escalar");
+        graph.getGridLabelRenderer().setLabelVerticalWidth(50);
+        //graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
+        //graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
+       //graph.getGridLabelRenderer().reloadStyles();
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.addSeries(crearSerie(0,4, Color.GREEN));
+        graph.addSeries(crearSerie(5,8, Color.BLUE));
+        graph.addSeries(crearSerie(9,11, Color.RED));
+        graph.addSeries(crearSerie(12,14, Color.YELLOW));
     }
 
-    public static Bitmap loadBitmapFromView(Context context, View view) {
+    public void agregarPuntajeEscalar(){
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        List<Juego> listaJuegos = evaluacion.getJuegos();
+        for (Juego juego : listaJuegos){
+            for (Columna columna:columnas){
+                if (juego.getNombre().equals(columna.nombre)){
+                    columna.ptos=juego.getPuntajeEscalar();
+                }
+            }}
 
-        Bitmap bitmap;
+ }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPurgeable = true;
-        options.inInputShareable = true;
-
-        bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
-                view.getMeasuredHeight(), Bitmap.Config.ARGB_4444);
-        Canvas c = new Canvas(bitmap);
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.setLayerType(View.LAYER_TYPE_HARDWARE,null);
-        view.draw(c);
-       //view.onDrawForeground(c);
-        c = null;
-
-        return bitmap;
+public LineGraphSeries crearSerie(int min, int max, int color){
+    DataPoint[] values = new DataPoint[max-min+1];
+    for(int i = 0;i<=(max-min);i++){
+        values[i] = new DataPoint(columnas.get(i+min).pos, columnas.get(i+min).ptos);
     }
+    LineGraphSeries serie = new LineGraphSeries<DataPoint>(values);
+    serie.setColor(color);
+    serie.setDrawDataPoints(true);
+    serie.setDataPointsRadius(10);
+    serie.setThickness(8);
+    return serie;
+}
+
+    public void completarGraficoCompuesto(){
+        GraphView graph = (GraphView) findViewById(R.id.graphCompuesto);
+        graph.setTitle("Perfil de puntuaciones compuestas");
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph) ;
+        staticLabelsFormatter.setHorizontalLabels(new String[]
+                {"","CV","RP","MT","VP","CIT"});
+        staticLabelsFormatter.setVerticalLabels(new String[]
+                {"40","50","60","70","80","90","100","110","120","130","140","150","160"});
+        graph.getGridLabelRenderer().setTextSize(6f);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Índices");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Compuesto");
+        graph.getGridLabelRenderer().setLabelVerticalWidth(50);
+        //graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
+        //graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
+        //graph.getGridLabelRenderer().reloadStyles();
+
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        LineGraphSeries serie = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0.5, evaluacion.getPuntosCompVerbal()),
+                new DataPoint(1,evaluacion.getPuntosRazPercep()),
+                new DataPoint(1.5,evaluacion.getPuntosMemOper()),
+                new DataPoint(2,evaluacion.getPuntosVelocProc()),
+                new DataPoint(2.5,evaluacion.getCoeficienteIntelectual())});
+        serie.setColor(Color.GREEN);
+        serie.setDrawDataPoints(true);
+        serie.setDataPointsRadius(10);
+        serie.setThickness(8);
+        graph.addSeries(serie);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Navegacion.irA(this, MainActivity.class);
+    }
+
+public void completarPtosFuertesyDebiles(){
+    TableLayout tablaFyD = (TableLayout) findViewById(R.id.tablaPtosFYD);
+    TableRow row0 = new TableRow(this);
+    CompletarCelda(this, row0, "Test");
+    CompletarCelda(this, row0, "Puntuación escalar");
+    CompletarCelda(this, row0, "Media de Pe");
+    CompletarCelda(this, row0, "Distancia a la media");
+    CompletarCelda(this, row0, "Valor Crítico");
+    CompletarCelda(this, row0, "Punto Fuerte o Débil");
+    CompletarCelda(this, row0, "Tasa Base");
+    tablaFyD.addView(row0);
+
+    TableRow row1 = new TableRow(this);
+    CompletarCelda(this, row1, "Construcción con Cubos");
+    validarFuerteDebil(this,row1,"Construcción con Cubos");
+    tablaFyD.addView(row1);
+
+    TableRow row2 = new TableRow(this);
+    CompletarCelda(this, row2, "Semejanzas");
+    validarFuerteDebil(this,row2,"Semejanzas");
+    tablaFyD.addView(row2);
+
+    TableRow row3 = new TableRow(this);
+    CompletarCelda(this, row3, "Dígitos");
+    validarFuerteDebil(this,row3,"Dígitos");
+    tablaFyD.addView(row3);
+
+    TableRow row4 = new TableRow(this);
+    CompletarCelda(this, row4, "Conceptos");
+    validarFuerteDebil(this,row4,"Conceptos");
+    tablaFyD.addView(row4);
+
+    TableRow row5 = new TableRow(this);
+    CompletarCelda(this, row5, "Claves");
+    validarFuerteDebil(this,row5,"Claves");
+    tablaFyD.addView(row5);
+
+    TableRow row6 = new TableRow(this);
+    CompletarCelda(this, row6, "Vocabulario");
+    validarFuerteDebil(this,row6,"Vocabulario");
+    tablaFyD.addView(row6);
+
+    TableRow row7 = new TableRow(this);
+    CompletarCelda(this, row7, "Letras y Números");
+    validarFuerteDebil(this,row7,"Letras y Números");
+    tablaFyD.addView(row7);
+
+    TableRow row8 = new TableRow(this);
+    CompletarCelda(this, row8, "Matrices");
+    validarFuerteDebil(this,row8,"Matrices");
+    tablaFyD.addView(row8);
+
+    TableRow row9 = new TableRow(this);
+    CompletarCelda(this, row9, "Comprensión");
+    validarFuerteDebil(this,row9,"Comprensión");
+    tablaFyD.addView(row9);
+
+    TableRow row10 = new TableRow(this);
+    CompletarCelda(this, row10, "Búsqueda de Símbolos");
+    validarFuerteDebil(this,row10,"Búsqueda de Símbolos");
+    tablaFyD.addView(row10);
+
+}
+
+    public void validarFuerteDebil(Activity activity, TableRow row, String string){
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        List<Juego> listaJuegos = evaluacion.getJuegos();
+        for (Juego juego : listaJuegos){
+            if (juego.getNombre().equals(string)){
+                CompletarCelda(activity, row, juego.getPuntosJuego().toString());
+                CompletarCelda(activity, row, "Media");
+                CompletarCelda(activity, row, "Dif media");
+                CompletarCelda(activity, row, "Pendiente tabla");
+                CompletarCelda(activity, row, "Pendiente tabla");
+                CompletarCelda(activity, row, "Pendiente tabla");
+            }
+        }
+
     }
     private View.OnClickListener clickPDF() {
 
@@ -207,34 +334,65 @@ public class PerfilEscalaresActivity extends Activity {
 
                 // Create a object of PdfDocument
                 PdfDocument document = new PdfDocument();
+//Hoja numero 0 - Carátula
+                View printArea0 = findViewById(R.id.caratula);
+                PdfDocument.PageInfo pageInfo0 = new PdfDocument.PageInfo.Builder(printArea0.getWidth(),printArea0.getHeight(),1).create();
+                PdfDocument.Page page0 = document.startPage(pageInfo0);
+                printArea0.setVisibility(View.VISIBLE);
+                printArea0.draw(page0.getCanvas());
+                printArea0.setVisibility(View.INVISIBLE);
+                document.finishPage(page0);
 
-// content view is EditText for my case in which user enters pdf content
-            View printArea = findViewById(R.id.View);
-            //bitmap = loadBitmapFromView(getApplicationContext(),printArea);
-// crate a page info with attributes as below
-// page number, height and width
-// i have used height and width to that of pdf content view
-                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(printArea.getWidth(),printArea.getHeight(),1).create();
-// create a new page from the PageInfo
-                PdfDocument.Page page = document.startPage(pageInfo);
-// repaint the user's text into the page
-                //content.draw(page.getCanvas());
+// Hoja1
+                View printArea1 = findViewById(R.id.Hoja1);
+                PdfDocument.PageInfo pageInfo1 = new PdfDocument.PageInfo.Builder(printArea1.getWidth(),printArea1.getHeight(),2).create();
+                PdfDocument.Page page1 = document.startPage(pageInfo1);
+                printArea1.setDrawingCacheEnabled(true);
+                Bitmap bitmap1 = Bitmap.createBitmap(printArea1.getDrawingCache(true),0,0,printArea1.getWidth(),printArea1.getHeight());
+                printArea1.setDrawingCacheEnabled(false);
+                page1.getCanvas().drawBitmap(bitmap1,1,1,null);
+                document.finishPage(page1);
+// Hoja2
+                View printArea2 = findViewById(R.id.Hoja2);
+                PdfDocument.PageInfo pageInfo2 = new PdfDocument.PageInfo.Builder(printArea2.getWidth(),printArea2.getHeight(),1).create();
+                PdfDocument.Page page2 = document.startPage(pageInfo2);
+                printArea2.setVisibility(View.VISIBLE);
+                printArea2.setDrawingCacheEnabled(true);
+                Bitmap bitmap2 = Bitmap.createBitmap(printArea2.getDrawingCache(true),0,0,printArea2.getWidth(),printArea2.getHeight());
+                printArea2.setDrawingCacheEnabled(false);
+                page2.getCanvas().drawBitmap(bitmap2,1,1,null);
+                printArea2.setVisibility(View.INVISIBLE);
+                document.finishPage(page2);
 
-               printArea.setDrawingCacheEnabled(true);
-                //  graph.layout(0, 0, 100, 100);
-              //  graph.buildDrawingCache(true);
-
-               bitmap = Bitmap.createBitmap(printArea.getDrawingCache(true));
-               printArea.setDrawingCacheEnabled(false);
-
-               page.getCanvas().drawBitmap(bitmap,1,1,null);
-// do final processing of the page
-                document.finishPage(page);
-
-                //pageNumber++;
-                //PdfDocument.PageInfo pageInfo1 = new PdfDocument.PageInfo.Builder(100,100,2).create();
-                //PdfDocument.Page page1 = document.startPage(pageInfo1);
-
+// Hoja3
+                View printArea3 = findViewById(R.id.Hoja3);
+                PdfDocument.PageInfo pageInfo3 = new PdfDocument.PageInfo.Builder(printArea3.getWidth(),printArea3.getHeight(),1).create();
+                PdfDocument.Page page3 = document.startPage(pageInfo3);
+                printArea3.setVisibility(View.VISIBLE);
+                printArea3.setDrawingCacheEnabled(true);
+                Bitmap bitmap3 = Bitmap.createBitmap(printArea3.getDrawingCache(true),0,0,printArea3.getWidth(),printArea3.getHeight());
+                printArea3.setDrawingCacheEnabled(false);
+                page3.getCanvas().drawBitmap(bitmap3,1,1,null);
+                printArea3.setVisibility(View.INVISIBLE);
+                document.finishPage(page3);
+// Hoja4
+                View printArea4 = findViewById(R.id.Hoja4);
+                PdfDocument.PageInfo pageInfo4 = new PdfDocument.PageInfo.Builder(printArea4.getWidth(),printArea4.getHeight(),2).create();
+                PdfDocument.Page page4 = document.startPage(pageInfo4);
+                printArea4.setDrawingCacheEnabled(true);
+                Bitmap bitmap4 = Bitmap.createBitmap(printArea4.getDrawingCache(true),0,0,printArea4.getWidth(),printArea4.getHeight());
+                printArea4.setDrawingCacheEnabled(false);
+                page4.getCanvas().drawBitmap(bitmap4,1,1,null);
+                document.finishPage(page4);
+// Hoja5
+                View printArea5 = findViewById(R.id.Hoja4);
+                PdfDocument.PageInfo pageInfo5 = new PdfDocument.PageInfo.Builder(printArea5.getWidth(),printArea5.getHeight(),2).create();
+                PdfDocument.Page page5 = document.startPage(pageInfo5);
+                printArea5.setDrawingCacheEnabled(true);
+                Bitmap bitmap5 = Bitmap.createBitmap(printArea5.getDrawingCache(true),0,0,printArea5.getWidth(),printArea5.getHeight());
+                printArea5.setDrawingCacheEnabled(false);
+                page5.getCanvas().drawBitmap(bitmap5,1,1,null);
+                document.finishPage(page5);
 // saving pdf document to sdcard
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss");
                 String pdfName = "pdfdemo"
@@ -255,5 +413,132 @@ public class PerfilEscalaresActivity extends Activity {
                 }
             }
         };
+    }
+
+    private void cargarColumnas() {
+        columnas = new ArrayList<>();
+        columnas.add(new Columna("Semejanzas",0));
+        columnas.add(new Columna("Vocabulario",1));
+        columnas.add(new Columna("Comprensión", 2));
+        columnas.add(new Columna("Información",3));
+        columnas.add(new Columna("Adivinanzas",4));
+        columnas.add(new Columna("Construcción con Cubos",5));
+        columnas.add(new Columna("Conceptos",6));
+        columnas.add(new Columna("Matrices",7));
+        columnas.add(new Columna("Completamiento de Figuras",8));
+        columnas.add(new Columna("Retención de Dígitos",8));
+        columnas.add(new Columna("Letras y Números", 10));
+        columnas.add(new Columna("Aritmética",11));
+        columnas.add(new Columna("Claves", 12));
+        columnas.add(new Columna("Búsqueda de Símbolos",13));
+        columnas.add(new Columna("Animales",14));
+
+//        columnas.add(new Columna("Semejanzas",1));
+//        columnas.add(new Columna("Vocabulario",1.0));
+//        columnas.add(new Columna("Comprensión", 1.5));
+//        columnas.add(new Columna("Información", 2.0));
+//        columnas.add(new Columna("Adivinanzas",2.5));
+//        columnas.add(new Columna("Construcción con Cubos", 3.0));
+//        columnas.add(new Columna("Conceptos", 3.5));
+//        columnas.add(new Columna("Matrices",4.0));
+//        columnas.add(new Columna("Completamiento de Figuras", 4.5));
+//        columnas.add(new Columna("Retención de Dígitos",5.0));
+//        columnas.add(new Columna("Letras y Números", 5.5));
+//        columnas.add(new Columna("Aritmética",6.0));
+//        columnas.add(new Columna("Claves", 6.5));
+//        columnas.add(new Columna("Búsqueda de Símbolos",7.0));
+//        columnas.add(new Columna("Animales",7.5));
+
+    }
+
+    public void completarTablaComparaciones(){
+        TableLayout tablacomp = (TableLayout) findViewById(R.id.tablaCompar);
+        TableRow row0 = new TableRow(this);
+        CompletarCelda(this, row0, "Índice/Test");
+        CompletarCelda(this, row0, "Puntuac.trans 1");
+        CompletarCelda(this, row0, "Puntuac.trans 2");
+        CompletarCelda(this, row0, "Díferencia");
+        CompletarCelda(this, row0, "Valor Crítico");
+        CompletarCelda(this, row0, "Diferencia Significativa");
+        CompletarCelda(this, row0, "Tasa Base"
+        );
+        tablacomp.addView(row0);
+
+            TableRow row1 = new TableRow(this);
+            CompletarCelda(this, row1, "CV - RP");
+            completarComparacion(this,row1,"CV","RP");
+            tablacomp.addView(row1);
+
+        TableRow row2 = new TableRow(this);
+        CompletarCelda(this, row2, "CV - MT");
+        completarComparacion(this,row2,"CV","MT");
+        tablacomp.addView(row2);
+
+        TableRow row3 = new TableRow(this);
+        CompletarCelda(this, row3, "CV - VP");
+        completarComparacion(this,row3,"CV","VP");
+        tablacomp.addView(row3);
+
+        TableRow row4 = new TableRow(this);
+        CompletarCelda(this, row4, "RP - MT");
+        completarComparacion(this,row4,"RP","MT");
+        tablacomp.addView(row4);
+
+        TableRow row5 = new TableRow(this);
+        CompletarCelda(this, row5, "MT - VP");
+        completarComparacion(this,row5,"MT","VP");
+        tablacomp.addView(row5);
+
+        TableRow row6 = new TableRow(this);
+        CompletarCelda(this, row6, "RP - VP");
+        completarComparacion(this,row6,"RP","VP");
+        tablacomp.addView(row6);
+   //TODO Agregar ultimas 3 filas con juegos
+    }
+    public void completarComparacion(Activity activity, TableRow row, String var1, String var2){
+        Integer ptosComp1 = calcularCompuesto(var1);
+        CompletarCelda(activity, row, ptosComp1.toString());
+        Integer ptosComp2 = calcularCompuesto(var2);
+        CompletarCelda(activity, row, ptosComp2.toString());
+        Integer dif = ptosComp1-ptosComp2;
+        CompletarCelda(activity, row, dif.toString());
+        CompletarCelda(activity, row, "Pendiente tabla");
+        CompletarCelda(activity, row, "Pendiente tabla");
+        CompletarCelda(activity, row, "Pendiente tabla");
+    }
+
+    public Integer calcularCompuesto(String var){
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Integer ptos = 0;
+        switch (var){
+            case "CV":
+            {
+            ptos = evaluacion.getPuntosCompVerbal();
+            break;}
+            case "RP":
+            {
+                ptos = evaluacion.getPuntosRazPercep();
+                break;}
+            case "MT":{
+                ptos = evaluacion.getPuntosMemOper();
+            break; }
+            case "VP":{
+                ptos = evaluacion.getPuntosVelocProc();
+            break;}
+    } return ptos;
+    }
+
+
+    class Columna {
+        String nombre;
+        Integer pos;
+        Integer ptos;
+
+        public Columna(String nombre, Integer pos){
+            this.nombre = nombre;
+            this.pos = pos;
+            this.ptos = 0;
+        }
     }
 }
