@@ -12,7 +12,7 @@ public class Juego {
     private String categoria;
     private Integer puntos = 0;
     private Estados estado = Estados.CREADO;
-    private Map<Integer, Integer> puntosNiveles;
+    private transient Map<Integer, Integer> puntosNiveles;
     private String nombreActividad;
     private List<List<Integer>> puntajesEquivalentes;
 

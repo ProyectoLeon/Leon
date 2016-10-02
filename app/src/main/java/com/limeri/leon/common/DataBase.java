@@ -23,8 +23,6 @@ import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicHeader;
-import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class DataBase {
 
@@ -81,21 +79,13 @@ public class DataBase {
     }
 
     public static void savePacientes() {
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        try {
-            Profesional profesional = Profesional.getProfesional();
-            String matricula = profesional.getmMatricula();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Paciente>>() {}.getType();
-            String jsonPaciente = gson.toJson(Paciente.getCuentas(),listType);
+        Profesional profesional = Profesional.getProfesionalActual();
+        String matricula = profesional.getMatricula();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Paciente>>() {}.getType();
+        String jsonPaciente = gson.toJson(Paciente.getCuentas(),listType);
 
-            saveEntidad(URL_DB + "profesionales/" + matricula + "/pacientes.json", jsonPaciente);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        saveEntidad(URL_DB + "profesionales/" + matricula + "/pacientes.json", jsonPaciente);
     }
 
     private static void saveEntidad(String url, String datos) {
@@ -116,5 +106,13 @@ public class DataBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveProfesional(Profesional profesional) {
+        Gson gson = new Gson();
+        Type listType = new TypeToken<Profesional>() {}.getType();
+        String jsonProfesional = gson.toJson(profesional,listType);
+
+        saveEntidad(URL_DB + "profesionales/" + profesional.getMatricula() + ".json", jsonProfesional);
     }
 }

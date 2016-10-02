@@ -188,7 +188,7 @@ public class AdministradorJuegos {
                 } else {
                     Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
                 }
-                Paciente.saveCuenta(activity, paciente);
+                Paciente.saveCuenta(paciente);
             } else {
                 // Juego Libre
                 Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
@@ -199,7 +199,7 @@ public class AdministradorJuegos {
                 juego.finalizar();
 //                Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
                 Navegacion.irA(activity, ValorJuegoLibreActivity.class);
-                Paciente.saveCuenta(activity, paciente);
+                Paciente.saveCuenta(paciente);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,7 +223,7 @@ public class AdministradorJuegos {
             } else {
                 Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             }
-            Paciente.saveCuenta(activity, paciente);
+            Paciente.saveCuenta(paciente);
         } catch (Exception e) {
             e.printStackTrace();
             Navegacion.irA(activity, ExamenActivity.class);
@@ -241,7 +241,7 @@ public class AdministradorJuegos {
             }
             juego.cancelar();
             Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
-            Paciente.saveCuenta(activity, paciente);
+            Paciente.saveCuenta(paciente);
         } catch (Exception e) {
             e.printStackTrace();
             Navegacion.irA(activity, ExamenActivity.class);
@@ -297,7 +297,7 @@ public class AdministradorJuegos {
         juego.cancelar();
         evaluacion.finalizar();
         Navegacion.irA(activity, ValorExamenActivity.class);
-        Paciente.saveCuenta(activity, paciente);
+        Paciente.saveCuenta(paciente);
     }
 
     public Boolean isUltimoJuegoProtocolo() {

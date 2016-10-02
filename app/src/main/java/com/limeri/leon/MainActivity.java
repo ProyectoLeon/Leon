@@ -2,14 +2,10 @@ package com.limeri.leon;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,19 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
-    String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre, mProfMatricula;
+    String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo;
     AlertDialog dialog;
     private TextView txtPaciente;
 
@@ -102,16 +94,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            Button buttonBorrarEvaluaciones = (Button) findViewById(R.id.buttonBorrarEvaluaciones);
-            if (buttonBorrarEvaluaciones != null) {
-                buttonBorrarEvaluaciones.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Paciente.getSelectedPaciente().borrarEvaluaciones();
-                    }
-                });
-            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -164,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
     private void showDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
 
         // I'm using fragment here so I'm using getView() to provide ViewGroup
         // but you can provide here any other instance of ViewGroup from your Fragment / Activity
@@ -252,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             dialog.dismiss();
 
-                            Paciente.saveCuenta(MainActivity.this, paciente);
+                            Paciente.saveCuenta(paciente);
                             actualizarNombrePaciente();
                         }
                     }});
@@ -299,38 +280,34 @@ public class MainActivity extends AppCompatActivity {
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
         final EditText producto = (EditText) viewInflated.findViewById(R.id.inputProducto);
 
-        nombre.setText(Profesional.getProfesional().getNombre());
+        nombre.setText(Profesional.getProfesionalActual().getNombre());
         nombre.setEnabled(false);
-        matricula.setText(Profesional.getProfesional().getmMatricula());
+        matricula.setText(Profesional.getProfesionalActual().getMatricula());
         matricula.setEnabled(false);
-        password.setText(Profesional.getProfesional().getmPassword());
-        correo.setText(Profesional.getProfesional().getmCorreo());
+        password.setText(Profesional.getProfesionalActual().getContrasena());
+        correo.setText(Profesional.getProfesionalActual().getCorreo());
         producto.setVisibility(View.GONE);
-
 
         builder.setView(viewInflated);
 
         // Set up the buttons
+
         builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            dialog.cancel();
-
+                dialog.cancel();
             }
+
+
         });
 
-
         dialog = builder.create();
-
-
         dialog.show();
-
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         button.setOnClickListener(new View.OnClickListener() {
@@ -338,42 +315,31 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mProfPassword = password.getText().toString();
                 mProfCorreo = correo.getText().toString();
-                mProfNombre = nombre.getText().toString();
-                mProfMatricula = matricula.getText().toString();
                 String confPass = confPassword.getText().toString();
 
                 if (confPass.isEmpty()) {
-                    //Toast.makeText(MainActivity.this, "Repita la contraseña", Toast.LENGTH_SHORT).show();
                     confPassword.setError("Repita contraseña");
-                } else if (!mProfPassword.equals(confPass))
-                {
-                    //Toast.makeText(MainActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                } else if (!mProfPassword.equals(confPass)) {
                     password.setError("Contraseñas no coinciden");
                     confPassword.setError("Contraseñas no coinciden");
-                }else {
+                } else {
+                    Profesional profesional = Profesional.getProfesionalActual();
+                    profesional.setCorreo(mProfCorreo);
+                    profesional.setContrasena(mProfPassword);
+
+                    Profesional.saveProfesional(profesional);
+                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
                     dialog.dismiss();
-                    Profesional profesional = Profesional.getProfesional();
-                    Profesional.borrarCuentaBase(MainActivity.this, profesional);
-
-                    // Profesional profesional = new Profesional();
-                    profesional.setNombre(mProfNombre);
-                    profesional.setmCorreo(mProfCorreo);
-                    profesional.setmPassword(mProfPassword);
-                    profesional.setmMatricula(mProfMatricula);
-
-                    Profesional.saveProfesional(MainActivity.this, profesional);
                 }
                 // callAdapter();
-
-            }});
-        if (button != null) {
-            button.setBackgroundColor(getResources().getColor(R.color.black));
-            button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.END);
-            button.setGravity(Gravity.CENTER_VERTICAL);
-            button.setBackground(getResources().getDrawable(R.drawable.button));
-            button.setPadding(10, 0, 10, 0);
-        }
+            }
+        });
+        button.setBackgroundColor(getResources().getColor(R.color.black));
+        button.setTextColor(getResources().getColor(R.color.black));
+        button.setGravity(Gravity.END);
+        button.setGravity(Gravity.CENTER_VERTICAL);
+        button.setBackground(getResources().getDrawable(R.drawable.button));
+        button.setPadding(10, 0, 10, 0);
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
@@ -387,7 +353,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
-
     }
 
     private void showPopupConfirmar(final AppCompatActivity context) {
@@ -401,8 +366,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Paciente paciente = Paciente.getSelectedPaciente();
-                Paciente.borrarCuenta(MainActivity.this, paciente);
-                Paciente.borrarSelectedPaciente();
+                Paciente.borrarCuenta(paciente);
+//                Paciente.borrarSelectedPaciente();
                 dialog.cancel();
                 Navegacion.irA(MainActivity.this, SelecPacienteActivity.class);
             }

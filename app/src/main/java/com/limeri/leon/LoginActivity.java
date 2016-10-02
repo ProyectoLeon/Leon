@@ -3,24 +3,22 @@ package com.limeri.leon;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -38,20 +36,12 @@ import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
-import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
-import com.limeri.leon.common.DataBase;
-import com.limeri.leon.common.JSONLoader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.Manifest.permission.PROCESS_OUTGOING_CALLS;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -73,13 +63,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private String mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula, mProducto;
+    private String mProfPassword, mProfMatricula, mProducto;
     private AlertDialog dialog;
     private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String jsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +77,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         AdministradorJuegos.setContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
-        jsonString = JSONLoader.loadJSON(getResources().openRawResource(R.raw.usuariosmatriculados));
 
         populateAutoComplete();
-        cargarUsuariosMatriculados();
 
         if (User.getUserEmail(getBaseContext()) != null) {
 
@@ -112,29 +99,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mLogInButton = (Button) findViewById(R.id.login_in_button);
-        mLogInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        if (mLogInButton != null) {
+            mLogInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
+        }
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog_Prof();
-            }
-        });
+        if (mSignInButton != null) {
+            mSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialog_Prof();
+                }
+            });
+        }
         Button mForgetPass = (Button) findViewById(R.id.forget_pass_button);
-        mForgetPass.setOnClickListener( new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Se ha enviado un correo a su casilla",Toast.LENGTH_LONG).show();}});
+        if (mForgetPass != null) {
+            mForgetPass.setOnClickListener( new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(),"Se ha enviado un correo a su casilla",Toast.LENGTH_LONG).show();}});
+        }
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
+/*
     private void cargarUsuariosMatriculados() {
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
@@ -156,12 +150,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Profesional profesional = new Profesional();
 
                 profesional.setNombre(nombreJson);
-                profesional.setmCorreo(correoJson);
-                profesional.setmMatricula(matriculaJson);
-                profesional.setmPassword(passwordJson);
+                profesional.setCorreo(correoJson);
+                profesional.setMatricula(matriculaJson);
+                profesional.setPassword(passwordJson);
                 profesional.setProducto(productoJson);
                 profesional.setRegistrado(registradoJson);
-                Profesional.setProfesional(profesional);
+                Profesional.setProfesionalActual(profesional);
                 Profesional.saveProfesional(LoginActivity.this, profesional);
             }
         } catch (JSONException e) {
@@ -169,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
     }
+*/
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -244,31 +239,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         } else {
 
-            String strProfesional = DataBase.getProfesional(matricula);
-            if (strProfesional.equals("")) {
+            Profesional profesional = Profesional.getProfesional(matricula);
+            if (profesional == null) {
                 mMatriculaView.setError("El número de matrícula es incorrecto");
                 focusView = mMatriculaView;
                 cancel = true;
             } else {
-                try {
-                    JSONObject jsonProfesional = new JSONObject(strProfesional);
-                    String pass = jsonProfesional.getString("contrasena");
-                    if (!pass.equals(password)) {
-                        mPasswordView.setError("La contraseña es incorrecta");
-                        focusView = mPasswordView;
-                        cancel = true;
-                    } else {
-                        Profesional profesional = new Profesional();
-                        profesional.setmMatricula(matricula);
-                        profesional.setmPassword(pass);
-                        profesional.setRegistrado(jsonProfesional.getBoolean("registrado"));
-                        profesional.setProducto(jsonProfesional.getString("producto"));
-                        profesional.setNombre(jsonProfesional.getString("nombre"));
-                        profesional.setmCorreo(jsonProfesional.getString("mail"));
-                        Profesional.setProfesional(profesional);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (!password.equals(profesional.getContrasena())) {
+                    mPasswordView.setError("La contraseña es incorrecta");
+                    focusView = mPasswordView;
+                    cancel = true;
+                } else {
+                    Profesional.setProfesionalActual(profesional);
                 }
             }
         }
@@ -373,7 +355,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
+//        int IS_PRIMARY = 1;
     }
 
     /**
@@ -415,15 +397,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
             if (success) {
                 login(mMatricula);
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError("La contraseña es incorrecta");
                 mPasswordView.requestFocus();
             }
+            showProgress(false);
         }
 
         @Override
@@ -437,9 +419,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         try {
 
             User.saveUserEmail(getBaseContext(), matricula);
-            Paciente.loadCuentas(this);
+            Profesional.loadCuentas();
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
         Navegacion.irA(LoginActivity.this, SelecPacienteActivity.class);
     }
@@ -460,16 +442,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
 
-//        nombre.setText(Profesional.getProfesional().getNombre());
-//        nombre.setEnabled(false);
         nombre.setVisibility(View.GONE);
-//        matricula.setText(Profesional.getProfesional().getmMatricula());
-//        matricula.setEnabled(false);
-//        password.setText(Profesional.getProfesional().getmPassword());
-//        correo.setText(Profesional.getProfesional().getmCorreo());
         correo.setVisibility(View.GONE);
-//        producto.setText(Profesional.getProfesional().getProducto());
-
         builder.setView(viewInflated);
 
         // Set up the buttons
@@ -497,60 +471,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mProfMatricula = matricula.getText().toString();
                 mProducto = producto.getText().toString();
                 String confPass = confPassword.getText().toString();
+                Profesional profesional = Profesional.getProfesional(mProfMatricula);
 
                 if (mProfMatricula.isEmpty() || mProducto.isEmpty() || mProfPassword.isEmpty() || mProfPassword.isEmpty()) {
                     Toast.makeText(getApplicationContext(),"Por favor ingresar los datos obligatorios",Toast.LENGTH_LONG).show();
-                } else if (!Profesional.existeMatricula(LoginActivity.this, mProfMatricula)) {
+                } else if (profesional == null) {
                     matricula.setError("No existe una cuenta con ese número de matricula");
-                } else if (Profesional.isMatriculaRegistrada(LoginActivity.this, mProfMatricula)) {
+                } else if (profesional.isRegistrado()) {
                     matricula.setError("El número de matrícula ya posee cuenta registrada");
-                } else if (!mProducto.equals(Profesional.getProductoMatricula(LoginActivity.this, mProfMatricula))) {
+                } else if (!mProducto.equals(profesional.getProducto())) {
                     producto.setError("Código de producto incorrecto");
                 } else if (!mProfPassword.equals(confPass)) {
                     password.setError("Las contraseñas no son iguales");
                     confPassword.setError("Las contraseñas no son iguales");
                 } else {
-                    Profesional profesional = Profesional.getProfesional();
-                    Profesional.borrarCuentaBase(LoginActivity.this, profesional);
-
-                    //profesional.setProducto(mProducto);
-                    profesional.setmPassword(mProfPassword);
+                    profesional.setContrasena(mProfPassword);
                     profesional.setRegistrado(true);
-                    //profesional.setmMatricula(mProfMatricula);
-
-                    Profesional.saveProfesional(LoginActivity.this, profesional);
-                    //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
+                    Profesional.saveProfesional(profesional);
 
                     dialog.dismiss();
                 }
             }
         });
-        if (button != null) {
-            button.setBackgroundColor(getResources().getColor(R.color.black));
-            button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.END);
-            button.setGravity(Gravity.CENTER_VERTICAL);
-            button.setBackground(getResources().getDrawable(R.drawable.button));
-            button.setPadding(10, 0, 10, 0);
-        }
+        button.setBackgroundColor(getResources().getColor(R.color.black));
+        button.setTextColor(getResources().getColor(R.color.black));
+        button.setGravity(Gravity.END);
+        button.setGravity(Gravity.CENTER_VERTICAL);
+        button.setBackground(getResources().getDrawable(R.drawable.button));
+        button.setPadding(10, 0, 10, 0);
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-
-        if (button2 != null) {
-            button2.setBackgroundColor(getResources().getColor(R.color.black));
-            button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.START);
-            button2.setBackground(getResources().getDrawable(R.drawable.button));
-            button2.setGravity(Gravity.CENTER_VERTICAL);
-            button2.setPadding(10, 0, 10, 0);
-        }
+        button2.setBackgroundColor(getResources().getColor(R.color.black));
+        button2.setTextColor(getResources().getColor(R.color.black));
+        button2.setGravity(Gravity.START);
+        button2.setBackground(getResources().getDrawable(R.drawable.button));
+        button2.setGravity(Gravity.CENTER_VERTICAL);
+        button2.setPadding(10, 0, 10, 0);
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
-
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

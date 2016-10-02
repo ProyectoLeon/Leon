@@ -1,84 +1,86 @@
 package com.limeri.leon.Models;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.limeri.leon.common.DataBase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-/**
- * Created by MIPc on 8/6/2016.
- */
 public class Profesional {
 
-    private String mNombre;
-    private String mCorreo;
-    private String mPassword;
-    private String mMatricula;
-    private String mProducto;
-    private boolean mRegistrado;
+    private String nombre;
+    private String correo;
+    private String contrasena;
+    private String matricula;
+    private String producto;
+    private boolean registrado;
+    private List<Paciente> pacientes;
 
-    private static Profesional mSelectedProfesional;
-
-    public String getmCorreo() {
-        return mCorreo;
+    public static void loadCuentas() {
+        Gson gson = new Gson();
+        String jsonPacientes = DataBase.getPacientes(mSelectedProfesional.matricula);
+        if (!jsonPacientes.equals("")) {
+            Type listType = new TypeToken<ArrayList<Paciente>>() {}.getType();
+            mSelectedProfesional.pacientes = gson.fromJson(jsonPacientes, listType);
+        } else {
+            mSelectedProfesional.pacientes = new ArrayList<>();
+        }
     }
 
-    public void setmCorreo(String mCorreo) {
-        this.mCorreo = mCorreo;
+    public String getCorreo() {
+        return correo;
     }
 
-    public String getmPassword() {
-        return mPassword;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
-    public void setmPassword(String mPassword) {
-        this.mPassword = mPassword;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public String getmMatricula() {
-        return mMatricula;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public void setmMatricula(String mMatricula) {
-        this.mMatricula = mMatricula;
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public String getNombre() {
-        return mNombre;
+        return nombre;
     }
 
-    public void setNombre(String mUsuario) {
-        this.mNombre = mUsuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getProducto() {
-        return mProducto;
+        return producto;
     }
 
-    public void setProducto(String mProducto) {
-        this.mProducto = mProducto;
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public boolean isRegistrado() {
-        return mRegistrado;
+        return registrado;
     }
 
-    public void setRegistrado(boolean mRegistrado) {
-        this.mRegistrado = mRegistrado;
+    public void setRegistrado(boolean registrado) {
+        this.registrado = registrado;
     }
 
-    public static Profesional getProfesional() {
-        return mSelectedProfesional;
-    }
-
-    public static Profesional getSavedProfesional(Activity activity, String id) {
+    /*public static Profesional getSavedProfesional(Activity activity, String id) {
 
         Gson gson = new Gson();
 
@@ -94,7 +96,7 @@ public class Profesional {
 
                 Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
 
-                if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(id)) {
+                if (profesionalGuardado.getMatricula() != null && profesionalGuardado.getMatricula().equals(id)) {
 
                    return profesionalGuardado;
 
@@ -111,44 +113,8 @@ public class Profesional {
 
         return null;
     }
-
-
-
-    public static void setProfesional (Profesional profesional) {
-        mSelectedProfesional = profesional;
-    }
-    /**
-        public static void saveCuentas(Activity activity) {
-            SharedPreferences prefs = activity.getSharedPreferences("User", Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = prefs.edit();
-            Gson gson = new Gson();
-            String cuentas = gson.toJson(mPacientes);
-            edit.putString("User", cuentas);
-            edit.commit();
-            edit.apply();
-
-        }
-    */
-        public static void saveProfesional(Activity activity, Profesional profesional) {
-
-            Gson gson = new Gson();
-            String cuentas = gson.toJson(profesional);
-
-            SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
-
-            Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
-
-            s.add(cuentas);
-
-            SharedPreferences.Editor edit = prefs.edit();
-
-
-            edit.putStringSet("Profesional", s);
-            edit.apply();
-            edit.commit();
-        }
-
-    /**
+*/
+    /*
         public static void borrarCuentas(Activity activity) {
 
             Gson gson = new Gson();
@@ -194,6 +160,41 @@ public class Profesional {
         }
 
 */
+
+    private static Profesional mSelectedProfesional;
+
+    public static Profesional getProfesionalActual() {
+        return mSelectedProfesional;
+    }
+
+    public static void setProfesionalActual(Profesional profesional) {
+        mSelectedProfesional = profesional;
+    }
+
+    public static void saveProfesional(Profesional profesional) {
+
+/*
+        Gson gson = new Gson();
+        String cuentas = gson.toJson(profesional);
+
+        SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
+
+        Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
+
+        s.add(cuentas);
+
+        SharedPreferences.Editor edit = prefs.edit();
+
+
+        edit.putStringSet("Profesional", s);
+        edit.apply();
+        edit.commit();
+*/
+
+        DataBase.saveProfesional(profesional);
+    }
+
+/*
     public static void borrarCuentaBase(Activity activity, Profesional profesional) {
 
 
@@ -211,7 +212,7 @@ public class Profesional {
 
                 Profesional profesionalGuardado = (gson.fromJson(iter.next().toString(), Profesional.class));
 
-                if (profesionalGuardado.getmMatricula() != null && profesionalGuardado.getmMatricula().equals(profesional.getmMatricula())) {
+                if (profesionalGuardado.getMatricula() != null && profesionalGuardado.getMatricula().equals(profesional.getMatricula())) {
 
                     iter.remove();
                     break;
@@ -238,6 +239,8 @@ public class Profesional {
     }
 
     public static boolean existeMatricula(Activity activity, String matricula) {
+*/
+/*
         SharedPreferences prefs = activity.getSharedPreferences("Profesional", Context.MODE_PRIVATE);
         Set<String> s = new HashSet<>(prefs.getStringSet("Profesional", new HashSet<String>()));
 
@@ -246,12 +249,15 @@ public class Profesional {
         boolean existe = false;
         for (String prof : s) {
             Profesional profesional = gson.fromJson(prof, Profesional.class);
-            if (profesional.getmMatricula().equals(matricula)) {
+            if (profesional.getMatricula().equals(matricula)) {
                 existe = true;
                 break;
             }
         }
-        return existe;
+*//*
+
+        String strProfesional = DataBase.getProfesionalActual(matricula);
+        return !strProfesional.equals("");
     }
 
     public static boolean isMatriculaRegistrada(Activity activity, String matricula) {
@@ -263,7 +269,7 @@ public class Profesional {
         boolean registrada = false;
         for (String prof : s) {
             Profesional profesional = gson.fromJson(prof, Profesional.class);
-            if (profesional.getmMatricula().equals(matricula) && profesional.isRegistrado()) {
+            if (profesional.getMatricula().equals(matricula) && profesional.isRegistrado()) {
                 registrada = true;
                 break;
             }
@@ -280,7 +286,7 @@ public class Profesional {
         String producto = "";
         for (String prof : s) {
             Profesional profesional = gson.fromJson(prof, Profesional.class);
-            if (profesional.getmMatricula().equals(matricula)) {
+            if (profesional.getMatricula().equals(matricula)) {
                 producto = profesional.getProducto();
                 break;
             }
@@ -301,6 +307,32 @@ public class Profesional {
         }
         return profs;
     }
+*/
+
+    public static Profesional getProfesional(String matricula) {
+        String strProfesional = DataBase.getProfesional(matricula);
+        Profesional profesional = null;
+        if (!strProfesional.equals("")) {
+            try {
+                JSONObject jsonProfesional = new JSONObject(strProfesional);
+                profesional = new Profesional();
+                profesional.setMatricula(jsonProfesional.getString("matricula"));
+                profesional.setContrasena(jsonProfesional.getString("contrasena"));
+                profesional.setRegistrado(jsonProfesional.getBoolean("registrado"));
+                profesional.setProducto(jsonProfesional.getString("producto"));
+                profesional.setNombre(jsonProfesional.getString("nombre"));
+                profesional.setCorreo(jsonProfesional.getString("mail"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return profesional;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
+    }
+
     /**
         public static void borrarCuenta(Paciente paciente) {
 

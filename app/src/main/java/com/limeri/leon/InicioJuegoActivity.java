@@ -33,7 +33,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
         } else {
             evaluacion = new Evaluacion();
             paciente.agregarEvaluacion(evaluacion);
-            Paciente.saveCuenta(this,paciente);
+            Paciente.saveCuenta(paciente);
         }
 
         juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);

@@ -100,7 +100,7 @@ public class Navegacion {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(Profesional.getProfesional().getmPassword().equals(input.getText().toString())){
+                if(Profesional.getProfesionalActual().getContrasena().equals(input.getText().toString())){
                     irAPopUp(context);
                 } else {
                     Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_LONG).show();

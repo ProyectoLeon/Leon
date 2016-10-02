@@ -39,7 +39,7 @@ import java.util.Locale;
 public class SelecPacienteActivity extends AppCompatActivity {
 
 
-    private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo, mProfNombre ,mProfMatricula, mProducto;
+    private String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo;
     AlertDialog dialog;
     private ListView lvPacientes;
     private ArrayAdapter<String> adapter;
@@ -58,7 +58,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar_main,
                 null);
-
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -248,8 +247,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         dialog = builder.create();
         dialog.show();
-        dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(
-                new View.OnClickListener() {
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -297,26 +295,26 @@ public class SelecPacienteActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             lvPacientes.invalidateViews();
 
-                            Paciente.saveCuenta(SelecPacienteActivity.this, paciente);
+                            Paciente.saveCuenta(paciente);
                         }
-                    }
-                });
+                }
+        });
 
         //TODO: Adaptar el LAYOUT de ABM paciente
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (button != null) {
             button.setBackgroundColor(getResources().getColor(R.color.black));
             button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.RIGHT);
+            button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
-    }
+        }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         if (button2 != null) {
             button2.setBackgroundColor(getResources().getColor(R.color.black));
             button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.LEFT);
+            button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
         }
@@ -379,7 +377,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-
         // I'm using fragment here so I'm using getView() to provide ViewGroup
         // but you can provide here any other instance of ViewGroup from your Fragment / Activity
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.datos_profesional_popup, (ViewGroup) this
@@ -392,12 +389,12 @@ public class SelecPacienteActivity extends AppCompatActivity {
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
         final EditText producto = (EditText) viewInflated.findViewById(R.id.inputProducto);
 
-        nombre.setText(Profesional.getProfesional().getNombre());
+        nombre.setText(Profesional.getProfesionalActual().getNombre());
         nombre.setEnabled(false);
-        matricula.setText(Profesional.getProfesional().getmMatricula());
+        matricula.setText(Profesional.getProfesionalActual().getMatricula());
         matricula.setEnabled(false);
-        password.setText(Profesional.getProfesional().getmPassword());
-        correo.setText(Profesional.getProfesional().getmCorreo());
+        password.setText(Profesional.getProfesionalActual().getContrasena());
+        correo.setText(Profesional.getProfesionalActual().getCorreo());
         producto.setVisibility(View.GONE);
 
         builder.setView(viewInflated);
@@ -419,10 +416,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         });
 
         dialog = builder.create();
-
-
         dialog.show();
-
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         button.setOnClickListener(new View.OnClickListener() {
@@ -430,9 +424,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mProfPassword = password.getText().toString();
                 mProfCorreo = correo.getText().toString();
-                mProfNombre = nombre.getText().toString();
-                mProfMatricula = matricula.getText().toString();
-                mProducto = producto.getText().toString();
                 String confPass = confPassword.getText().toString();
 
                 if (confPass.isEmpty()) {
@@ -441,30 +432,23 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     password.setError("Contraseñas no coinciden");
                     confPassword.setError("Contraseñas no coinciden");
                 } else {
-                    Profesional profesional = Profesional.getProfesional();
-                    Profesional.borrarCuentaBase(SelecPacienteActivity.this, profesional);
+                    Profesional profesional = Profesional.getProfesionalActual();
+                    profesional.setCorreo(mProfCorreo);
+                    profesional.setContrasena(mProfPassword);
 
-                    // Profesional profesional = new Profesional();
-                    profesional.setNombre(mProfNombre);
-                    profesional.setmCorreo(mProfCorreo);
-                    profesional.setmPassword(mProfPassword);
-                    profesional.setmMatricula(mProfMatricula);
-
-                    Profesional.saveProfesional(SelecPacienteActivity.this, profesional);
+                    Profesional.saveProfesional(profesional);
                     //GRABAR ACTUALIZACION O BORRAR Y VOLVER A CREAR
                     dialog.dismiss();
                 }
                 // callAdapter();
             }
         });
-        if (button != null) {
-            button.setBackgroundColor(getResources().getColor(R.color.black));
-            button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.END);
-            button.setGravity(Gravity.CENTER_VERTICAL);
-            button.setBackground(getResources().getDrawable(R.drawable.button));
-            button.setPadding(10, 0, 10, 0);
-        }
+        button.setBackgroundColor(getResources().getColor(R.color.black));
+        button.setTextColor(getResources().getColor(R.color.black));
+        button.setGravity(Gravity.END);
+        button.setGravity(Gravity.CENTER_VERTICAL);
+        button.setBackground(getResources().getDrawable(R.drawable.button));
+        button.setPadding(10, 0, 10, 0);
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
@@ -478,8 +462,5 @@ public class SelecPacienteActivity extends AppCompatActivity {
         }
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
-
     }
-
-
 }
