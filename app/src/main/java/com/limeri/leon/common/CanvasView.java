@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.support.annotation.MainThread;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,6 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
+
+    public void pausa() {
+        surfaceDestroyed(getHolder());
+    }
+
+    public void resume() {
+        if (thread.getState()==Thread.State.TERMINATED) {
+
+            System.out.println("Terminated");
+
+            SurfaceHolder holder = getHolder();
+            holder.setFormat(PixelFormat
+                    .TRANSPARENT);
+            holder.addCallback(this);
+            thread = new CanvasThread(holder);
+            thread.setRunning(true);
+            thread.start();
+
+        }
+
+
+        }
 
     public class CanvasThread extends Thread {
 

@@ -41,5 +41,10 @@ import android.graphics.drawable.Drawable;
 
         }
 
+        public void renderClear(Canvas c) {
+            draw( c );
+
+        }
+
     }
 

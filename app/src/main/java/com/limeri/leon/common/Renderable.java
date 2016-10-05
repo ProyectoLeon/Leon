@@ -7,5 +7,6 @@ import com.limeri.leon.R;
 
 public interface Renderable {
     void render( Canvas c );
+    void renderClear( Canvas c );
     Rect getBounds();
 }

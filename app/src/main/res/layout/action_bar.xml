@@ -6,19 +6,16 @@
     android:layout_width="fill_parent" android:layout_height="55dp"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-
-
-    >
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
     <Button
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:id="@+id/boton_actionbar"
-        android:background="@drawable/canc3"
-        android:scaleX="0.5"
-        android:scaleY="0.8"
+        android:background="@drawable/cancelar"
+        android:scaleX="0.45"
+        android:scaleY="0.45"
         android:elegantTextHeight="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

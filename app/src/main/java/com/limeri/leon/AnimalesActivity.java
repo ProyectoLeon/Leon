@@ -44,6 +44,7 @@ public class AnimalesActivity extends AppCompatActivity {
     private int puntos = 0;
     private long tiempoNivel = 0;
     private int puntajePlus = 14;
+    private int lado =0;
 
 
 
@@ -64,7 +65,7 @@ public class AnimalesActivity extends AppCompatActivity {
         imgAnimales = (ImageView) findViewById(R.id.animales);
         imgMask = (ImageView) findViewById(R.id.mask);
         crono = (Chronometer) findViewById(R.id.cronometro);
-
+        lado = imgAnimales.getDrawable().getIntrinsicWidth()/10;
 
         Navegacion.agregarMenuJuego(this);
         AdministradorJuegos.getInstance().inicializarJuego();
@@ -156,7 +157,7 @@ public class AnimalesActivity extends AppCompatActivity {
 
     private void marcarDibujo(int x, int y) {
         SquareDrawable square = new SquareDrawable("#0000FF");
-        square.setBounds(x-50, y-50, x + 50,y + 50);
+        square.setBounds(x-lado, y-lado, x + lado,y + lado);
         canvasView.addRenderable(square);
     }
 
@@ -203,7 +204,7 @@ public class AnimalesActivity extends AppCompatActivity {
         tiempoNivel = tiempoNivel + tiempo;
 
         if (isUltimoNivel()) {
-            canvasView.inicializar();
+            canvasView.pausa();
             guardar();
         } else {
             nivel++;
@@ -301,20 +302,25 @@ public class AnimalesActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
+        canvasView.pausa();
         super.finish();
         handler.removeCallbacks(runnable);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         iniciarCronometro();
+        canvasView.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        canvasView.pausa();
         pararCronometro();
+
     }
 
     private void pararCronometro() {

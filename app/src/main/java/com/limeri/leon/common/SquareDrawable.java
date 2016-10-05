@@ -18,7 +18,21 @@ public class SquareDrawable extends Drawable implements Renderable {
         Paint p = new Paint();
         p.setColor(color);
         p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(3);
+        canvas.drawLine(this.getBounds().right,this.getBounds().bottom,this.getBounds().left, this.getBounds().top,p);
+
+
+
+    }
+
+
+    public void drawRect(Canvas canvas) {
+        Paint p = new Paint();
+        p.setColor(color);
+        p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(this.getBounds(), p);
+        //canvas.drawLine(this.getBounds().left,this.getBounds().bottom,this.getBounds().right, this.getBounds().top,p);
+
 
 
     }
@@ -41,6 +55,11 @@ public class SquareDrawable extends Drawable implements Renderable {
     @Override
     public void render(Canvas c) {
         draw( c );
+
+    }
+
+    public void renderClear(Canvas c) {
+        drawRect( c );
 
     }
 
