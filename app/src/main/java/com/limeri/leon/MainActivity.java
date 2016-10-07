@@ -71,6 +71,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            Button buttonHistorico = (Button) findViewById(R.id.buttonHistorico);
+            if (buttonHistorico != null) {
+                if (paciente.tieneEvaluacionFinalizada()) {
+                    buttonHistorico.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Navegacion.irA(MainActivity.this, HistoricoActivity.class);
+                        }
+                    });
+                } else {
+                    buttonHistorico.setEnabled(false);
+                }
+            }
+
             Button buttonEstadisticas = (Button) findViewById(R.id.buttonEstadisticas);
             if (buttonEstadisticas != null) {
                 if (paciente.tieneEvaluacionFinalizada()) {
@@ -97,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
+
     }
 
     private void actualizarNombrePaciente() {

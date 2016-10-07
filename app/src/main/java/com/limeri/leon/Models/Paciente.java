@@ -51,6 +51,10 @@ public class Paciente {
         return nombre + " " + apellido;
     }
 
+    public List<Evaluacion> getEvaluaciones() {
+        return evaluaciones;
+    }
+
     public Evaluacion getEvaluacionFinalizada(){
         Evaluacion evaluacionFinalizada = null;
         for(Evaluacion eval : evaluaciones) {

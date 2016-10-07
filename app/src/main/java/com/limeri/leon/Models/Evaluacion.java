@@ -128,4 +128,8 @@ public class Evaluacion {
     public void setCoeficienteIntelectual(Integer coeficienteIntelectual) {
         this.coeficienteIntelectual = coeficienteIntelectual;
     }
+
+    public Estados getEstado(){
+        return estado;
+    }
 }
