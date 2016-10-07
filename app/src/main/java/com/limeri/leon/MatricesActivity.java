@@ -136,6 +136,7 @@ public class MatricesActivity extends AppCompatActivity {
             cantIncorrectasSeguidas++;
             if (isMaximoErrores()) {
                 guardar();
+                return;
             } else if (isNivelesIniciales() && !retrogresion) {
                 nivelErrado = nivel;
                 invertir();
