@@ -1,0 +1,592 @@
+{
+  "adivinanzas" : [ {
+    "pregunta" : "Pista: Es un animal con una trompa larga y orejas grandes",
+    "respuesta0" : "Elefante",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista: Es un lugar de la casa donde se prepara la comida",
+    "respuesta0" : "Cocina",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista: Está en la cara y se utiliza para oler cosas",
+    "respuesta0" : "Nariz o Fosas nasales",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista: Se puede abrir para pasar a otro lugar y a veces se cierra con llave",
+    "respuesta0" : "Puerta, Verja o Portón",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista: Es algo que se lleva para cubrir la cabeza",
+    "respuesta0" : "Sombrero, Gorra, Turbante, Casco , Pañuelo, etc",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista: Funciona con electricidad y conserva los alimentos frescos",
+    "respuesta0" : "Heladera, Congelador o Frigorífico",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Pista 1: Se forma en la tierra después de llover; Pista 2: Puede ensuciarte la ropa",
+    "respuesta0" : "Barro, Lodo, Pasto o Hierba mojada, Charco o Agua sucia",
+    "respuesta1" : "Otro"
+  } ],
+  "aritmetica" : [ {
+    "dibujo" : "arit1_pajaritos",
+    "pregunta" : "¿Cuántos pajaritos ves?",
+    "respuesta0" : "3",
+    "respuesta1" : "Otro"
+  }, {
+    "dibujo" : "arit2_pollitos",
+    "pregunta" : "¿Cuántos pollitos ves?",
+    "respuesta0" : "5",
+    "respuesta1" : "Otro"
+  }, {
+    "dibujo" : "arit3_arboles",
+    "pregunta" : "¿Cuántos árboles ves?",
+    "respuesta0" : "10",
+    "respuesta1" : "Otro"
+  }, {
+    "dibujo" : "arit4_bichos",
+    "pregunta" : "¿Cuántos insectos ves en total?",
+    "respuesta0" : "9",
+    "respuesta1" : "Otro"
+  }, {
+    "dibujo" : "arit5_ardillas",
+    "pregunta" : "¿Cuántas avellanas quedan si cada ardilla se come una?",
+    "respuesta0" : "2",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "¿Cuántos son 2 lápices mas 3 lápices?",
+    "respuesta0" : "5",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "María tenía 4 monedas y su madre le da 2 más, ¿cuántas tiene en total?",
+    "respuesta0" : "6",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Si corto una manzana por la mitad, ¿cuántos trozos tendré?",
+    "respuesta0" : "2",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Si tienes 3 hojas en cada mano, ¿cuántas hojas tienes en total?",
+    "respuesta0" : "6",
+    "respuesta1" : "Otro"
+  }, {
+    "pregunta" : "Si tienes 10 caramelos y comes 3, ¿cuántos te quedan?",
+    "respuesta0" : "7",
+    "respuesta1" : "Otro"
+  } ],
+  "claves" : [ {
+    "pregunta" : "circulo",
+    "respuesta" : "menor"
+  }, {
+    "pregunta" : "estrella",
+    "respuesta" : "v invert"
+  }, {
+    "pregunta" : "cuadrado",
+    "respuesta" : "v"
+  }, {
+    "pregunta" : "cruz",
+    "respuesta" : "circu"
+  }, {
+    "pregunta" : "triangulo",
+    "respuesta" : "hori"
+  } ],
+  "comprension" : [ {
+    "pregunta" : "¿Por qué las personas se cepillan los dientes?",
+    "respuesta0" : "Higiene / Eliminar gérmenes / Limpieza / Prevenir caries / Buen aliento",
+    "respuesta1" : "Para no ir al dentista / Porque es bueno / Para que no se caigan",
+    "respuesta2" : "Cuando comés caramelos o tomás gaseosa / Antes de ir al dentista"
+  }, {
+    "pregunta" : "¿Qué deberías hacer si encuentras la billetera de alguien en un negocio?",
+    "respuesta0" : "Ver de quién es y devolverla / Llevarla a la policía",
+    "respuesta1" : "Ver de quién es / Devolverla / Buscar al dueño / Dársela a mi madre",
+    "respuesta2" : "Levantarla del suelo / Dejarla ahí / Tirarla / Ver cuánto dinero tiene"
+  }, {
+    "pregunta" : "¿Por qué los autos tienen cinturones de seguridad?",
+    "respuesta0" : "Para que las personas no se lastimen en un accidente de auto",
+    "respuesta1" : "Para salvar la vida de las personas / Para accidentes / Por la policía",
+    "respuesta2" : "Para no tener un accidente / Me obligan mis padres / Va cruzado en el pecho"
+  }, {
+    "pregunta" : "¿Por qué es bueno comer frutas y verduras?",
+    "respuesta0" : "Para dieta balanceada / Es saludable / Para energía, fuerza",
+    "respuesta1" : "Ayudan al cuerpo / Para perder peso",
+    "respuesta2" : "Para no morirse / Para no tener hambre / Para tener postre"
+  }, {
+    "pregunta" : "¿Qué deberías hacer si de la casa de tu vecino sale mucho humo por la ventana?",
+    "respuesta0" : "Avisar a los bomberos o a la policía y Ayudar antes de que lleguen",
+    "respuesta1" : "Avisar a los bomberos o a la policía / Ayudar a los vecinos",
+    "respuesta2" : "Apagar el fuego / Tirarse al piso"
+  }, {
+    "pregunta" : "¿Cuáles son las ventajas de hacer gimnasia o deporte?",
+    "respuesta0" : "Te mantiene sano / Es bueno para el corazón, pulmones, circulación",
+    "respuesta1" : "Para estar en forma / Para perder peso / Para sentise mejor",
+    "respuesta2" : "Para ser más feliz / Para crecer / Es divertido"
+  }, {
+    "pregunta" : "¿Por qué es importante que los médicos y enfermeros de un hospital usen guardapolvo?",
+    "respuesta0" : "Para reconocerlos fácil / Para protegerlos de bacterias",
+    "respuesta1" : "Para sentirse seguros",
+    "respuesta2" : "Para ayudar a la gente / Para estar prolijos"
+  } ],
+  "conceptos" : [ {
+    "matriz" : {
+      "fila1" : [ "conceptos1_f1_c1", "conceptos1_f1_c2" ],
+      "fila2" : [ "conceptos1_f2_c1", "conceptos1_f2_c2" ]
+    },
+    "respuesta" : [ "conceptos1_f1_c2", "conceptos1_f2_c1" ]
+  }, {
+    "matriz" : {
+      "fila1" : [ "conceptos3_f1_c1", "conceptos3_f1_c2", "conceptos3_f1_c3" ],
+      "fila2" : [ "conceptos3_f2_c1", "conceptos3_f2_c2", "conceptos3_f2_c3" ]
+    },
+    "respuesta" : [ "conceptos3_f1_c3", "conceptos3_f2_c2" ]
+  }, {
+    "matriz" : {
+      "fila1" : [ "conceptos5_f1_c1", "conceptos5_f1_c2", "conceptos5_f1_c3" ],
+      "fila2" : [ "conceptos5_f2_c1", "conceptos5_f2_c2", "conceptos5_f2_c3" ],
+      "fila3" : [ "conceptos5_f3_c1", "conceptos5_f3_c2", "conceptos5_f3_c3" ]
+    },
+    "respuesta" : [ "conceptos5_f1_c2", "conceptos5_f2_c3", "conceptos5_f3_c2" ]
+  }, {
+    "matriz" : {
+      "fila1" : [ "conceptos1_f1_c1", "conceptos1_f1_c2" ],
+      "fila2" : [ "conceptos1_f2_c1", "conceptos1_f2_c2" ]
+    },
+    "respuesta" : [ "conceptos1_f1_c2", "conceptos1_f2_c1" ]
+  }, {
+    "matriz" : {
+      "fila1" : [ "conceptos3_f1_c1", "conceptos3_f1_c2", "conceptos3_f1_c3" ],
+      "fila2" : [ "conceptos3_f2_c1", "conceptos3_f2_c2", "conceptos3_f2_c3" ]
+    },
+    "respuesta" : [ "conceptos3_f1_c3", "conceptos3_f2_c2" ]
+  }, {
+    "matriz" : {
+      "fila1" : [ "conceptos5_f1_c1", "conceptos5_f1_c2", "conceptos5_f1_c3" ],
+      "fila2" : [ "conceptos5_f2_c1", "conceptos5_f2_c2", "conceptos5_f2_c3" ],
+      "fila3" : [ "conceptos5_f3_c1", "conceptos5_f3_c2", "conceptos5_f3_c3" ]
+    },
+    "respuesta" : [ "conceptos5_f1_c2", "conceptos5_f2_c3", "conceptos5_f3_c2" ]
+  } ],
+  "cubos" : [ {
+    "intentos" : 2,
+    "nombre" : "cubo1",
+    "puntos" : 2,
+    "tiempo" : 30
+  }, {
+    "intentos" : 2,
+    "nombre" : "cubo3",
+    "puntos" : 2,
+    "tiempo" : 45
+  }, {
+    "intentos" : 1,
+    "nombre" : "cubo5",
+    "puntos" : 4,
+    "tiempo" : 45
+  }, {
+    "intentos" : 1,
+    "nombre" : "cubo6",
+    "puntos" : 4,
+    "tiempo" : 75
+  }, {
+    "intentos" : 1,
+    "nombre" : "cubo7",
+    "puntos" : 4,
+    "tiempo" : 75
+  } ],
+  "digitos" : [ {
+    "pregunta" : "Directo: 2 - 9",
+    "respuesta0" : "29",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 4 - 6",
+    "respuesta0" : "46",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 3 - 8 - 6",
+    "respuesta0" : "386",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 6 - 1 - 2",
+    "respuesta0" : "612",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 3 - 4 - 1 - 7",
+    "respuesta0" : "3417",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 6 - 1 - 5 - 8",
+    "respuesta0" : "6158",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 8 - 4 - 2 - 3 - 9",
+    "respuesta0" : "84239",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 5 - 2 - 1 - 8 - 6",
+    "respuesta0" : "52186",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 3 - 8 - 9 - 1 - 7 - 4",
+    "respuesta0" : "389174",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Directo: 7 - 9 - 6 - 4 - 8 - 3",
+    "respuesta0" : "796483",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 2 - 1",
+    "respuesta0" : "12",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 1 - 3",
+    "respuesta0" : "31",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 3 - 5",
+    "respuesta0" : "53",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 6 - 4",
+    "respuesta0" : "46",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 5 - 7 - 4",
+    "respuesta0" : "475",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 2 - 5 - 9",
+    "respuesta0" : "952",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 7 - 2 - 9 - 6",
+    "respuesta0" : "6927",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 8 - 4 - 9 - 3",
+    "respuesta0" : "3948",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 4 - 1 - 3 - 5 - 7",
+    "respuesta0" : "75314",
+    "respuesta1" : "Incorrecto"
+  }, {
+    "pregunta" : "Inverso: 9 - 7 - 8 - 5 - 2",
+    "respuesta0" : "25879",
+    "respuesta1" : "Incorrecto"
+  } ],
+  "figuras" : [ "compfig1", "compfig2", "compfig3", "compfig4", "compfig5", "compfig6", "compfig7", "compfig8" ],
+  "informacion" : [ {
+    "pregunta" : "Muéstrame tu pie",
+    "respuesta0" : "Toca, señala o indica su propio pie o del examinador",
+    "respuesta1" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "Señale su propia nariz y pregunte ¿Cómo llamamos a esto?",
+    "respuesta0" : "Nariz",
+    "respuesta1" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "Dime algo que se coma",
+    "respuesta0" : "Menciona cualquier alimento",
+    "respuesta1" : "Alimentos, comida o nombre cosas no comestibles"
+  }, {
+    "pregunta" : "¿Cuántas orejas tienes?",
+    "respuesta0" : "Verbal o fisicamente tiene que indicar 2",
+    "respuesta1" : "Indica verbal o fisicamente cualquier otro número que no sea 2. / Señala sus propias orejas o las del examinador"
+  }, {
+    "pregunta" : "¿Cuántos años tienes?",
+    "respuesta0" : "Verbal o fisicamente indica la edad correcta",
+    "respuesta1" : "Verbal o fisicamente indica una edad incorrecta"
+  }, {
+    "pregunta" : "¿Cuántas patas tiene un perro?",
+    "respuesta0" : "Verbal o fisicamente indica cuatro",
+    "respuesta1" : "Indica cualquier otro número"
+  }, {
+    "pregunta" : "¿Qué día sigue después del jueves?",
+    "respuesta0" : "Viernes",
+    "respuesta1" : "Ayer, hoy o mañana / Menciona cualquier otro día"
+  } ],
+  "letrasynumeros" : [ {
+    "pregunta" : "Contar hasta tres",
+    "respuesta0" : "123",
+    "respuesta1" : "123"
+  }, {
+    "pregunta" : "Recitar el abecedario hasta la letra C",
+    "respuesta0" : "abc",
+    "respuesta1" : "abc"
+  }, {
+    "pregunta" : "A - 3",
+    "respuesta0" : "3a",
+    "respuesta1" : "a3"
+  }, {
+    "pregunta" : "C - 1",
+    "respuesta0" : "1c",
+    "respuesta1" : "c1"
+  }, {
+    "pregunta" : "2 - C",
+    "respuesta0" : "2c",
+    "respuesta1" : "c2"
+  }, {
+    "pregunta" : "C - 4",
+    "respuesta0" : "4c",
+    "respuesta1" : "c4"
+  }, {
+    "pregunta" : "5 - E",
+    "respuesta0" : "5e",
+    "respuesta1" : "e5"
+  }, {
+    "pregunta" : "D - 3",
+    "respuesta0" : "3d",
+    "respuesta1" : "d3"
+  }, {
+    "pregunta" : "E - 1 - 2",
+    "respuesta0" : "12e",
+    "respuesta1" : "e12"
+  }, {
+    "pregunta" : "1 - 3 - C",
+    "respuesta0" : "13c",
+    "respuesta1" : "c13"
+  }, {
+    "pregunta" : "2 - A - 3",
+    "respuesta0" : "23a",
+    "respuesta1" : "a23"
+  }, {
+    "pregunta" : "D - 2 - 9",
+    "respuesta0" : "29d",
+    "respuesta1" : "d29"
+  }, {
+    "pregunta" : "R - 5 - E",
+    "respuesta0" : "5er",
+    "respuesta1" : "er5"
+  }, {
+    "pregunta" : "H - 9 - K",
+    "respuesta0" : "9hk",
+    "respuesta1" : "hk9"
+  }, {
+    "pregunta" : "3 - E - 2",
+    "respuesta0" : "23e",
+    "respuesta1" : "e23"
+  }, {
+    "pregunta" : "9 - J - 4",
+    "respuesta0" : "49j",
+    "respuesta1" : "j49"
+  }, {
+    "pregunta" : "D - 5 - F",
+    "respuesta0" : "5df",
+    "respuesta1" : "df5"
+  }, {
+    "pregunta" : "1 - C - 3 - J",
+    "respuesta0" : "13cj",
+    "respuesta1" : "cj13"
+  }, {
+    "pregunta" : "5 - A - 2 - C",
+    "respuesta0" : "25ac",
+    "respuesta1" : "ac25"
+  }, {
+    "pregunta" : "D - 8 - M - 1",
+    "respuesta0" : "18dm",
+    "respuesta1" : "dm18"
+  } ],
+  "matrices" : [ {
+    "matriz" : {
+      "fila1" : [ "redoblante", "payaso" ],
+      "fila2" : [ "", "payaso" ]
+    },
+    "opciones" : [ "skate", "cubos", "frutilla", "redoblante", "payaso" ],
+    "respuesta" : "redoblante"
+  }, {
+    "matriz" : {
+      "fila1" : [ "", "cubos" ],
+      "fila2" : [ "frutilla", "cubos" ]
+    },
+    "opciones" : [ "skate", "cubos", "frutilla", "redoblante", "payaso" ],
+    "respuesta" : "frutilla"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matrizc_op2", "matrizc_op2" ],
+      "fila2" : [ "matrizc_op2", "" ]
+    },
+    "opciones" : [ "matrizc_op1", "matrizc_op2", "matrizc_op3", "matrizc_op4", "matrizc_op5" ],
+    "respuesta" : "matrizc_op2"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz1_op1", "matriz1_op1" ],
+      "fila2" : [ "matriz1_op1", "" ]
+    },
+    "opciones" : [ "matriz1_op1", "matriz1_op2", "matriz1_op3", "matriz1_op4", "matriz1_op5" ],
+    "respuesta" : "matriz1_op1"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz2_op4", "matriz2_op4", "" ],
+      "fila2" : [ "matriz2_op4", "matriz2_op4", "matriz2_op4" ],
+      "fila3" : [ "matriz2_op4", "matriz2_op4", "matriz2_op4" ]
+    },
+    "opciones" : [ "matriz2_op1", "matriz2_op2", "matriz2_op3", "matriz2_op4", "matriz2_op5" ],
+    "respuesta" : "matriz2_op4"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz3_op2", "matriz3_op2" ],
+      "fila2" : [ "matriz3_op2", "" ]
+    },
+    "opciones" : [ "matriz3_op1", "matriz3_op2", "matriz3_op3", "matriz3_op4", "matriz3_op5" ],
+    "respuesta" : "matriz3_op2"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz4_op1", "" ],
+      "fila2" : [ "matriz4_op2", "matriz4_op2" ]
+    },
+    "opciones" : [ "matriz4_op1", "matriz4_op2", "matriz4_op3", "matriz4_op4", "matriz4_op5" ],
+    "respuesta" : "matriz4_op1"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz5_op3", "" ],
+      "fila2" : [ "matriz5_op3", "matriz5_op3" ]
+    },
+    "opciones" : [ "matriz5_op1", "matriz5_op2", "matriz5_op3", "matriz5_op4", "matriz5_op5" ],
+    "respuesta" : "matriz5_op3"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz6_op1", "" ],
+      "fila2" : [ "matriz6_op1", "matriz6_op4" ]
+    },
+    "opciones" : [ "matriz6_op1", "matriz6_op2", "matriz6_op3", "matriz6_op4", "matriz6_op5" ],
+    "respuesta" : "matriz6_op4"
+  }, {
+    "matriz" : {
+      "fila1" : [ "matriz7_op1", "" ],
+      "fila2" : [ "matriz7_op1", "matriz7_op1" ]
+    },
+    "opciones" : [ "matriz7_op1", "matriz7_op2", "matriz7_op3", "matriz7_op4", "matriz7_op5" ],
+    "respuesta" : "matriz7_op1"
+  } ],
+  "parciales" : [ {
+    "parcial1" : " puntos / ",
+    "parcial2" : " restantes"
+  } ],
+  "puntuacionescompuestas" : {
+    "ICV" : {
+      "categoria" : "Comprensión Verbal",
+      "equivalencia" : [ 0, 0, 0, 45, 47, 50, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 96, 98, 99, 100, 102, 104, 106, 108, 110, 112, 114, 116, 119, 121, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150, 152, 155 ],
+      "nivelConfianza" : [ 0, 0, 0, "43-54", "44-56", "47-59", "50-62", "52-63", "54-65", "56-67", "58-69", "60-71", "61-73", "63-75", "65-77", "67-78", "69-80", "71-82", "73-84", "75-86", "76-88", "78-90", "80-92", "82-93", "84-95", "86-97", "88-99", "90-101", "91-102", "92-104", "93-105", "94-106", "96-108", "98-109", "100-111", "102-113", "104-115", "106-117", "107-119", "109-121", "112-124", "114-125", "117-128", "119-130", "121-132", "123-134", "124-136", "126-138", "128-140", "130-141", "132-143", "134-145", "136-147", "138-149", "139-151", "141-153", "143-155", "146-157" ],
+      "percentil" : [ 0, 0, 0, "<0.1", "<0.1", "<0.1", 0.1, 0.1, 0.2, 0.3, 0.5, 1, 1, 1, 2, 3, 4, 5, 6, 8, 10, 13, 16, 19, 23, 27, 32, 37, 39, 45, 47, 50, 55, 61, 66, 70, 75, 79, 82, 86, 90, 92, 95, 96, 97, 98, 98, 99, 99, 99, 99.6, 99.7, 99.8, 99.9, 99.9, ">99.9", ">99.9", ">99.9" ]
+    }
+  },
+  "semejanzas" : [ {
+    "pregunta" : "¿En qué se parecen la LECHE y el AGUA? ¿Los dos son..?",
+    "respuesta0" : "Son (fluidos, líquidos, nutritivos, saludables, buenos para uno). Son bebidas; Refrescos; Cosas que se beben",
+    "respuesta1" : "[Demuestra que se beben] / Cualquier otra respuesta"
+  }, {
+    "pregunta" : "¿En qué se parecen un LÁPIZ y una LAPICERA? ¿Los dos son..?",
+    "respuesta0" : "Son (herramientas, elementos) para (escribir, dibujar, colorear, la escuela, la oficina, el arte)",
+    "respuesta1" : "[Demuestra que escriben] / Cualquier otra respuesta"
+  }, {
+    "pregunta" : "¿En qué se parecen una MANZANA y una BANANA?",
+    "respuesta0" : "Son (frutas, frutos)",
+    "respuesta1" : "Son (comida, vegetales, sabrosas, dulces, saludables, cosas que pelas o cortas). Vienen de un árbol. Tienen (minerales, vitaminas, piel, semillas y cáscara)",
+    "respuesta2" : "Son buenas / Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen una CAMISA y un ZAPATO?",
+    "respuesta0" : "Una respuesta que indique que ambos son prendas de vestir",
+    "respuesta1" : "Visten. (Se ponen sobre, cubren, se ajustan a) el cuerpo; Mantienen el calor",
+    "respuesta2" : "[Señala los zapatos o la camisa] / Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen un GATO y un RATÓN?",
+    "respuesta0" : "Indica que ambos son animales, mamíferos, seres vivos. Son vertebrados, vivíparos, cuadrúpedos. Nacen, crecen, se reproducen y mueren",
+    "respuesta1" : "Son mascotas; Se domestican. [Nombra características físicas o comportamiento compartidos] / Tienen comportamiento nocturno; Pueden ver en la oscuridad",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen una MARIPOSA y una ABEJA?",
+    "respuesta0" : "Una respuesta que indique que ambos son insectos.",
+    "respuesta1" : "Son bichos, animales (invertebrados), Vuelan, Tienen (alas, seis patas, cuerpos segmentados, antenas) / Provienen de (larvas, capullos) / Juntan (néctar, polen)",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen el INVIERNO y el VERANO?",
+    "respuesta0" : "Una respuesta que indique que ambos son estaciones del año.",
+    "respuesta1" : " Son (épocas, partes, tiempos) del año / Cambios en el (clima, tiempo) / Clima",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen el CEMENTO y los LADRILLOS?",
+    "respuesta0" : "Indica que ambos son utilizados en la construcción. Son (materiales, productos, recursos) usados para la construcción (estructuras, paredes, cercos)",
+    "respuesta1" : "Son (materiales, recursos, elementos, productos). Construyen cosas con ellos. Parte de los edificios, casas. Cosas usadas para hacer una (casa, un edificio). Se utilizan en la construcción",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen un CODO y una RODILLA?",
+    "respuesta0" : "Indica que ambos son articulaciones; son como bisagras; que están en el medio del brazo o de la pierna.",
+    "respuesta1" : "Se (doblan, giran, mueven), son flexibles; Conectan los huesos, Partes de los miembros; Tienen (ligamentos, rótulas, músculos, cartílagos); Son huesos que (conectan, doblan, mueven, se sostienen juntos con otros huesos); Ayudan a moverte",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen una MONTAÑA y un LAGO?",
+    "respuesta0" : "Son (fenómenos, lugares, accidentes) geográficos, topográficos, (partes, características, factores abióticas) de la superficie de la tierra; (paisajes, formaciones, características) del suelo; Se forman por (la naturaleza, los glaciares, el movimiento de las placas)",
+    "respuesta1" : "Son (naturales, recursos naturales, lugares en la Tierra, factores abióticos); parte de (la naturaleza, el medio ambiente, el mundo); no son seres vivos; Lugares para acampar, recreativos; El clima los modifica; [Referencias geográficas]",
+    "respuesta2" : "Cualquier otra respuesta."
+  }, {
+    "pregunta" : "¿En qué se parecen el ENOJO y la ALEGRÍA?",
+    "respuesta0" : "Son sentimimentos, reacciones, expresiones, respuestas emocionales, emociones, estados de ánimo, estados mentales, signos de cómo se siente la persona",
+    "respuesta1" : "Se pueden expresar ambas; Cómo se siente uno; Respuestas; Reacciones; Actitudes; Expresiones de tu cara; Gestos; Miradas, Ocurren dentro de ti; Pensamientos",
+    "respuesta2" : "Cualquier otra respuesta"
+  } ],
+  "simbolos" : [ {
+    "pregunta" : "1",
+    "respuesta0" : "true"
+  }, {
+    "pregunta" : "2",
+    "respuesta0" : "false"
+  }, {
+    "pregunta" : "3",
+    "respuesta0" : "true"
+  }, {
+    "pregunta" : "4",
+    "respuesta0" : "false"
+  }, {
+    "pregunta" : "5",
+    "respuesta0" : "true"
+  } ],
+  "vocabulario" : [ {
+    "pregunta" : "auto",
+    "respuesta0" : "Auto / Automóvil",
+    "respuesta1" : "Camión"
+  }, {
+    "pregunta" : "flor",
+    "respuesta0" : "Flor (nombre específico de flor)",
+    "respuesta1" : "Planta"
+  }, {
+    "pregunta" : "tren",
+    "respuesta0" : "Tren / Locomotora",
+    "respuesta1" : "Máquina"
+  }, {
+    "pregunta" : "balde",
+    "respuesta0" : "Balde / Cubeta",
+    "respuesta1" : "Canasta"
+  }, {
+    "pregunta" : "¿Qué es una VACA?",
+    "respuesta0" : "Animal / Mamífero / Da leche y carne / Animal de granja",
+    "respuesta1" : "Da leche / Da carne / Hace muuuu",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué es un PARAGUAS?",
+    "respuesta0" : "Para no mojarse cuando llueve / Protege de lluvia",
+    "respuesta1" : "Para no mojarse / Para la lluvia",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué es un RELOJ?",
+    "respuesta0" : "Marca la hora / Mide el tiempo / Dice horas y minutos",
+    "respuesta1" : "Hace tic tac / Tiene agujas / Te lo ponés en la muñeca",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué es un LADRÓN?",
+    "respuesta0" : "Alguien que roba / Criminal / Entra en una casa y se lleva cosas",
+    "respuesta1" : "Hace cosas ilegales",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué significa ATERRADOR?",
+    "respuesta0" : "Provoca susto / terror / miedo",
+    "respuesta1" : "Feísimo / Que no te gusta",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué es una BICICLETA?",
+    "respuesta0" : "Tiene dos ruedas y pedales / Medio de transporte",
+    "respuesta1" : "Es para andar / Para hacer ejercicio",
+    "respuesta2" : "Cualquier otra cosa"
+  }, {
+    "pregunta" : "¿Qué significa ABANDONAR?",
+    "respuesta0" : "Irse / Dejar un lugar / Renunciar",
+    "respuesta1" : "Escapar / Hay gente que abandona los animales",
+    "respuesta2" : "Cualquier otra cosa"
+  } ]
+}

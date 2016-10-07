@@ -38,6 +38,7 @@ import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
+import com.limeri.leon.common.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         AdministradorJuegos.setContext(getApplicationContext());
+        DataBase.setContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
 

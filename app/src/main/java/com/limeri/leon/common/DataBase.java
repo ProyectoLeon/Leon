@@ -1,11 +1,13 @@
 package com.limeri.leon.common;
 
+import android.content.Context;
 import android.os.StrictMode;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
+import com.limeri.leon.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,11 +26,29 @@ import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class DataBase {
 
     public static final String URL_DB = "https://leondb-13e75.firebaseio.com/";
+    private static Context applicationContext = null;
+
+    public static void setContext(Context context) {
+        applicationContext = context;
+    }
 
     public static String getEntidad(String entidad) {
+        Boolean jsonJuegosLocal = true;
+
+        if (jsonJuegosLocal) {
+            return getEntidadJuego(entidad);
+        } else {
+            return getEntidadDB(entidad);
+        }
+    }
+
+    public static String getEntidadDB (String entidad) {
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -70,12 +90,28 @@ public class DataBase {
         return stringBuffer.toString();
     }
 
+    public static String getEntidadJuego(String entidad) {
+        String jsonString;
+        JSONObject jsonRootObject;
+
+        jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.leondb));
+        try {
+            jsonRootObject = new JSONObject(jsonString);
+            //Get the instance of JSONArray that contains JSONObjects
+            return jsonRootObject.getJSONArray(entidad).toString();
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getPacientes(String matricula) {
-        return getEntidad("profesionales/" + matricula + "/pacientes");
+        return getEntidadDB("profesionales/" + matricula + "/pacientes");
     }
 
     public static String getProfesional(String matricula) {
-        return getEntidad("profesionales/" + matricula);
+        return getEntidadDB("profesionales/" + matricula);
     }
 
     public static void savePacientes() {
