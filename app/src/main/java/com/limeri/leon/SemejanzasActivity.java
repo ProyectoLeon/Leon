@@ -123,7 +123,7 @@ public class SemejanzasActivity extends AppCompatActivity {
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
 
             palabra.setText(jsonObject.getString("pregunta").toString());
-            if (nivel < 3) {
+            if (nivel < 2) {
                 listRespuestas = new String[]{(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString())};
             }else{
                 listRespuestas = new String[]{(jsonObject.optString("respuesta0").toString()), (jsonObject.optString("respuesta1").toString()),
