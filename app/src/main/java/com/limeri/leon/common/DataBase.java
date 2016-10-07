@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
+import com.limeri.leon.Models.PuntuacionCompuesta;
 import com.limeri.leon.R;
 
 import java.io.BufferedReader;
@@ -112,6 +113,10 @@ public class DataBase {
 
     public static String getProfesional(String matricula) {
         return getEntidadDB("profesionales/" + matricula);
+    }
+
+    public static String getpuntuacionCompuesta(String puntuacionCompuesta) {
+        return getEntidadDB("puntuacionescompuestas/" + puntuacionCompuesta);
     }
 
     public static void savePacientes() {
