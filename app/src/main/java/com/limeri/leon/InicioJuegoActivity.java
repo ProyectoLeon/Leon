@@ -1,6 +1,7 @@
 package com.limeri.leon;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -92,8 +93,15 @@ public class InicioJuegoActivity extends AppCompatActivity {
                         Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
                     }
                 });
-                btn_neutral.setVisibility(View.GONE);
 
+                btn_neutral.setText("Anular evaluación");
+                btn_neutral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showPopupConfirmar(InicioJuegoActivity.this);
+                    }
+                });
+                
                 btn_negative.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -120,7 +128,39 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Navegacion.irA(this, MainActivity.class);
+        Juego juegoActual = evaluacion.getJuegoActual();
+        Juego juegoUltimo = evaluacion.getUltimoJuego();
+        if ((juegoActual != null) || (juegoUltimo != null)) {
+            super.onBackPressed();
+            Navegacion.irA(this, MainActivity.class);
+        } else {
+            showPopupConfirmar(InicioJuegoActivity.this);
+        }
+    }
+
+    private void showPopupConfirmar(final AppCompatActivity context) {
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        String msje = "¿Está seguro que desea eliminar la evaluación actual?";
+        builder.setTitle(msje);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Paciente paciente = Paciente.getSelectedPaciente();
+                paciente.borrarEvaluacionActual();
+                Paciente.saveCuenta(paciente);
+                Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

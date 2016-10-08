@@ -200,4 +200,9 @@ public class Paciente {
     public static void borrarSelectedPaciente() {
         selectedPaciente = null;
     }
+
+    public void borrarEvaluacionActual() {
+        Evaluacion evaluacion = getEvaluacionActual();
+        evaluaciones.remove(evaluacion);
+    }
 }
