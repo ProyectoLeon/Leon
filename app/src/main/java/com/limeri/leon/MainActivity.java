@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     String mNombre, mApellido, mDNI, mFechaNac, mProfPassword, mProfCorreo;
     AlertDialog dialog;
-    private TextView txtPaciente;
+    //private TextView txtPaciente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         try {
-            txtPaciente = (TextView) findViewById(R.id.txtPaciente);
             Paciente paciente = Paciente.getSelectedPaciente();
             if(paciente != null) {
                 actualizarNombrePaciente();
-            }
-
-            ActionBar AB = getSupportActionBar();
-            if (AB != null) {
-                AB.setTitle(txtPaciente.getText());
             }
 
             Button buttonTest = (Button) findViewById(R.id.buttonTest);
@@ -130,10 +124,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void actualizarNombrePaciente() {
-        txtPaciente.setText("Paciente: " + Paciente.getSelectedPaciente().getNombreCompleto());
         ActionBar AB = getSupportActionBar();
         if (AB != null) {
-            AB.setTitle(txtPaciente.getText());
+            AB.setTitle("Paciente: " + Paciente.getSelectedPaciente().getNombreCompleto());
         }
     }
 
