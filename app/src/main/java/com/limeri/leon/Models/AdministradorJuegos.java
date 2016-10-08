@@ -69,7 +69,7 @@ public class AdministradorJuegos {
 
     private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(0);
-        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
+        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
     }
 
     public static void setContext(Context context) {
@@ -84,10 +84,10 @@ public class AdministradorJuegos {
             for (JuegoWisc juegoWisc : juegosWisc) {
                 if (anterior) {
                     if (!juegoWisc.alternativo) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
                         break;
                     } else if (alternativas.contains(juegoWisc.categoria)) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
                         alternativas.remove(juegoWisc.categoria);
                         break;
                     }

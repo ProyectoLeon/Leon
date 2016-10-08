@@ -14,13 +14,15 @@ public class Juego {
     private Estados estado = Estados.CREADO;
     private transient Map<Integer, Integer> puntosNiveles;
     private String nombreActividad;
+    private Boolean alternativo;
     private List<List<Integer>> puntajesEquivalentes;
 
-    public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes) {
+     public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes, Boolean alternativo) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.nombreActividad = activity;
         this.puntajesEquivalentes = puntajesEquivalentes;
+        this.alternativo = alternativo;
         this.puntosNiveles = new HashMap<>();
     }
 
@@ -38,6 +40,10 @@ public class Juego {
 
     public void setPuntosJuego(Integer puntos) {
         this.puntos = puntos;
+    }
+
+    public Boolean getAlternativo() {
+        return alternativo;
     }
 
     public void setPuntosNiveles(Map<Integer, Integer> puntos) {

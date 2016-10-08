@@ -25,13 +25,22 @@
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tableView"
+            android:id="@+id/tableEdad"
             android:background="@android:drawable/editbox_dropdown_light_frame"
             android:layout_below="@+id/encabezado"
             android:layout_margin="0dp"
             android:layout_alignParentStart="true">
         </TableLayout>
 
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tablePuntDir"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:layout_below="@+id/encabezado"
+            android:layout_margin="0dp"
+            android:layout_alignParentStart="true">
+        </TableLayout>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -39,20 +48,6 @@
         android:id="@+id/encabezado"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/Hoja3"
-        android:visibility="visible">
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/graphCompuesto"
-            android:layout_alignParentStart="true"
-            android:layout_margin="10dp"/>
-
 
     </RelativeLayout>
 
@@ -67,6 +62,21 @@
             android:id="@+id/graphEscalar"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/Hoja3"
+        android:visibility="visible">
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/graphCompuesto"
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp"/>
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -100,6 +110,15 @@
             android:layout_margin="0dp"
             android:layout_alignParentStart="true">
         </TableLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tablaPromedio"
+            android:layout_margin="0dp"
+            android:layout_alignParentStart="true">
+        </TableLayout>
+
     </RelativeLayout>
 
 

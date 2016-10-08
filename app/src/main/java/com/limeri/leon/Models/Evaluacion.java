@@ -132,4 +132,38 @@ public class Evaluacion {
     public Estados getEstado(){
         return estado;
     }
+    public void calcularIndiceEscalares(Evaluacion evaluacion) {
+        Integer puntosCompVerbal = 0;
+        Integer puntosRazPercep = 0;
+        Integer puntosMemOper = 0;
+        Integer puntosVelocProc = 0;
+        Integer coeficienteIntelectual = 0;
+        Integer puntajeEscalar = 0;
+
+        for (Juego juego : evaluacion.getJuegos()) {
+            puntajeEscalar = juego.getPuntajeEscalar();
+            coeficienteIntelectual = coeficienteIntelectual + puntajeEscalar;
+
+            switch (juego.getCategoria()){
+                case("Comprensión verbal"):
+                    puntosCompVerbal = puntosCompVerbal + puntajeEscalar;
+                    break;
+                case("Razonamiento Perceptivo"):
+                    puntosRazPercep = puntosRazPercep + puntajeEscalar;
+                    break;
+                case("Memoria Operativa"):
+                    puntosMemOper = puntosMemOper + puntajeEscalar;
+                    break;
+                case("Velocidad de Procesamiento"):
+                    puntosVelocProc = puntosVelocProc + puntajeEscalar;
+                    break;
+            }
+        }
+
+        evaluacion.setPuntosCompVerbal(puntosCompVerbal);
+        evaluacion.setPuntosRazPercep(puntosRazPercep);
+        evaluacion.setPuntosMemOper(puntosMemOper);
+        evaluacion.setPuntosVelocProc(puntosVelocProc);
+        evaluacion.setCoeficienteIntelectual(coeficienteIntelectual);
+    }
 }

@@ -174,7 +174,12 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                 }
             }
         }
+        evaluacion.setPuntosCompVerbal(compVerbal);
+        evaluacion.setPuntosMemOper(memOper);
+        evaluacion.setPuntosRazPercep(razPercep);
+        evaluacion.setPuntosVelocProc(velProc);
         CI = compVerbal + razPercep + memOper + velProc;
+        evaluacion.setCoeficienteIntelectual(CI);
     }
 
     public void CompletarSumas(TableLayout tabla) {

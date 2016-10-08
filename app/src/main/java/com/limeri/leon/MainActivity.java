@@ -85,18 +85,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            Button buttonEstadisticas = (Button) findViewById(R.id.buttonEstadisticas);
-            if (buttonEstadisticas != null) {
+            Button buttonInforme = (Button) findViewById(R.id.buttonInforme);
+            if (buttonInforme != null) {
                 if (paciente.tieneEvaluacionFinalizada()) {
-                    buttonEstadisticas.setOnClickListener(new View.OnClickListener() {
+                    buttonInforme.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Navegacion.irA(MainActivity.this, ValorExamenActivity.class);
                         }
                     });
                 } else {
-                    buttonEstadisticas.setEnabled(false);
+                    buttonInforme.setEnabled(false);
                 }
+            }
+
+            Button buttonEstadist = (Button) findViewById(R.id.buttonEstadist);
+            if (buttonEstadist != null) {
+                if (paciente.tieneEvaluacionFinalizada()) {
+                    buttonEstadist.setEnabled(true);
+                    buttonEstadist.setText("Visualizar estadísticas");
+                    buttonEstadist.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Navegacion.irA(MainActivity.this, EstadisticasActivity.class);
+                    }
+                });
+            } else {
+                buttonEstadist.setEnabled(false);
+            }
             }
 
             Button buttonEditarPaciente = (Button) findViewById(R.id.buttonEditarPaciente);
@@ -111,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void actualizarNombrePaciente() {

@@ -54,10 +54,12 @@ public class PerfilEscalaresActivity extends Activity {
         setContentView(R.layout.activity_perfil_escalares);
         cargarColumnas();
         generarTablaEdad();
+        generarPuntuacionDirecta();
         completarGraficoEscalar();
         completarGraficoCompuesto();
         completarTablaComparaciones();
         completarPtosFuertesyDebiles();
+        completarTablaPromedio();
         ImageView imageView = (ImageView) findViewById(R.id.encabezado);
         imageView.setImageResource(R.drawable.encabezado);
         Button documentoPdf = (Button) findViewById(R.id.pdfButton);
@@ -66,9 +68,80 @@ public class PerfilEscalaresActivity extends Activity {
         }
     }
 
+    public void generarPuntuacionDirecta() {
+
+        TableLayout tablaPD = (TableLayout) findViewById(R.id.tablePuntDir);
+        TableRow row0 = new TableRow(this);
+        CompletarCelda(this, row0, "Subtest");
+        CompletarCelda(this, row0, "PD");
+        CompletarCelda(this, row0, "PE");
+        CompletarCelda(this, row0, "PE");
+        CompletarCelda(this, row0, "PE");
+        CompletarCelda(this, row0, "PE");
+        CompletarCelda(this, row0, "PE");
+        CompletarCelda(this, row0, "PE");
+        //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
+        tablaPD.addView(row0);
+        CompletarPuntajeJuego(tablaPD);
+    }
+
+    public void CompletarPuntajeJuego(TableLayout tabla){
+        Integer index = 0;
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        List<Juego> listaJuegos = evaluacion.getJuegos();
+        for (Juego juego : listaJuegos){
+            TableRow row = new TableRow(this);
+            CompletarCelda(this, row, juego.getNombre());
+            CompletarCelda(this, row, juego.getPuntosJuego().toString());
+            String escalar = juego.getPuntajeEscalar().toString();
+            TextView col = new TextView(this);
+            col.setText(escalar);
+            switch (juego.getCategoria()){
+                case "Comprensión verbal":{
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
+                }
+                case "Razonamiento Perceptivo":{
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
+                }
+                case "Memoria Operativa":{
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
+                }
+                case "Velocidad de Procesamiento":{
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, "");
+                    CompletarCelda(this, row, escalar);
+                    CompletarCelda(this, row, escalar);
+                    tabla.addView(row);
+                    break;
+                }
+            }
+        }
+
+
+    }
     public void generarTablaEdad() {
 
-        TableLayout tablaedad = (TableLayout) findViewById(R.id.tableView);
+        TableLayout tablaedad = (TableLayout) findViewById(R.id.tableEdad);
         TableRow row0 = new TableRow(this);
         CompletarCelda(this, row0, "");
         CompletarCelda(this, row0, "Año");
@@ -219,9 +292,6 @@ public LineGraphSeries crearSerie(int min, int max, int color){
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Índices");
         graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Compuesto");
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
-        //graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
-        //graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
-        //graph.getGridLabelRenderer().reloadStyles();
 
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         Paciente paciente = Paciente.getSelectedPaciente();
@@ -325,6 +395,43 @@ public void completarPtosFuertesyDebiles(){
         }
 
     }
+
+    public void completarTablaPromedio() {
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        TableLayout tablaProm = (TableLayout) findViewById(R.id.tablaPromedio);
+        TableRow row0 = new TableRow(this);
+        CompletarCelda(this, row0, "");
+        CompletarCelda(this, row0, "Todos los Tests (10)");
+        CompletarCelda(this, row0, "Comprensión Verbal (3)");
+        CompletarCelda(this, row0, "Razonamiento Perceptivo (3)");
+        tablaProm.addView(row0);
+
+        TableRow row1 = new TableRow(this);
+        CompletarCelda(this, row1, "Suma de puntos escalares");
+        CompletarCelda(this, row1, evaluacion.getCoeficienteIntelectual().toString() );
+        CompletarCelda(this, row1, evaluacion.getPuntosCompVerbal().toString());
+        CompletarCelda(this, row1, evaluacion.getPuntosRazPercep().toString());
+        tablaProm.addView(row1);
+
+        TableRow row2 = new TableRow(this);
+        CompletarCelda(this, row2, "Número de pruebas");
+        CompletarCelda(this, row2, "10" );
+        CompletarCelda(this, row2, "3");
+        CompletarCelda(this, row2, "3");
+        tablaProm.addView(row2);
+
+        TableRow row3 = new TableRow(this);
+        CompletarCelda(this, row3, "Media");
+        Integer divCI = evaluacion.getCoeficienteIntelectual()/10;
+        CompletarCelda(this, row3, divCI.toString() );
+        Integer divCV = evaluacion.getPuntosCompVerbal()/3;
+        CompletarCelda(this, row3, divCV.toString());
+        Integer divRP = evaluacion.getPuntosRazPercep()/3;
+        CompletarCelda(this, row3, divRP.toString());
+        tablaProm.addView(row3);
+    }
+
     private View.OnClickListener clickPDF() {
 
         return new View.OnClickListener() {

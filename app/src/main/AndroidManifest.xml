@@ -12,21 +12,24 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/leon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,76 +37,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:name=".MainActivity" />
         <activity
-            android:name=".InformacionActivity"
-            android:screenOrientation="portrait" />
+            android:name=".InformacionActivity" />
         <activity
-            android:name=".MatricesActivity"
-            android:screenOrientation="portrait" />
+            android:name=".MatricesActivity" />
         <activity
             android:name=".SelecPacienteActivity"
             android:label="Seleccionar Paciente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ExamenActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ExamenActivity" />
         <activity
-            android:name=".FiguraIncompletaActivity"
-            android:screenOrientation="portrait" />
+            android:name=".FiguraIncompletaActivity" />
         <activity
-            android:name=".AdivinanzasActivity"
-            android:screenOrientation="portrait" />
+            android:name=".AdivinanzasActivity" />
         <activity
-            android:name=".AritmeticaActivity"
-            android:screenOrientation="portrait" />
+            android:name=".AritmeticaActivity" />
         <activity
-            android:name=".DigitosActivity"
-            android:screenOrientation="portrait" />
+            android:name=".DigitosActivity" />
         <activity
-            android:name=".BqSimbolosActivity"
-            android:screenOrientation="portrait" />
+            android:name=".BqSimbolosActivity" />
         <activity
-            android:name=".InicioJuegoActivity"
-            android:screenOrientation="portrait" />
+            android:name=".InicioJuegoActivity" />
         <activity
-            android:name=".LetrasYNumerosActivity"
-            android:screenOrientation="portrait" />
+            android:name=".LetrasYNumerosActivity" />
         <activity
-            android:name=".VocabularioActivity"
-            android:screenOrientation="portrait" />
+            android:name=".VocabularioActivity"/>
         <activity
-            android:name=".ComprensionActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ComprensionActivity" />
         <activity
-            android:name=".SemejanzasActivity"
-            android:screenOrientation="portrait" />
+            android:name=".SemejanzasActivity" />
         <activity
-            android:name=".ValorExamenActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ValorExamenActivity"/>
         <activity
-            android:name=".ValorJuegoLibreActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ValorJuegoLibreActivity" />
         <activity
-            android:name=".ClavesActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ClavesActivity" />
         <activity
             android:name=".PopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name=".AnimalesActivity"
-            android:screenOrientation="portrait" />
+            android:name=".AnimalesActivity" />
         <activity
-            android:name=".CubosActivity"
-            android:screenOrientation="portrait" />
+            android:name=".CubosActivity" />
         <activity
-            android:name=".ConceptosActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ConceptosActivity" />
         <activity
-            android:name=".ResumenActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ResumenActivity" />
         <activity
             android:name=".PuntuacionDirectaActivity"
             android:screenOrientation="portrait" />
@@ -112,6 +94,9 @@
         <activity
             android:name=".HistoricoActivity"
             android:screenOrientation="portrait" />
+            android:name=".PuntuacionDirectaActivity" />
+        <activity android:name=".EstadisticasActivity" />
+        <activity android:name=".GraficoActivity"></activity>
     </application>
 
 </manifest>
