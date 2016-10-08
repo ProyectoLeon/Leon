@@ -101,7 +101,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
                         showPopupConfirmar(InicioJuegoActivity.this);
                     }
                 });
-                
+
                 btn_negative.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

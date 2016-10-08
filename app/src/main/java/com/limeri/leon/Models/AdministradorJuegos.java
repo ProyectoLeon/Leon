@@ -55,6 +55,7 @@ public class AdministradorJuegos {
                 juego.categoria = jsonJuego.getString("categoria");
                 juego.activity = jsonJuego.getString("activity");
                 juego.alternativo = jsonJuego.getBoolean("alternativo");
+                juego.juegaPaciente = jsonJuego.getBoolean("juegaPaciente");
 
                 Type listType = new TypeToken<List<List<Integer>>>() {}.getType();
                 JSONArray jsonEquivalencia = jsonJuego.getJSONArray("equivalencia");
@@ -69,7 +70,7 @@ public class AdministradorJuegos {
 
     private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(0);
-        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
+        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
     }
 
     public static void setContext(Context context) {
@@ -84,10 +85,10 @@ public class AdministradorJuegos {
             for (JuegoWisc juegoWisc : juegosWisc) {
                 if (anterior) {
                     if (!juegoWisc.alternativo) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
                         break;
                     } else if (alternativas.contains(juegoWisc.categoria)) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
                         alternativas.remove(juegoWisc.categoria);
                         break;
                     }
@@ -312,6 +313,7 @@ public class AdministradorJuegos {
         public String categoria;
         public String activity;
         public Boolean alternativo;
+        public Boolean juegaPaciente;
         public List<List<Integer>> puntaje = new ArrayList<>();
     }
 

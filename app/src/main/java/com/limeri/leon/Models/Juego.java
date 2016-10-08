@@ -15,14 +15,16 @@ public class Juego {
     private transient Map<Integer, Integer> puntosNiveles;
     private String nombreActividad;
     private Boolean alternativo;
+    private Boolean juegaPaciente;
     private List<List<Integer>> puntajesEquivalentes;
 
-     public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes, Boolean alternativo) {
+     public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes, Boolean alternativo, Boolean juegaPaciente) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.nombreActividad = activity;
         this.puntajesEquivalentes = puntajesEquivalentes;
         this.alternativo = alternativo;
+        this.juegaPaciente = juegaPaciente;
         this.puntosNiveles = new HashMap<>();
     }
 
