@@ -4,7 +4,7 @@
             "nombre":"Construcción con Cubos",
             "categoria":"Razonamiento Perceptivo",
             "activity":"CubosActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [1], [2], [3], [4], [5], [6,7], [8,9,10], [11,12], [13,14], [15,16], [17,18,19], [20,21,22,23], [24,25,26,27,28],
                             [29,30,31,32,33], [34,35,36,37,38,39], [40,41,42,43,44,45], [46,47,48,49,50,51,52], [53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68]
@@ -14,7 +14,7 @@
             "nombre":"Semejanzas",
             "categoria":"Comprensión verbal",
             "activity":"SemejanzasActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [0], [1], [2], [3], [4], [5], [6], [7], [8], [9,10], [11,12], [13,14], [15,16], [17,18],
                             [19,20], [21,22], [23,24], [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44]
@@ -22,9 +22,9 @@
         },
         {
             "nombre":"Retención de Dígitos",
-            "categoria":"Memoria de Trabajo",
+            "categoria":"Memoria Operativa",
             "activity":"DigitosActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0,1,2], [3], [4], [0], [5], [6], [7], [8,9], [10], [11], [12], [13], [14],
                             [15], [0], [16], [17], [18], [19,20,21,22,23,24,25,26,27,28,29,30,31,32]
@@ -34,7 +34,7 @@
             "nombre":"Conceptos",
             "categoria":"Razonamiento Perceptivo",
             "activity":"ConceptosActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [1], [0], [2], [3], [4], [5], [6], [7], [8,9], [10,11], [12], [13],
                             [14], [15], [16,17], [18], [19], [20,21,22,23,24,25,26,27,28]
@@ -44,7 +44,7 @@
             "nombre":"Claves",
             "categoria":"Velocidad de Procesamiento",
             "activity":"ClavesActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0,1,2,3], [4,5,6], [7,8,9,10], [11,12,13], [14,15], [16,17,18], [19,20,21,22], [23,24,25,26,27],
                             [28,29,30,31,32], [33,34,35,36,37], [38,39,40,41,42], [43,44,45,46,47], [48,49,50,51],
@@ -55,7 +55,7 @@
             "nombre":"Vocabulario",
             "categoria":"Comprensión verbal",
             "activity":"VocabularioActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0,1], [2,3], [4,5], [6,7], [8,9], [10,11], [12], [13,14], [15,16], [17], [18,19], [20,21], [22,23], [24,25], [26,27], [28,29],
                             [30,31], [32,33], [34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68]
@@ -63,9 +63,9 @@
         },
         {
             "nombre":"Letras y Números",
-            "categoria":"Memoria de Trabajo",
+            "categoria":"Memoria Operativa",
             "activity":"LetrasYNumerosActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [0], [1], [2], [3], [4], [5], [6,7], [8], [9], [10,11], [12], [13,14],
                             [15], [16], [17], [18], [19,20,21,22,23,24,25,26,27,28,29,30]
@@ -75,7 +75,7 @@
             "nombre":"Matrices",
             "categoria":"Razonamiento Perceptivo",
             "activity":"MatricesActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [1], [0], [2], [3], [4], [5], [6,7], [8], [9,10], [11], [12], [13,14], [15,16],
                             [17], [18], [19,20], [21], [22,23,24,25,26,27,28,29,30,31,32,33,34,35]
@@ -84,8 +84,8 @@
         {
             "nombre":"Comprensión",
             "categoria":"Comprensión verbal",
-            "activity":"CompresionActivity",
-            "alternativo":false
+            "activity":"ComprensionActivity",
+            "alternativo":false,
             "equivalencia":[
                             [0], [1], [2], [3], [4], [5], [6,7], [8], [9], [10,11], [12,13], [14], [15,16], [17,18],
                             [19], [20,21], [22], [23,24], [25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42]
@@ -95,7 +95,7 @@
             "nombre":"Búsqueda de Símbolos",
             "categoria":"Velocidad de Procesamiento",
             "activity":"BqSimbolosActivity",
-            "alternativo":false
+            "alternativo":false,
             "equivalencia":[
                             [0], [1], [0], [2], [3], [4,5], [6,7,8], [9,10,11], [12,13], [14,15,16], [17,18,19], [20,21,22],
                             [23,24,25], [26,27,28], [29,30,31,32], [33,34,35,36], [37,38,39], [40,41,42], [43,44,45]
@@ -105,7 +105,7 @@
             "nombre":"Completamiento de Figuras",
             "categoria":"Razonamiento Perceptivo",
             "activity":"FiguraIncompletaActivity",
-            "alternativo":true
+            "alternativo":true,
             "equivalencia":[
                             [0], [1], [2], [3], [4,5], [6,7], [8], [9,10], [11,12], [13,14], [15], [16,17],
                             [18,19], [20], [21], [22], [23,24], [25], [26,27,28,29,30,31,32,33,34,35,36,37,38]
@@ -115,7 +115,7 @@
             "nombre":"Animales",
             "categoria":"Velocidad de Procesamiento",
             "activity":"AnimalesActivity",
-            "alternativo":true
+            "alternativo":true,
             "equivalencia":[
                             [0,1,2,3,4,5,6,7], [8,9,10,11], [12,13,14,15], [16,17,18,19,20], [21,22,23,24,25], [26,27,28,29,30],
                             [31,32,33,34,35], [36,37,38,39,40], [41,42,43,44,45], [46,47,48,49,50,51], [52,53,54,55,56], [57,58,59,60,61,62],
@@ -127,7 +127,7 @@
             "nombre":"Información",
             "categoria":"Comprensión verbal",
             "activity":"InformacionActivity",
-            "alternativo":true
+            "alternativo":true,
             "equivalencia":[
                             [0,1,2], [3], [0], [4], [5], [6], [7], [8], [9], [0], [10], [11], [12], [13],
                             [14], [15], [16], [17], [18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]
@@ -135,9 +135,9 @@
         },
         {
             "nombre":"Aritmética",
-            "categoria":"Memoria de Trabajo",
+            "categoria":"Memoria Operativa",
             "activity":"AritmeticaActivity",
-            "alternativo":true
+            "alternativo":true,
             "equivalencia":[
                             [0], [1], [2], [3], [4], [5], [6], [7], [8,9], [10,11], [12], [13], [14,15],
                             [16], [17,18], [19], [20], [21], [22,23,24,25,26,27,28,29,30,31,32,33,34]
@@ -147,7 +147,7 @@
             "nombre":"Adivinanzas",
             "categoria":"Comprensión verbal",
             "activity":"AdivinanzasActivity",
-            "alternativo":true
+            "alternativo":true,
             "equivalencia":[
                             [0], [1], [2], [3], [4], [5], [6], [7], [0], [8], [9], [10], [11],
                             [12], [0], [13], [14], [15], [16,17,18,19,20,21,22,23,24]

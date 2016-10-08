@@ -40,7 +40,7 @@ public class AdministradorJuegos {
         juegosWisc = new ArrayList<>();
         alternativas = new ArrayList<>();
 
-        String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo));
+        String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo_posta));
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 

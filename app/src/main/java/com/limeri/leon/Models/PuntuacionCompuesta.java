@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.common.DataBase;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +36,9 @@ public class PuntuacionCompuesta {
     public void setPercentil(String percentil) { this.percentil = percentil; }
 
 
-    public static PuntuacionCompuesta getPuntuacionCompuesta(String nombre) {
+    public static PuntuacionCompuesta getPuntuacionCompuesta(String nombre, Integer valor) {
+
+        String string;
         String strPuntCompuesta = DataBase.getpuntuacionCompuesta(nombre);
 
         PuntuacionCompuesta puntuacionCompuesta = null;
@@ -45,9 +48,17 @@ public class PuntuacionCompuesta {
                 JSONObject jsonPuntCompuesta = new JSONObject(strPuntCompuesta);
                 puntuacionCompuesta = new PuntuacionCompuesta();
 
-                puntuacionCompuesta.setEquivalencia("21");
-                puntuacionCompuesta.setNivelConfianza("31-51");
-                puntuacionCompuesta.setPercentil("41");
+                JSONArray jsonEquivalencia = jsonPuntCompuesta.getJSONArray("equivalencia");
+                string = jsonEquivalencia.get(valor).toString();
+                puntuacionCompuesta.setEquivalencia(string);
+
+                JSONArray jsonNivelConf = jsonPuntCompuesta.getJSONArray("nivelConfianza");
+                string = jsonNivelConf.get(valor).toString();
+                puntuacionCompuesta.setNivelConfianza(string);
+
+                JSONArray jsonPercentil = jsonPuntCompuesta.getJSONArray("percentil");
+                string = jsonPercentil.get(valor).toString();
+                puntuacionCompuesta.setPercentil(string);
 
             } catch (JSONException e) {
                 e.printStackTrace();

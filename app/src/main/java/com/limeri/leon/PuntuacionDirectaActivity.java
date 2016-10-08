@@ -187,7 +187,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
         PuntuacionCompuesta puntuacionCompuesta = null;
 
-        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV");
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV", compVerbal);
         TableRow row1 = new TableRow(this);
         CompletarCelda(this, row1, "Comprensión Verbal");
         CompletarCelda(this, row1, compVerbal.toString());
@@ -196,7 +196,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CompletarCelda(this, row1, puntuacionCompuesta.getNivelConfianza().toString());
         tabla.addView(row1);
 
-        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IRP");
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IRP", razPercep);
         TableRow row2 = new TableRow(this);
         CompletarCelda(this, row2, "Razonamiento Perceptivo");
         CompletarCelda(this, row2, razPercep.toString());
@@ -205,7 +205,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CompletarCelda(this, row2, puntuacionCompuesta.getNivelConfianza().toString());
         tabla.addView(row2);
 
-        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IMO");
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IMO", memOper);
         TableRow row3 = new TableRow(this);
         CompletarCelda(this, row3, "Memoria Operativa");
         CompletarCelda(this, row3, memOper.toString());
@@ -214,7 +214,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CompletarCelda(this, row3, puntuacionCompuesta.getNivelConfianza().toString());
         tabla.addView(row3);
 
-        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IVP");
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IVP", velProc);
         TableRow row4 = new TableRow(this);
         CompletarCelda(this, row4, "Velocidad de Procesamiento");
         CompletarCelda(this, row4, velProc.toString());
@@ -223,7 +223,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CompletarCelda(this, row4, puntuacionCompuesta.getNivelConfianza().toString());
         tabla.addView(row4);
 
-        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("CIT");
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("CIT", CI);
         TableRow row5 = new TableRow(this);
         CompletarCelda(this, row5, "CI Total");
         CompletarCelda(this, row5, CI.toString());
