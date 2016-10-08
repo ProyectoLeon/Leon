@@ -19,6 +19,7 @@ import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
 public class PopupActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,21 +72,36 @@ public class PopupActivity extends Activity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(Profesional.getProfesionalActual().getContrasena().equals(input.getText().toString())){
-                    dialog.cancel();
-                } else {
-                    PopupActivity.this.finish();
-                }
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(Profesional.getProfesionalActual().getContrasena().equals(input.getText().toString())){
+                    dialog.cancel();
+                } else {
+                    input.setError("La contraseña es incorrecta");
+                }
+            }
+        });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
                 PopupActivity.this.finish();
             }
         });
-        builder.setCancelable(false);
-        builder.show();
     }
 
     @NonNull
