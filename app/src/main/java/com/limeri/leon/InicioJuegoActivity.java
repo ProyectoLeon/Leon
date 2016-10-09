@@ -17,6 +17,8 @@ import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 
+import java.util.Calendar;
+
 public class InicioJuegoActivity extends AppCompatActivity {
 
     private Evaluacion evaluacion;

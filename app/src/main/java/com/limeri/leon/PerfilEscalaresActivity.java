@@ -27,6 +27,11 @@ import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Profesional;
+import com.limeri.leon.Models.PuntuacionCompuesta;
+
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,33 +46,57 @@ import java.util.StringTokenizer;
 
 public class PerfilEscalaresActivity extends Activity {
 
-
+    private Integer compVerbal;
+    private Integer razPercep;
+    private Integer memOper;
+    private Integer velProc;
+    private Integer CI;
     Bitmap bitmap;
     Integer mWidth, mHeight;
     private XYPlot plot;
     List<Columna> columnas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_perfil_escalares);
+        cargarCaratula();
         cargarColumnas();
         generarTablaEdad();
         generarPuntuacionDirecta();
+        generarTablaSumas();
         completarGraficoEscalar();
-        completarGraficoCompuesto();
-        completarTablaComparaciones();
-        completarPtosFuertesyDebiles();
-        completarTablaPromedio();
-        ImageView imageView = (ImageView) findViewById(R.id.encabezado);
-        imageView.setImageResource(R.drawable.encabezado);
+//        completarGraficoCompuesto();
+//        completarTablaComparaciones();
+//        completarPtosFuertesyDebiles();
+//        completarTablaPromedio();
+        //ImageView imageView = (ImageView) findViewById(R.id.encabezado);
+        //imageView.setImageResource(R.drawable.encabezado);
         Button documentoPdf = (Button) findViewById(R.id.pdfButton);
-        if (documentoPdf != null) {
+            if (documentoPdf != null) {
             documentoPdf.setOnClickListener(clickPDF());
         }
     }
 
+
+    public void cargarCaratula(){
+        TextView NombreProf = (TextView) findViewById(R.id.nombreProf);
+        TextView NombrePaciente = (TextView) findViewById(R.id.nombrePac);
+        TextView FechaNac = (TextView) findViewById(R.id.Edad);
+        TextView FechaEval = (TextView) findViewById(R.id.FechaEval);
+
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Profesional profesional = Profesional.getProfesionalActual();
+        NombreProf.setText(profesional.getNombre());
+        NombrePaciente.setText(paciente.getNombre());
+        int año = Calendar.getInstance().get(Calendar.YEAR);
+        Integer edad = paciente.cantidadAños(año);
+        FechaNac.setText(edad.toString());
+        FechaEval.setText(paciente.getEvaluacionFinalizada().getFechaEvaluación().toString());
+
+    }
     public void generarPuntuacionDirecta() {
 
         TableLayout tablaPD = (TableLayout) findViewById(R.id.tablePuntDir);
@@ -79,66 +108,169 @@ public class PerfilEscalaresActivity extends Activity {
         CompletarCelda(this, row0, "PE");
         CompletarCelda(this, row0, "PE");
         CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
         //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
         tablaPD.addView(row0);
         CompletarPuntajeJuego(tablaPD);
     }
 
     public void CompletarPuntajeJuego(TableLayout tabla){
-        Integer index = 0;
+        compVerbal = 0;
+        razPercep = 0;
+        memOper = 0;
+        velProc = 0;
+        CI = 0;
+
         Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
         List<Juego> listaJuegos = evaluacion.getJuegos();
-        for (Juego juego : listaJuegos){
+        for (Juego juego : listaJuegos) {
             TableRow row = new TableRow(this);
             CompletarCelda(this, row, juego.getNombre());
             CompletarCelda(this, row, juego.getPuntosJuego().toString());
             String escalar = juego.getPuntajeEscalar().toString();
             TextView col = new TextView(this);
             col.setText(escalar);
-            switch (juego.getCategoria()){
-                case "Comprensión verbal":{
+            switch (juego.getCategoria()) {
+                case "Comprensión verbal": {
                     CompletarCelda(this, row, escalar);
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
+
+                    compVerbal = compVerbal + juego.getPuntosJuego();
                     break;
                 }
-                case "Razonamiento Perceptivo":{
+                case "Razonamiento Perceptivo": {
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
+
+                    razPercep = razPercep + juego.getPuntosJuego();
                     break;
                 }
-                case "Memoria Operativa":{
+                case "Memoria Operativa": {
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
+
+                    memOper = memOper + juego.getPuntosJuego();
                     break;
                 }
-                case "Velocidad de Procesamiento":{
+                case "Velocidad de Procesamiento": {
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, "");
                     CompletarCelda(this, row, escalar);
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
+
+                    velProc = velProc + juego.getPuntosJuego();
                     break;
                 }
             }
         }
-
-
+        CI = compVerbal + razPercep + memOper + velProc;
+        TableRow row = new TableRow(this);
+        CompletarCelda(this,row,"");
+        CompletarCelda(this,row,"");
+        CompletarCelda(this,row,compVerbal.toString());
+        CompletarCelda(this,row,razPercep.toString());
+        CompletarCelda(this,row,memOper.toString());
+        CompletarCelda(this,row,velProc.toString());
+        CompletarCelda(this,row,CI.toString());
     }
+
+    public String CompararFechas(String DateEva, String DateBirth) {
+        String dayDifference = null;
+
+        try {
+
+            Integer mesRestado = 0;
+            Integer añoRestado = 0;
+            String strdia;
+            String strmes;
+            String straño;
+            Integer diadif;
+            Integer mesdif;
+            Integer añodif;
+
+
+            SimpleDateFormat dates = new SimpleDateFormat("dd/mm/yyyy");
+
+// Obtengo substring de cada parte de la fecha (día, mes y año)
+            strdia = DateEva.toString().substring(0, 2);
+            strmes = DateEva.toString().substring(3, 5);
+            straño = DateEva.toString().substring(6, 10);
+
+            Integer diaeval = Integer.valueOf(strdia);
+            Integer meseval = Integer.valueOf(strmes);
+            Integer añoeval = Integer.valueOf(straño);
+
+            strdia = DateBirth.toString().substring(0, 2);
+            strmes = DateBirth.toString().substring(3, 5);
+            straño = DateBirth.toString().substring(6, 10);
+
+            Integer dianac = Integer.valueOf(strdia);
+            Integer mesnac = Integer.valueOf(strmes);
+            Integer añonac = Integer.valueOf(straño);
+
+// Calcular la diferencia en años, meses y días.
+            if (diaeval < dianac) {
+                mesRestado = 1;
+                diadif = diaeval + 30 - dianac;
+            } else {
+                diadif = diaeval - dianac;
+            }
+
+            if (mesRestado == 1)
+                meseval = meseval - 1;
+
+            if (meseval < mesnac) {
+                añoRestado = 1;
+                mesdif = meseval + 30 - mesnac;
+            } else {
+                mesdif = meseval - mesnac;
+            }
+
+            if (añoRestado == 1)
+                añoeval = añoeval - 1;
+
+            añodif = añoeval - añonac;
+
+
+// Lo volvemos a pasar a String
+            strdia = diadif.toString();
+            strmes = mesdif.toString();
+            straño = añodif.toString();
+
+// Para evitar que el día, el mes y el año queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+            if (strdia.length() == 1)
+                strdia = 0 + strdia;
+
+            if (strmes.length() == 1)
+                strmes = 0 + strmes;
+
+            if (straño.length() == 1)
+                straño = 0 + straño;
+
+// Lo devolvemos en AA,MM,DD
+            dayDifference = strdia + ',' + strmes + ',' + straño;
+
+        } catch (Exception exception) {
+            Log.e("DIDN'T WORK", "exception " + exception);
+
+        }
+        return dayDifference;
+    }
+
     public void generarTablaEdad() {
 
         TableLayout tablaedad = (TableLayout) findViewById(R.id.tableEdad);
@@ -157,11 +289,22 @@ public class PerfilEscalaresActivity extends Activity {
         Integer añoev = cal.get(Calendar.YEAR);
         Integer mesev = cal.get(Calendar.MONTH) + 1;
         Integer diaev = cal.get(Calendar.DAY_OF_MONTH);
-        String dateev = diaev.toString() + '/' + mesev.toString() + '/' + añoev.toString();
+        // Para evitar que el día y el mes queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+        String strmesev = mesev.toString();
+        if (strmesev.length() == 1)
+            strmesev = 0 + strmesev;
+
+        String strdiaev = diaev.toString();
+        if (strdiaev.length() == 1)
+            strdiaev = 0 + strdiaev;
+
+        String dateev = strdiaev + '/' + strmesev + '/' + añoev.toString();
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setFechaEvaluación(dateev);
         CompletarCelda(this, row1, añoev.toString());
-        CompletarCelda(this, row1, mesev.toString());
-        CompletarCelda(this, row1, diaev.toString());
+        CompletarCelda(this, row1, strmesev);
+        CompletarCelda(this, row1, strdiaev);
         tablaedad.addView(row1);
+
 
         TableRow row2 = new TableRow(this);
         CompletarCelda(this, row2, "Fecha de Nacimiento");
@@ -186,38 +329,11 @@ public class PerfilEscalaresActivity extends Activity {
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
         col.setTextSize(10);
+        col.setBackground(getDrawable(R.drawable.cell_shape));
         col.setText(txt);
         row.addView(col);
     }
 
-    public String CompararFechas(String DateEva, String DateBirth) {
-        String dayDifference = null;
-
-        try {
-
-            Date date1;
-            Date date2;
-
-            SimpleDateFormat dates = new SimpleDateFormat("dd/mm/yyyy");
-
-            //Setting dates
-            date1 = dates.parse(DateEva);
-            date2 = dates.parse(DateBirth);
-
-            //TODO: Calcular diferencia entre fechas (dia, mes y año)
-            long difference = Math.abs(date1.getTime() - date2.getTime());
-            long differenceDates = difference / (24 * 60 * 60 * 1000);
-            long años = differenceDates / 365;
-            long meses = (differenceDates % 365) / 24;
-
-            dayDifference = Long.toString(differenceDates);
-
-        } catch (Exception exception) {
-            Log.e("DIDN'T WORK", "exception " + exception);
-
-        }
-        return dayDifference;
-    }
     public void completarGraficoEscalar(){
     GraphView graph;
         Paciente paciente = Paciente.getSelectedPaciente();
@@ -265,7 +381,74 @@ public class PerfilEscalaresActivity extends Activity {
 
  }
 
-public LineGraphSeries crearSerie(int min, int max, int color){
+
+    public void CompletarSumas(TableLayout tabla) {
+        Paciente paciente = Paciente.getSelectedPaciente();
+        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        PuntuacionCompuesta puntuacionCompuesta = null;
+
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV",evaluacion.getPuntosCompVerbal());
+        TableRow row1 = new TableRow(this);
+        CompletarCelda(this, row1, "Comprensión Verbal");
+        CompletarCelda(this, row1, compVerbal.toString());
+        CompletarCelda(this, row1, puntuacionCompuesta.getEquivalencia().toString());
+        CompletarCelda(this, row1, puntuacionCompuesta.getpercentil().toString());
+        CompletarCelda(this, row1, puntuacionCompuesta.getNivelConfianza().toString());
+        tabla.addView(row1);
+
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IRP", evaluacion.getPuntosRazPercep());
+        TableRow row2 = new TableRow(this);
+        CompletarCelda(this, row2, "Razonamiento Perceptivo");
+        CompletarCelda(this, row2, razPercep.toString());
+        CompletarCelda(this, row2, puntuacionCompuesta.getEquivalencia().toString());
+        CompletarCelda(this, row2, puntuacionCompuesta.getpercentil().toString());
+        CompletarCelda(this, row2, puntuacionCompuesta.getNivelConfianza().toString());
+        tabla.addView(row2);
+
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IMO",evaluacion.getPuntosMemOper());
+        TableRow row3 = new TableRow(this);
+        CompletarCelda(this, row3, "Memoria Operativa");
+        CompletarCelda(this, row3, memOper.toString());
+        CompletarCelda(this, row3, puntuacionCompuesta.getEquivalencia().toString());
+        CompletarCelda(this, row3, puntuacionCompuesta.getpercentil().toString());
+        CompletarCelda(this, row3, puntuacionCompuesta.getNivelConfianza().toString());
+        tabla.addView(row3);
+
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IVP",evaluacion.getPuntosVelocProc());
+        TableRow row4 = new TableRow(this);
+        CompletarCelda(this, row4, "Velocidad de Procesamiento");
+        CompletarCelda(this, row4, velProc.toString());
+        CompletarCelda(this, row4, puntuacionCompuesta.getEquivalencia().toString());
+        CompletarCelda(this, row4, puntuacionCompuesta.getpercentil().toString());
+        CompletarCelda(this, row4, puntuacionCompuesta.getNivelConfianza().toString());
+        tabla.addView(row4);
+
+        puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("CIT", evaluacion.getCoeficienteIntelectual());
+        TableRow row5 = new TableRow(this);
+        CompletarCelda(this, row5, "CI Total");
+        CompletarCelda(this, row5, CI.toString());
+        CompletarCelda(this, row5, puntuacionCompuesta.getEquivalencia().toString());
+        CompletarCelda(this, row5, puntuacionCompuesta.getpercentil().toString());
+        CompletarCelda(this, row5, puntuacionCompuesta.getNivelConfianza().toString());
+        tabla.addView(row5);
+    }
+
+
+    public void generarTablaSumas() {
+
+        TableLayout tablaSumas = (TableLayout) findViewById(R.id.tablaSumas);
+        TableRow row0 = new TableRow(this);
+        CompletarCelda(this, row0, "Escalas");
+        CompletarCelda(this, row0, "Suma Escalares");
+        CompletarCelda(this, row0, "Punt. Compuesta");
+        CompletarCelda(this, row0, "Percentil");
+        CompletarCelda(this, row0, "% IC");
+        //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
+        tablaSumas.addView(row0);
+        CompletarSumas(tablaSumas);
+    }
+
+    public LineGraphSeries crearSerie(int min, int max, int color){
     DataPoint[] values = new DataPoint[max-min+1];
     for(int i = 0;i<=(max-min);i++){
         values[i] = new DataPoint(columnas.get(i+min).pos, columnas.get(i+min).ptos);
@@ -319,16 +502,16 @@ public void completarPtosFuertesyDebiles(){
     TableLayout tablaFyD = (TableLayout) findViewById(R.id.tablaPtosFYD);
     TableRow row0 = new TableRow(this);
     CompletarCelda(this, row0, "Test");
-    CompletarCelda(this, row0, "Puntuación escalar");
+    CompletarCelda(this, row0, "Punt. escalar");
     CompletarCelda(this, row0, "Media de Pe");
-    CompletarCelda(this, row0, "Distancia a la media");
+    CompletarCelda(this, row0, "Dist. a la media");
     CompletarCelda(this, row0, "Valor Crítico");
-    CompletarCelda(this, row0, "Punto Fuerte o Débil");
+    CompletarCelda(this, row0, "Fuerte o Débil");
     CompletarCelda(this, row0, "Tasa Base");
     tablaFyD.addView(row0);
 
     TableRow row1 = new TableRow(this);
-    CompletarCelda(this, row1, "Construcción con Cubos");
+    CompletarCelda(this, row1, "Constr. con Cubos");
     validarFuerteDebil(this,row1,"Construcción con Cubos");
     tablaFyD.addView(row1);
 
@@ -373,7 +556,7 @@ public void completarPtosFuertesyDebiles(){
     tablaFyD.addView(row9);
 
     TableRow row10 = new TableRow(this);
-    CompletarCelda(this, row10, "Búsqueda de Símbolos");
+    CompletarCelda(this, row10, "Búsq.Símbolos");
     validarFuerteDebil(this,row10,"Búsqueda de Símbolos");
     tablaFyD.addView(row10);
 
@@ -408,7 +591,7 @@ public void completarPtosFuertesyDebiles(){
         tablaProm.addView(row0);
 
         TableRow row1 = new TableRow(this);
-        CompletarCelda(this, row1, "Suma de puntos escalares");
+        CompletarCelda(this, row1, "Suma puntos escalares");
         CompletarCelda(this, row1, evaluacion.getCoeficienteIntelectual().toString() );
         CompletarCelda(this, row1, evaluacion.getPuntosCompVerbal().toString());
         CompletarCelda(this, row1, evaluacion.getPuntosRazPercep().toString());
@@ -438,6 +621,9 @@ public void completarPtosFuertesyDebiles(){
 
             @Override
             public void onClick(View view) {
+                String fecha = null;
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+                fecha = sdf.format(Calendar.getInstance().getTime());
 
                 // Create a object of PdfDocument
                 PdfDocument document = new PdfDocument();
@@ -471,40 +657,38 @@ public void completarPtosFuertesyDebiles(){
                 printArea2.setVisibility(View.INVISIBLE);
                 document.finishPage(page2);
 
-// Hoja3
-                View printArea3 = findViewById(R.id.Hoja3);
-                PdfDocument.PageInfo pageInfo3 = new PdfDocument.PageInfo.Builder(printArea3.getWidth(),printArea3.getHeight(),1).create();
-                PdfDocument.Page page3 = document.startPage(pageInfo3);
-                printArea3.setVisibility(View.VISIBLE);
-                printArea3.setDrawingCacheEnabled(true);
-                Bitmap bitmap3 = Bitmap.createBitmap(printArea3.getDrawingCache(true),0,0,printArea3.getWidth(),printArea3.getHeight());
-                printArea3.setDrawingCacheEnabled(false);
-                page3.getCanvas().drawBitmap(bitmap3,1,1,null);
-                printArea3.setVisibility(View.INVISIBLE);
-                document.finishPage(page3);
-// Hoja4
-                View printArea4 = findViewById(R.id.Hoja4);
-                PdfDocument.PageInfo pageInfo4 = new PdfDocument.PageInfo.Builder(printArea4.getWidth(),printArea4.getHeight(),2).create();
-                PdfDocument.Page page4 = document.startPage(pageInfo4);
-                printArea4.setDrawingCacheEnabled(true);
-                Bitmap bitmap4 = Bitmap.createBitmap(printArea4.getDrawingCache(true),0,0,printArea4.getWidth(),printArea4.getHeight());
-                printArea4.setDrawingCacheEnabled(false);
-                page4.getCanvas().drawBitmap(bitmap4,1,1,null);
-                document.finishPage(page4);
-// Hoja5
-                View printArea5 = findViewById(R.id.Hoja4);
-                PdfDocument.PageInfo pageInfo5 = new PdfDocument.PageInfo.Builder(printArea5.getWidth(),printArea5.getHeight(),2).create();
-                PdfDocument.Page page5 = document.startPage(pageInfo5);
-                printArea5.setDrawingCacheEnabled(true);
-                Bitmap bitmap5 = Bitmap.createBitmap(printArea5.getDrawingCache(true),0,0,printArea5.getWidth(),printArea5.getHeight());
-                printArea5.setDrawingCacheEnabled(false);
-                page5.getCanvas().drawBitmap(bitmap5,1,1,null);
-                document.finishPage(page5);
+//// Hoja3
+//                View printArea3 = findViewById(R.id.Hoja3);
+//                PdfDocument.PageInfo pageInfo3 = new PdfDocument.PageInfo.Builder(printArea3.getWidth(),printArea3.getHeight(),1).create();
+//                PdfDocument.Page page3 = document.startPage(pageInfo3);
+//                printArea3.setVisibility(View.VISIBLE);
+//                printArea3.setDrawingCacheEnabled(true);
+//                Bitmap bitmap3 = Bitmap.createBitmap(printArea3.getDrawingCache(true),0,0,printArea3.getWidth(),printArea3.getHeight());
+//                printArea3.setDrawingCacheEnabled(false);
+//                page3.getCanvas().drawBitmap(bitmap3,1,1,null);
+//                printArea3.setVisibility(View.INVISIBLE);
+//                document.finishPage(page3);
+//// Hoja4
+//                View printArea4 = findViewById(R.id.Hoja4);
+//                PdfDocument.PageInfo pageInfo4 = new PdfDocument.PageInfo.Builder(printArea4.getWidth(),printArea4.getHeight(),2).create();
+//                PdfDocument.Page page4 = document2.startPage(pageInfo4);
+//                printArea4.setDrawingCacheEnabled(true);
+//                Bitmap bitmap4 = Bitmap.createBitmap(printArea4.getDrawingCache(true),0,0,printArea4.getWidth(),printArea4.getHeight());
+//                printArea4.setDrawingCacheEnabled(false);
+//                page4.getCanvas().drawBitmap(bitmap4,1,1,null);
+//                document2.finishPage(page4);
+////// Hoja5
+//                View printArea5 = findViewById(R.id.Hoja4);
+//                PdfDocument.PageInfo pageInfo5 = new PdfDocument.PageInfo.Builder(printArea5.getWidth(),printArea5.getHeight(),2).create();
+//                PdfDocument.Page page5 = document.startPage(pageInfo5);
+//                printArea5.setDrawingCacheEnabled(true);
+//                Bitmap bitmap5 = Bitmap.createBitmap(printArea5.getDrawingCache(true),0,0,printArea5.getWidth(),printArea5.getHeight());
+//                printArea5.setDrawingCacheEnabled(false);
+//                page5.getCanvas().drawBitmap(bitmap5,1,1,null);
+//                document.finishPage(page5);
 // saving pdf document to sdcard
-                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss");
-                String pdfName = "pdfdemo"
-                        + sdf.format(Calendar.getInstance().getTime()) + ".pdf";
 
+                String pdfName = "resumen" + fecha + ".pdf";
 // all created files will be saved at path /sdcard/PDFDemo_AndroidSRC/
                 File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 File outputFile = new File(dir.getPath(), pdfName);
@@ -518,6 +702,7 @@ public void completarPtosFuertesyDebiles(){
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            Navegacion.irA(PerfilEscalaresActivity.this,PerfilCompuestasActivity.class);
             }
         };
     }
@@ -558,83 +743,6 @@ public void completarPtosFuertesyDebiles(){
 
     }
 
-    public void completarTablaComparaciones(){
-        TableLayout tablacomp = (TableLayout) findViewById(R.id.tablaCompar);
-        TableRow row0 = new TableRow(this);
-        CompletarCelda(this, row0, "Índice/Test");
-        CompletarCelda(this, row0, "Puntuac.trans 1");
-        CompletarCelda(this, row0, "Puntuac.trans 2");
-        CompletarCelda(this, row0, "Díferencia");
-        CompletarCelda(this, row0, "Valor Crítico");
-        CompletarCelda(this, row0, "Diferencia Significativa");
-        CompletarCelda(this, row0, "Tasa Base"
-        );
-        tablacomp.addView(row0);
-
-            TableRow row1 = new TableRow(this);
-            CompletarCelda(this, row1, "CV - RP");
-            completarComparacion(this,row1,"CV","RP");
-            tablacomp.addView(row1);
-
-        TableRow row2 = new TableRow(this);
-        CompletarCelda(this, row2, "CV - MT");
-        completarComparacion(this,row2,"CV","MT");
-        tablacomp.addView(row2);
-
-        TableRow row3 = new TableRow(this);
-        CompletarCelda(this, row3, "CV - VP");
-        completarComparacion(this,row3,"CV","VP");
-        tablacomp.addView(row3);
-
-        TableRow row4 = new TableRow(this);
-        CompletarCelda(this, row4, "RP - MT");
-        completarComparacion(this,row4,"RP","MT");
-        tablacomp.addView(row4);
-
-        TableRow row5 = new TableRow(this);
-        CompletarCelda(this, row5, "MT - VP");
-        completarComparacion(this,row5,"MT","VP");
-        tablacomp.addView(row5);
-
-        TableRow row6 = new TableRow(this);
-        CompletarCelda(this, row6, "RP - VP");
-        completarComparacion(this,row6,"RP","VP");
-        tablacomp.addView(row6);
-   //TODO Agregar ultimas 3 filas con juegos
-    }
-    public void completarComparacion(Activity activity, TableRow row, String var1, String var2){
-        Integer ptosComp1 = calcularCompuesto(var1);
-        CompletarCelda(activity, row, ptosComp1.toString());
-        Integer ptosComp2 = calcularCompuesto(var2);
-        CompletarCelda(activity, row, ptosComp2.toString());
-        Integer dif = ptosComp1-ptosComp2;
-        CompletarCelda(activity, row, dif.toString());
-        CompletarCelda(activity, row, "Pendiente tabla");
-        CompletarCelda(activity, row, "Pendiente tabla");
-        CompletarCelda(activity, row, "Pendiente tabla");
-    }
-
-    public Integer calcularCompuesto(String var){
-        Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
-        Integer ptos = 0;
-        switch (var){
-            case "CV":
-            {
-            ptos = evaluacion.getPuntosCompVerbal();
-            break;}
-            case "RP":
-            {
-                ptos = evaluacion.getPuntosRazPercep();
-                break;}
-            case "MT":{
-                ptos = evaluacion.getPuntosMemOper();
-            break; }
-            case "VP":{
-                ptos = evaluacion.getPuntosVelocProc();
-            break;}
-    } return ptos;
-    }
 
 
     class Columna {

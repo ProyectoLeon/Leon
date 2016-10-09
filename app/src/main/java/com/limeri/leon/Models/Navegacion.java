@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -33,6 +34,18 @@ public class Navegacion {
         activity.startActivity(mainIntent);
         activity.finish();
     }
+
+    public static void irA(Activity activity, Class clase, String value){
+            anterior = activity.getClass();
+            anteriores.push(activity.getClass());
+            Intent mainIntent = new Intent(activity, clase);
+            Bundle b = new Bundle();
+            b.putString("key",value);
+            mainIntent.putExtras(b);
+            activity.startActivity(mainIntent);
+            activity.finish();
+        }
+
 
     public static void irA(Activity activity, Class clase, Class claseAnterior) {
         Class destino = clase;

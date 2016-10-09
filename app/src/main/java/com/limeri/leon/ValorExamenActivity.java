@@ -19,27 +19,29 @@ public class ValorExamenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int coefIntelectual = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valor_examen);
 
         Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        TextView puntajeTotal = (TextView) findViewById(R.id.puntaje);
+        ListView listado = (ListView) findViewById(R.id.listadoP);
         List<Juego> listaJuegos = evaluacion.getJuegos();
         List<String> llistadoPuntos = new ArrayList<>();
         for (Juego juego : listaJuegos){
             String puntaje = juego.getNombre() + ": " + juego.getPuntosJuego().toString();
             llistadoPuntos.add(puntaje);
+            coefIntelectual = coefIntelectual + juego.getPuntosJuego();
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, llistadoPuntos);
-
-        ListView listado = (ListView) findViewById(R.id.listadoP);
-        listado.setAdapter(adapter);
+                listado.setAdapter(adapter);
         try {
-            TextView puntaje = (TextView) findViewById(R.id.puntaje);
-            AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
-            puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
+
+            //AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
+          //  puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
+            puntajeTotal.setText("Puntaje: " + coefIntelectual);
         } catch (Exception e) {
             e.printStackTrace();
         }

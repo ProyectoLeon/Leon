@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdministradorJuegos {
@@ -185,6 +186,8 @@ public class AdministradorJuegos {
                 juego.finalizar();
                 if (isUltimoJuego(juego)) {
                     evaluacion.finalizar();
+                    calcularPuntaje(evaluacion);
+                    calcularFecha(evaluacion);
                     Navegacion.irA(activity, ValorExamenActivity.class);
                 } else {
                     Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
@@ -220,6 +223,8 @@ public class AdministradorJuegos {
             juego.cancelar();
             if (isUltimoJuego(juego)) {
                 evaluacion.finalizar();
+                calcularPuntaje(evaluacion);
+                calcularFecha(evaluacion);
                 Navegacion.irA(activity, ValorExamenActivity.class);
             } else {
                 Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
@@ -315,6 +320,27 @@ public class AdministradorJuegos {
         public Boolean alternativo;
         public Boolean juegaPaciente;
         public List<List<Integer>> puntaje = new ArrayList<>();
+    }
+
+    public void calcularFecha (Evaluacion evaluacion){
+        Calendar cal = Calendar.getInstance();
+        cal.getTime().getTime();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Integer añoev = cal.get(Calendar.YEAR);
+        Integer mesev = cal.get(Calendar.MONTH) + 1;
+        Integer diaev = cal.get(Calendar.DAY_OF_MONTH);
+
+// Para evitar que el día y el mes queden sin el cero adelante. Por ejemplo si es 9, queda 09.
+        String strmesev = mesev.toString();
+        if (strmesev.length() == 1)
+            strmesev = 0 + strmesev;
+
+        String strdiaev = diaev.toString();
+        if (strdiaev.length() == 1)
+            strdiaev = 0 + strdiaev;
+
+        String dateev = strdiaev + '/' + strmesev + '/' + añoev.toString();
+        evaluacion.setFechaEvaluación(dateev);
     }
 
     public void calcularPuntaje(Evaluacion evaluacion) {

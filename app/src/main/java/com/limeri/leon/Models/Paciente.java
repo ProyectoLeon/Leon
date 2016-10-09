@@ -11,7 +11,6 @@ public class Paciente {
     private String dni;
     private String apellido;
     private String fechaNac;
-
     private List<Evaluacion> evaluaciones = new ArrayList<>();
 
     public String getFechaNac() {

@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if (User.getUserEmail(getBaseContext()) != null) {
 
-            mMatriculaView.setText(User.getUserEmail(getBaseContext()));
+//            mMatriculaView.setText(User.getUserEmail(getBaseContext()));
 
         }
 

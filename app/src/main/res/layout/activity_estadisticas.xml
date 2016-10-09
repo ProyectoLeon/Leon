@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,48 +25,62 @@
             android:textSize="20dp" />
 
         <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="162dp">
+            android:layout_width="332dp"
+            android:layout_height="162dp"
+            android:id="@+id/Rgroup"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.20">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indice Comprensión erbal"
                 android:id="@+id/CompVerbal"
-                android:layout_gravity="center_horizontal"
                 android:checked="false"
                 android:textSize="20dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:layout_gravity="left" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indice Razonamiento Perceptivo"
                 android:id="@+id/RazPerc"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left|center_horizontal"
                 android:checked="false"
                 android:textSize="20dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"/>
+
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indice Memoria de Trabajo"
                 android:id="@+id/MemTrab"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left|center_horizontal"
                 android:layout_marginTop="5dp"
                 android:textSize="20dp"
-                android:checked="false" />
+                android:checked="false"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indice Velocidad de Procesamiento"
                 android:id="@+id/VelProc"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left|center_horizontal"
                 android:textSize="20dp"
                 android:layout_marginTop="5dp"
-                android:checked="true" />
+                android:checked="true"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coeficiente Intelectual"
+                android:id="@+id/CoefInt"
+                android:checked="false"
+                android:layout_gravity="left|center_horizontal"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp" />
         </RadioGroup>
 
         <Button

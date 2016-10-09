@@ -1,12 +1,19 @@
 package com.limeri.leon.Models;
 
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
 import com.limeri.leon.common.Estados;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Evaluacion {
 
+    private String fechaEvaluación;
     private Paciente paciente;
     private Estados estado = Estados.CREADO;
     private Integer puntosCompVerbal;
@@ -55,6 +62,13 @@ public class Evaluacion {
             }
         }
         return ultimo;
+    }
+    public String getFechaEvaluación() {
+        return fechaEvaluación;
+    }
+
+    public void setFechaEvaluación(String fechaEvaluación) {
+        this.fechaEvaluación = fechaEvaluación;
     }
 
     public Juego getJuegoActual() {
@@ -132,38 +146,6 @@ public class Evaluacion {
     public Estados getEstado(){
         return estado;
     }
-    public void calcularIndiceEscalares(Evaluacion evaluacion) {
-        Integer puntosCompVerbal = 0;
-        Integer puntosRazPercep = 0;
-        Integer puntosMemOper = 0;
-        Integer puntosVelocProc = 0;
-        Integer coeficienteIntelectual = 0;
-        Integer puntajeEscalar = 0;
 
-        for (Juego juego : evaluacion.getJuegos()) {
-            puntajeEscalar = juego.getPuntajeEscalar();
-            coeficienteIntelectual = coeficienteIntelectual + puntajeEscalar;
 
-            switch (juego.getCategoria()){
-                case("Comprensión verbal"):
-                    puntosCompVerbal = puntosCompVerbal + puntajeEscalar;
-                    break;
-                case("Razonamiento Perceptivo"):
-                    puntosRazPercep = puntosRazPercep + puntajeEscalar;
-                    break;
-                case("Memoria Operativa"):
-                    puntosMemOper = puntosMemOper + puntajeEscalar;
-                    break;
-                case("Velocidad de Procesamiento"):
-                    puntosVelocProc = puntosVelocProc + puntajeEscalar;
-                    break;
-            }
-        }
-
-        evaluacion.setPuntosCompVerbal(puntosCompVerbal);
-        evaluacion.setPuntosRazPercep(puntosRazPercep);
-        evaluacion.setPuntosMemOper(puntosMemOper);
-        evaluacion.setPuntosVelocProc(puntosVelocProc);
-        evaluacion.setCoeficienteIntelectual(coeficienteIntelectual);
-    }
 }

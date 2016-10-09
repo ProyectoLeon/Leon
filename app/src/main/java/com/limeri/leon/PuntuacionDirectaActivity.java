@@ -174,12 +174,12 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                 }
             }
         }
-        evaluacion.setPuntosCompVerbal(compVerbal);
-        evaluacion.setPuntosMemOper(memOper);
-        evaluacion.setPuntosRazPercep(razPercep);
-        evaluacion.setPuntosVelocProc(velProc);
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosCompVerbal(compVerbal);
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosMemOper(memOper);
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosRazPercep(razPercep);
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosVelocProc(velProc);
         CI = compVerbal + razPercep + memOper + velProc;
-        evaluacion.setCoeficienteIntelectual(CI);
+        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setCoeficienteIntelectual(CI);
     }
 
     public void CompletarSumas(TableLayout tabla) {
