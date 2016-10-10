@@ -25,6 +25,7 @@ public class PopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.alert_dialog);
+        Boolean pedirPassword = true;
 
         Button btn_positive = (Button) findViewById(R.id.dialog_positive_btn);
         Button btn_negative = (Button) findViewById(R.id.dialog_negative_btn);
@@ -51,6 +52,10 @@ public class PopupActivity extends Activity {
             btn_negative.setOnClickListener(cancelarJuegoLibreListener(PopupActivity.this));
         }
 
+        if (!AdministradorJuegos.getInstance().controlJuegoPaciente()) {
+            pedirPassword = false;
+        }
+
         btn_neutral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +63,9 @@ public class PopupActivity extends Activity {
             }
         });
 
-        showPopUpPassword();
+        if (pedirPassword) {
+            showPopUpPassword();
+        }
     }
 
     private void showPopUpPassword() {

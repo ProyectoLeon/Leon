@@ -122,6 +122,18 @@ public class AdministradorJuegos {
         }
     }
 
+    public Boolean controlJuegoPaciente() {
+        if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
+            // Evaluación
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionActual().getJuegoActual();
+            return juego.getJuegaPaciente();
+        } else {
+            // Juego Libre
+            Juego juego = Paciente.getSelectedPaciente().getEvaluacionFinalizada().getJuegoLibreActual();
+            return juego.getJuegaPaciente();
+        }
+    }
+
     public Integer getPuntosNivel(Integer nivel) {
         if (Paciente.getSelectedPaciente().tieneEvaluacionIniciada()) {
             // Evaluación

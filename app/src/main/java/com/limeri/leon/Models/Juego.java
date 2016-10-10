@@ -48,6 +48,10 @@ public class Juego {
         return alternativo;
     }
 
+    public Boolean getJuegaPaciente() {
+        return juegaPaciente;
+    }
+
     public void setPuntosNiveles(Map<Integer, Integer> puntos) {
         this.puntosNiveles = puntos;
     }
