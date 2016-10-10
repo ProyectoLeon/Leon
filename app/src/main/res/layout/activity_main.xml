@@ -93,6 +93,16 @@ tools:context="com.limeri.leon.MainActivity">
             android:textSize="20dp"
             android:layout_marginTop="16dp" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comenzar carga manual"
+            android:id="@+id/buttonCargaManual"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textSize="20dp"
+            android:layout_marginTop="16dp" />
+
     </LinearLayout>
     </ScrollView>
 

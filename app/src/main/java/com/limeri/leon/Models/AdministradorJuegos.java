@@ -2,6 +2,12 @@ package com.limeri.leon.Models;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +33,7 @@ public class AdministradorJuegos {
     private static Context applicationContext = null;
 
     public static AdministradorJuegos getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AdministradorJuegos();
         }
         return instance;
@@ -58,7 +64,8 @@ public class AdministradorJuegos {
                 juego.alternativo = jsonJuego.getBoolean("alternativo");
                 juego.juegaPaciente = jsonJuego.getBoolean("juegaPaciente");
 
-                Type listType = new TypeToken<List<List<Integer>>>() {}.getType();
+                Type listType = new TypeToken<List<List<Integer>>>() {
+                }.getType();
                 JSONArray jsonEquivalencia = jsonJuego.getJSONArray("equivalencia");
                 juego.puntaje = (List<List<Integer>>) new Gson().fromJson(jsonEquivalencia.toString(), listType);
 
@@ -313,16 +320,22 @@ public class AdministradorJuegos {
         return isUltimoJuego(juego);
     }
 
-    class JuegoWisc {
+    public List<JuegoWisc> getJuegosWisc() {
+        return juegosWisc;
+    }
+
+    public class JuegoWisc {
         public String nombre;
         public String categoria;
         public String activity;
         public Boolean alternativo;
         public Boolean juegaPaciente;
         public List<List<Integer>> puntaje = new ArrayList<>();
+
+
     }
 
-    public void calcularFecha (Evaluacion evaluacion){
+    public void calcularFecha(Evaluacion evaluacion) {
         Calendar cal = Calendar.getInstance();
         cal.getTime().getTime();
         cal.setTimeInMillis(System.currentTimeMillis());
@@ -355,17 +368,17 @@ public class AdministradorJuegos {
             puntajeEscalar = juego.getPuntajeEscalar();
             coeficienteIntelectual = coeficienteIntelectual + puntajeEscalar;
 
-            switch (juego.getCategoria()){
-                case("Comprensión verbal"):
+            switch (juego.getCategoria()) {
+                case ("Comprensión verbal"):
                     puntosCompVerbal = puntosCompVerbal + puntajeEscalar;
                     break;
-                case("Razonamiento Perceptivo"):
+                case ("Razonamiento Perceptivo"):
                     puntosRazPercep = puntosRazPercep + puntajeEscalar;
                     break;
-                case("Memoria Operativa"):
+                case ("Memoria Operativa"):
                     puntosMemOper = puntosMemOper + puntajeEscalar;
                     break;
-                case("Velocidad de Procesamiento"):
+                case ("Velocidad de Procesamiento"):
                     puntosVelocProc = puntosVelocProc + puntajeEscalar;
                     break;
             }

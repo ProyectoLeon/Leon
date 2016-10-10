@@ -73,6 +73,9 @@
         <activity
             android:name=".HistoricoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".CargaManualActivity"
+            android:screenOrientation="portrait" />
         android:name=".PuntuacionDirectaActivity" />
         <activity android:name=".EstadisticasActivity" />
         <activity android:name=".GraficoActivity" />

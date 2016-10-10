@@ -118,6 +118,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            Button buttonCargaManual = (Button) findViewById(R.id.buttonCargaManual);
+            if ((!paciente.tieneEvaluacionIniciada())) {
+                if (buttonCargaManual != null) {
+                    buttonCargaManual.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Navegacion.irA(MainActivity.this, CargaManualActivity.class);
+                        }
+                    });
+                }
+            }
+            else {
+                buttonCargaManual.setEnabled(false);
+            }
+
+
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
