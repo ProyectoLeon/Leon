@@ -41,12 +41,10 @@ public class AdministradorJuegos {
     }
 
     private List<JuegoWisc> juegosWisc;
-//    private List<String> alternativas;
 
     private AdministradorJuegos() {
 
         juegosWisc = new ArrayList<>();
-//        alternativas = new ArrayList<>();
 
         String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo_posta));
         try {

@@ -59,7 +59,7 @@ public class CargaManualActivity extends AppCompatActivity {
         juegosWISC = new ArrayList<AdministradorJuegos.JuegoWisc>();
         juegosWISC = AdministradorJuegos.getInstance().getJuegosWisc();
         for (AdministradorJuegos.JuegoWisc juegoWisc : juegosWISC ) {
-            Juego juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
+            Juego juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media, juegoWisc.valorCritico, juegoWisc.juegaPaciente);
             evaluacion.agregarJuego(juego);
         }
 
