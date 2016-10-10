@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         try {
-            Paciente paciente = Paciente.getSelectedPaciente();
+            final Paciente paciente = Paciente.getSelectedPaciente();
             if(paciente != null) {
                 actualizarNombrePaciente();
             }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     buttonInforme.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Navegacion.irA(MainActivity.this, ValorExamenActivity.class);
+                            Navegacion.irA(MainActivity.this, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
                         }
                     });
                 } else {

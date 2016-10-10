@@ -188,7 +188,7 @@ public class AdministradorJuegos {
                     evaluacion.finalizar();
                     calcularPuntaje(evaluacion);
                     calcularFecha(evaluacion);
-                    Navegacion.irA(activity, ValorExamenActivity.class);
+                    Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
                 } else {
                     Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
                 }
@@ -225,7 +225,7 @@ public class AdministradorJuegos {
                 evaluacion.finalizar();
                 calcularPuntaje(evaluacion);
                 calcularFecha(evaluacion);
-                Navegacion.irA(activity, ValorExamenActivity.class);
+                Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
             } else {
                 Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
             }
@@ -302,7 +302,7 @@ public class AdministradorJuegos {
         }
         juego.cancelar();
         evaluacion.finalizar();
-        Navegacion.irA(activity, ValorExamenActivity.class);
+        Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
         Paciente.saveCuenta(paciente);
     }
 

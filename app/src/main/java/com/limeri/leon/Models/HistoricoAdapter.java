@@ -67,7 +67,7 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
         viewHolder.button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navegacion.irA (activity , ValorExamenActivity.class);
+                Navegacion.irA (activity , ValorExamenActivity.class, position);
             }
             });
 

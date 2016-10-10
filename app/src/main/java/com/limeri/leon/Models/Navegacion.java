@@ -46,19 +46,36 @@ public class Navegacion {
             activity.finish();
         }
 
+    public static void irA(Activity activity, Class clase, int position){
+        Intent mainIntent = new Intent(activity, clase);
+        Bundle b = new Bundle();
+        b.putInt("position",position);
+        mainIntent.putExtras(b);
+        activity.startActivity(mainIntent);
+        activity.finish();
+    }
+
 
     public static void irA(Activity activity, Class clase, Class claseAnterior) {
         Class destino = clase;
         if (anterior.equals(claseAnterior)) {
             destino = anterior;
             if (anterior.equals(ExamenActivity.class)) {
+
                 Paciente.getSelectedPaciente().getEvaluacionActual().finalizar();
                 destino = ValorExamenActivity.class;
+                Intent mainIntent = new Intent(activity, destino);
+                Bundle b = new Bundle();
+                b.putInt("position",Paciente.getSelectedPaciente().getEvaluaciones().size() - 1);
+                mainIntent.putExtras(b);
+                activity.startActivity(mainIntent);
+                activity.finish();
             }
+        }else {
+            Intent mainIntent = new Intent(activity, destino);
+            activity.startActivity(mainIntent);
+            activity.finish();
         }
-        Intent mainIntent = new Intent(activity, destino);
-        activity.startActivity(mainIntent);
-        activity.finish();
     }
 
     public static void volver(Activity activity) {

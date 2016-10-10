@@ -17,6 +17,8 @@ import java.util.List;
 
 public class ValorExamenActivity extends AppCompatActivity {
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int coefIntelectual = 0;
@@ -24,7 +26,8 @@ public class ValorExamenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_valor_examen);
 
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        position =getIntent().getExtras().getInt("position");
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         TextView puntajeTotal = (TextView) findViewById(R.id.puntaje);
         ListView listado = (ListView) findViewById(R.id.listadoP);
         List<Juego> listaJuegos = evaluacion.getJuegos();

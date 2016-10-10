@@ -204,4 +204,9 @@ public class Paciente {
         Evaluacion evaluacion = getEvaluacionActual();
         evaluaciones.remove(evaluacion);
     }
+
+    public Evaluacion getEvaluacion (int posicion){
+        return evaluaciones.get(posicion);
+    }
+
 }
