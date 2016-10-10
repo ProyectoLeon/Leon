@@ -42,9 +42,6 @@ public class InicioJuegoActivity extends AppCompatActivity {
             Paciente.saveCuenta(paciente);
         }
 
-        // Si el Activity no se llamó desde el Main, se valida si pedir o no contraseña
-        Bundle b = getIntent().getExtras();
-        if(b == null){
             if (evaluacion.tieneJuegos()) {
                 Juego ultimoJuego = evaluacion.getUltimoJuego();
                 if (ultimoJuego.getJuegaPaciente()) {
@@ -52,7 +49,6 @@ public class InicioJuegoActivity extends AppCompatActivity {
                     showPopUpPassword();
                 }
             }
-        }
 
         juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
 
