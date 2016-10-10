@@ -32,8 +32,22 @@ public class Evaluacion {
     private List<Juego> juegos = new ArrayList<>();
     private List<Juego> juegosLibres = new ArrayList<>();
 
+    private List<String> alternativas = new ArrayList<>();
+
     public Paciente getPaciente() {
         return paciente;
+    }
+
+    public List<String> getAlternativas() {
+        return alternativas;
+    }
+
+    public void addAlternativa(String categoria) {
+        alternativas.add(categoria);
+    }
+
+    public void removeAlternativa(String categoria) {
+        alternativas.remove(categoria);
     }
 
     public void setPaciente(Paciente paciente) {

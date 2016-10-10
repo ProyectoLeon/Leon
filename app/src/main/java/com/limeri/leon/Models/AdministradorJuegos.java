@@ -40,12 +40,12 @@ public class AdministradorJuegos {
     }
 
     private List<JuegoWisc> juegosWisc;
-    private List<String> alternativas;
+//    private List<String> alternativas;
 
     private AdministradorJuegos() {
 
         juegosWisc = new ArrayList<>();
-        alternativas = new ArrayList<>();
+//        alternativas = new ArrayList<>();
 
         String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo_posta));
         try {
@@ -95,9 +95,9 @@ public class AdministradorJuegos {
                     if (!juegoWisc.alternativo) {
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
                         break;
-                    } else if (alternativas.contains(juegoWisc.categoria)) {
+                    } else if (evaluacion.getAlternativas().contains(juegoWisc.categoria)) {
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
-                        alternativas.remove(juegoWisc.categoria);
+                        evaluacion.removeAlternativa(juegoWisc.categoria);
                         break;
                     }
                 } else if (ultimoJuego.getNombre().equals(juegoWisc.nombre)) {
@@ -235,7 +235,7 @@ public class AdministradorJuegos {
             Paciente paciente = Paciente.getSelectedPaciente();
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
-            alternativas.add(juego.getCategoria());
+            evaluacion.addAlternativa(juego.getCategoria());
             if (juego.getPuntosJuego() < 0) {
                 juego.setPuntosJuego(0);
             }
@@ -260,7 +260,7 @@ public class AdministradorJuegos {
             Paciente paciente = Paciente.getSelectedPaciente();
             Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
             Juego juego = evaluacion.getJuegoLibreActual();
-            alternativas.add(juego.getCategoria());
+            evaluacion.addAlternativa(juego.getCategoria());
             if (juego.getPuntosJuego() < 0) {
                 juego.setPuntosJuego(0);
             }
@@ -278,7 +278,9 @@ public class AdministradorJuegos {
         Boolean siguiente = false;
         for (JuegoWisc juegoWisc : juegosWisc) {
             if (siguiente) {
-                if (juegoWisc.alternativo && alternativas.isEmpty()) {
+                Paciente paciente = Paciente.getSelectedPaciente();
+                Evaluacion evaluacion = paciente.getEvaluacionActual();
+                if (juegoWisc.alternativo && evaluacion.getAlternativas().isEmpty()) {
                     ultimo = true;
                 }
                 break;
