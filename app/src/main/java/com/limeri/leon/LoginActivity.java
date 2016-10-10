@@ -39,6 +39,7 @@ import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
 import com.limeri.leon.common.DataBase;
+import com.limeri.leon.common.MailSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String pass = "equipolimeri";
+    private String email = "aplicacionleon@gmail.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,49 +126,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mForgetPass.setOnClickListener( new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(),"Se ha enviado un correo a su casilla",Toast.LENGTH_LONG).show();}});
+                    recuperarContrasena();
+                }
+            });
         }
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
-/*
-    private void cargarUsuariosMatriculados() {
-        try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+    private void recuperarContrasena() {
+        String matricula = mMatriculaView.getText().toString();
 
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("usuarios");
-
-            //Iterate the jsonArray and print the info of JSONObjects
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                String nombreJson = jsonObject.getString("nombre");
-                String matriculaJson = jsonObject.getString("matricula");
-                String passwordJson = jsonObject.getString("contrasena");
-                String correoJson = jsonObject.getString("mail");
-                String productoJson = jsonObject.getString("producto");
-                Boolean registradoJson = jsonObject.getBoolean("registrado");
-
-                Profesional profesional = new Profesional();
-
-                profesional.setNombre(nombreJson);
-                profesional.setCorreo(correoJson);
-                profesional.setMatricula(matriculaJson);
-                profesional.setPassword(passwordJson);
-                profesional.setProducto(productoJson);
-                profesional.setRegistrado(registradoJson);
-                Profesional.setProfesionalActual(profesional);
-                Profesional.saveProfesional(LoginActivity.this, profesional);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (matricula.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Por favor, complete su matrícula", Toast.LENGTH_LONG).show();
+            return;
         }
 
+        Profesional profesional = Profesional.getProfesional(matricula);
+
+        if (profesional == null) {
+            mMatriculaView.setError("El número de matrícula es incorrecto");
+        } else {
+            if (MailSender.sendMail(profesional, "Recuperación de Contraseña", "Su contraseña de acceso es " + profesional.getContrasena(), null)) {
+                Toast.makeText(getApplicationContext(), "Se ha enviado un correo a su casilla", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Error al enviar el correo", Toast.LENGTH_LONG).show();
+            }
+        }
     }
-*/
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

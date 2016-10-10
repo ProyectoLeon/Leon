@@ -28,6 +28,7 @@ import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.PuntuacionCompuesta;
+import com.limeri.leon.common.MailSender;
 
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
@@ -328,6 +329,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                     ut.setDestinationStream(fileOutputStream);
                     ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
                     fileOutputStream.close();
+//                    MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
                 }
                 catch (Exception e){
                     e.printStackTrace();
