@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if (User.getUserEmail(getBaseContext()) != null) {
 
-//            mMatriculaView.setText(User.getUserEmail(getBaseContext()));
+            mMatriculaView.setText(User.getUserEmail(getBaseContext()));
 
         }
 
@@ -419,7 +419,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void login(String matricula) {
         try {
-
             User.saveUserEmail(getBaseContext(), matricula);
             Profesional.loadCuentas();
         } catch (Exception ex) {

@@ -20,6 +20,8 @@ import com.limeri.leon.Models.Profesional;
 
 public class PopupActivity extends Activity {
 
+    public static Activity anterior;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class PopupActivity extends Activity {
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anterior.finish();
                 AdministradorJuegos.getInstance().guardarJuego(PopupActivity.this);
             }
         });
@@ -59,6 +62,7 @@ public class PopupActivity extends Activity {
         btn_neutral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anterior.finish();
                 Navegacion.volver(PopupActivity.this);
             }
         });
@@ -126,6 +130,7 @@ public class PopupActivity extends Activity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anterior.finish();
                 AdministradorJuegos.getInstance().cancelarJuego(activity);
             }
         };
@@ -136,6 +141,7 @@ public class PopupActivity extends Activity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anterior.finish();
                 AdministradorJuegos.getInstance().cancelarJuegoLibre(activity);
             }
         };
@@ -171,6 +177,7 @@ public class PopupActivity extends Activity {
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                anterior.finish();
                 AdministradorJuegos.getInstance().cancelarJuego(activity);
 
             }

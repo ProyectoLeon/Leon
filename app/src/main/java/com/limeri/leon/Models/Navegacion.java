@@ -88,6 +88,7 @@ public class Navegacion {
     public static void irAPopUp(Activity activity) {
         anteriores.push(activity.getClass());
         Intent i = new Intent(activity.getApplicationContext(), PopupActivity.class);
+        PopupActivity.anterior = activity;
         activity.startActivity(i);
     }
 

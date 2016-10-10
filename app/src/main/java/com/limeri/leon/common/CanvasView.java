@@ -76,6 +76,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
 
     private List<Renderable> renderables;
     private List<Updateable> updateables;
+    private boolean mSurfaceExists;
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -99,12 +100,14 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+//        mSurfaceExists = true;
         thread.setRunning(true);
         thread.start();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+//        mSurfaceExists = false;
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {
@@ -118,9 +121,17 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+/*
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        // only call base if there's a surface
+        if(mSurfaceExists)
+            super.onWindowVisibilityChanged(visibility);
+    }
+*/
 
     public List<Renderable> getRenderable() {
-    return renderables;
+        return renderables;
     }
 
     public void addRenderable(Renderable r) {
@@ -128,7 +139,6 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
             renderables.add(r);
         }
     }
-
 
     public void addUpdateable(Updateable u) {
         synchronized (updateables) {
@@ -139,12 +149,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
     public void inicializar () {
         renderables.clear();
         updateables.clear();
-
-
-
-
     }
-
 
     private void doDraw(Canvas c) {
         //c.drawARGB(0, 0, 0, 0);
