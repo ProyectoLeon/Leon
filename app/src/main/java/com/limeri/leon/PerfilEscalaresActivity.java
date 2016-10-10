@@ -101,13 +101,13 @@ public class PerfilEscalaresActivity extends Activity {
 
         TableLayout tablaPD = (TableLayout) findViewById(R.id.tablePuntDir);
         TableRow row0 = new TableRow(this);
-        CompletarCelda(this, row0, "Subtest");
-        CompletarCelda(this, row0, "PD");
-        CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
+        CompletarTitulos(this, row0, "Subtest");
+        CompletarTitulos(this, row0, "PD");
+        CompletarTitulos(this, row0, "PE");
+        CompletarTitulos(this, row0, "PE");
+        CompletarTitulos(this, row0, "PE");
+        CompletarTitulos(this, row0, "PE");
+        CompletarTitulos(this, row0, "PE");
         //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
         tablaPD.addView(row0);
         CompletarPuntajeJuego(tablaPD);
@@ -125,11 +125,13 @@ public class PerfilEscalaresActivity extends Activity {
         List<Juego> listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos) {
             TableRow row = new TableRow(this);
-            CompletarCelda(this, row, juego.getNombre());
+            CompletarTitulos2(this, row, juego.getNombre());
             CompletarCelda(this, row, juego.getPuntosJuego().toString());
             String escalar = juego.getPuntajeEscalar().toString();
             TextView col = new TextView(this);
             col.setText(escalar);
+            col.setTextSize(10);
+            tabla.setShrinkAllColumns(true);
             switch (juego.getCategoria()) {
                 case "Comprensión verbal": {
                     CompletarCelda(this, row, escalar);
@@ -214,9 +216,9 @@ public class PerfilEscalaresActivity extends Activity {
             Integer meseval = Integer.valueOf(strmes);
             Integer añoeval = Integer.valueOf(straño);
 
-            strdia = DateBirth.toString().substring(0, 2);
+            strdia = DateBirth.toString().substring(6, 8);
             strmes = DateBirth.toString().substring(3, 5);
-            straño = DateBirth.toString().substring(6, 10);
+            straño = DateBirth.toString().substring(0, 2);
 
             Integer dianac = Integer.valueOf(strdia);
             Integer mesnac = Integer.valueOf(strmes);
@@ -275,14 +277,14 @@ public class PerfilEscalaresActivity extends Activity {
 
         TableLayout tablaedad = (TableLayout) findViewById(R.id.tableEdad);
         TableRow row0 = new TableRow(this);
-        CompletarCelda(this, row0, "");
-        CompletarCelda(this, row0, "Año");
-        CompletarCelda(this, row0, "Mes");
-        CompletarCelda(this, row0, "Día");
+        CompletarTitulos(this, row0, "");
+        CompletarTitulos(this, row0, "Año");
+        CompletarTitulos(this, row0, "Mes");
+        CompletarTitulos(this, row0, "Día");
         tablaedad.addView(row0);
 
         TableRow row1 = new TableRow(this);
-        CompletarCelda(this, row1, "Fecha de aplicación");
+        CompletarTitulos2(this, row1, "Fecha de aplicación");
         Calendar cal = Calendar.getInstance();
         cal.getTime().getTime();
         cal.setTimeInMillis(System.currentTimeMillis());
@@ -307,7 +309,7 @@ public class PerfilEscalaresActivity extends Activity {
 
 
         TableRow row2 = new TableRow(this);
-        CompletarCelda(this, row2, "Fecha de Nacimiento");
+        CompletarTitulos2(this, row2, "Fecha de Nacimiento");
         String dia = Paciente.getSelectedPaciente().getFechaNac().toString().substring(0, 2);
         String mes = Paciente.getSelectedPaciente().getFechaNac().toString().substring(3, 5);
         String año = Paciente.getSelectedPaciente().getFechaNac().toString().substring(6, 10);
@@ -318,18 +320,40 @@ public class PerfilEscalaresActivity extends Activity {
         tablaedad.addView(row2);
 
         TableRow row3 = new TableRow(this);
-        CompletarCelda(this, row3, "Edad cronológica");
+        CompletarTitulos2(this, row3, "Edad cronológica");
         String diferencia = CompararFechas(dateev, Paciente.getSelectedPaciente().getFechaNac().toString());
-        CompletarCelda(this, row3, diferencia);
-        CompletarCelda(this, row3, diferencia);
-        CompletarCelda(this, row3, diferencia);
+        CompletarCelda(this, row3, diferencia.substring(0,2));
+        CompletarCelda(this, row3, diferencia.substring(3,5));
+        CompletarCelda(this, row3, diferencia.substring(6,10));
         tablaedad.addView(row3);
     }
 
+    public void CompletarTitulos(Activity activity, TableRow row, String txt) {
+        TextView col = new TextView(activity);
+        col.setTextSize(9);
+        col.setBackgroundColor(getResources().getColor(R.color.verde_claro));
+        col.setPadding(1,1,1,1);
+        col.setTextColor(Color.WHITE);
+        col.setText(txt);
+        row.addView(col);
+    }
+
+    public void CompletarTitulos2(Activity activity, TableRow row, String txt) {
+        TextView col = new TextView(activity);
+        col.setTextSize(9);
+        col.setBackgroundColor(getResources().getColor(R.color.verde_mas_claro));
+        col.setPadding(1,1,1,1);
+        col.setTextColor(Color.DKGRAY);
+        col.setText(txt);
+        row.addView(col);
+    }
+
+
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
-        col.setTextSize(10);
-        col.setBackground(getDrawable(R.drawable.cell_shape));
+        col.setTextSize(8);
+        col.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+ //       col.setBackground(getDrawable(R.drawable.cell_shape));
         col.setText(txt);
         row.addView(col);
     }
@@ -389,7 +413,7 @@ public class PerfilEscalaresActivity extends Activity {
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV",evaluacion.getPuntosCompVerbal());
         TableRow row1 = new TableRow(this);
-        CompletarCelda(this, row1, "Comprensión Verbal");
+        CompletarTitulos2(this, row1, "Compren. Verbal");
         CompletarCelda(this, row1, compVerbal.toString());
         CompletarCelda(this, row1, puntuacionCompuesta.getEquivalencia().toString());
         CompletarCelda(this, row1, puntuacionCompuesta.getpercentil().toString());
@@ -398,7 +422,7 @@ public class PerfilEscalaresActivity extends Activity {
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IRP", evaluacion.getPuntosRazPercep());
         TableRow row2 = new TableRow(this);
-        CompletarCelda(this, row2, "Razonamiento Perceptivo");
+        CompletarTitulos2(this, row2, "Razonam.Perceptivo");
         CompletarCelda(this, row2, razPercep.toString());
         CompletarCelda(this, row2, puntuacionCompuesta.getEquivalencia().toString());
         CompletarCelda(this, row2, puntuacionCompuesta.getpercentil().toString());
@@ -407,7 +431,7 @@ public class PerfilEscalaresActivity extends Activity {
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IMO",evaluacion.getPuntosMemOper());
         TableRow row3 = new TableRow(this);
-        CompletarCelda(this, row3, "Memoria Operativa");
+        CompletarTitulos2(this, row3, "Memoria Operativa");
         CompletarCelda(this, row3, memOper.toString());
         CompletarCelda(this, row3, puntuacionCompuesta.getEquivalencia().toString());
         CompletarCelda(this, row3, puntuacionCompuesta.getpercentil().toString());
@@ -416,7 +440,7 @@ public class PerfilEscalaresActivity extends Activity {
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("IVP",evaluacion.getPuntosVelocProc());
         TableRow row4 = new TableRow(this);
-        CompletarCelda(this, row4, "Velocidad de Procesamiento");
+        CompletarTitulos2(this, row4, "Veloc.Procesam.i ");
         CompletarCelda(this, row4, velProc.toString());
         CompletarCelda(this, row4, puntuacionCompuesta.getEquivalencia().toString());
         CompletarCelda(this, row4, puntuacionCompuesta.getpercentil().toString());
@@ -425,7 +449,7 @@ public class PerfilEscalaresActivity extends Activity {
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("CIT", evaluacion.getCoeficienteIntelectual());
         TableRow row5 = new TableRow(this);
-        CompletarCelda(this, row5, "CI Total");
+        CompletarTitulos2(this, row5, "CI Total");
         CompletarCelda(this, row5, CI.toString());
         CompletarCelda(this, row5, puntuacionCompuesta.getEquivalencia().toString());
         CompletarCelda(this, row5, puntuacionCompuesta.getpercentil().toString());
@@ -438,12 +462,13 @@ public class PerfilEscalaresActivity extends Activity {
 
         TableLayout tablaSumas = (TableLayout) findViewById(R.id.tablaSumas);
         TableRow row0 = new TableRow(this);
-        CompletarCelda(this, row0, "Escalas");
-        CompletarCelda(this, row0, "Suma Escalares");
-        CompletarCelda(this, row0, "Punt. Compuesta");
-        CompletarCelda(this, row0, "Percentil");
-        CompletarCelda(this, row0, "% IC");
+        CompletarTitulos(this, row0, "Escalas");
+        CompletarTitulos(this, row0, "Suma \n Escalares");
+        CompletarTitulos(this, row0, "Punt.\n Compuesta");
+        CompletarTitulos(this, row0, "Percentil");
+        CompletarTitulos(this, row0, "% IC");
         //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
+        tablaSumas.setShrinkAllColumns(true);
         tablaSumas.addView(row0);
         CompletarSumas(tablaSumas);
     }

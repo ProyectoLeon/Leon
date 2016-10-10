@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public class AdministradorJuegos {
 
@@ -62,6 +63,8 @@ public class AdministradorJuegos {
                 juego.categoria = jsonJuego.getString("categoria");
                 juego.activity = jsonJuego.getString("activity");
                 juego.alternativo = jsonJuego.getBoolean("alternativo");
+                juego.media = jsonJuego.getDouble("media");
+                juego.valorCritico = jsonJuego.getDouble("valorCritico");
                 juego.juegaPaciente = jsonJuego.getBoolean("juegaPaciente");
 
                 Type listType = new TypeToken<List<List<Integer>>>() {
@@ -78,7 +81,7 @@ public class AdministradorJuegos {
 
     private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(0);
-        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
+        return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media,juegoWisc.valorCritico, juegoWisc.juegaPaciente);
     }
 
     public static void setContext(Context context) {
@@ -93,10 +96,10 @@ public class AdministradorJuegos {
             for (JuegoWisc juegoWisc : juegosWisc) {
                 if (anterior) {
                     if (!juegoWisc.alternativo) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media, juegoWisc.valorCritico, juegoWisc.juegaPaciente);
                         break;
                     } else if (evaluacion.getAlternativas().contains(juegoWisc.categoria)) {
-                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.juegaPaciente);
+                        juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media, juegoWisc.valorCritico,juegoWisc.juegaPaciente);
                         evaluacion.removeAlternativa(juegoWisc.categoria);
                         break;
                     }
@@ -205,8 +208,7 @@ public class AdministradorJuegos {
                 juego.finalizar();
                 if (isUltimoJuego(juego)) {
                     evaluacion.finalizar();
-                    calcularPuntaje(evaluacion);
-                    calcularFecha(evaluacion);
+                    completarResultados(evaluacion);
                     Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
                 } else {
                     Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
@@ -242,8 +244,7 @@ public class AdministradorJuegos {
             juego.cancelar();
             if (isUltimoJuego(juego)) {
                 evaluacion.finalizar();
-                calcularPuntaje(evaluacion);
-                calcularFecha(evaluacion);
+                completarResultados(evaluacion);
                 Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
             } else {
                 Navegacion.irA(activity, InicioJuegoActivity.class, ExamenActivity.class);
@@ -343,6 +344,8 @@ public class AdministradorJuegos {
         public String categoria;
         public String activity;
         public Boolean alternativo;
+        public Double media;
+        public  Double valorCritico;
         public Boolean juegaPaciente;
         public List<List<Integer>> puntaje = new ArrayList<>();
 
@@ -368,6 +371,27 @@ public class AdministradorJuegos {
 
         String dateev = strdiaev + '/' + strmesev + '/' + añoev.toString();
         evaluacion.setFechaEvaluación(dateev);
+    }
+
+    public void completarResultados(Evaluacion evaluacion){
+        calcularFecha(evaluacion);
+        calcularPuntaje(evaluacion);
+        calcularPuntosDébiles(evaluacion);
+    }
+
+    public void calcularPuntosDébiles(Evaluacion evaluacion){
+        Double diferecia;
+        List<String> categorias= new ArrayList<>();
+
+        for (Juego juego :evaluacion.getJuegos()){
+        diferecia = juego.getPuntajeEscalar() - juego.getMedia();
+            if (diferecia < -(juego.getValorCritico())){
+                if (!categorias.contains(juego.getCategoria())){
+                    categorias.add(juego.getCategoria());
+                }
+            }
+        }
+        evaluacion.setCategoriasDebiles(categorias);
     }
 
     public void calcularPuntaje(Evaluacion evaluacion) {

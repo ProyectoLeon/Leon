@@ -21,4 +21,6 @@
     <color name="bidi">#0000cc</color>
     <color name="red">#ed1c24</color>
     <color name="purple">#FF4081</color>
+    <color name="verde_claro">#128675</color>
+    <color name="verde_mas_claro">#d9f9f5</color>
 </resources>

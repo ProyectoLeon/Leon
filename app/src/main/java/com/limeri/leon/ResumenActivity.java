@@ -96,7 +96,8 @@ public class ResumenActivity extends AppCompatActivity {
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
         col.setText(txt);
-        col.setBackground(getDrawable(R.drawable.cell_shape));
+        col.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+        //col.setBackground(getDrawable(R.drawable.cell_shape));
         row.addView(col);
     }
 

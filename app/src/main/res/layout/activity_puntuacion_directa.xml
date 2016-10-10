@@ -26,7 +26,9 @@
         android:shrinkColumns="*"
         android:background="@android:drawable/editbox_dropdown_light_frame"
         android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tableView"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:layout_width="wrap_content"

@@ -31,40 +31,134 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/Hoja4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="invisible"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:weightSum="3">
 
         <TableLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tablaCompar"
             android:background="@android:drawable/editbox_dropdown_light_frame"
-            android:layout_margin="5dp"
-            android:layout_alignParentStart="true">
+            android:stretchColumns="1"
+            android:weightSum="1">
         </TableLayout>
         <TableLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tablaPtosFYD"
-            android:layout_below="@id/tablaCompar"
-            android:layout_margin="5dp"
-            android:layout_alignParentStart="true">
+            android:stretchColumns="1"
+            android:weightSum="1">
         </TableLayout>
 
         <TableLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tablaPromedio"
-            android:layout_below="@id/tablaPtosFYD"
-            android:layout_margin="0dp"
-            android:layout_alignParentStart="true">
+            android:weightSum="1">
         </TableLayout>
 
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/caratula"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/wisc4"
+            android:layout_above="@+id/textView7"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="58dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del examinador"
+            android:id="@+id/textView7"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/Edad" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nombreProf"
+            android:layout_below="@+id/imageView2"
+            android:layout_toRightOf="@+id/textView7"
+            android:layout_marginLeft="53dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del paciente"
+            android:id="@+id/textView8"
+            android:layout_marginLeft="53dp"
+            android:layout_alignTop="@+id/nombrePac"
+            android:layout_alignStart="@+id/textView7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edad del paciente"
+            android:id="@+id/textView9"
+            android:layout_below="@+id/textView8"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_marginLeft="53dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha de la evaluación"
+            android:id="@+id/textView10"
+            android:layout_below="@+id/textView9"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_marginLeft="53dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nombrePac"
+            android:layout_below="@+id/textView7"
+            android:layout_toRightOf="@+id/textView8"
+            android:layout_marginLeft="53dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Edad"
+            android:layout_below="@+id/textView8"
+            android:layout_toRightOf="@+id/textView9"
+            android:layout_marginLeft="53dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/FechaEval"
+            android:layout_below="@+id/Edad"
+            android:layout_toRightOf="@+id/textView10"
+            android:layout_marginLeft="53dp" />
+
     </RelativeLayout>
+
 
 </RelativeLayout>

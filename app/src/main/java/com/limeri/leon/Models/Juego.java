@@ -16,15 +16,19 @@ public class Juego {
     private String nombreActividad;
     private Boolean alternativo;
     private Boolean juegaPaciente;
+    private double media;
+    private double valorCritico;
     private List<List<Integer>> puntajesEquivalentes;
 
-     public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes, Boolean alternativo, Boolean juegaPaciente) {
+    public Juego(String nombre, String categoria, String activity, List<List<Integer>> puntajesEquivalentes, Boolean alternativo, Double media, Double valorCritico, Boolean juegaPaciente) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.nombreActividad = activity;
         this.puntajesEquivalentes = puntajesEquivalentes;
         this.alternativo = alternativo;
         this.juegaPaciente = juegaPaciente;
+         this.media = media;
+         this.valorCritico = valorCritico;
         this.puntosNiveles = new HashMap<>();
     }
 
@@ -97,4 +101,13 @@ public class Juego {
     public Integer getPuntosNivel(Integer nivel) {
         return puntosNiveles.get(nivel);
     }
+
+    public double getMedia() {
+        return media;
+    }
+
+    public double getValorCritico() {
+        return valorCritico;
+    }
+
 }

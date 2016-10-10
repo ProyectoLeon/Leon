@@ -65,9 +65,9 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CompletarCelda(this, row0, "PE");
         CompletarCelda(this, row0, "PE");
         CompletarCelda(this, row0, "PE");
-        CompletarCelda(this, row0, "PE");
         //    row0.setBackgroundColor(Color.parseColor("#FFFFFFF"));
         tablaPD.addView(row0);
+        tablaPD.setShrinkAllColumns(true);
         CompletarPuntajeJuego(tablaPD);
     }
 
@@ -87,8 +87,9 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
 
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
-        col.setPadding(2, 2, 2, 2);
-        col.setTextSize(4);
+        //col.setPadding(2, 2, 2, 2);
+        col.setTextSize(10);
+        col.setBackground(getResources().getDrawable(R.drawable.cell_shape));
         col.setText(txt);
         row.addView(col);
     }

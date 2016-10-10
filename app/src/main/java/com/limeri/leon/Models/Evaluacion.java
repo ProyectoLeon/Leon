@@ -34,6 +34,16 @@ public class Evaluacion {
 
     private List<String> alternativas = new ArrayList<>();
 
+    public List<String> getCategoriasDebiles() {
+        return categoriasDebiles;
+    }
+
+    public void setCategoriasDebiles(List<String> categoriasDebiles) {
+        this.categoriasDebiles = categoriasDebiles;
+    }
+
+    private List<String> categoriasDebiles = new ArrayList<>();
+
     public Paciente getPaciente() {
         return paciente;
     }

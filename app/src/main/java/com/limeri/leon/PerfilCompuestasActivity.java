@@ -7,6 +7,7 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -81,10 +82,13 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     public void CompletarCelda(Activity activity, TableRow row, String txt) {
         TextView col = new TextView(activity);
-        col.setTextSize(10);
-        col.setBackground(getDrawable(R.drawable.cell_shape));
+        col.setTextSize(6);
+        col.setBackground(getResources().getDrawable(R.drawable.cell_shape));
         col.setText(txt);
+        col.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        col.setSingleLine(false);
         row.addView(col);
+
     }
 
 
