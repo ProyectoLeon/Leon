@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 buttonTest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String value = "Main";
-                        Navegacion.irA(MainActivity.this, InicioJuegoActivity.class, value);
+                        Navegacion.irA(MainActivity.this, InicioJuegoActivity.class);
                     }
                 });
             }
