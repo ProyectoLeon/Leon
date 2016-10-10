@@ -31,7 +31,6 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,10 +75,9 @@
         <activity
             android:name=".CargaManualActivity"
             android:screenOrientation="portrait" />
-        android:name=".PuntuacionDirectaActivity" />
         <activity android:name=".EstadisticasActivity" />
         <activity android:name=".GraficoActivity" />
-        <activity android:name=".PerfilCompuestasActivity"></activity>
+        <activity android:name=".PerfilCompuestasActivity"/>
     </application>
 
 </manifest>
