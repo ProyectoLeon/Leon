@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
@@ -16,6 +18,7 @@ import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
+import com.limeri.leon.Models.Profesional;
 
 import java.util.Calendar;
 
@@ -37,6 +40,18 @@ public class InicioJuegoActivity extends AppCompatActivity {
             evaluacion = new Evaluacion();
             paciente.agregarEvaluacion(evaluacion);
             Paciente.saveCuenta(paciente);
+        }
+
+        // Si el Activity no se llamó desde el Main, se valida si pedir o no contraseña
+        Bundle b = getIntent().getExtras();
+        if(b == null){
+            if (evaluacion.tieneJuegos()) {
+                Juego ultimoJuego = evaluacion.getUltimoJuego();
+                if (ultimoJuego.getJuegaPaciente()) {
+                    // Viene de tener el control el paciente
+                    showPopUpPassword();
+                }
+            }
         }
 
         juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
@@ -164,5 +179,48 @@ public class InicioJuegoActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    private void showPopUpPassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ingrese contraseña");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(Profesional.getProfesionalActual().getContrasena().equals(input.getText().toString())){
+                    dialog.cancel();
+                } else {
+                    input.setError("La contraseña es incorrecta");
+                }
+            }
+        });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
+            }
+        });
     }
 }
