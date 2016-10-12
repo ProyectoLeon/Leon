@@ -236,7 +236,7 @@
     <string name="placeholder_hora">10:10:10</string>
     <string name="provider">Bajalibros</string>
 
-    <string name="userDialogTitle" type="id">Ingrese nuevo paciente</string>
+    <string name="userDialogTitle" type="id">Paciente</string>
     <string name="dialog_confirm">¿Desea desloguearse de la aplicacion?</string>
     <string name="texto_login">La aplicacion está autorizada para las siguientes cuentas:</string>
     <string name="texto_login_adobe">Este item fue descargado originalmente con una paciente diferente. Para continuar, por favor agregue esa paciente o seleccione una de la lista superior.</string>

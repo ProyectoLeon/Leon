@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="120dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:background="@color/ap_transparent"
@@ -118,9 +118,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
         android:cacheColorHint="@color/colorLeon"
-        android:divider="@color/ap_transparent"
-        android:dividerHeight="10dp"
-        android:alpha="0.6"/>
+        android:divider="@color/colorLeon" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/buttonAddPaciente"

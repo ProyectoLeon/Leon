@@ -3,6 +3,7 @@ package com.limeri.leon;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -50,10 +51,10 @@ public class SelecPacienteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selec_paciente);
 
         lvPacientes = (ListView) findViewById(R.id.listPacientes);
-        Button btnAdd = (Button) findViewById(R.id.buttonAddPaciente);
+        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.buttonAddPaciente);
         ImageButton btnSearch = (ImageButton) findViewById(R.id.btn_search);
         final EditText searchString = (EditText) findViewById(R.id.et_search);
-        Button btnMostrarTodo = (Button) findViewById(R.id.btn_mostrarTodos);
+        ImageButton btnMostrarTodo = (ImageButton) findViewById(R.id.btn_mostrarTodos);
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.action_bar_main,
@@ -115,6 +116,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
             });
         }
 
+
         lvPacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,7 +125,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 Paciente.setSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
                 int año = Calendar.getInstance().get(Calendar.YEAR);
                 if (Paciente.getSelectedPaciente().cantidadAños(año)>7) {
-                    new AlertDialog.Builder(SelecPacienteActivity.this)
+                    dialog =new AlertDialog.Builder(SelecPacienteActivity.this)
                             .setTitle("Adventencia")
                             .setMessage("Se evaluará al paciente como un niño de 7 años")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -132,9 +134,12 @@ public class SelecPacienteActivity extends AppCompatActivity {
                                     Navegacion.irA(SelecPacienteActivity.this,MainActivity.class);
                                 }
                             }).show();
+
+                    Button buttonA = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    buttonA.setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
                 else if (Paciente.getSelectedPaciente().cantidadAños(año)<6) {
-                    new AlertDialog.Builder(SelecPacienteActivity.this)
+                    dialog = new AlertDialog.Builder(SelecPacienteActivity.this)
                             .setTitle("Adventencia")
                             .setMessage("Se evaluará al paciente como un niño de 6 años")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -143,6 +148,8 @@ public class SelecPacienteActivity extends AppCompatActivity {
                                     Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
                                 }
                             }).show();
+                    Button buttonB = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    buttonB.setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
                 else{
                         Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
@@ -300,26 +307,27 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 }
         });
 
+
         //TODO: Adaptar el LAYOUT de ABM paciente
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (button != null) {
-            button.setBackgroundColor(getResources().getColor(R.color.black));
-            button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.END);
+            //button.setBackgroundColor(getResources().getColor(R.color.black));
+            button.setTextColor(getResources().getColor(R.color.colorPrimary));
+            /*button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
-            button.setBackground(getResources().getDrawable(R.drawable.button));
+            button.setBackground(getResources().getDrawable(R.drawable.button));*/
         }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         if (button2 != null) {
-            button2.setBackgroundColor(getResources().getColor(R.color.black));
-            button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.START);
+            //button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button2.setTextColor(getResources().getColor(R.color.colorPrimary));
+            /*button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
-            button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setGravity(Gravity.CENTER_VERTICAL);*/
         }
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+       // dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
     }
 
 
@@ -401,7 +409,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
         // Set up the buttons
 
-        builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -443,24 +451,24 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 // callAdapter();
             }
         });
-        button.setBackgroundColor(getResources().getColor(R.color.black));
-        button.setTextColor(getResources().getColor(R.color.black));
-        button.setGravity(Gravity.END);
+        //button.setBackgroundColor(getResources().getColor(R.color.black));
+        button.setTextColor(getResources().getColor(R.color.colorPrimary));
+        /*button.setGravity(Gravity.END);
         button.setGravity(Gravity.CENTER_VERTICAL);
         button.setBackground(getResources().getDrawable(R.drawable.button));
-        button.setPadding(10, 0, 10, 0);
+        button.setPadding(10, 0, 10, 0);*/
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
         if (button2 != null) {
-            button2.setBackgroundColor(getResources().getColor(R.color.black));
-            button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.START);
+            //button2.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            button2.setTextColor(getResources().getColor(R.color.colorPrimary));
+            /*button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
-            button2.setPadding(10, 0, 10, 0);
+            button2.setPadding(10, 0, 10, 0);*/
         }
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+        //dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
     }
 }

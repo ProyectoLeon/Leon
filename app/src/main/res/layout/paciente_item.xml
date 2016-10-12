@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvLinea"
-    android:textColor="@color/black"
+    android:textColor="@color/ap_black"
     android:layout_width="fill_parent"
     android:gravity="left"
     android:layout_height="fill_parent"
-    android:textSize="30dp" />
+    android:textSize="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:alpha="1"/>

@@ -279,26 +279,37 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }});
         if (button != null) {
-            button.setBackgroundColor(getResources().getColor(R.color.black));
-            button.setTextColor(getResources().getColor(R.color.black));
-            button.setGravity(Gravity.END);
+            //button.setBackgroundColor(getResources().getColor(R.color.black));
+            button.setTextColor(getResources().getColor(R.color.colorPrimary));
+           /* button.setGravity(Gravity.END);
             button.setGravity(Gravity.CENTER_VERTICAL);
             button.setBackground(getResources().getDrawable(R.drawable.button));
-            button.setPadding(10, 0, 10, 0);
+            button.setPadding(10, 0, 10, 0);*/
         }
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
         if (button2 != null) {
-            button2.setBackgroundColor(getResources().getColor(R.color.black));
-            button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.START);
+            //button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button2.setTextColor(getResources().getColor(R.color.colorPrimary));
+            /*button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
-            button2.setPadding(10, 0, 10, 0);
+            button2.setPadding(10, 0, 10, 0);*/
         }
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+        Button button3 = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+
+        if (button3 != null) {
+            //button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button3.setTextColor(getResources().getColor(R.color.ap_gray));
+            /*button2.setGravity(Gravity.START);
+            button2.setBackground(getResources().getDrawable(R.drawable.button));
+            button2.setGravity(Gravity.CENTER_VERTICAL);
+            button2.setPadding(10, 0, 10, 0);*/
+        }
+
+        //dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
 
     }
 
@@ -333,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the buttons
 
-        builder.setPositiveButton("Actualizar datos profesional", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -375,25 +386,25 @@ public class MainActivity extends AppCompatActivity {
                 // callAdapter();
             }
         });
-        button.setBackgroundColor(getResources().getColor(R.color.black));
-        button.setTextColor(getResources().getColor(R.color.black));
-        button.setGravity(Gravity.END);
+        //button.setBackgroundColor(getResources().getColor(R.color.black));
+        button.setTextColor(getResources().getColor(R.color.colorPrimary));
+       /* button.setGravity(Gravity.END);
         button.setGravity(Gravity.CENTER_VERTICAL);
         button.setBackground(getResources().getDrawable(R.drawable.button));
-        button.setPadding(10, 0, 10, 0);
+        button.setPadding(10, 0, 10, 0);*/
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
         if (button2 != null) {
-            button2.setBackgroundColor(getResources().getColor(R.color.black));
-            button2.setTextColor(getResources().getColor(R.color.black));
-            button2.setGravity(Gravity.START);
+            //button2.setBackgroundColor(getResources().getColor(R.color.black));
+            button2.setTextColor(getResources().getColor(R.color.colorPrimary));
+            /*button2.setGravity(Gravity.START);
             button2.setBackground(getResources().getDrawable(R.drawable.button));
             button2.setGravity(Gravity.CENTER_VERTICAL);
-            button2.setPadding(10, 0, 10, 0);
+            button2.setPadding(10, 0, 10, 0);*/
         }
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+        //dialog.getWindow().setBackgroundDrawableResource(R.color.colorLeon);
     }
 
     private void showPopupConfirmar(final AppCompatActivity context) {
