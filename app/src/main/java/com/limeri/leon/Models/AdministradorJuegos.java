@@ -426,4 +426,13 @@ public class AdministradorJuegos {
         evaluacion.setPuntosVelocProc(puntosVelocProc);
         evaluacion.setCoeficienteIntelectual(coeficienteIntelectual);
     }
+
+    public int getPosicionJuego(String nombre){
+        int pos = 0;
+        for (JuegoWisc juego : juegosWisc) {
+            if(nombre.equals(juego.nombre))
+                pos = juegosWisc.indexOf(juego);
+        }
+        return pos;
+    }
 }
