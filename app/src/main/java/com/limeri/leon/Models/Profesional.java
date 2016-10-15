@@ -321,7 +321,7 @@ public class Profesional {
                 profesional.setRegistrado(jsonProfesional.getBoolean("registrado"));
                 profesional.setProducto(jsonProfesional.getString("producto"));
                 profesional.setNombre(jsonProfesional.getString("nombre"));
-                profesional.setCorreo(jsonProfesional.getString("mail"));
+                profesional.setCorreo(jsonProfesional.getString("correo"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

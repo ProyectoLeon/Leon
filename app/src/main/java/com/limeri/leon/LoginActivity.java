@@ -34,6 +34,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Profesional;
@@ -71,8 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String pass = "equipolimeri";
-    private String email = "aplicacionleon@gmail.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
         if (User.getUserEmail(getBaseContext()) != null) {
-
             mMatriculaView.setText(User.getUserEmail(getBaseContext()));
-
         }
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -133,6 +133,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        String pass = "equipolimeri";
+        String email = "aplicacionleon@gmail.com";
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void recuperarContrasena() {
@@ -205,9 +219,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Si hay errores (matricula inválida, falta de valores, etc.)
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+//        if (mAuthTask != null) {
+//            return;
+//        }
 
         // Reset errors.
         mMatriculaView.setError(null);
@@ -391,7 +405,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 login(mMatricula);
-                finish();
+                //finish();
             } else {
                 mPasswordView.setError("La contraseña es incorrecta");
                 mPasswordView.requestFocus();

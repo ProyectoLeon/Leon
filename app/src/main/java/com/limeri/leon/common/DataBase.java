@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
-import com.limeri.leon.Models.PuntuacionCompuesta;
 import com.limeri.leon.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,9 +28,6 @@ import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class DataBase {
 
@@ -50,45 +49,51 @@ public class DataBase {
     }
 
     public static String getEntidadDB (String entidad) {
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        StringBuffer stringBuffer = new StringBuffer("");
-        BufferedReader bufferedReader = null;
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+            // User is signed in
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            StringBuffer stringBuffer = new StringBuffer("");
+            BufferedReader bufferedReader = null;
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet();
 
-            URI uri = new URI(URL_DB + entidad + ".json");
-            httpGet.setURI(uri);
+                URI uri = new URI(URL_DB + entidad + ".json");
+                httpGet.setURI(uri);
 //            httpGet.addHeader(BasicScheme.authenticate(
 //                    new UsernamePasswordCredentials("nicolas.benega@gmail.com", "Mon321654"),
 //                    HTTP.UTF_8, false));
 
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            InputStream inputStream = httpResponse.getEntity().getContent();
-            bufferedReader = new BufferedReader(new InputStreamReader(
-                    inputStream));
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                InputStream inputStream = httpResponse.getEntity().getContent();
+                bufferedReader = new BufferedReader(new InputStreamReader(
+                        inputStream));
 
-            String readLine = bufferedReader.readLine();
-            while (readLine != null && !readLine.equals("null")) {
-                stringBuffer.append(readLine);
-                stringBuffer.append("\n");
-                readLine = bufferedReader.readLine();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                String readLine = bufferedReader.readLine();
+                while (readLine != null && !readLine.equals("null")) {
+                    stringBuffer.append(readLine);
+                    stringBuffer.append("\n");
+                    readLine = bufferedReader.readLine();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
-        return stringBuffer.toString();
+            return stringBuffer.toString();
+//        } else {
+//            return null;
+//        }
     }
 
     public static String getEntidadJuego(String entidad) {
