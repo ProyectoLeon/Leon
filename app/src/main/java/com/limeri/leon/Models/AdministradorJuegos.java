@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -300,11 +301,26 @@ public class AdministradorJuegos {
         Boolean siguiente = false;
         Paciente paciente = Paciente.getSelectedPaciente();
         Evaluacion evaluacion = paciente.getEvaluacionActual();
+        Integer contAlternativos = 0;
         Juego juego = evaluacion.getJuegoActual();
+        if (juego == null) {
+            // No se llama desde un juego: Se llama desde InicioJuegoActivity
+            juego = getSiguienteJuego(evaluacion);
+            if (juego == null) {
+                // No hay siguiente juego: Es el último juego del protocolo
+                return true;
+            }
+        }
         for (JuegoWisc juegoWisc : juegosWisc) {
             if (siguiente) {
                 if (juegoWisc.alternativo && juegoWisc.categoria.equals(juego.getCategoria())) {
-                    ultimo = false;
+                    contAlternativos++;
+                    Integer alternativosCat = Collections.frequency(evaluacion.getAlternativas(),juegoWisc.categoria);
+                    if ((alternativosCat == 0) || (contAlternativos < alternativosCat)) {
+                        ultimo = false;
+                    } else {
+                        ultimo = true;
+                    }
                 }
             } else if (juego.getNombre().equals(juegoWisc.nombre)) {
                 siguiente = true;

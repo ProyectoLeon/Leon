@@ -147,6 +147,9 @@ public class InicioJuegoActivity extends AppCompatActivity {
                     }
                 });
 
+                if (AdministradorJuegos.getInstance().isUltimoJuegoCategoria()) {
+                    btn_negative.setText("Cancelar Juego");
+                }
                 btn_negative.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
