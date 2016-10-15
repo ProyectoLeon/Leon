@@ -65,4 +65,10 @@ public class EstadisticasActivity extends AppCompatActivity {
         }
         return value;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Navegacion.irA(this, MainActivity.class);
+    }
 }

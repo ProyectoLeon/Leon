@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.limeri.leon.InicioJuegoActivity">
+    tools:context="com.limeri.leon.InicioJuegoActivity"
+    android:clickable="true">
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,4 +39,14 @@
         android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vet tutorial"
+        android:id="@+id/tutorial"
+        android:textColor="@color/accent_material_light"
+        android:textSize="20dp"
+        android:layout_above="@+id/buttonStart"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

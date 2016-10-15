@@ -51,6 +51,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         if (siguiente != null) {
             siguiente.setOnClickListener(clickSiguiente());
         }
+
     }
 
 
@@ -125,7 +126,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
             TableRow row = new TableRow(this);
             CompletarCelda(this, row, juego.getNombre());
             CompletarCelda(this, row, juego.getPuntosJuego().toString());
-            String escalar = CalcularEscalar(juego);
+            String escalar = juego.getPuntajeEscalar().toString();
             TextView col = new TextView(this);
             col.setText(escalar);
             switch (juego.getCategoria()) {
@@ -137,7 +138,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
 
-                    compVerbal = compVerbal + juego.getPuntosJuego();
+                    compVerbal = compVerbal + juego.getPuntajeEscalar();
                     break;
                 }
                 case "Razonamiento Perceptivo": {
@@ -148,7 +149,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
 
-                    razPercep = razPercep + juego.getPuntosJuego();
+                    razPercep = razPercep + juego.getPuntajeEscalar();
                     break;
                 }
                 case "Memoria Operativa": {
@@ -159,7 +160,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
 
-                    memOper = memOper + juego.getPuntosJuego();
+                    memOper = memOper + juego.getPuntajeEscalar();
                     break;
                 }
                 case "Velocidad de Procesamiento": {
@@ -170,17 +171,27 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
                     CompletarCelda(this, row, escalar);
                     tabla.addView(row);
 
-                    velProc = velProc + juego.getPuntosJuego();
+                    velProc = velProc + juego.getPuntajeEscalar();
                     break;
                 }
             }
         }
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosCompVerbal(compVerbal);
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosMemOper(memOper);
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosRazPercep(razPercep);
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosVelocProc(velProc);
+        //Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosCompVerbal(compVerbal);
+        //Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosMemOper(memOper);
+        //Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosRazPercep(razPercep);
+        //Paciente.getSelectedPaciente().getEvaluacionFinalizada().setPuntosVelocProc(velProc);
         CI = compVerbal + razPercep + memOper + velProc;
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setCoeficienteIntelectual(CI);
+        //Paciente.getSelectedPaciente().getEvaluacionFinalizada().setCoeficienteIntelectual(CI);
+        TableRow row = new TableRow(this);
+        CompletarCelda(this, row, "Suma puntuaciones escalares");
+        CompletarCelda(this, row, "");
+        CompletarCelda(this, row, compVerbal.toString());
+        CompletarCelda(this, row, razPercep.toString());
+        CompletarCelda(this, row, memOper.toString());
+        CompletarCelda(this, row, velProc.toString());
+        CompletarCelda(this, row, CI.toString());
+        tabla.addView(row);
+
     }
 
     public void CompletarSumas(TableLayout tabla) {
@@ -235,9 +246,5 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
     }
 
 
-    private String CalcularEscalar(Juego juego) {
-        //TODO: Agregar lógica de calculo de escalares segun protocolo
-        return juego.getPuntosJuego().toString();
-    }
 
 }

@@ -1,17 +1,23 @@
 package com.limeri.leon;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
@@ -19,6 +25,8 @@ import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -55,6 +63,30 @@ public class InicioJuegoActivity extends AppCompatActivity {
         txtJuego = (TextView) findViewById(R.id.juego);
         if (txtJuego != null) {
             txtJuego.setText(juego.getNombre());
+        }
+
+        TextView tutorial = (TextView) findViewById(R.id.tutorial);
+        if (tutorial != null) {
+            tutorial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog = new Dialog(InicioJuegoActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.layour_tutorial);
+                    dialog.show();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                            WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    dialog.getWindow().setAttributes(lp);
+                    final VideoView videoview = (VideoView) dialog.findViewById(R.id.videoView);
+                    String videoNombre = "video" + AdministradorJuegos.getInstance().getPosicionJuego(juego.getNombre()) ;
+                    int video = getResources().getIdentifier(videoNombre, "raw", getPackageName());
+                    String path = "android.resource://" + getPackageName() + "/" + video;
+                    Uri uri = Uri.parse(path);
+                    videoview.setVideoURI(uri);
+                    videoview.start();
+                }
+            });
         }
 
         Button buttonStart = (Button) findViewById(R.id.buttonStart);

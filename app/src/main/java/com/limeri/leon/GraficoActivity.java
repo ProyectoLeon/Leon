@@ -82,7 +82,7 @@ private int tipoGrafico;
         serie.setDrawDataPoints(true);
         serie.setDataPointsRadius(10);
         serie.setThickness(8);
-        graph.setTitle("Progreeso del paciente sobre el índice de" + indice);
+        graph.setTitle("Progreso del paciente sobre el índice de" + indice);
         graph.addSeries(serie);
 
     }
