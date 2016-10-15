@@ -126,45 +126,52 @@
     "respuesta1" : "Para sentirse seguros",
     "respuesta2" : "Para ayudar a la gente / Para estar prolijos"
   } ],
-  "conceptos" : [ {
-    "matriz" : {
-      "fila1" : [ "conceptos1_f1_c1", "conceptos1_f1_c2" ],
-      "fila2" : [ "conceptos1_f2_c1", "conceptos1_f2_c2" ]
-    },
-    "respuesta" : [ "conceptos1_f1_c2", "conceptos1_f2_c1" ]
-  }, {
-    "matriz" : {
-      "fila1" : [ "conceptos3_f1_c1", "conceptos3_f1_c2", "conceptos3_f1_c3" ],
-      "fila2" : [ "conceptos3_f2_c1", "conceptos3_f2_c2", "conceptos3_f2_c3" ]
-    },
-    "respuesta" : [ "conceptos3_f1_c3", "conceptos3_f2_c2" ]
-  }, {
-    "matriz" : {
-      "fila1" : [ "conceptos5_f1_c1", "conceptos5_f1_c2", "conceptos5_f1_c3" ],
-      "fila2" : [ "conceptos5_f2_c1", "conceptos5_f2_c2", "conceptos5_f2_c3" ],
-      "fila3" : [ "conceptos5_f3_c1", "conceptos5_f3_c2", "conceptos5_f3_c3" ]
-    },
-    "respuesta" : [ "conceptos5_f1_c2", "conceptos5_f2_c3", "conceptos5_f3_c2" ]
-  }, {
-    "matriz" : {
-      "fila1" : [ "conceptos1_f1_c1", "conceptos1_f1_c2" ],
-      "fila2" : [ "conceptos1_f2_c1", "conceptos1_f2_c2" ]
-    },
-    "respuesta" : [ "conceptos1_f1_c2", "conceptos1_f2_c1" ]
-  }, {
-    "matriz" : {
-      "fila1" : [ "conceptos3_f1_c1", "conceptos3_f1_c2", "conceptos3_f1_c3" ],
-      "fila2" : [ "conceptos3_f2_c1", "conceptos3_f2_c2", "conceptos3_f2_c3" ]
-    },
-    "respuesta" : [ "conceptos3_f1_c3", "conceptos3_f2_c2" ]
-  }, {
-    "matriz" : {
-      "fila1" : [ "conceptos5_f1_c1", "conceptos5_f1_c2", "conceptos5_f1_c3" ],
-      "fila2" : [ "conceptos5_f2_c1", "conceptos5_f2_c2", "conceptos5_f2_c3" ],
-      "fila3" : [ "conceptos5_f3_c1", "conceptos5_f3_c2", "conceptos5_f3_c3" ]
-    },
-    "respuesta" : [ "conceptos5_f1_c2", "conceptos5_f2_c3", "conceptos5_f3_c2" ]
-  } ],
+   "conceptos": [
+      {
+        "matriz": {
+          "fila1": [ "conceptos1_f1_c1", "conceptos1_f1_c2" ],
+          "fila2": [ "conceptos1_f2_c1", "conceptos1_f2_c2" ]
+        },
+        "respuesta": [ "conceptos1_f1_c2", "conceptos1_f2_c1" ]
+      },
+      {
+        "matriz": {
+          "fila1": [ "conceptos2_f1_c1", "conceptos2_f1_c2" ],
+          "fila2": [ "conceptos2_f2_c1", "conceptos2_f2_c2" ]
+        },
+        "respuesta": [ "conceptos2_f1_c1", "conceptos2_f2_c1" ]
+      },
+      {
+        "matriz": {
+          "fila1": [ "conceptos3_f1_c1", "conceptos3_f1_c2", "conceptos3_f1_c3" ],
+          "fila2": [ "conceptos3_f2_c1", "conceptos3_f2_c2", "conceptos3_f2_c3" ]
+        },
+        "respuesta": [ "conceptos3_f1_c3", "conceptos3_f2_c2" ]
+      },
+      {
+        "matriz": {
+          "fila1": [ "conceptos4_f1_c1", "conceptos4_f1_c2", "conceptos4_f1_c3" ],
+          "fila2": [ "conceptos4_f2_c1", "conceptos4_f2_c2", "conceptos4_f2_c3" ]
+        },
+        "respuesta": [ "conceptos4_f1_c3", "conceptos4_f2_c3" ]
+      },
+       {
+        "matriz": {
+          "fila1": [ "conceptos5_f1_c1", "conceptos5_f1_c2", "conceptos5_f1_c3" ],
+          "fila2": [ "conceptos5_f2_c1", "conceptos5_f2_c2", "conceptos5_f2_c3" ],
+          "fila3": [ "conceptos5_f3_c1", "conceptos5_f3_c2", "conceptos5_f3_c3" ]
+        },
+        "respuesta": [ "conceptos5_f1_c2", "conceptos5_f2_c3", "conceptos5_f3_c2" ]
+      },
+      {
+        "matriz": {
+          "fila1": [ "conceptos6_f1_c1", "conceptos6_f1_c2", "conceptos6_f1_c3" ],
+          "fila2": [ "conceptos6_f2_c1", "conceptos6_f2_c2", "conceptos6_f2_c3" ],
+          "fila3": [ "conceptos6_f3_c1", "conceptos6_f3_c2", "conceptos6_f3_c3" ]
+        },
+        "respuesta": [ "conceptos6_f1_c1", "conceptos6_f2_c3", "conceptos6_f3_c3" ]
+      }
+    ],
   "cubos" : [ {
     "intentos" : 2,
     "nombre" : "cubo1",
