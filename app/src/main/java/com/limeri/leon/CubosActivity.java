@@ -231,10 +231,10 @@ public class CubosActivity extends AppCompatActivity {
         }
         if (pasaNivel) {
             sumarPuntos(puntos);
-            nivel++;
             if (isUltimoNivel()) {
                 guardar();
             } else {
+                nivel++;
                 cargarSiguienteNivel();
             }
         }
