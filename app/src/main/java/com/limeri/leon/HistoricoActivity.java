@@ -34,7 +34,7 @@ public class HistoricoActivity extends AppCompatActivity {
 
             ActionBar AB = getSupportActionBar();
             if (AB != null) {
-                AB.setTitle("Histórico" + paciente.getNombreCompleto());
+                AB.setTitle("Histórico " + paciente.getNombreCompleto());
             }
 
             // creamos nuestra coleccion de datos

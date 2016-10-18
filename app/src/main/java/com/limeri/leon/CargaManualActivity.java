@@ -29,7 +29,6 @@ public class CargaManualActivity extends AppCompatActivity {
     ListView listViewOb;
     AdministradorJuegos adminjuego;
     Evaluacion evaluacion;
-    Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class CargaManualActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     evaluacion.finalizar();
                     adminjuego.completarResultados(evaluacion);
-                    Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
+                    Navegacion.irA(CargaManualActivity.this, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
                 Paciente.saveCuenta(paciente);
                 }
             });

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.limeri.leon.HistoricoActivity;
 import com.limeri.leon.MainActivity;
+import com.limeri.leon.PerfilEscalaresActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
 
@@ -60,7 +61,7 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
 
         // importante!!! establecemos el mensaje
 
-        viewHolder.FechaEvaluacion.setText("10/10/2015");
+        viewHolder.FechaEvaluacion.setText(evaluaciones.get(position).getFechaEvaluación());
         //viewHolder.FechaEvaluacion.setText(evaluaciones.get(position).getFecha);
         viewHolder.estadoEvaluacion.setText(evaluaciones.get(position).getEstado().toString());
 
@@ -70,6 +71,13 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
                 Navegacion.irA (activity , ValorExamenActivity.class, position);
             }
             });
+
+        viewHolder.button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navegacion.irA (activity , PerfilEscalaresActivity.class, position);
+            }
+        });
 
 
 
