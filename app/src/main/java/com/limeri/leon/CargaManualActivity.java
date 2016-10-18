@@ -3,6 +3,7 @@ package com.limeri.leon;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -51,7 +52,7 @@ public class CargaManualActivity extends AppCompatActivity {
         paciente.agregarEvaluacion(evaluacion);
         Paciente.saveCuenta(paciente);
 
-        Button buttonCargaManual = (Button) findViewById(R.id.cargar);
+        FloatingActionButton buttonCargaManual = (FloatingActionButton) findViewById(R.id.cargar);
         if (buttonCargaManual != null) {
             buttonCargaManual.setOnClickListener(new View.OnClickListener() {
                 @Override
