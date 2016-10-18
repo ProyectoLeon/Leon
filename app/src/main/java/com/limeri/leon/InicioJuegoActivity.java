@@ -58,7 +58,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
                 }
             }
 
-        juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
+        juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion, true);
 
         txtJuego = (TextView) findViewById(R.id.juego);
         if (txtJuego != null) {
@@ -157,7 +157,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
                         Boolean ultimoJuego = AdministradorJuegos.getInstance().isUltimoJuegoProtocolo();
                         AdministradorJuegos.getInstance().cancelarJuego(InicioJuegoActivity.this);
                         if (!ultimoJuego) {
-                            juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion);
+                            juego = AdministradorJuegos.getInstance().getSiguienteJuego(evaluacion, false);
 
                             txtJuego = (TextView) findViewById(R.id.juego);
                             if (txtJuego != null) {

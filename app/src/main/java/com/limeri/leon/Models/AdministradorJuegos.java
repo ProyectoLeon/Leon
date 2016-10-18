@@ -87,7 +87,7 @@ public class AdministradorJuegos {
         applicationContext = context;
     }
 
-    public Juego getSiguienteJuego(Evaluacion evaluacion) {
+    public Juego getSiguienteJuego(Evaluacion evaluacion, Boolean inicioJuego) {
         Juego juego = null;
         if (evaluacion.tieneJuegos()) {
             Boolean anterior = false;
@@ -99,7 +99,9 @@ public class AdministradorJuegos {
                         break;
                     } else if (evaluacion.getAlternativas().contains(juegoWisc.categoria)) {
                         juego = new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media, juegoWisc.valorCritico,juegoWisc.juegaPaciente);
-                        evaluacion.removeAlternativa(juegoWisc.categoria);
+                        if (inicioJuego) {
+                            evaluacion.removeAlternativa(juegoWisc.categoria);
+                        }
                         break;
                     }
                 } else if (ultimoJuego.getNombre().equals(juegoWisc.nombre)) {
@@ -236,7 +238,9 @@ public class AdministradorJuegos {
             Paciente paciente = Paciente.getSelectedPaciente();
             Evaluacion evaluacion = paciente.getEvaluacionActual();
             Juego juego = evaluacion.getJuegoActual();
-            evaluacion.addAlternativa(juego.getCategoria());
+            if (!isUltimoJuegoCategoria()) {
+                evaluacion.addAlternativa(juego.getCategoria());
+            }
             if (juego.getPuntosJuego() < 0) {
                 juego.setPuntosJuego(0);
             }
@@ -305,7 +309,7 @@ public class AdministradorJuegos {
         Juego juego = evaluacion.getJuegoActual();
         if (juego == null) {
             // No se llama desde un juego: Se llama desde InicioJuegoActivity
-            juego = getSiguienteJuego(evaluacion);
+            juego = getSiguienteJuego(evaluacion, false);
             if (juego == null) {
                 // No hay siguiente juego: Es el último juego del protocolo
                 return true;
@@ -316,7 +320,7 @@ public class AdministradorJuegos {
                 if (juegoWisc.alternativo && juegoWisc.categoria.equals(juego.getCategoria())) {
                     contAlternativos++;
                     Integer alternativosCat = Collections.frequency(evaluacion.getAlternativas(),juegoWisc.categoria);
-                    if ((alternativosCat == 0) || (contAlternativos < alternativosCat)) {
+                    if ((alternativosCat == 0) || (contAlternativos > alternativosCat)) {
                         ultimo = false;
                     } else {
                         ultimo = true;
