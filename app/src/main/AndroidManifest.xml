@@ -74,7 +74,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CargaManualActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".EstadisticasActivity" />
         <activity android:name=".GraficoActivity" />
         <activity android:name=".PerfilCompuestasActivity"/>

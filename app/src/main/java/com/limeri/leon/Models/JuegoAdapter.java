@@ -1,6 +1,8 @@
 package com.limeri.leon.Models;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,7 @@ import com.limeri.leon.R;
 
 import java.util.List;
 
-public class JuegoAdapter extends ArrayAdapter<Evaluacion> {
+public class JuegoAdapter extends ArrayAdapter<Juego> {
 
     private Activity activity;
     List<Juego> juegos;
@@ -28,7 +30,12 @@ public class JuegoAdapter extends ArrayAdapter<Evaluacion> {
     static class ViewHolder {
         protected TextView nombre;
         protected EditText puntos;
+        int ref;
 
+    }
+
+    public Juego getItem(int position) {
+        return juegos.get(position);
     }
 
     public int getCount() {
@@ -39,25 +46,57 @@ public class JuegoAdapter extends ArrayAdapter<Evaluacion> {
         return position;
     }
 
-    public View getView(final int position, View convertView,
-                        final ViewGroup parent) {
-        View view = null;
-        LayoutInflater inflator = activity.getLayoutInflater();
-        view = inflator.inflate(R.layout.juego_item, null);
-        final ViewHolder viewHolder = new ViewHolder();
+    public View getView(int position, View convertView, ViewGroup parent)  {
 
-        // *** instanciamos a los recursos
+        final ViewHolder holder;
+        if (convertView == null) {
 
-        viewHolder.nombre =(TextView) view.findViewById(R.id.nombre);
-        // viewHolder.categoria = (TextView) view.findViewById(R.id.categoria);
-        viewHolder.puntos = (EditText) view.findViewById(R.id.puntos);
+            holder = new ViewHolder();
+            LayoutInflater inflater = activity.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.juego_item, null);
+            holder.nombre = (TextView) convertView.findViewById(R.id.nombre);
+            holder.puntos = (EditText) convertView.findViewById(R.id.puntos);
+
+            convertView.setTag(holder);
+
+        } else {
+
+            holder = (ViewHolder) convertView.getTag();
+        }
+
 
         // importante!!! establecemos el mensaje
-        viewHolder.nombre.setText(juegos.get(position).getNombre());
+        holder.nombre.setText(juegos.get(position).getNombre());
         // viewHolder.categoria.setText("Categoría: " + "categoría");
         //juegos.get(position).setPuntosJuego(Integer.parseInt(viewHolder.puntos.getText().toString()));
 
-        return view;
+       holder.ref = position;
+
+        holder.puntos.setText(juegos.get(position).getPuntosJuego().toString());
+        holder.puntos.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                try {
+                    Integer puntaje = Integer.valueOf(arg0.toString());
+
+                    juegos.get(holder.ref).setPuntosJuego(puntaje);
+
+                }
+                catch (NumberFormatException e){}
+            }
+        });
+
+       return convertView;
     }
 
 

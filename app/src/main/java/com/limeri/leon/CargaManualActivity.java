@@ -1,5 +1,6 @@
 package com.limeri.leon;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -28,7 +29,7 @@ public class CargaManualActivity extends AppCompatActivity {
     ListView listViewOb;
     AdministradorJuegos adminjuego;
     Evaluacion evaluacion;
-
+    Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,17 @@ public class CargaManualActivity extends AppCompatActivity {
         Paciente.saveCuenta(paciente);
 
         Button buttonCargaManual = (Button) findViewById(R.id.cargar);
-        if (buttonCargaManual != null) {            };
+        if (buttonCargaManual != null) {
+            buttonCargaManual.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    evaluacion.finalizar();
+                    adminjuego.completarResultados(evaluacion);
+                    Navegacion.irA(activity, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
+                Paciente.saveCuenta(paciente);
+                }
+            });
+        };
 
 
         // creamos nuestra coleccion de datos
@@ -68,6 +79,7 @@ public class CargaManualActivity extends AppCompatActivity {
 
         // establecemos el adaptador en la lista
         listViewOb.setAdapter(juegoAdapter);
+
 
     }
 
