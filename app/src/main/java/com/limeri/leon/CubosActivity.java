@@ -217,7 +217,7 @@ public class CubosActivity extends AppCompatActivity {
         Integer puntos = respuesta.puntos;
         Boolean pasaNivel = true;
         if(respuesta.nombre.equals(imagen)) {
-            Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
+//            Toast.makeText(this, "Correcto", Toast.LENGTH_SHORT);
             if (masDeUnIntento()) {
                 puntos--;
             }

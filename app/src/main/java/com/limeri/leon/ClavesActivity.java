@@ -117,7 +117,7 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
         }
       //  String nombre = "clave" + predictionName;
        // int simb = getResources().getIdentifier(predictionName, "string", getPackageName());
-        Toast.makeText(this, predictionName , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, predictionName , Toast.LENGTH_SHORT).show();
         guardarRespuesta(predictionName);
     }
 
