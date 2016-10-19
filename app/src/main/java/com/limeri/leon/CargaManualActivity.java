@@ -1,18 +1,15 @@
 package com.limeri.leon;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Evaluacion;
-import com.limeri.leon.Models.HistoricoAdapter;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.JuegoAdapter;
 import com.limeri.leon.Models.Navegacion;
@@ -38,7 +35,6 @@ public class CargaManualActivity extends AppCompatActivity {
 
         listViewOb = (ListView) findViewById(R.id.listviewObligatorios);
 
-        AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
         adminjuego = AdministradorJuegos.getInstance();
 

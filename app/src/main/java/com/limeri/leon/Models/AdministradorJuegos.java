@@ -16,6 +16,7 @@ import com.limeri.leon.InicioJuegoActivity;
 import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
 import com.limeri.leon.ValorJuegoLibreActivity;
+import com.limeri.leon.common.Application;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -32,7 +33,6 @@ import java.util.Set;
 public class AdministradorJuegos {
 
     private static AdministradorJuegos instance = null;
-    private static Context applicationContext = null;
 
     public static AdministradorJuegos getInstance() {
         if (instance == null) {
@@ -47,7 +47,7 @@ public class AdministradorJuegos {
 
         juegosWisc = new ArrayList<>();
 
-        String jsonString = JSONLoader.loadJSON(applicationContext.getResources().openRawResource(R.raw.protocolo_posta));
+        String jsonString = JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.protocolo_posta));
         try {
             JSONObject jsonRootObject = new JSONObject(jsonString);
 
@@ -81,10 +81,6 @@ public class AdministradorJuegos {
     private Juego getJuegoInicial() {
         JuegoWisc juegoWisc = juegosWisc.get(0);
         return new Juego(juegoWisc.nombre, juegoWisc.categoria, juegoWisc.activity, juegoWisc.puntaje, juegoWisc.alternativo, juegoWisc.media,juegoWisc.valorCritico, juegoWisc.juegaPaciente);
-    }
-
-    public static void setContext(Context context) {
-        applicationContext = context;
     }
 
     public Juego getSiguienteJuego(Evaluacion evaluacion, Boolean inicioJuego) {

@@ -38,11 +38,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.User;
+import com.limeri.leon.common.Application;
 import com.limeri.leon.common.DataBase;
+import com.limeri.leon.common.Login;
 import com.limeri.leon.common.MailSender;
 
 import java.util.ArrayList;
@@ -80,8 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        AdministradorJuegos.setContext(getApplicationContext());
-        DataBase.setContext(getApplicationContext());
+        Application.setApplicationContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
 
@@ -250,7 +250,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 focusView = mMatriculaView;
                 cancel = true;
             } else {
-                if (!password.equals(profesional.getContrasena())) {
+                if (!Login.isSameDevice(profesional.getLogin()) && !Login.isLoginVencido(profesional.getLogin())) {
+                    mMatriculaView.setError("El profesional inició sesión en otro dispositivo");
+                    focusView = mMatriculaView;
+                    cancel = true;
+                } else if (!password.equals(profesional.getContrasena())) {
                     mPasswordView.setError("La contraseña es incorrecta");
                     focusView = mPasswordView;
                     cancel = true;
@@ -422,6 +426,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void login(String matricula) {
         try {
+            DataBase.setProfesionalLogin();
             User.saveUserEmail(getBaseContext(), matricula);
             Profesional.loadCuentas();
         } catch (Exception ex) {

@@ -47,7 +47,6 @@ public class ExamenActivity extends AppCompatActivity {
         }
         lvJuegos.setAdapter(adapter);
 
-        AdministradorJuegos.setContext(getApplicationContext());
         paciente = Paciente.getSelectedPaciente();
         ActionBar AB = getSupportActionBar();
         if (AB != null) {

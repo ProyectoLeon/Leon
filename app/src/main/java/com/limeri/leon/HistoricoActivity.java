@@ -29,7 +29,6 @@ public class HistoricoActivity extends AppCompatActivity {
 
             listView = (ListView) findViewById(R.id.listview);
 
-            AdministradorJuegos.setContext(getApplicationContext());
             paciente = Paciente.getSelectedPaciente();
 
             ActionBar AB = getSupportActionBar();
