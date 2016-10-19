@@ -256,22 +256,14 @@ public class AritmeticaActivity extends AppCompatActivity {
                         if (!audio.equals(respuesta) || (tiempo > TIEMPO_NIVEL)){
                             respondido = false;
                             if (mostrar) {
-                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+//                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                                 mostrar = false;
                             }
                         } else {
                             respondido = true;
-//                            cantIncorrectas = 0;
-//                            sumarPuntos(1);
-//                            puntPerfecto = true;
-                            Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+//                            Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;
                         }
-                    }
-                    if (respondido == false){
-//                        cantIncorrectas++;
-//                        cantConsec = 0;
-//                        puntPerfecto = false;
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -303,13 +295,8 @@ public class AritmeticaActivity extends AppCompatActivity {
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    dialog.setCancelable(false);
 
-//                    try {
-//                        guardarRespuesta();
-//                        //seleccion = null;
-//                    } catch (Exception ex) {
-//                        ex.printStackTrace();
-//                    }
                 }
             }
         }

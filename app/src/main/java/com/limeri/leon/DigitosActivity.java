@@ -98,8 +98,6 @@ public class DigitosActivity extends AppCompatActivity {
     }
 
     private void guardarRespuesta() {
-        //Faltaría guardar la respuesta en la base de datos
-        //blanquear(seleccion);
         if (respondido) {
             cantIncorrectas = 0;
             sumarPuntos(1);
@@ -178,21 +176,14 @@ public class DigitosActivity extends AppCompatActivity {
                         if ( !audio.equals(respuesta) ){
                             respondido = false;
                             if (mostrar) {
-                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+//                                Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                                 mostrar = false;
                             }
                         } else {
                             respondido = true;
-//                            cantIncorrectas = 0;
-//                            sumarPuntos(1);
-//                            puntPerfecto = true;
-                            Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
+//                            Toast.makeText(this,audio,Toast.LENGTH_LONG).show();
                             break;
                         }
-                    }
-                    if (!respondido){
-//                        cantIncorrectas++;
-//                        puntPerfecto = false;
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -224,13 +215,8 @@ public class DigitosActivity extends AppCompatActivity {
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    dialog.setCancelable(false);
 
-//                    try {
-//                        guardarRespuesta();
-//                        //seleccion = null;
-//                    } catch (Exception ex) {
-//                        ex.printStackTrace();
-//                    }
                 }
 
             }
