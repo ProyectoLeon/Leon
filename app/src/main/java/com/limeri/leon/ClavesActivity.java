@@ -12,7 +12,6 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
@@ -141,7 +140,7 @@ public class ClavesActivity extends AppCompatActivity implements OnGesturePerfor
     }
 
     private void cargarClavesDB() {
-        jsonString = DataBase.getEntidad("claves");
+        jsonString = DataBase.getJuego("claves");
     }
 
     private void sumarPuntos(Integer puntos) {

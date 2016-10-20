@@ -159,8 +159,8 @@ public class SemejanzasActivity extends AppCompatActivity {
     }
 
     private void cargarSemejanzasDB() {
-        jsonString = DataBase.getEntidad("semejanzas");
-        jsonParciales = DataBase.getEntidad("parciales");
+        jsonString = DataBase.getJuego("semejanzas");
+        jsonParciales = DataBase.getJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

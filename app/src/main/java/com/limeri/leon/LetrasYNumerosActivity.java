@@ -89,7 +89,7 @@ public class LetrasYNumerosActivity extends AppCompatActivity {
     }
 
     private void cargarLetrasNumDB() {
-        jsonString = DataBase.getEntidad("letrasynumeros");
+        jsonString = DataBase.getJuego("letrasynumeros");
     }
 
     private void sumarPuntos(Integer puntos) {

@@ -1,5 +1,6 @@
 package com.limeri.leon.common;
 
+import android.os.AsyncTask;
 import android.os.StrictMode;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -8,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
-import com.limeri.leon.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,19 +36,28 @@ import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class DataBase {
 
-    public static final String URL_DB = "https://leondb-13e75.firebaseio.com/";
+    private static final String URL_DB = "https://leondb-13e75.firebaseio.com/";
+    private static String jsonDB;
 
-    public static String getEntidad(String entidad) {
-        Boolean jsonJuegosLocal = false;
-
-        if (jsonJuegosLocal) {
-            return getEntidadJuego(entidad);
-        } else {
-            return getEntidadDB(entidad);
+    public static void loadDB() {
+        try {
+            JSONObject jsonObject = new JSONObject(getEntidadDB(""));
+            jsonObject.remove("profesionales");
+            jsonDB = jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    public static String getEntidadDB (String entidad) {
+    public static String getJuego(String juego) {
+        if (Profesional.getProfesionalActual().isLocal()) {
+            return getEntidadLocal(juego);
+        } else {
+            return getEntidadDB(juego);
+        }
+    }
+
+    private static String getEntidadDB (String entidad) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String tokenString = getStringToken(user);
@@ -196,13 +205,11 @@ public class DataBase {
         }
     }
 
-    public static String getEntidadJuego(String entidad) {
-        String jsonString;
-        JSONObject jsonRootObject;
-
-        jsonString = JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.leondb));
+    private static String getEntidadLocal(String entidad) {
+//        String jsonString;
+//        jsonString = JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.leondb));
         try {
-            jsonRootObject = new JSONObject(jsonString);
+            JSONObject jsonRootObject = new JSONObject(jsonDB);
             //Get the instance of JSONArray that contains JSONObjects
             return jsonRootObject.getJSONArray(entidad).toString();
         }
@@ -234,25 +241,44 @@ public class DataBase {
         saveEntidad("profesionales/" + matricula + "/pacientes", jsonPaciente);
     }
 
-    private static void saveEntidad(String entidad, String datos) {
+    private static void saveEntidad(final String entidad, final String datos) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            String tokenString = getStringToken(user);
+            final String tokenString = getStringToken(user);
             if(isUniquelyLogin(tokenString)) {
                 if (android.os.Build.VERSION.SDK_INT > 9) {
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                     StrictMode.setThreadPolicy(policy);
                 }
                 try {
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpPut httpPut = new HttpPut();
-                    URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
-                    httpPut.setURI(uri);
-                    StringEntity entity = new StringEntity(datos, ContentType.APPLICATION_JSON);
+//                    HttpClient httpClient = new DefaultHttpClient();
+//                    HttpPut httpPut = new HttpPut();
+//                    URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
+//                    httpPut.setURI(uri);
+//                    StringEntity entity = new StringEntity(datos, ContentType.APPLICATION_JSON);
+//
+//                    httpPut.setEntity(entity);
+//                    httpClient.execute(httpPut);
+//                    setUserLogin(tokenString);
+                    new AsyncTask<Integer, Void, Void>(){
+                        @Override
+                        protected Void doInBackground(Integer... params) {
+                            try {
+                                HttpClient httpClient = new DefaultHttpClient();
+                                HttpPut httpPut = new HttpPut();
+                                URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
+                                httpPut.setURI(uri);
+                                StringEntity entity = new StringEntity(datos, ContentType.APPLICATION_JSON);
 
-                    httpPut.setEntity(entity);
-                    httpClient.execute(httpPut);
-                    setUserLogin(tokenString);
+                                httpPut.setEntity(entity);
+                                httpClient.execute(httpPut);
+                                setUserLogin(tokenString);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        }
+                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -152,8 +152,8 @@ public class InformacionActivity extends AppCompatActivity {
     }
 
     private void cargarInformacionDB() {
-        jsonString = DataBase.getEntidad("informacion");
-        jsonParciales = DataBase.getEntidad("parciales");
+        jsonString = DataBase.getJuego("informacion");
+        jsonParciales = DataBase.getJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

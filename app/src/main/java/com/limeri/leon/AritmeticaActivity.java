@@ -157,7 +157,7 @@ public class AritmeticaActivity extends AppCompatActivity {
     }
 
     private void cargarAritmeticaDB() {
-        jsonString = DataBase.getEntidad("aritmetica");
+        jsonString = DataBase.getJuego("aritmetica");
     }
 
     private void cargarSiguienteNivel() {

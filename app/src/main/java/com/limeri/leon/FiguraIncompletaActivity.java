@@ -177,7 +177,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     }
 
     private void cargarFigurasDB() {
-        jsonString = DataBase.getEntidad("figuras");
+        jsonString = DataBase.getJuego("figuras");
     }
 
     private void cargarSiguienteNivel() {

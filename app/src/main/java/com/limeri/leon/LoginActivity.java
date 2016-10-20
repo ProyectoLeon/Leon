@@ -143,6 +143,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Error al iniciar sesión",Toast.LENGTH_SHORT).show();
+                        } else {
+                            DataBase.loadDB();
                         }
                     }
                 });

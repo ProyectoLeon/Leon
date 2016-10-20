@@ -193,8 +193,8 @@ public class VocabularioActivity extends AppCompatActivity {
     }
 
     private void cargarVocabularioDB() {
-        jsonString = DataBase.getEntidad("vocabulario");
-        jsonParciales = DataBase.getEntidad("parciales");
+        jsonString = DataBase.getJuego("vocabulario");
+        jsonParciales = DataBase.getJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

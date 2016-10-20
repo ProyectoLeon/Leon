@@ -86,7 +86,7 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private void cargarMatricesDB() {
-        jsonString = DataBase.getEntidad("matrices");
+        jsonString = DataBase.getJuego("matrices");
     }
 
     private void sumarPuntos(Integer puntos) {

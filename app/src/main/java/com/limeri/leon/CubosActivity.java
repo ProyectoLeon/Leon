@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.limeri.leon.Models.AdministradorJuegos;
 import com.limeri.leon.Models.Navegacion;
@@ -241,7 +240,7 @@ public class CubosActivity extends AppCompatActivity {
     }
 
     private void cargarCubosDB() {
-        jsonString = DataBase.getEntidad("cubos");
+        jsonString = DataBase.getJuego("cubos");
     }
 
     private void sumarPuntos(Integer puntos) {

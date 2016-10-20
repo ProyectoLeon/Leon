@@ -146,8 +146,8 @@ public class ComprensionActivity extends AppCompatActivity {
     }
 
     private void cargarComprensionDB() {
-        jsonString = DataBase.getEntidad("comprension");
-        jsonParciales = DataBase.getEntidad("parciales");
+        jsonString = DataBase.getJuego("comprension");
+        jsonParciales = DataBase.getJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {

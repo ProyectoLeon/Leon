@@ -90,7 +90,7 @@ public class DigitosActivity extends AppCompatActivity {
     }
 
     private void cargarDigitosDB() {
-        jsonString = DataBase.getEntidad("digitos");
+        jsonString = DataBase.getJuego("digitos");
     }
 
     private void sumarPuntos(Integer puntos) {

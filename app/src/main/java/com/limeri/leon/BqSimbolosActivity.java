@@ -130,7 +130,7 @@ public class BqSimbolosActivity extends AppCompatActivity {
     }
 
     private void cargarSimbolosDB() {
-        jsonString = DataBase.getEntidad("simbolos");
+        jsonString = DataBase.getJuego("simbolos");
     }
 
     private void sumarPuntos(Integer puntos) {

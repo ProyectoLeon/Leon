@@ -144,8 +144,8 @@ public class AdivinanzasActivity extends AppCompatActivity {
     }
 
     private void cargarAdivinanzasDB() {
-        jsonString = DataBase.getEntidad("adivinanzas");
-        jsonParciales = DataBase.getEntidad("parciales");
+        jsonString = DataBase.getJuego("adivinanzas");
+        jsonParciales = DataBase.getJuego("parciales");
     }
 
     private void sumarPuntos(Integer puntos) {
