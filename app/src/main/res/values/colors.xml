@@ -24,4 +24,6 @@
     <color name="purple">#FF4081</color>
     <color name="verde_claro">#128675</color>
     <color name="verde_mas_claro">#d9f9f5</color>
+    <color name="Yellow">#fff700</color>
+    <color name="Red">#ff0000</color>
 </resources>

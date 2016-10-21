@@ -362,7 +362,7 @@ public class PerfilEscalaresActivity extends Activity {
         Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
         agregarPuntajeEscalar();
         graph = (GraphView) findViewById(R.id.graphEscalar);
-        graph.setTitle("Perfil de puntuaciones escalares");
+        //graph.setTitle("Perfil de puntuaciones escalares");
         graph.setTitleColor(getResources().getColor(R.color.verde_claro));
 
         graph.getViewport().setMinX(0);
@@ -377,14 +377,14 @@ public class PerfilEscalaresActivity extends Activity {
         staticLabelsFormatter.setVerticalLabels(new String[]
               {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"});
        // staticLabelsFormatter.formatLabel(5,true);
-        graph.getGridLabelRenderer().setTextSize(10f);
-        graph.getGridLabelRenderer().setLabelsSpace(10);
+        graph.getGridLabelRenderer().setTextSize(5f);
+        graph.getGridLabelRenderer().setLabelsSpace(12);
         graph.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.verde_mas_claro));
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
-        graph.getGridLabelRenderer().setLabelHorizontalHeight(80);
+        //graph.getGridLabelRenderer().setLabelHorizontalHeight(80);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Subtests");
         graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Escalar");
-        graph.getGridLabelRenderer().setLabelVerticalWidth(80);
+        //graph.getGridLabelRenderer().setLabelVerticalWidth(80);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
         //graph.getGridLabelRenderer().reloadStyles();
@@ -534,7 +534,7 @@ public class PerfilEscalaresActivity extends Activity {
                 Bitmap bitmap2 = Bitmap.createBitmap(printArea2.getDrawingCache(true),0,0,printArea2.getWidth(),printArea2.getHeight());
                 printArea2.setDrawingCacheEnabled(false);
                 page2.getCanvas().drawBitmap(bitmap2,1,1,null);
-                printArea2.setVisibility(View.INVISIBLE);
+                //printArea2.setVisibility(View.INVISIBLE);
                 document.finishPage(page2);
 
 //// Hoja3

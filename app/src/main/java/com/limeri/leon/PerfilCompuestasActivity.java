@@ -331,7 +331,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                 Bitmap bitmap3 = Bitmap.createBitmap(printArea3.getDrawingCache(true),0,0,printArea3.getWidth(),printArea3.getHeight());
                 printArea3.setDrawingCacheEnabled(false);
                 page3.getCanvas().drawBitmap(bitmap3,1,1,null);
-                printArea3.setVisibility(View.INVISIBLE);
+               // printArea3.setVisibility(View.INVISIBLE);
                 document.finishPage(page3);
 // Hoja4
                 View printArea4 = findViewById(R.id.Hoja4);
@@ -372,7 +372,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                     ut.setDestinationStream(fileOutputStream);
                     ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
                     fileOutputStream.close();
-//                    MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
+                    MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
                 }
                 catch (Exception e){
                     e.printStackTrace();

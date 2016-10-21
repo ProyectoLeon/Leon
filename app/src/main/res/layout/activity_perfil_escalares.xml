@@ -79,19 +79,92 @@
         </TableLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/Hoja2"
         android:visibility="visible"
-        android:layout_below="@+id/pdfButton">
-        <com.jjoe64.graphview.GraphView
+        android:layout_below="@+id/pdfButton"
+        android:weightSum="4"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Perfil de puntuaciones escalares"
+            android:id="@+id/textView21"
+            android:textSize="18dp"
+            android:textColor="@color/verde_claro"
+            android:textAlignment="center" />
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/graphEscalar"
             android:layout_alignParentStart="true"
-            android:layout_margin="20dp" />
-    </RelativeLayout>
+            android:layout_margin="20dp"
+            android:layout_weight="4" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_dropdown_light_frame">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Referencias"
+                android:id="@+id/textView2"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/imageView"
+                android:layout_weight="1"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Comprensión Verbal"
+                android:drawablePadding="5dp"
+                android:id="@+id/textView17"
+                android:textSize="12dp"
+                android:drawableLeft="@drawable/green2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Razonamiento Perceptivo"
+                android:drawableLeft="@drawable/blue"
+                android:drawablePadding="5dp"
+                android:id="@+id/textView18"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Memoria de Trabajo"
+                android:drawableLeft="@drawable/red"
+                android:drawablePadding="5dp"
+                android:id="@+id/textView19"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Velocidad de procesamiento"
+                android:drawableLeft="@drawable/yellow"
+                android:drawablePadding="5dp"
+                android:id="@+id/textView20"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:orientation="vertical" android:layout_width="wrap_content"

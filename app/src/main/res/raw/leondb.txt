@@ -178,11 +178,21 @@
     "puntos" : 2,
     "tiempo" : 30
   }, {
-    "intentos" : 2,
+        "intentos" : 1,
+        "nombre" : "cubo2",
+        "puntos" : 4,
+        "tiempo" : 45
+      }, {
+    "intentos" : 1,
     "nombre" : "cubo3",
-    "puntos" : 2,
+    "puntos" : 4,
     "tiempo" : 45
-  }, {
+  },  {
+         "intentos" : 1,
+         "nombre" : "cubo4",
+         "puntos" : 4,
+         "tiempo" : 45
+       },{
     "intentos" : 1,
     "nombre" : "cubo5",
     "puntos" : 4,
