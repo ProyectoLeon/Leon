@@ -8,13 +8,6 @@
              		bonificacion:[]
              	},
              	{
-             		nombre:"cubo2",
-             		tiempo:45,
-             		intentos:2,
-             		puntos:2,
-             		bonificacion:[]
-             	},
-             	{
              		nombre:"cubo3",
              		tiempo:45,
              		intentos:2,
