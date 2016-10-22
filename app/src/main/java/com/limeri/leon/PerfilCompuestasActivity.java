@@ -128,7 +128,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     public void completarGraficoCompuesto(){
         GraphView graph = (GraphView) findViewById(R.id.graphCompuesto);
-        graph.setTitle("Perfil de puntuaciones compuestas");
+        //graph.setTitle("Perfil de puntuaciones compuestas");
         graph.setTitleColor(getResources().getColor(R.color.verde_claro));
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph) ;
         graph.getViewport().setMinX(0);
@@ -144,10 +144,10 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setTextSize(10f);
         graph.getGridLabelRenderer().setLabelsSpace(10);
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
-        graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
+        //graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Índices");
         graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Compuesto");
-        graph.getGridLabelRenderer().setLabelVerticalWidth(50);
+       // graph.getGridLabelRenderer().setLabelVerticalWidth(50);
 
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         Paciente paciente = Paciente.getSelectedPaciente();
@@ -422,7 +422,6 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         completarComparacion(this,row6,"RP","VP");
         tablacomp.addView(row6);
         tablacomp.setShrinkAllColumns(true);
-        //TODO Agregar ultimas 3 filas con juegos
     }
     public void completarComparacion(Activity activity, TableRow row, String var1, String var2){
         Integer ptosComp1 = calcularCompuesto(var1);

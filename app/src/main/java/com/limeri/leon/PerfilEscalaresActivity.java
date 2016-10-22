@@ -381,11 +381,11 @@ public class PerfilEscalaresActivity extends Activity {
         graph.getGridLabelRenderer().setLabelsSpace(12);
         graph.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.verde_mas_claro));
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
-        //graph.getGridLabelRenderer().setLabelHorizontalHeight(80);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Subtests");
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Escalar");
-        //graph.getGridLabelRenderer().setLabelVerticalWidth(80);
+        //graph.getGridLabelRenderer().setLabelHorizontalHeight(60);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Puntaje Escalar");
+        //graph.getGridLabelRenderer().setLabelVerticalWidth(50);
         graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
         //graph.getGridLabelRenderer().reloadStyles();
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
