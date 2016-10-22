@@ -11,7 +11,8 @@
                            ],
             "media":6.0,
             "valorCritico":3.10,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":68
         },
         {
             "nombre":"Semejanzas",
@@ -24,7 +25,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":44
         },
         {
             "nombre":"Retención de Dígitos",
@@ -37,7 +39,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":32
         },
         {
             "nombre":"Conceptos",
@@ -50,7 +53,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":28
         },
         {
             "nombre":"Claves",
@@ -64,7 +68,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":65
         },
         {
             "nombre":"Vocabulario",
@@ -77,7 +82,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":68
         },
         {
             "nombre":"Letras y Números",
@@ -90,7 +96,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":30
         },
         {
             "nombre":"Matrices",
@@ -103,7 +110,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":35
         },
         {
             "nombre":"Comprensión",
@@ -116,7 +124,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":42
         },
         {
             "nombre":"Búsqueda de Símbolos",
@@ -129,7 +138,8 @@
                            ],
             "media":6.0,
             "valorCritico":2.39,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":45
         },
         {
             "nombre":"Completamiento de Figuras",
@@ -142,7 +152,8 @@
                            ],
             "media":0,
             "valorCritico":0,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":38
         },
         {
             "nombre":"Animales",
@@ -157,7 +168,8 @@
                            ],
             "media":0,
             "valorCritico":0,
-            "juegaPaciente":true
+            "juegaPaciente":true,
+            "puntajeMaximo":136
         },
         {
             "nombre":"Información",
@@ -170,7 +182,8 @@
                            ],
             "media":0,
             "valorCritico":0,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":33
         },
         {
             "nombre":"Aritmética",
@@ -183,7 +196,8 @@
                            ],
             "media":0,
             "valorCritico":0,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":34
         },
         {
             "nombre":"Adivinanzas",
@@ -196,7 +210,8 @@
                            ],
             "media":0,
             "valorCritico":0,
-            "juegaPaciente":false
+            "juegaPaciente":false,
+            "puntajeMaximo":24
         }
     ]
 }

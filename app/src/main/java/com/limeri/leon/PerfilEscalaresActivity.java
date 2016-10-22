@@ -49,6 +49,7 @@ public class PerfilEscalaresActivity extends Activity {
     Integer mWidth, mHeight;
     private XYPlot plot;
     List<Columna> columnas;
+    private Integer position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class PerfilEscalaresActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_perfil_escalares);
+        position = getIntent().getExtras().getInt("position");
         cargarCaratula();
         cargarColumnas();
         generarTablaEdad();
@@ -82,7 +84,7 @@ public class PerfilEscalaresActivity extends Activity {
         int año = Calendar.getInstance().get(Calendar.YEAR);
         Integer edad = paciente.cantidadAños(año);
         FechaNac.setText(edad.toString());
-        FechaEval.setText(paciente.getEvaluacionFinalizada().getFechaEvaluación().toString());
+        FechaEval.setText(paciente.getEvaluacion(position).getFechaEvaluación().toString());
 
     }
     public void generarPuntuacionDirecta() {
@@ -108,7 +110,7 @@ public class PerfilEscalaresActivity extends Activity {
         CI = 0;
 
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         List<Juego> listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos) {
             TableRow row = new TableRow(this);
@@ -289,7 +291,7 @@ public class PerfilEscalaresActivity extends Activity {
             strdiaev = 0 + strdiaev;
 
         String dateev = strdiaev + '/' + strmesev + '/' + añoev.toString();
-        Paciente.getSelectedPaciente().getEvaluacionFinalizada().setFechaEvaluación(dateev);
+        Paciente.getSelectedPaciente().getEvaluacion(position).setFechaEvaluación(dateev);
         CompletarCelda(this, row1, añoev.toString());
         CompletarCelda(this, row1, strmesev);
         CompletarCelda(this, row1, strdiaev);
@@ -352,7 +354,7 @@ public class PerfilEscalaresActivity extends Activity {
     public void completarGraficoEscalar(){
     GraphView graph;
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         agregarPuntajeEscalar();
         graph = (GraphView) findViewById(R.id.graphEscalar);
         //graph.setTitle("Perfil de puntuaciones escalares");
@@ -390,7 +392,7 @@ public class PerfilEscalaresActivity extends Activity {
 
     public void agregarPuntajeEscalar(){
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         List<Juego> listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos){
             for (Columna columna:columnas){
@@ -404,7 +406,7 @@ public class PerfilEscalaresActivity extends Activity {
 
     public void CompletarSumas(TableLayout tabla) {
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         PuntuacionCompuesta puntuacionCompuesta = null;
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV",evaluacion.getPuntosCompVerbal());
@@ -579,7 +581,7 @@ public class PerfilEscalaresActivity extends Activity {
                     }
                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
 
-                Navegacion.irA(PerfilEscalaresActivity.this,PerfilCompuestasActivity.class);
+                Navegacion.irA(PerfilEscalaresActivity.this,PerfilCompuestasActivity.class, position);
             }
         };
     }

@@ -54,6 +54,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
     Integer mWidth, mHeight;
     private XYPlot plot;
     List<Columna> columnas;
+    private Integer position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_perfil_compuestas);
+        position = getIntent().getExtras().getInt("position");
         completarGraficoCompuesto();
         completarTablaComparaciones();
         completarPtosFuertesyDebiles();
@@ -149,7 +151,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         Integer puntuacionCompuestaCV = null;
         puntuacionCompuestaCV = Integer.parseInt(PuntuacionCompuesta.getPuntuacionCompuesta("ICV",evaluacion.getPuntosCompVerbal()).getEquivalencia());
         Integer puntuacionCompuestaRP = null;
@@ -245,7 +247,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     public void validarFuerteDebil(Activity activity, TableRow row, String string){
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         List<Juego> listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos) {
             if (juego.getNombre().equals(string)) {
@@ -268,7 +270,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     public void completarTablaPromedio() {
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         TableLayout tablaProm = (TableLayout) findViewById(R.id.tablaPromedio);
         TableRow row0 = new TableRow(this);
         CompletarTitulos(this, row0, "");
@@ -444,7 +446,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     public Integer calcularCompuesto(String var){
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         Integer ptos = 0;
         switch (var){
             case "CV":

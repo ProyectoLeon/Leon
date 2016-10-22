@@ -65,6 +65,7 @@ public class AdministradorJuegos {
                 juego.media = jsonJuego.getDouble("media");
                 juego.valorCritico = jsonJuego.getDouble("valorCritico");
                 juego.juegaPaciente = jsonJuego.getBoolean("juegaPaciente");
+                juego.puntajeMaximo = jsonJuego.getInt("puntajeMaximo");
 
                 Type listType = new TypeToken<List<List<Integer>>>() {
                 }.getType();
@@ -361,6 +362,7 @@ public class AdministradorJuegos {
         public Double media;
         public  Double valorCritico;
         public Boolean juegaPaciente;
+        public Integer puntajeMaximo;
         public List<List<Integer>> puntaje = new ArrayList<>();
 
 

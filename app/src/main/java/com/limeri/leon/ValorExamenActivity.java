@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ValorExamenActivity extends AppCompatActivity {
 
-    int position;
+    private Integer position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class ValorExamenActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Navegacion.irA(ValorExamenActivity.this, PerfilEscalaresActivity.class);
+                Navegacion.irA(ValorExamenActivity.this, PerfilEscalaresActivity.class,position);
             }
         };
     }

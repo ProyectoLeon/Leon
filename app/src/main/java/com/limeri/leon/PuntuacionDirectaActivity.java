@@ -39,11 +39,13 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
     private Integer memOper;
     private Integer velProc;
     private Integer CI;
+    private Integer position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puntuacion_directa);
+        position = getIntent().getExtras().getInt("position");
         generarPuntuacionDirecta();
         generarSumas();
 
@@ -107,7 +109,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Navegacion.irA(PuntuacionDirectaActivity.this, PerfilEscalaresActivity.class);
+                Navegacion.irA(PuntuacionDirectaActivity.this, PerfilEscalaresActivity.class, position);
             }
         };
     }
@@ -120,7 +122,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
         CI = 0;
 
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         List<Juego> listaJuegos = evaluacion.getJuegos();
         for (Juego juego : listaJuegos) {
             TableRow row = new TableRow(this);
@@ -196,7 +198,7 @@ public class PuntuacionDirectaActivity extends AppCompatActivity {
 
     public void CompletarSumas(TableLayout tabla) {
         Paciente paciente = Paciente.getSelectedPaciente();
-        Evaluacion evaluacion = paciente.getEvaluacionFinalizada();
+        Evaluacion evaluacion = paciente.getEvaluacion(position);
         PuntuacionCompuesta puntuacionCompuesta = null;
 
         puntuacionCompuesta = PuntuacionCompuesta.getPuntuacionCompuesta("ICV", compVerbal);

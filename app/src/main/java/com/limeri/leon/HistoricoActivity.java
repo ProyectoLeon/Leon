@@ -53,6 +53,6 @@ public class HistoricoActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Navegacion.irA(this, ResumenActivity.class);
+        Navegacion.irA(this, MainActivity.class);
     }
 }
