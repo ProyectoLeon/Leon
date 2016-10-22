@@ -49,6 +49,10 @@ public class DataBase {
         }
     }
 
+    public static boolean isLoaded() {
+        return jsonDB != null;
+    }
+
     public static String getJuego(String juego) {
         return getJuegoLocal(juego);
     }
