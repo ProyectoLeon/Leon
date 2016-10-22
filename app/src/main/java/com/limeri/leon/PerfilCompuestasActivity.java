@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.pdf.PdfDocument;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidplot.xy.XYPlot;
 import com.jjoe64.graphview.GraphView;
@@ -31,7 +32,6 @@ import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.PuntuacionCompuesta;
 import com.limeri.leon.common.MailSender;
 
-import org.apache.pdfbox.contentstream.operator.graphics.StrokePath;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
@@ -40,9 +40,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class PerfilCompuestasActivity extends AppCompatActivity {
@@ -311,15 +309,14 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String fecha = null;
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-                fecha = sdf.format(Calendar.getInstance().getTime());
+                final String fecha = sdf.format(Calendar.getInstance().getTime());
 
                 // Create a object of PdfDocument
-                PdfDocument document = new PdfDocument();
-                String pdfName = "analisis" + fecha + ".pdf";
+                final PdfDocument document = new PdfDocument();
+                final String pdfName = "analisis" + fecha + ".pdf";
 // all created files will be saved at path /sdcard/PDFDemo_AndroidSRC/
-                File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                final File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 File outputFile = new File(dir.getPath(), pdfName);
 
 // Hoja3
@@ -341,6 +338,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                 Bitmap bitmap4 = Bitmap.createBitmap(printArea4.getDrawingCache(true),0,0,printArea4.getWidth(),printArea4.getHeight());
                 printArea4.setDrawingCacheEnabled(false);
                 page4.getCanvas().drawBitmap(bitmap4,1,1,null);
+
                 document.finishPage(page4);
 //// Hoja5
 //                View printArea5 = findViewById(R.id.Hoja4);
@@ -362,21 +360,31 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//cOMBINAR PDFS
-                PDFMergerUtility ut = new PDFMergerUtility();
-                try {
-                    ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
-                    ut.addSource(dir.getPath() + "/" + pdfName);
-                    final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
-                    final FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    ut.setDestinationStream(fileOutputStream);
-                    ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-                    fileOutputStream.close();
-                    MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+
+                //COMBINAR PDFS
+                new AsyncTask<Integer, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Integer... params) {
+                        PDFMergerUtility ut = new PDFMergerUtility();
+                        try {
+                            ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
+                            ut.addSource(dir.getPath() + "/" + pdfName);
+                            final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
+                            final FileOutputStream fileOutputStream = new FileOutputStream(file);
+                            ut.setDestinationStream(fileOutputStream);
+                            ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+                            fileOutputStream.close();
+                            MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
+                            Toast.makeText(PerfilCompuestasActivity.this, "Se ha enviado el informe a su casilla de mail", Toast.LENGTH_SHORT).show();
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+
+                Navegacion.irA(PerfilCompuestasActivity.this,MainActivity.class);
             }
         };
     }

@@ -50,11 +50,7 @@ public class DataBase {
     }
 
     public static String getJuego(String juego) {
-        if (Profesional.getProfesionalActual().isLocal()) {
-            return getEntidadLocal(juego);
-        } else {
-            return getEntidadDB(juego);
-        }
+        return getJuegoLocal(juego);
     }
 
     private static String getEntidadDB (String entidad) {
@@ -205,13 +201,26 @@ public class DataBase {
         }
     }
 
-    private static String getEntidadLocal(String entidad) {
-//        String jsonString;
-//        jsonString = JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.leondb));
+    private static String getJuegoLocal(String entidad) {
         try {
             JSONObject jsonRootObject = new JSONObject(jsonDB);
-            //Get the instance of JSONArray that contains JSONObjects
             return jsonRootObject.getJSONArray(entidad).toString();
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getEntidadLocal(String entidad) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonDB);
+            for(String subEntidad : entidad.split("/")) {
+                if(!subEntidad.equals("")) {
+                    jsonObject = jsonObject.getJSONObject(subEntidad);
+                }
+            }
+            return jsonObject.toString();
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -227,8 +236,8 @@ public class DataBase {
         return getEntidadDB("profesionales/" + matricula);
     }
 
-    public static String getpuntuacionCompuesta(String puntuacionCompuesta) {
-        return getEntidadDB("puntuacionescompuestas/" + puntuacionCompuesta);
+    public static String getPuntuacionCompuesta(String puntuacionCompuesta) {
+        return getEntidadLocal("puntuacionescompuestas/" + puntuacionCompuesta);
     }
 
     public static void savePacientes() {

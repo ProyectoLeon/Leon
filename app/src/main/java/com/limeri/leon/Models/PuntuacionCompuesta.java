@@ -1,16 +1,10 @@
 package com.limeri.leon.Models;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.common.DataBase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PuntuacionCompuesta {
 
@@ -39,7 +33,7 @@ public class PuntuacionCompuesta {
     public static PuntuacionCompuesta getPuntuacionCompuesta(String nombre, Integer valor) {
 
         String string;
-        String strPuntCompuesta = DataBase.getpuntuacionCompuesta(nombre);
+        String strPuntCompuesta = DataBase.getPuntuacionCompuesta(nombre);
 
         PuntuacionCompuesta puntuacionCompuesta = null;
 

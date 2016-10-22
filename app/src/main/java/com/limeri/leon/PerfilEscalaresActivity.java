@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.pdf.PdfDocument;
-import android.inputmethodservice.Keyboard;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,9 +29,6 @@ import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.PuntuacionCompuesta;
 
-import org.apache.pdfbox.io.MemoryUsageSetting;
-import org.apache.pdfbox.multipdf.PDFMergerUtility;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,9 +36,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class PerfilEscalaresActivity extends Activity {
 
@@ -501,12 +494,11 @@ public class PerfilEscalaresActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                String fecha = null;
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-                fecha = sdf.format(Calendar.getInstance().getTime());
+                final String fecha = sdf.format(Calendar.getInstance().getTime());
 
                 // Create a object of PdfDocument
-                PdfDocument document = new PdfDocument();
+                final PdfDocument document = new PdfDocument();
 //Hoja numero 0 - Carátula
                 View printArea0 = findViewById(R.id.caratula);
                 PdfDocument.PageInfo pageInfo0 = new PdfDocument.PageInfo.Builder(printArea0.getWidth(),printArea0.getHeight(),1).create();
@@ -568,21 +560,26 @@ public class PerfilEscalaresActivity extends Activity {
 //                document.finishPage(page5);
 // saving pdf document to sdcard
 
-                String pdfName = "resumen" + fecha + ".pdf";
-// all created files will be saved at path /sdcard/PDFDemo_AndroidSRC/
-                File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                File outputFile = new File(dir.getPath(), pdfName);
+                new AsyncTask<Integer, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Integer... params) {
+                        try {
+                            String pdfName = "resumen" + fecha + ".pdf";
+                            File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                            File outputFile = new File(dir.getPath(), pdfName);
+                            outputFile.createNewFile();
+                            OutputStream out = new FileOutputStream(outputFile);
+                            document.writeTo(out);
+                            document.close();
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
 
-                try {
-                    outputFile.createNewFile();
-                    OutputStream out = new FileOutputStream(outputFile);
-                    document.writeTo(out);
-                    document.close();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            Navegacion.irA(PerfilEscalaresActivity.this,PerfilCompuestasActivity.class);
+                Navegacion.irA(PerfilEscalaresActivity.this,PerfilCompuestasActivity.class);
             }
         };
     }
