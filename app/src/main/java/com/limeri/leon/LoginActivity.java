@@ -164,14 +164,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (profesional == null) {
             mMatriculaView.setError("El número de matrícula es incorrecto");
         } else {
-            if (MailSender.sendMail(profesional, "Recuperación de Contraseña", "Su contraseña de acceso es " + profesional.getContrasena(), null)) {
-                Toast.makeText(getApplicationContext(), "Se ha enviado un correo a su casilla", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Error al enviar el correo", Toast.LENGTH_LONG).show();
-            }
+//            Toast.makeText(getApplicationContext(), "Procesando...", Toast.LENGTH_LONG).show();
+            showProgress(true);
+            enviarMail(profesional);
         }
     }
 
+    private void enviarMail(Profesional profesional){
+
+        String asunto = "LEON - Recuperación de Contraseña";
+        String cuerpo = "Hola " + profesional.getNombre() + ",\r\n\r\n" +
+                        "Este es un mensaje enviado desde la aplicación LEON porque usted solicitó recuperar su contraseña.\r\n" +
+                        "Su contraseña de acceso a la aplicación es: " + profesional.getContrasena() + "\r\n\r\n" +
+                        "Gracias por utilizar LEON.";
+
+        if (MailSender.sendMail(profesional, asunto, cuerpo, null)) {
+            showProgress(false);
+            Toast.makeText(getApplicationContext(), "Se ha enviado un correo a su casilla", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Error al enviar el correo", Toast.LENGTH_LONG).show();
+        }
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
