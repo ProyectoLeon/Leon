@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class MatricesActivity extends AppCompatActivity {
 
-    public static final int ULTIMO_NIVEL = 10;
+    private int ultimoNivel;
     public static final int NIVEL_INVERSION = 2;
     public static final int MAXIMO_ERRORES = 4;
     public static final int FIN_INVERSION = 2;
@@ -183,7 +183,7 @@ public class MatricesActivity extends AppCompatActivity {
     }
 
     private boolean noHayMasNiveles() {
-        return nivel == ULTIMO_NIVEL || nivel < 0;
+        return nivel == ultimoNivel || nivel < 0;
     }
 
     private void cargarSiguienteNivel() {
@@ -283,6 +283,8 @@ public class MatricesActivity extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
+
+            ultimoNivel = jsonArray.length();
 
             //Iterate the jsonArray and print the info of JSONObjects
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
