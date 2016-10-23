@@ -30,6 +30,7 @@ import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 import com.limeri.leon.Models.PuntuacionCompuesta;
+import com.limeri.leon.Models.ValorCriticoIndices;
 import com.limeri.leon.common.MailSender;
 
 import org.apache.pdfbox.io.MemoryUsageSetting;
@@ -404,32 +405,32 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
         TableRow row1 = new TableRow(this);
         CompletarTitulos2(this, row1, "CV - RP");
-        completarComparacion(this,row1,"CV","RP");
+        completarComparacion(this,row1,"ICV","IRP");
         tablacomp.addView(row1);
 
         TableRow row2 = new TableRow(this);
-        CompletarTitulos2(this, row2, "CV - MT");
-        completarComparacion(this,row2,"CV","MT");
+        CompletarTitulos2(this, row2, "CV - MO");
+        completarComparacion(this,row2,"ICV","IMO");
         tablacomp.addView(row2);
 
         TableRow row3 = new TableRow(this);
         CompletarTitulos2(this, row3, "CV - VP");
-        completarComparacion(this,row3,"CV","VP");
+        completarComparacion(this,row3,"ICV","IVP");
         tablacomp.addView(row3);
 
         TableRow row4 = new TableRow(this);
-        CompletarTitulos2(this, row4, "RP - MT");
-        completarComparacion(this,row4,"RP","MT");
+        CompletarTitulos2(this, row4, "RP - MO");
+        completarComparacion(this,row4,"IRP","IMO");
         tablacomp.addView(row4);
 
         TableRow row5 = new TableRow(this);
-        CompletarTitulos2(this, row5, "MT - VP");
-        completarComparacion(this,row5,"MT","VP");
+        CompletarTitulos2(this, row5, "MO - VP");
+        completarComparacion(this,row5,"IMO","IVP");
         tablacomp.addView(row5);
 
         TableRow row6 = new TableRow(this);
         CompletarTitulos2(this, row6, "RP - VP");
-        completarComparacion(this,row6,"RP","VP");
+        completarComparacion(this,row6,"IRP","IVP");
         tablacomp.addView(row6);
         tablacomp.setShrinkAllColumns(true);
     }
@@ -440,9 +441,16 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         CompletarCelda(activity, row, ptosComp2.toString());
         Integer dif = ptosComp1-ptosComp2;
         CompletarCelda(activity, row, dif.toString());
-        CompletarCelda(activity, row, "TBD");
-        CompletarCelda(activity, row, "TBD");
-    }
+        String fila = var1 + "-" + var2;
+        String valorcritico = ValorCriticoIndices.getValorCritico(fila).getValorcritico();
+        CompletarCelda(activity,row,valorcritico);
+        if (Math.abs(dif) > Double.parseDouble(valorcritico)){
+            CompletarCelda(activity,row,"Si");
+        }
+        else   {
+            CompletarCelda(activity,row,"No");
+        }
+            }
 
     public Integer calcularCompuesto(String var){
         Paciente paciente = Paciente.getSelectedPaciente();

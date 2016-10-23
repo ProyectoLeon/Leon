@@ -244,6 +244,9 @@ public class DataBase {
         return getEntidadLocal("puntuacionescompuestas/" + puntuacionCompuesta);
     }
 
+    public static String getValorCritico() {
+        return getEntidadLocal("valorcritico/");
+    }
     public static void savePacientes() {
         Profesional profesional = Profesional.getProfesionalActual();
         String matricula = profesional.getMatricula();

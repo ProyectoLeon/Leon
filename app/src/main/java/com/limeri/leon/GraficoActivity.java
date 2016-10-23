@@ -33,13 +33,14 @@ private int tipoGrafico;
         List<Evaluacion> evaluaciones = paciente.getEvaluaciones();
         GraphView graph;
         graph = (GraphView) findViewById(R.id.graficoSelec);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(15);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(19);
+        graph.getViewport().setMaxY(160);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph) ;
         graph.getGridLabelRenderer().setTextSize(6f);
-
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
+                staticLabelsFormatter.setVerticalLabels(new String[]
+                {"0","10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160"});
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
         graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Evaluaciones");
@@ -48,35 +49,42 @@ private int tipoGrafico;
         //graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
         //graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
         //graph.getGridLabelRenderer().reloadStyles();
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         DataPoint[] values = new DataPoint[evaluaciones.size()];
+        String[] stringList = new String[evaluaciones.size()+2];
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(evaluaciones.size()+1);
         int i =0;
+        stringList[i] = "";
         String indice= null;
         for(Evaluacion evaluacion:evaluaciones){
+            stringList[i+1] = evaluacion.getFechaEvaluación().substring(6,10);
             switch (value){
                 case "1":
-                    values[i] = new DataPoint(i, evaluacion.getPuntosCompVerbal());
+                    values[i] = new DataPoint(i+1, evaluacion.getPuntosCompVerbal());
                     indice = "Compr. Verbal";
                     break;
                 case "2":
-                    values[i] = new DataPoint(i, evaluacion.getPuntosRazPercep());
+                    values[i] = new DataPoint(i+1, evaluacion.getPuntosRazPercep());
                     indice="Razonam. Perceptivo";
                     break;
                 case "3":
-                    values[i] = new DataPoint(i, evaluacion.getPuntosMemOper());
+                    values[i] = new DataPoint(i+1, evaluacion.getPuntosMemOper());
                     indice = "Memoria de Trabajo";
                     break;
                 case "4":
-                    values[i] = new DataPoint(i, evaluacion.getPuntosVelocProc());
+                    values[i] = new DataPoint(i+1, evaluacion.getPuntosVelocProc());
                     indice = "Veloc. Procesamiento";
                     break;
                 case "5":
-                    values[i] = new DataPoint(i, evaluacion.getCoeficienteIntelectual());
+                    values[i] = new DataPoint(i+1, evaluacion.getCoeficienteIntelectual());
                     indice= "Coeficiente Intelectual";
                     break;
             }
             i++;
         }
+        stringList[i] = "";
+        staticLabelsFormatter.setHorizontalLabels(stringList);
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         LineGraphSeries serie = new LineGraphSeries<DataPoint>(values);
         serie.setColor(Color.RED);
         serie.setDrawDataPoints(true);
