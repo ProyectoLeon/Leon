@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.limeri.leon.Models.Paciente;
 import com.limeri.leon.Models.Profesional;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpDelete;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.client.utils.URLEncodedUtils;
@@ -40,13 +42,18 @@ public class DataBase {
     private static String jsonDB;
 
     public static void loadDB() {
-        try {
-            JSONObject jsonObject = new JSONObject(getEntidadDB(""));
-            jsonObject.remove("profesionales");
-            jsonDB = jsonObject.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        new AsyncTask<Integer, Void, Void>(){
+            @Override
+            protected Void doInBackground(Integer... params) {
+                try {
+                    JSONObject jsonObject = new JSONObject(getEntidadDB(""));
+                    DataBase.setJsonDB(jsonObject.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
     public static boolean isLoaded() {
@@ -54,52 +61,45 @@ public class DataBase {
     }
 
     public static String getJuego(String juego) {
-        return getJuegoLocal(juego);
+        return getArray(juego);
     }
 
     private static String getEntidadDB (String entidad) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String tokenString = getStringToken(user);
-            if(isUniquelyLogin(tokenString)) {
-                if (android.os.Build.VERSION.SDK_INT > 9) {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
+            StringBuilder stringBuffer = new StringBuilder("");
+            BufferedReader bufferedReader = null;
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet();
+
+                URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
+                httpGet.setURI(uri);
+
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                InputStream inputStream = httpResponse.getEntity().getContent();
+                bufferedReader = new BufferedReader(new InputStreamReader(
+                        inputStream));
+
+                String readLine = bufferedReader.readLine();
+                while (readLine != null && !readLine.equals("null")) {
+                    stringBuffer.append(readLine);
+                    stringBuffer.append("\n");
+                    readLine = bufferedReader.readLine();
                 }
-                StringBuilder stringBuffer = new StringBuilder("");
-                BufferedReader bufferedReader = null;
-                try {
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpGet httpGet = new HttpGet();
-
-                    URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
-                    httpGet.setURI(uri);
-
-                    HttpResponse httpResponse = httpClient.execute(httpGet);
-                    InputStream inputStream = httpResponse.getEntity().getContent();
-                    bufferedReader = new BufferedReader(new InputStreamReader(
-                            inputStream));
-
-                    String readLine = bufferedReader.readLine();
-                    while (readLine != null && !readLine.equals("null")) {
-                        stringBuffer.append(readLine);
-                        stringBuffer.append("\n");
-                        readLine = bufferedReader.readLine();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (bufferedReader != null) {
-                        try {
-                            bufferedReader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-                setUserLogin(tokenString);
-                return stringBuffer.toString();
-            } else return null;
+            }
+            return stringBuffer.toString();
         } else {
             return null;
         }
@@ -205,10 +205,21 @@ public class DataBase {
         }
     }
 
-    private static String getJuegoLocal(String entidad) {
+    private static String getArray(String entidad) {
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonDB);
-            return jsonRootObject.getJSONArray(entidad).toString();
+            JSONObject jsonObject = new JSONObject(jsonDB);
+            JSONArray jsonArray = null;
+            String[] subEntidades = entidad.split("/");
+            for(int i=0; i < subEntidades.length; i++) {
+                if(!subEntidades[i].equals("")) {
+                    if(i == subEntidades.length - 1) {
+                        jsonArray = jsonObject.getJSONArray(subEntidades[i]);
+                    } else {
+                        jsonObject = jsonObject.getJSONObject(subEntidades[i]);
+                    }
+                }
+            }
+            return jsonArray.toString();
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -216,7 +227,7 @@ public class DataBase {
         return null;
     }
 
-    private static String getEntidadLocal(String entidad) {
+    private static String getEntidad(String entidad) {
         try {
             JSONObject jsonObject = new JSONObject(jsonDB);
             for(String subEntidad : entidad.split("/")) {
@@ -233,20 +244,21 @@ public class DataBase {
     }
 
     public static String getPacientes(String matricula) {
-        return getEntidadDB("profesionales/" + matricula + "/pacientes");
+        return getArray("profesionales/" + matricula + "/pacientes");
     }
 
     public static String getProfesional(String matricula) {
-        return getEntidadDB("profesionales/" + matricula);
+        return getEntidad("profesionales/" + matricula);
     }
 
     public static String getPuntuacionCompuesta(String puntuacionCompuesta) {
-        return getEntidadLocal("puntuacionescompuestas/" + puntuacionCompuesta);
+        return getEntidad("puntuacionescompuestas/" + puntuacionCompuesta);
     }
 
     public static String getValorCritico() {
-        return getEntidadLocal("valorcritico/");
+        return getEntidad("valorcritico");
     }
+
     public static void savePacientes() {
         Profesional profesional = Profesional.getProfesionalActual();
         String matricula = profesional.getMatricula();
@@ -267,15 +279,6 @@ public class DataBase {
                     StrictMode.setThreadPolicy(policy);
                 }
                 try {
-//                    HttpClient httpClient = new DefaultHttpClient();
-//                    HttpPut httpPut = new HttpPut();
-//                    URI uri = new URI(URL_DB + entidad + ".json?" + tokenString);
-//                    httpPut.setURI(uri);
-//                    StringEntity entity = new StringEntity(datos, ContentType.APPLICATION_JSON);
-//
-//                    httpPut.setEntity(entity);
-//                    httpClient.execute(httpPut);
-//                    setUserLogin(tokenString);
                     new AsyncTask<Integer, Void, Void>(){
                         @Override
                         protected Void doInBackground(Integer... params) {
@@ -311,6 +314,37 @@ public class DataBase {
     }
 
     public static String getProtocolo() {
-        return getJuegoLocal("protocolo");
+        return getArray("protocolo");
+    }
+
+    public static void setJsonDB(String jsonDB) {
+        DataBase.jsonDB = jsonDB;
+    }
+
+    public static void deleteProfesionalLogin() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String tokenString = getStringToken(user);
+            deleteUserLogin(tokenString);
+        }
+    }
+
+    private static void deleteUserLogin(String token) {
+        Profesional profesional = Profesional.getProfesionalActual();
+        if(profesional != null) {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpDelete httpDelete = new HttpDelete();
+                URI uri = new URI(URL_DB + "profesionales/" + profesional.getMatricula() + "/login.json?" + token);
+                httpDelete.setURI(uri);
+                httpClient.execute(httpDelete);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

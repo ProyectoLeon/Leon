@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private String mProfPassword, mProfMatricula, mProducto;
+    private String mNombre, mCorreo, mProfPassword, mProfMatricula, mProducto;
     private AlertDialog dialog;
     private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
@@ -259,6 +259,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         } else {
 
+            while (!DataBase.isLoaded()){}
             Profesional profesional = Profesional.getProfesional(matricula);
             if (profesional == null) {
                 mMatriculaView.setError("El número de matrícula es incorrecto");
@@ -301,7 +302,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            int shortAnimTime = 10000;
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             mLoginFormView.animate().setDuration(shortAnimTime).alpha(
@@ -441,9 +444,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void login(String matricula) {
         try {
-            while (!DataBase.isLoaded()){
-
-            }
             DataBase.setProfesionalLogin();
             User.saveUserEmail(getBaseContext(), matricula);
             Profesional.loadCuentas();
@@ -469,13 +469,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final EditText confPassword = (EditText) viewInflated.findViewById(R.id.inputPassword2);
         final EditText correo = (EditText) viewInflated.findViewById(R.id.inputCorreo);
 
-        nombre.setVisibility(View.GONE);
-        correo.setVisibility(View.GONE);
         builder.setView(viewInflated);
 
         // Set up the buttons
 
-        builder.setPositiveButton("Actualizar datos", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Registrar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -494,13 +492,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mNombre = nombre.getText().toString();
+                mCorreo = correo.getText().toString();
                 mProfPassword = password.getText().toString();
                 mProfMatricula = matricula.getText().toString();
                 mProducto = producto.getText().toString();
                 String confPass = confPassword.getText().toString();
                 Profesional profesional = Profesional.getProfesional(mProfMatricula);
 
-                if (mProfMatricula.isEmpty() || mProducto.isEmpty() || mProfPassword.isEmpty() || mProfPassword.isEmpty()) {
+                if (mProfMatricula.isEmpty() || mProducto.isEmpty() || mProfPassword.isEmpty() || mProfPassword.isEmpty() || mNombre.isEmpty() || mCorreo.isEmpty()) {
                     Toast.makeText(getApplicationContext(),"Por favor ingresar los datos obligatorios",Toast.LENGTH_LONG).show();
                 } else if (profesional == null) {
                     matricula.setError("No existe una cuenta con ese número de matricula");
@@ -512,6 +512,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     password.setError("Las contraseñas no son iguales");
                     confPassword.setError("Las contraseñas no son iguales");
                 } else {
+                    profesional.setNombre(mNombre);
+                    profesional.setCorreo(mCorreo);
                     profesional.setContrasena(mProfPassword);
                     profesional.setRegistrado(true);
                     Profesional.saveProfesional(profesional);
@@ -535,7 +537,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         button2.setGravity(Gravity.CENTER_VERTICAL);
         button2.setPadding(10, 0, 10, 0);
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+//        dialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
     }
 
     @Override

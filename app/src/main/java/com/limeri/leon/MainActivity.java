@@ -2,11 +2,10 @@ package com.limeri.leon;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.limeri.leon.Models.Navegacion;
 import com.limeri.leon.Models.Paciente;
@@ -37,15 +35,12 @@ public class MainActivity extends AppCompatActivity {
                 actualizarNombrePaciente();
             }
 
-            Button buttonTest = (Button) findViewById(R.id.buttonTest);
-            if (buttonTest != null) {
-                if (paciente.tieneEvaluacionIniciada()) {
-                    buttonTest.setText("Continuar Evaluación");
-                }
-                buttonTest.setOnClickListener(new View.OnClickListener() {
+            Button buttonEvaluacion = (Button) findViewById(R.id.buttonEvaluacion);
+            if (buttonEvaluacion != null) {
+                buttonEvaluacion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Navegacion.irA(MainActivity.this, InicioJuegoActivity.class);
+                        Navegacion.irA(MainActivity.this, EvaluacionActivity.class);
                     }
                 });
             }
@@ -79,20 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            Button buttonInforme = (Button) findViewById(R.id.buttonInforme);
-            if (buttonInforme != null) {
-                if (paciente.tieneEvaluacionFinalizada()) {
-                    buttonInforme.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Navegacion.irA(MainActivity.this, ValorExamenActivity.class, paciente.getEvaluaciones().size() - 1);
-                        }
-                    });
-                } else {
-                    buttonInforme.setEnabled(false);
-                }
-            }
-
             Button buttonEstadist = (Button) findViewById(R.id.buttonEstadist);
             if (buttonEstadist != null) {
                 if (paciente.tieneEvaluacionFinalizada()) {
@@ -118,25 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            Button buttonCargaManual = (Button) findViewById(R.id.buttonCargaManual);
-            if ((!paciente.tieneEvaluacionIniciada())) {
-                if (buttonCargaManual != null) {
-                    buttonCargaManual.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Navegacion.irA(MainActivity.this, CargaManualActivity.class);
-                        }
-                    });
-                }
-            }
-            else {
-                buttonCargaManual.setEnabled(false);
-            }
-
-
-
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

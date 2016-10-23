@@ -332,15 +332,6 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if(adapter != null) {
-            adapter.clear();
-            ((ArrayAdapter<String>) lvPacientes.getAdapter()).clear();
-            lvPacientes.invalidateViews();
-            lvPacientes = new ListView(this);
-        }
-        Profesional.setProfesionalActual(null);
-        Navegacion.irA(this, LoginActivity.class);
     }
 
     @Override
@@ -359,25 +350,30 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_signout:{
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("¿Desea cerrar sesión?");
-                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Navegacion.irA(SelecPacienteActivity.this, LoginActivity.class);
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                cerrarSesionProfesional();
                 break;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void cerrarSesionProfesional() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¿Desea cerrar sesión?");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Profesional.cerrarSesionProfesionalActual();
+                Navegacion.irA(SelecPacienteActivity.this, LoginActivity.class);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //POPUP PARA EDITAR DATOS PROFESIONAL
