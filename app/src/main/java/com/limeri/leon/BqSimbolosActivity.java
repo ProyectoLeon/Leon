@@ -73,13 +73,13 @@ public class BqSimbolosActivity extends AppCompatActivity {
         long local = SystemClock.elapsedRealtime();
         long tiempo = local - tiempo_inicio + tiempo_ejecutado;
         if (tiempo <= TIEMPO_NIVEL) {
-            if (nivel > 4) {
+//            if (nivel > 4) {
                 if (respuesta.equals(tipoRespuesta)) {
                     sumarPuntos(1);
                 } else {
                     sumarPuntos(-1);
                 }
-            }
+//            }
             try {
                 cargarSiguienteNivel();
             } catch (Exception ex) {
@@ -110,8 +110,8 @@ public class BqSimbolosActivity extends AppCompatActivity {
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
             nivel++;
             respuesta = (jsonObject.optString("respuesta0").toString());
-            String nivelSimbolo = "bs" + nivel;
-            String nivelMuestra = "m" + nivel;
+            String nivelSimbolo = "bs" + jsonObject.optString("pregunta").toString();
+            String nivelMuestra = "m" + jsonObject.optString("pregunta").toString();
             int simb = getResources().getIdentifier(nivelSimbolo, "drawable", getPackageName());
             int muest = getResources().getIdentifier(nivelMuestra, "drawable", getPackageName());
             ImageView muestra = (ImageView) findViewById(R.id.muestra);
