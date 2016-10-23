@@ -52,7 +52,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
             if (evaluacion.tieneJuegos()) {
                 Juego ultimoJuego = evaluacion.getUltimoJuego();
-                if (ultimoJuego.getJuegaPaciente()) {
+                if (ultimoJuego.getJuegaPaciente() && !ultimoJuego.isCancelado()) {
                     // Viene de tener el control el paciente
                     showPopUpPassword();
                 }
