@@ -306,4 +306,8 @@ public class DataBase {
 
         saveEntidad("profesionales/" + profesional.getMatricula(), jsonProfesional);
     }
+
+    public static String getProtocolo() {
+        return getJuegoLocal("protocolo");
+    }
 }

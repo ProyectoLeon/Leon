@@ -17,6 +17,7 @@ import com.limeri.leon.R;
 import com.limeri.leon.ValorExamenActivity;
 import com.limeri.leon.ValorJuegoLibreActivity;
 import com.limeri.leon.common.Application;
+import com.limeri.leon.common.DataBase;
 import com.limeri.leon.common.JSONLoader;
 
 import org.json.JSONArray;
@@ -47,12 +48,12 @@ public class AdministradorJuegos {
 
         juegosWisc = new ArrayList<>();
 
-        String jsonString = JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.protocolo_posta));
+        String jsonString = DataBase.getProtocolo();//JSONLoader.loadJSON(Application.getApplicationContext().getResources().openRawResource(R.raw.protocolo_posta));
         try {
-            JSONObject jsonRootObject = new JSONObject(jsonString);
+//            JSONObject jsonRootObject = new JSONObject(jsonString);
 
             //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonArray = jsonRootObject.getJSONArray("juegos");
+            JSONArray jsonArray = new JSONArray(jsonString);//jsonRootObject.getJSONArray("juegos");
 
             //Juegos
             for (int i = 0; i < jsonArray.length(); i++) {
