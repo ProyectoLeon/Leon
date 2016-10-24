@@ -87,6 +87,13 @@ public class MatricesActivity extends AppCompatActivity {
 
     private void cargarMatricesDB() {
         jsonString = DataBase.getJuego("matrices");
+
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            ultimoNivel = jsonArray.length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sumarPuntos(Integer puntos) {
@@ -210,7 +217,7 @@ public class MatricesActivity extends AppCompatActivity {
                 //Creo view que contiene la imagen
                 ImageView v = new ImageView(this);
                 int res = getResources().getIdentifier(opcion, "drawable", this.getPackageName());
-                v.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                v.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 v.setImageResource(res);
                 v.setOnTouchListener(new DragAndDropSource());
                 v.setId(res);
@@ -283,8 +290,6 @@ public class MatricesActivity extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
-
-            ultimoNivel = jsonArray.length();
 
             //Iterate the jsonArray and print the info of JSONObjects
             JSONObject jsonObject = jsonArray.getJSONObject(nivel);
