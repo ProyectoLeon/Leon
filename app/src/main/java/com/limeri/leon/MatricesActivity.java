@@ -223,7 +223,7 @@ public class MatricesActivity extends AppCompatActivity {
                 v.setId(res);
                 //Creo el linearLayout que contiene el view
                 LinearLayout l = new LinearLayout(this);
-                l.setLayoutParams(getLayoutParams(row, col, size));
+                l.setLayoutParams(getLayoutParams(row, col, (int) getResources().getDimension(R.dimen.shape_size)));
                 l.setBackground(getResources().getDrawable(R.drawable.shape));
                 //Agrego el view al linearLayout
                 l.addView(v);

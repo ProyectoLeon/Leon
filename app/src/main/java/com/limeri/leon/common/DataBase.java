@@ -42,18 +42,18 @@ public class DataBase {
     private static String jsonDB;
 
     public static void loadDB() {
-        new AsyncTask<Integer, Void, Void>(){
-            @Override
-            protected Void doInBackground(Integer... params) {
+//        new AsyncTask<Integer, Void, Void>(){
+//            @Override
+//            protected Void doInBackground(Integer... params) {
                 try {
                     JSONObject jsonObject = new JSONObject(getEntidadDB(""));
                     DataBase.setJsonDB(jsonObject.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return null;
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+//                return null;
+//            }
+//        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
     public static boolean isLoaded() {
@@ -67,6 +67,10 @@ public class DataBase {
     private static String getEntidadDB (String entidad) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
             String tokenString = getStringToken(user);
             StringBuilder stringBuffer = new StringBuilder("");
             BufferedReader bufferedReader = null;
