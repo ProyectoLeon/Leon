@@ -6,18 +6,18 @@ import java.util.concurrent.TimeUnit;
 public class Login {
     private static final int LOGIN_TIME_OUT = 5;
     private String dispositivo;
-    private Date timeStamp;
+    private Long timeStamp;
 
     public Login(){
         dispositivo = Application.getDeviceId();
-        timeStamp = new Date();
+        timeStamp = new Date().getTime();
     }
 
     public String getDispositivo() {
         return dispositivo;
     }
 
-    public Date getTimeStamp() {
+    public Long getTimeStamp() {
         return timeStamp;
     }
 
@@ -25,7 +25,7 @@ public class Login {
         this.dispositivo = dispositivo;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -35,7 +35,7 @@ public class Login {
 
     public static boolean isLoginVencido(Login login) {
         Date today = new Date();
-        long diff = TimeUnit.MILLISECONDS.toMinutes(today.getTime() - login.getTimeStamp().getTime());
+        long diff = TimeUnit.MILLISECONDS.toMinutes(today.getTime() - login.getTimeStamp());
         return diff >= LOGIN_TIME_OUT;
     }
 

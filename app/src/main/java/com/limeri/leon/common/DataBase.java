@@ -181,7 +181,7 @@ public class DataBase {
                     profesional.setLogin(login);
                 } else {
                     login.setDispositivo(Application.getDeviceId());
-                    login.setTimeStamp(new Date());
+                    login.setTimeStamp(new Date().getTime());
                 }
                 Gson gson = new Gson();
                 Type listType = new TypeToken<Login>() {}.getType();
