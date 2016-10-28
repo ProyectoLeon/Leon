@@ -204,7 +204,11 @@ public class AdministradorJuegos {
                 if (juego.getPuntosJuego() < 0) {
                     juego.setPuntosJuego(0);
                 }
-                juego.finalizar();
+                if (!activity.getLocalClassName().equals("PopupActivity")) {
+                    juego.finalizar();
+                } else {
+                    juego.cancelar();
+                }
                 if (isUltimoJuego(juego)) {
                     evaluacion.finalizar();
                     completarResultados(evaluacion);
