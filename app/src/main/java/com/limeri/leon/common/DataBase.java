@@ -42,22 +42,12 @@ public class DataBase {
     private static String jsonDB;
 
     public static void loadDB() {
-//        new AsyncTask<Integer, Void, Void>(){
-//            @Override
-//            protected Void doInBackground(Integer... params) {
-                try {
-                    JSONObject jsonObject = new JSONObject(getEntidadDB(""));
-                    DataBase.setJsonDB(jsonObject.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-//                return null;
-//            }
-//        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
-    }
-
-    public static boolean isLoaded() {
-        return jsonDB != null;
+        try {
+            JSONObject jsonObject = new JSONObject(getEntidadDB(""));
+            DataBase.setJsonDB(jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getJuego(String juego) {

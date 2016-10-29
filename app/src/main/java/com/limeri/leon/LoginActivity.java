@@ -1,7 +1,5 @@
 package com.limeri.leon;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -14,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -74,8 +73,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AlertDialog dialog;
     private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private AlertDialog progressBar;
+    private Handler handler = new Handler();
+    private Runnable showPopup = new Runnable() {
+        @Override
+        public void run() {
+            progressBar.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Application.setApplicationContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
+
+        crearPopup();
+        showProgress(true);
 
         populateAutoComplete();
 
@@ -131,9 +139,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             });
         }
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
         String pass = "equipolimeri";
         String email = "aplicacionleon@gmail.com";
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -144,8 +149,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Error al iniciar sesión",Toast.LENGTH_LONG).show();
                             LoginActivity.this.finish();
+                            showProgress(false);
                         } else {
-                            DataBase.loadDB();
+                            new AsyncTask<Integer, Void, Void>(){
+                                @Override
+                                protected Void doInBackground(Integer... params) {
+                                    try {
+                                        DataBase.loadDB();
+                                        showProgress(false);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    return null;
+                                }
+                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
                         }
                     }
                 });
@@ -153,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void recuperarContrasena() {
+
         String matricula = mMatriculaView.getText().toString();
 
         if (matricula.isEmpty()) {
@@ -165,8 +183,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (profesional == null) {
             mMatriculaView.setError("El número de matrícula es incorrecto");
         } else {
-//            Toast.makeText(getApplicationContext(), "Procesando...", Toast.LENGTH_LONG).show();
-            showProgress(true);
             enviarMail(profesional);
         }
     }
@@ -180,7 +196,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         "Gracias por utilizar LEON.";
 
         if (MailSender.sendMail(profesional, asunto, cuerpo, null)) {
-            showProgress(false);
             Toast.makeText(getApplicationContext(), "Se ha enviado un correo a su casilla", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "Error al enviar el correo", Toast.LENGTH_LONG).show();
@@ -235,10 +250,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Si hay errores (matricula inválida, falta de valores, etc.)
      */
     private void attemptLogin() {
-//        if (mAuthTask != null) {
-//            return;
-//        }
-
         // Reset errors.
         mMatriculaView.setError(null);
         mPasswordView.setError(null);
@@ -260,7 +271,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         } else {
 
-            while (!DataBase.isLoaded()){}
             Profesional profesional = Profesional.getProfesional(matricula);
             if (profesional == null) {
                 mMatriculaView.setError("El número de matrícula es incorrecto");
@@ -297,39 +307,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            int shortAnimTime = 10000;
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        if (show) {
+            handler.post(showPopup);
+        }else{
+            progressBar.dismiss();
         }
+    }
+
+    private void crearPopup() {
+        // I'm using fragment here so I'm using getView() to provide ViewGroup
+        // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.progress_bar, (ViewGroup) this.findViewById(android.R.id.content), false);
+        builder.setView(viewInflated);
+        builder.setCancelable(false);
+        progressBar = builder.create();
     }
 
     @Override
@@ -383,7 +377,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
 
         int ADDRESS = 0;
-//        int IS_PRIMARY = 1;
     }
 
     /**
@@ -403,14 +396,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            /**try {
-                // Simulate network access.
-              Thread.sleep(2000);
-                Log.d("Background","");
-            } catch (InterruptedException e) {
-                return false;
-            }
-            */
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mMatricula)) {
@@ -428,12 +413,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 login(mMatricula);
-                //finish();
             } else {
                 mPasswordView.setError("La contraseña es incorrecta");
                 mPasswordView.requestFocus();
             }
-            showProgress(false);
         }
 
         @Override
@@ -537,8 +520,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         button2.setBackground(getResources().getDrawable(R.drawable.button));
         button2.setGravity(Gravity.CENTER_VERTICAL);
         button2.setPadding(10, 0, 10, 0);
-
-//        dialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
     }
 
     @Override
