@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.limeri.leon.EditarEvaluacionActivity;
 import com.limeri.leon.HistoricoActivity;
 import com.limeri.leon.MainActivity;
 import com.limeri.leon.PerfilEscalaresActivity;
@@ -34,6 +35,7 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
         protected TextView estadoEvaluacion;
         protected Button button1;
         protected Button button2;
+        protected Button button3;
 
     }
 
@@ -58,6 +60,7 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
         viewHolder.estadoEvaluacion = (TextView) view.findViewById(R.id.estadoEvaluacion);
         viewHolder.button1 = (Button) view.findViewById(R.id.button1);
         viewHolder.button2 = (Button) view.findViewById(R.id.button2);
+        viewHolder.button3 = (Button) view.findViewById(R.id.button3);
 
         // importante!!! establecemos el mensaje
 
@@ -76,6 +79,13 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
             @Override
             public void onClick(View v) {
                 Navegacion.irA (activity , PerfilEscalaresActivity.class, position);
+            }
+        });
+
+        viewHolder.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navegacion.irA (activity , EditarEvaluacionActivity.class, position);
             }
         });
 

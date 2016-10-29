@@ -1,109 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="40dp"
-tools:context="com.limeri.leon.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="40dp"
+    tools:context="com.limeri.leon.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:alpha=".80">
-
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Comenzar Evaluación"
-    android:id="@+id/buttonTest"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true"
-    android:textSize="20dp"
-    android:layout_marginTop="16dp" />
-
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Juegos Libres"
-    android:id="@+id/buttonJuegos"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true"
-    android:textSize="20dp"
-    android:layout_marginTop="16dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Generación Informe"
-        android:id="@+id/buttonInforme"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20dp"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Editar datos paciente"
-        android:id="@+id/buttonEditarPaciente"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20dp"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Borrar Evaluaciones paciente"
-        android:id="@+id/buttonBorrarEvaluaciones"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20dp"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Estadísticas"
-        android:id="@+id/buttonEstadist"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20dp"
-        android:layout_marginTop="16dp" />
-
-
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Histórico"
-            android:id="@+id/buttonHistorico"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textSize="20dp"
-            android:layout_marginTop="16dp" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:alpha=".80">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comenzar carga manual"
-            android:id="@+id/buttonCargaManual"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textSize="20dp"
-            android:layout_marginTop="16dp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Evaluación"
+                android:id="@+id/buttonEvaluacion"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Juegos Libres"
+                android:id="@+id/buttonJuegos"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estadísticas"
+                android:id="@+id/buttonEstadist"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Histórico"
+                android:id="@+id/buttonHistorico"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Editar datos paciente"
+                android:id="@+id/buttonEditarPaciente"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

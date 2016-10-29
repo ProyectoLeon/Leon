@@ -400,6 +400,12 @@ public class AdministradorJuegos {
         calcularPuntosDébiles(evaluacion);
     }
 
+    public void editarResultados(Evaluacion evaluacion){
+        calcularPuntaje(evaluacion);
+        calcularPuntosDébiles(evaluacion);
+    }
+
+
     public void calcularPuntosDébiles(Evaluacion evaluacion){
         Double diferecia;
         List<String> categorias= new ArrayList<>();
