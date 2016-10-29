@@ -22,7 +22,6 @@ public class Profesional {
     private boolean registrado;
     private List<Paciente> pacientes;
     private Login login;
-    private boolean local;
 
     public static void loadCuentas() {
         Gson gson = new Gson();
@@ -110,7 +109,6 @@ public class Profesional {
                 profesional.setProducto(jsonProfesional.getString("producto"));
                 profesional.setNombre(jsonProfesional.getString("nombre"));
                 profesional.setCorreo(jsonProfesional.getString("correo"));
-                profesional.setLocal(jsonProfesional.getBoolean("local"));
                 if (!jsonProfesional.isNull("login")){
                     Gson gson = new Gson();
                     profesional.setLogin(gson.fromJson(jsonProfesional.getJSONObject("login").toString(),Login.class));
@@ -134,14 +132,6 @@ public class Profesional {
 
     public void setLogin(Login login) {
         this.login = login;
-    }
-
-    public boolean isLocal() {
-        return local;
-    }
-
-    public void setLocal(boolean local) {
-        this.local = local;
     }
 
     public static void cerrarSesionProfesionalActual() {
