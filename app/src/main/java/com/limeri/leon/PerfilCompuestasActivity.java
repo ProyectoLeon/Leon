@@ -3,6 +3,7 @@ package com.limeri.leon;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.pdf.PdfDocument;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,8 +23,12 @@ import com.androidplot.xy.XYPlot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
@@ -33,6 +38,7 @@ import com.limeri.leon.Models.PuntuacionCompuesta;
 import com.limeri.leon.Models.ValorCriticoIndices;
 import com.limeri.leon.common.MailSender;
 
+import org.apache.pdfbox.contentstream.operator.state.SetRenderingIntent;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
@@ -164,7 +170,8 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         Integer puntuacionCompuestaCI = null;
         puntuacionCompuestaCI = Integer.parseInt(PuntuacionCompuesta.getPuntuacionCompuesta("CIT",evaluacion.getCoeficienteIntelectual()).getEquivalencia());
 
-        LineGraphSeries serie = new LineGraphSeries<DataPoint>(new DataPoint[] {
+        LineGraphSeries serie = new LineGraphSeries(new DataPoint[] {
+                new DataPoint(0,0),
                 new DataPoint(1,puntuacionCompuestaCV),
                 new DataPoint(2,puntuacionCompuestaRP),
                 new DataPoint(3,puntuacionCompuestaMO),
@@ -174,7 +181,31 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
         serie.setDrawDataPoints(true);
         serie.setDataPointsRadius(10);
         serie.setThickness(8);
+        serie.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                if (dataPoint.getY()<100){
+                Toast.makeText(PerfilCompuestasActivity.this,"Valor por debajo de la media: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                    Toast.makeText(PerfilCompuestasActivity.this,"Valor por encima de la media: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         graph.addSeries(serie);
+
+        LineGraphSeries serieMedia = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0,100),
+                new DataPoint(1,100),
+                new DataPoint(2,100),
+                new DataPoint(3,100),
+                new DataPoint(4,100),
+                new DataPoint(5,100)});
+        serieMedia.setColor(Color.BLUE);
+        serieMedia.setDrawDataPoints(true);
+        serieMedia.setDataPointsRadius(10);
+        serieMedia.setThickness(8);
+        graph.addSeries(serieMedia);
     }
 
     @Override

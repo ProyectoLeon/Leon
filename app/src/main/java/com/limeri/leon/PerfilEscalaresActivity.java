@@ -15,13 +15,17 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidplot.xy.XYPlot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 import com.limeri.leon.Models.Evaluacion;
 import com.limeri.leon.Models.Juego;
 import com.limeri.leon.Models.Navegacion;
@@ -368,9 +372,9 @@ public class PerfilEscalaresActivity extends Activity {
         graph.getViewport().setYAxisBoundsManual(true);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph) ;
         staticLabelsFormatter.setHorizontalLabels(new String[]
-              {"","S","V","C","(I)","(Ad)","CC","Co","M","(FI)","D","LN","(A)","CI","BS","(An)"});
+              {"","S","V","C","(I)","(Ad)","CC","Co","M","(FI)","D","LN","(A)","CI","BS","(An)",""});
         staticLabelsFormatter.setVerticalLabels(new String[]
-              {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"});
+              {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19",""});
        // staticLabelsFormatter.formatLabel(5,true);
         graph.getGridLabelRenderer().setTextSize(5f);
         graph.getGridLabelRenderer().setLabelsSpace(12);
@@ -472,15 +476,22 @@ public class PerfilEscalaresActivity extends Activity {
     }
 
     public LineGraphSeries crearSerie(int min, int max, int color){
-    DataPoint[] values = new DataPoint[max-min+1];
+    DataPoint[] values = new DataPoint[max-min+2];
+        values[0] = new DataPoint(min,0);
     for(int i = 0;i<=(max-min);i++){
-        values[i] = new DataPoint(columnas.get(i+min).pos, columnas.get(i+min).ptos);
+        values[i+1] = new DataPoint(columnas.get(i+min).pos, columnas.get(i+min).ptos);
     }
     LineGraphSeries serie = new LineGraphSeries<DataPoint>(values);
     serie.setColor(color);
     serie.setDrawDataPoints(true);
     serie.setDataPointsRadius(10);
     serie.setThickness(8);
+        serie.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                if (dataPoint.getY()<100){
+                    Toast.makeText(PerfilEscalaresActivity.this,"Valor del juego: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                }}});
     return serie;
 }
 

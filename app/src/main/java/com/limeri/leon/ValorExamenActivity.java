@@ -1,5 +1,6 @@
 package com.limeri.leon;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,7 +47,9 @@ public class ValorExamenActivity extends AppCompatActivity {
 
             //AdministradorJuegos.getInstance().calcularPuntaje(evaluacion);
             //  puntaje.setText("Puntaje:  "+evaluacion.getCoeficienteIntelectual());
-            puntajeTotal.setText("Puntaje: " + coefIntelectual);
+            puntajeTotal.setText("Coeficiente Intelectual: " + evaluacion.getCoeficienteIntelectual());
+            puntajeTotal.setTextSize(30);
+            puntajeTotal.setTextColor(Color.DKGRAY);
         } catch (Exception e) {
             e.printStackTrace();
         }
