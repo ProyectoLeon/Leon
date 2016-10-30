@@ -401,15 +401,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                     protected Void doInBackground(Integer... params) {
                         PDFMergerUtility ut = new PDFMergerUtility();
                         try {
-                            ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
-                            ut.addSource(dir.getPath() + "/" + pdfName);
-                            final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
-                            final FileOutputStream fileOutputStream = new FileOutputStream(file);
-                            ut.setDestinationStream(fileOutputStream);
-                            ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-                            fileOutputStream.close();
-                            MailSender.sendMail(Profesional.getProfesionalActual(), "Asunto", "Cuerpo", file);
-                            Toast.makeText(PerfilCompuestasActivity.this, "Se ha enviado el informe a su casilla de mail", Toast.LENGTH_SHORT).show();
+                            combinarYEnviar(ut, dir, fecha, pdfName);
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -421,6 +413,26 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                 Navegacion.irA(PerfilCompuestasActivity.this,MainActivity.class);
             }
         };
+    }
+
+    private void combinarYEnviar(PDFMergerUtility ut, File dir, String fecha, String pdfName) throws IOException {
+
+        String fechaString = Paciente.getSelectedPaciente().getEvaluacion(position).getFechaEvaluación();
+        String nombre = Paciente.getSelectedPaciente().getNombre() + " " + Paciente.getSelectedPaciente().getApellido();
+        String asunto = "LEON - Informe WISC de " + nombre;
+        String cuerpo = "Adjunto se encuentra el Informe WISC de " + nombre +
+                        ", correspondiente a " + fechaString +
+                        "."+"\r\n\r\n"+"Gracias por utilizar LEON.";
+
+        Toast.makeText(PerfilCompuestasActivity.this, "Se ha enviado el informe a su casilla de mail", Toast.LENGTH_SHORT).show();
+        ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
+        ut.addSource(dir.getPath() + "/" + pdfName);
+        final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
+        final FileOutputStream fileOutputStream = new FileOutputStream(file);
+        ut.setDestinationStream(fileOutputStream);
+        ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+        fileOutputStream.close();
+        MailSender.sendMail(Profesional.getProfesionalActual(), asunto, cuerpo, file);
     }
 
     public void completarTablaComparaciones(){
