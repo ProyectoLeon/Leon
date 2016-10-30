@@ -23,7 +23,7 @@ public class EditarEvaluacionActivity extends AppCompatActivity {
     Paciente paciente;
     JuegoAdapter juegoAdapter;
     List<AdministradorJuegos.JuegoWisc> juegosWISC;
-    List<Juego>juegos;
+    List<Juego> juegos = new ArrayList<>();
     ListView listViewOb;
     AdministradorJuegos adminjuego;
     Evaluacion evaluacion;
@@ -46,7 +46,10 @@ public class EditarEvaluacionActivity extends AppCompatActivity {
 
         }
 
-
+        for(Juego juego : evaluacion.getJuegos()){
+            Juego juegoAux = new Juego(juego);
+            juegos.add(juegoAux);
+        }
 
         FloatingActionButton buttonCargaManual = (FloatingActionButton) findViewById(R.id.cargar);
         if (buttonCargaManual != null) {
@@ -54,6 +57,7 @@ public class EditarEvaluacionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     evaluacion.finalizar();
+                    evaluacion.setJuegos(juegos);
                     adminjuego.editarResultados(evaluacion);
                     Paciente.saveCuenta(paciente);
                     Navegacion.irA(EditarEvaluacionActivity.this, ValorExamenActivity.class, position);
@@ -64,7 +68,7 @@ public class EditarEvaluacionActivity extends AppCompatActivity {
 
 
         // creamos el listado
-        juegoAdapter = new JuegoAdapter(this, evaluacion.getJuegos());
+        juegoAdapter = new JuegoAdapter(this, juegos);
 
         // establecemos el adaptador en la lista
         listViewOb.setAdapter(juegoAdapter);

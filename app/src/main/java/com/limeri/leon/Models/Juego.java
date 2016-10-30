@@ -27,9 +27,22 @@ public class Juego {
         this.puntajesEquivalentes = puntajesEquivalentes;
         this.alternativo = alternativo;
         this.juegaPaciente = juegaPaciente;
-         this.media = media;
-         this.valorCritico = valorCritico;
+        this.media = media;
+        this.valorCritico = valorCritico;
         this.puntosNiveles = new HashMap<>();
+    }
+
+    public Juego(Juego juegoBase) {
+        this.nombre = juegoBase.getNombre();
+        this.categoria = juegoBase.getCategoria();
+        this.nombreActividad = juegoBase.getNombreActividad();
+        this.puntajesEquivalentes = juegoBase.getPuntajesEquivalentes();
+        this.alternativo = juegoBase.getAlternativo();
+        this.juegaPaciente = juegoBase.getJuegaPaciente();
+        this.media = juegoBase.getMedia();
+        this.valorCritico = juegoBase.getValorCritico();
+        this.puntosNiveles = juegoBase.getPuntosNiveles();
+        this.puntos = juegoBase.getPuntosJuego();
     }
 
     public String getNombreActividad(){
@@ -110,4 +123,11 @@ public class Juego {
         return valorCritico;
     }
 
+    public List<List<Integer>> getPuntajesEquivalentes() {
+        return puntajesEquivalentes;
+    }
+
+    public Map<Integer,Integer> getPuntosNiveles() {
+        return puntosNiveles;
+    }
 }

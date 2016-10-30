@@ -1,14 +1,8 @@
 package com.limeri.leon.Models;
 
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-
 import com.limeri.leon.common.Estados;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Evaluacion {
@@ -172,4 +166,7 @@ public class Evaluacion {
     }
 
 
+    public void setJuegos(List<Juego> juegos) {
+        this.juegos = juegos;
+    }
 }
