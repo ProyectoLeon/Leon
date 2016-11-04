@@ -67,26 +67,30 @@ public class InicioJuegoActivity extends AppCompatActivity {
 
         TextView tutorial = (TextView) findViewById(R.id.tutorial);
         if (tutorial != null) {
-            tutorial.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Dialog dialog = new Dialog(InicioJuegoActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.layour_tutorial);
-                    dialog.show();
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                    lp.copyFrom(dialog.getWindow().getAttributes());
-                    dialog.getWindow().setAttributes(lp);
-                    final VideoView videoview = (VideoView) dialog.findViewById(R.id.videoView);
-                    String videoNombre = "video" + AdministradorJuegos.getInstance().getPosicionJuego(juego.getNombre()) ;
-                    int video = getResources().getIdentifier(videoNombre, "raw", getPackageName());
-                    String path = "android.resource://" + getPackageName() + "/" + video;
-                    Uri uri = Uri.parse(path);
-                    videoview.setVideoURI(uri);
-                    videoview.start();
-                }
-            });
+            if (!juego.getNombre().equals("Construcción con Cubos")) {
+                tutorial.setVisibility(View.GONE);
+            } else {
+                tutorial.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog dialog = new Dialog(InicioJuegoActivity.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.layour_tutorial);
+                        dialog.show();
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                        lp.copyFrom(dialog.getWindow().getAttributes());
+                        dialog.getWindow().setAttributes(lp);
+                        final VideoView videoview = (VideoView) dialog.findViewById(R.id.videoView);
+                        String videoNombre = "video" + AdministradorJuegos.getInstance().getPosicionJuego(juego.getNombre()) ;
+                        int video = getResources().getIdentifier(videoNombre, "raw", getPackageName());
+                        String path = "android.resource://" + getPackageName() + "/" + video;
+                        Uri uri = Uri.parse(path);
+                        videoview.setVideoURI(uri);
+                        videoview.start();
+                    }
+                });
+            }
         }
 
         Button buttonStart = (Button) findViewById(R.id.buttonStart);
