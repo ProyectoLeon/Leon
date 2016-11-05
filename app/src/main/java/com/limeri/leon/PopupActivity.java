@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class PopupActivity extends Activity {
     }
 
     private void showPopUpPassword() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme));
         builder.setTitle("Ingrese contraseña");
 
 
