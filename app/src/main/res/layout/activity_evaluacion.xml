@@ -9,21 +9,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    tools:context="com.limeri.leon.EvaluacionActivity">
+    tools:context="com.limeri.leon.EvaluacionActivity"
+    android:weightSum="1">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:alpha=".90"
+        android:weightSum="1"
+        android:layout_weight="2.97">
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comenzar Evaluación"
         android:id="@+id/buttonEvaluacion"
-        android:textSize="20sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="20dp"
+        android:layout_marginTop="25dp"
+        android:drawableLeft="@drawable/ic_nuevaevaluacion"
+        android:drawablePadding="8dp"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_weight="0.79" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comenzar carga manual"
         android:id="@+id/buttonCargaManual"
-        android:textSize="20sp"
-        android:layout_marginTop="16dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="20dp"
+        android:layout_marginTop="25dp"
+        android:drawableLeft="@drawable/ic_cargamanual"
+        android:drawablePadding="8dp"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_weight="0.79" />
 
 </LinearLayout>
+</LinearLayout>
+

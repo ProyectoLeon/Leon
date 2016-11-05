@@ -26,6 +26,20 @@
         android:textStyle="bold" />
 
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/cargar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_note_add"
+            app:layout_anchor="@+id/listPacientes"
+            app:layout_anchorGravity="top|end"
+            android:alpha="1"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
         <ListView
         android:id="@+id/listviewObligatorios"
         android:layout_width="fill_parent"
@@ -33,20 +47,6 @@
 
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cargar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:src="@drawable/ic_note_add"
-        app:layout_anchor="@+id/listPacientes"
-        app:layout_anchorGravity="top|end"
-        android:alpha="1"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
