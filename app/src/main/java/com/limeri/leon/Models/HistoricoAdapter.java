@@ -34,7 +34,6 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
         protected TextView FechaEvaluacion;
         protected TextView estadoEvaluacion;
         protected Button button1;
-        protected Button button2;
         protected Button button3;
 
     }
@@ -59,7 +58,6 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
         viewHolder.FechaEvaluacion =(TextView) view.findViewById(R.id.FechaEvaluacion);
         viewHolder.estadoEvaluacion = (TextView) view.findViewById(R.id.estadoEvaluacion);
         viewHolder.button1 = (Button) view.findViewById(R.id.button1);
-        viewHolder.button2 = (Button) view.findViewById(R.id.button2);
         viewHolder.button3 = (Button) view.findViewById(R.id.button3);
 
         // importante!!! establecemos el mensaje
@@ -75,12 +73,6 @@ public class HistoricoAdapter extends ArrayAdapter<Evaluacion> {
             }
             });
 
-        viewHolder.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navegacion.irA (activity , PerfilEscalaresActivity.class, position);
-            }
-        });
 
         viewHolder.button3.setOnClickListener(new View.OnClickListener() {
             @Override

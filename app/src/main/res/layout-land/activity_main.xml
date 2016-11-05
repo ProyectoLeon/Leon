@@ -16,61 +16,93 @@
         android:layout_gravity="center_horizontal|center_vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:alpha=".80">
+            android:alpha=".90"
+            android:weightSum="1">
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Evaluación"
                 android:id="@+id/buttonEvaluacion"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:textSize="20dp"
-                android:layout_marginTop="16dp" />
+                android:textSize="25dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_evaluacion"
+                android:drawablePadding="8dp"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:layout_weight="0.79" />
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Juegos Libres"
                 android:id="@+id/buttonJuegos"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:textSize="20dp"
-                android:layout_marginTop="16dp" />
+                android:textSize="25dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_juegoslibres"
+                android:drawablePadding="8dp"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent" />
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estadísticas"
+                android:text="Progreso"
                 android:id="@+id/buttonEstadist"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:textSize="20dp"
-                android:layout_marginTop="16dp" />
+                android:textSize="25dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_progreso"
+                android:drawablePadding="8dp"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent" />
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Histórico"
                 android:id="@+id/buttonHistorico"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:textSize="20dp"
-                android:layout_marginTop="16dp" />
+                android:textSize="25dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_historico"
+                android:drawablePadding="8dp"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent" />
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Editar datos paciente"
+                android:text="Editar paciente"
                 android:id="@+id/buttonEditarPaciente"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:textSize="20dp"
-                android:layout_marginTop="16dp" />
+                android:textSize="25dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_paciente"
+                android:drawablePadding="8dp"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent" />
 
         </LinearLayout>
     </ScrollView>
