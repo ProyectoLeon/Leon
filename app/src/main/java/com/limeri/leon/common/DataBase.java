@@ -242,7 +242,7 @@ public class DataBase {
     }
 
     public static String getProfesional(String matricula) {
-        return getEntidad("profesionales/" + matricula);
+        return getEntidadDB("profesionales/" + matricula);
     }
 
     public static String getPuntuacionCompuesta(String puntuacionCompuesta) {

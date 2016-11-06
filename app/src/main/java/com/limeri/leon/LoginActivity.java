@@ -90,8 +90,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
 
+//        probarChiper();
         crearPopup();
-        showProgress(true);
 
         populateAutoComplete();
 
@@ -147,26 +147,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Error al iniciar la aplicación",Toast.LENGTH_LONG).show();
                             LoginActivity.this.finish();
-                            showProgress(false);
-                        } else {
-                            new AsyncTask<Integer, Void, Void>(){
-                                @Override
-                                protected Void doInBackground(Integer... params) {
-                                    try {
-                                        DataBase.loadDB();
-                                        showProgress(false);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    return null;
-                                }
-                            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
                         }
                     }
                 });
 
+    }
+
+    private void probarChiper() {
+        Present.test();
     }
 
     private void recuperarContrasena() {
@@ -201,6 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Toast.makeText(getApplicationContext(), "Error al enviar el correo", Toast.LENGTH_LONG).show();
         }
     }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -243,7 +234,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
-
 
     /**
      * Lógica de LOGIN.
@@ -369,13 +359,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mMatriculaView.setAdapter(adapter);
     }
 
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
         };
-
         int ADDRESS = 0;
     }
 
@@ -411,11 +399,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
 
-            if (success) {
-                login(mMatricula);
-            } else {
-                mPasswordView.setError("La contraseña es incorrecta");
-                mPasswordView.requestFocus();
+            try {
+                if (success) {
+                    cargarBaseDatos();
+                    login(mMatricula);
+                } else {
+                    mPasswordView.setError("La contraseña es incorrecta");
+                    mPasswordView.requestFocus();
+                }
+                showProgress(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+                showProgress(false);
             }
         }
 
@@ -424,6 +419,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+    }
+
+    private void cargarBaseDatos() {
+/*        new AsyncTask<Integer, Void, Void>(){
+            @Override
+            protected Void doInBackground(Integer... params) {*/
+            DataBase.loadDB();
+/*                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);*/
     }
 
     public void login(String matricula) {

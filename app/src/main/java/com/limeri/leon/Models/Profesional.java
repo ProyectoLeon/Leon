@@ -26,7 +26,7 @@ public class Profesional {
     public static void loadCuentas() {
         Gson gson = new Gson();
         String jsonPacientes = DataBase.getPacientes(mSelectedProfesional.matricula);
-        if (!jsonPacientes.equals("")) {
+        if (jsonPacientes != null && !jsonPacientes.equals("")) {
             Type listType = new TypeToken<ArrayList<Paciente>>() {}.getType();
             mSelectedProfesional.pacientes = gson.fromJson(jsonPacientes, listType);
         } else {
