@@ -251,7 +251,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
                         listFiguras.add(figura);
                         listMasks.add(figura + "_mask");
                     }
-                    ultimoNivel = len - 1;
+                    ultimoNivel = len;
                 }
             } catch (JSONException e) {
                 guardar();
