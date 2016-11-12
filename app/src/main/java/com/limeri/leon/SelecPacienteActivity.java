@@ -122,7 +122,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                 TextView paciente = (TextView) view.findViewById(R.id.tvLinea);
                 //Guardar el paciente seleccionado para usarlo an toda la aplicacion
                 Paciente.setSelectedPaciente(Paciente.getCuentaByName(paciente.getText().toString()));
-                int año = Calendar.getInstance().get(Calendar.YEAR);
+                /*int año = Calendar.getInstance().get(Calendar.YEAR);
                 if (Paciente.getSelectedPaciente().cantidadAños(año)>7) {
                     dialog =new AlertDialog.Builder(SelecPacienteActivity.this)
                             .setTitle("Adventencia")
@@ -150,9 +150,9 @@ public class SelecPacienteActivity extends AppCompatActivity {
                     Button buttonB = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
                     buttonB.setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
-                else{
+                else{*/
                         Navegacion.irA(SelecPacienteActivity.this, MainActivity.class);
-                    }
+//                    }
                 }
 
         });

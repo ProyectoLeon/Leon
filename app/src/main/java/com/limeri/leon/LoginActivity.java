@@ -2,6 +2,7 @@ package com.limeri.leon;
 
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +13,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -60,27 +60,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
-
     // UI references.
     private String mNombre, mCorreo, mProfPassword, mProfMatricula, mProducto;
     private AlertDialog dialog;
+    private ProgressDialog progressDialog;
     private AutoCompleteTextView mMatriculaView;
     private EditText mPasswordView;
-    private AlertDialog progressBar;
-    private Handler handler = new Handler();
-    private Runnable showPopup = new Runnable() {
-        @Override
-        public void run() {
-            progressBar.show();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +74,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Application.setApplicationContext(getApplicationContext());
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
+        progressDialog = new ProgressDialog(this);
 
 //        probarChiper();
-        crearPopup();
 
         populateAutoComplete();
 
@@ -147,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Error al iniciar la aplicación",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Verifique que el dispositivo posea una buena conexión a internet",Toast.LENGTH_LONG).show();
                             LoginActivity.this.finish();
                         }
                     }
@@ -155,9 +140,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
+/*
     private void probarChiper() {
         Present.test();
     }
+*/
 
     private void recuperarContrasena() {
 
@@ -240,6 +227,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Si hay errores (matricula inválida, falta de valores, etc.)
      */
     private void attemptLogin() {
+
+        showProgressBar();
         // Reset errors.
         mMatriculaView.setError(null);
         mPasswordView.setError(null);
@@ -285,35 +274,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            hideProgressBar();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(matricula, password);
-            mAuthTask.execute((Void) null);
+            UserLoginTask mAuthTask = new UserLoginTask(matricula);
+            mAuthTask.execute();
         }
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    private void showProgress(final boolean show) {
-
-        if (show) {
-            handler.post(showPopup);
-        }else{
-            progressBar.dismiss();
-        }
-    }
-
-    private void crearPopup() {
-        // I'm using fragment here so I'm using getView() to provide ViewGroup
-        // but you can provide here any other instance of ViewGroup from your Fragment / Activity
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View viewInflated = LayoutInflater.from(this).inflate(R.layout.progress_bar, (ViewGroup) this.findViewById(android.R.id.content), false);
-        builder.setView(viewInflated);
-        builder.setCancelable(false);
-        progressBar = builder.create();
+    private void showProgressBar() {
+        progressDialog.setMessage("Por favor, espere...");
+        progressDialog.show();
+        // put your code which preload with processDialog
     }
 
     @Override
@@ -371,65 +344,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Void> {
 
         private final String mMatricula;
-        private final String mPassword;
 
-        UserLoginTask(String matric, String password) {
-            mMatricula = matric;
-            mPassword = password;
+        UserLoginTask(String matricula) {
+            mMatricula = matricula;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mMatricula)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-          return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-
+        protected Void doInBackground(Void... params) {
             try {
-                if (success) {
-                    cargarBaseDatos();
-                    login(mMatricula);
-                } else {
-                    mPasswordView.setError("La contraseña es incorrecta");
-                    mPasswordView.requestFocus();
-                }
-                showProgress(false);
+                cargarBaseDatos();
+                login(mMatricula);
             } catch (Exception e) {
                 e.printStackTrace();
-                showProgress(false);
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            hideProgressBar();
         }
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
+            hideProgressBar();
         }
 
     }
 
+    private void hideProgressBar() {
+        if(progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+
     private void cargarBaseDatos() {
-/*        new AsyncTask<Integer, Void, Void>(){
-            @Override
-            protected Void doInBackground(Integer... params) {*/
             DataBase.loadDB();
-/*                return null;
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);*/
     }
 
     public void login(String matricula) {
@@ -512,19 +464,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
         });
-        button.setBackgroundColor(getResources().getColor(R.color.black));
-        button.setTextColor(getResources().getColor(R.color.black));
-        button.setGravity(Gravity.END);
-        button.setGravity(Gravity.CENTER_VERTICAL);
-        button.setBackground(getResources().getDrawable(R.drawable.button));
+//        button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        button.setTextColor(getResources().getColor(R.color.colorPrimary));
+//        button.setGravity(Gravity.END);
+//        button.setGravity(Gravity.CENTER_VERTICAL);
+//        button.setBackground(getResources().getDrawable(R.drawable.button));
         button.setPadding(10, 0, 10, 0);
 
         Button button2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        button2.setBackgroundColor(getResources().getColor(R.color.black));
-        button2.setTextColor(getResources().getColor(R.color.black));
-        button2.setGravity(Gravity.START);
-        button2.setBackground(getResources().getDrawable(R.drawable.button));
-        button2.setGravity(Gravity.CENTER_VERTICAL);
+//        button2.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        button2.setTextColor(getResources().getColor(R.color.colorPrimary));
+//        button2.setGravity(Gravity.START);
+//        button2.setBackground(getResources().getDrawable(R.drawable.button));
+//        button2.setGravity(Gravity.CENTER_VERTICAL);
         button2.setPadding(10, 0, 10, 0);
     }
 

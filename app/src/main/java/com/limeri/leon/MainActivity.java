@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             if (buttonEstadist != null) {
                 if (paciente.tieneEvaluacionFinalizada()) {
                     buttonEstadist.setEnabled(true);
-                    buttonEstadist.setText("Visualizar estadísticas");
                     buttonEstadist.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
