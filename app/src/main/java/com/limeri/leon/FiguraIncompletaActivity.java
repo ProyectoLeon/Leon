@@ -51,6 +51,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
         }
     };
     private String jsonString;
+    private boolean backHecho = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
             if (isMaximoErrores()) {
                 guardar();
                 return;
-            } else if (isNivelesIniciales()) {
+            } else if (isNivelesIniciales() & !backHecho) {
                 nivelErrado = nivel;
                 iniciarRetrogresion();
             } else {
@@ -153,6 +154,7 @@ public class FiguraIncompletaActivity extends AppCompatActivity {
     private void finalizarRetrogresion() {
         nivel = nivelErrado + 1;
         retrogresion = false;
+        backHecho = true;
     }
 
     private boolean isFinRetrogresion() {
