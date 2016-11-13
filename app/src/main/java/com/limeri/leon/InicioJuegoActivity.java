@@ -254,7 +254,7 @@ public class InicioJuegoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
+//                Navegacion.irA(InicioJuegoActivity.this, MainActivity.class);
             }
         });
     }
