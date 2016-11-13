@@ -163,7 +163,7 @@ public class Paciente {
         List<Paciente> returnPacientes = new ArrayList<>();
         if (!getCuentas().isEmpty()) {
             for (Paciente paciente : getCuentas()) {
-                if (paciente.getNombre().contains(cuentaNombre) || paciente.getApellido().contains(cuentaNombre)) {
+                if (paciente.getNombre().toLowerCase().contains(cuentaNombre.toLowerCase()) || paciente.getApellido().toLowerCase().contains(cuentaNombre.toLowerCase())) {
                     returnPacientes.add(paciente);
                 }
             }

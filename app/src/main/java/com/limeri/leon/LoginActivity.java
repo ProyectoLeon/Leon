@@ -75,6 +75,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mMatriculaView = (AutoCompleteTextView) findViewById(R.id.matricula);
         progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Por favor, espere...");
 
 //        probarChiper();
 
@@ -284,7 +286,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void showProgressBar() {
-        progressDialog.setMessage("Por favor, espere...");
         progressDialog.show();
         // put your code which preload with processDialog
     }
@@ -427,7 +428,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
         dialog = builder.create();
-
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);

@@ -194,9 +194,9 @@ public class MainActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
+
         dialog = builder.create();
-
-
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
 
@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);

@@ -34,7 +34,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comenzar Subtest"
+        android:text="Comenzar"
         android:id="@+id/buttonStart"
         android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true"
@@ -48,5 +48,6 @@
         android:textColor="@color/accent_material_light"
         android:textSize="20dp"
         android:layout_above="@+id/buttonStart"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"/>
 </RelativeLayout>

@@ -111,6 +111,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
                         lvPacientes.setAdapter(adapter);
                         lvPacientes.invalidateViews();
                     }
+                    searchString.getText().clear();
                 }
             });
         }
@@ -252,6 +253,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
 
 
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 
@@ -420,6 +422,7 @@ public class SelecPacienteActivity extends AppCompatActivity {
         });
 
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
