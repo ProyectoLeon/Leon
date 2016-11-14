@@ -17,7 +17,7 @@ import com.limeri.leon.Models.Paciente;
 import java.util.List;
 
 public class GraficoActivity extends AppCompatActivity {
-private int tipoGrafico;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ private int tipoGrafico;
         graph.getGridLabelRenderer().setTextSize(6f);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
-                staticLabelsFormatter.setVerticalLabels(new String[]
+        staticLabelsFormatter.setVerticalLabels(new String[]
                 {"0","10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160"});
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
         graph.getGridLabelRenderer().setLabelHorizontalHeight(10);
@@ -82,10 +82,10 @@ private int tipoGrafico;
             }
             i++;
         }
-        stringList[i] = "";
+        stringList[i+1] = "";
         staticLabelsFormatter.setHorizontalLabels(stringList);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-        LineGraphSeries serie = new LineGraphSeries<DataPoint>(values);
+        LineGraphSeries serie = new LineGraphSeries<>(values);
         serie.setColor(Color.RED);
         serie.setDrawDataPoints(true);
         serie.setDataPointsRadius(10);
