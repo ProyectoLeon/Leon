@@ -409,6 +409,7 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
                         return null;
                     }
                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+                Toast.makeText(PerfilCompuestasActivity.this, "Se ha enviado el informe a su casilla de mail", Toast.LENGTH_SHORT).show();
 
                 Navegacion.irA(PerfilCompuestasActivity.this,MainActivity.class);
             }
@@ -417,22 +418,25 @@ public class PerfilCompuestasActivity extends AppCompatActivity {
 
     private void combinarYEnviar(PDFMergerUtility ut, File dir, String fecha, String pdfName) throws IOException {
 
-        String fechaString = Paciente.getSelectedPaciente().getEvaluacion(position).getFechaEvaluación();
-        String nombre = Paciente.getSelectedPaciente().getNombre() + " " + Paciente.getSelectedPaciente().getApellido();
-        String asunto = "LEON - Informe WISC de " + nombre;
-        String cuerpo = "Adjunto se encuentra el Informe WISC de " + nombre +
-                        ", correspondiente a " + fechaString +
-                        "."+"\r\n\r\n"+"Gracias por utilizar LEON.";
+        try {
+            String fechaString = Paciente.getSelectedPaciente().getEvaluacion(position).getFechaEvaluación();
+            String nombre = Paciente.getSelectedPaciente().getNombre() + " " + Paciente.getSelectedPaciente().getApellido();
+            String asunto = "LEON - Informe WISC de " + nombre;
+            String cuerpo = "Adjunto se encuentra el Informe WISC de " + nombre +
+                            ", correspondiente a " + fechaString +
+                            "."+"\r\n\r\n"+"Gracias por utilizar LEON.";
 
-        Toast.makeText(PerfilCompuestasActivity.this, "Se ha enviado el informe a su casilla de mail", Toast.LENGTH_SHORT).show();
-        ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
-        ut.addSource(dir.getPath() + "/" + pdfName);
-        final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
-        final FileOutputStream fileOutputStream = new FileOutputStream(file);
-        ut.setDestinationStream(fileOutputStream);
-        ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-        fileOutputStream.close();
-        MailSender.sendMail(Profesional.getProfesionalActual(), asunto, cuerpo, file);
+            ut.addSource(dir.getPath() +"/resumen" +fecha+".pdf");
+            ut.addSource(dir.getPath() + "/" + pdfName);
+            final File file = new File(dir.getPath(), System.currentTimeMillis() + ".pdf");
+            final FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ut.setDestinationStream(fileOutputStream);
+            ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+            fileOutputStream.close();
+            MailSender.sendMail(Profesional.getProfesionalActual(), asunto, cuerpo, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void completarTablaComparaciones(){
